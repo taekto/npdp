@@ -1,5 +1,7 @@
-package com.ssafy.npdp.domain;
+package com.project.npdp.member.entity;
 
+import com.project.npdp.refrigerator.entity.Refregirator;
+import com.project.npdp.utensil.entity.MemberUtensil;
 import lombok.*;
 
 import javax.persistence.*;

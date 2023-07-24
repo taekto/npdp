@@ -1,4 +1,4 @@
-package com.ssafy.npdp.domain;
+package com.project.npdp.member.entity;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -11,11 +11,11 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Entity
 @Getter
-public class MemberAllergy {
+public class MemberSeasoning {
 
     @Id
     @GeneratedValue
-    @Column(name = "member_allergy_id")
+    @Column(name = "member_seasoning_id")
     private Long id;
 
     // member(회원) 연관관계
@@ -23,9 +23,11 @@ public class MemberAllergy {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    // ingredient(재료) 연관관계
+    // seasoning(양념) 연관관계
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ingredient_id")
-    private Ingredient ingredient;
+    @JoinColumn(name = "seasoning_id")
+    private Seasoning seasoning;
+
+    private int storage;
 
 }

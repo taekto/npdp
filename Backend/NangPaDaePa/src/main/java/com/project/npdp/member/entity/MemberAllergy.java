@@ -1,4 +1,4 @@
-package com.ssafy.npdp.domain;
+package com.project.npdp.member.entity;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -6,26 +6,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
 @Getter
-public class Refregirator {
+public class MemberAllergy {
 
     @Id
     @GeneratedValue
-    @Column(name = "refregirator_id")
+    @Column(name = "member_allergy_id")
     private Long id;
-
-    private Long storage;
-
-    private Double amount;
-
-    private String unit;
-
-    private LocalDateTime startDate;
 
     // member(회원) 연관관계
     @ManyToOne(fetch = FetchType.LAZY)

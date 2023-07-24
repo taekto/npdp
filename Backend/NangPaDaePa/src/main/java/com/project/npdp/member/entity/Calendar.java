@@ -1,22 +1,27 @@
-package com.ssafy.npdp.domain;
+package com.project.npdp.member.entity;
 
+import com.project.npdp.recipe.entity.Recipe;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
 @Getter
-public class MemberRecipeLike {
+public class Calendar {
 
     @Id
     @GeneratedValue
-    @Column(name = "member_recipe_like_id")
+    @Column(name = "calendar_id")
     private Long id;
+
+    private LocalDateTime date;
 
     // recipe(레시피) 연관관계
     @ManyToOne(fetch = FetchType.LAZY)
@@ -27,5 +32,4 @@ public class MemberRecipeLike {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
-
 }

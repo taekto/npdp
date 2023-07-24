@@ -1,4 +1,4 @@
-package com.ssafy.npdp.domain;
+package com.project.npdp.recipe.entity;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -11,26 +11,21 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Entity
 @Getter
-public class RecipeIngredient {
+public class RecipeProcedure {
 
     @Id
     @GeneratedValue
-    @Column(name = "recipe_ingredient_id")
+    @Column(name = "recipe_procedure_id")
     private Long id;
 
-    private Long type;
+    private Long procedure;
 
-    private Long amount;
+    private String description;
 
-    private String unit;
+    private String img;
 
     // recipe(레시피) 연관관계
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
-
-    // recipe(레시피) 연관관계
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ingredient_id")
-    private Ingredient ingredient;
 }

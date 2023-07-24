@@ -1,4 +1,4 @@
-package com.ssafy.npdp.domain;
+package com.project.npdp.recipe.entity;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

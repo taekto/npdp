@@ -1,5 +1,9 @@
-package com.ssafy.npdp.domain;
+package com.project.npdp.recipe.entity;
 
+import com.project.npdp.member.entity.Calendar;
+import com.project.npdp.member.entity.MemberRecipeLatest;
+import com.project.npdp.member.entity.MemberRecipeLike;
+import com.project.npdp.utensil.entity.RecipeUtensil;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
