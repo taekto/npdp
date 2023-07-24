@@ -3,7 +3,7 @@
     <nav>
       <div id="title">
         <img id="logo" src="./assets/logo.png" alt="">
-        <h3 id="brand">냉파대파</h3>
+        <p id="brand">냉파대파</p>
       </div>
       <div id="pageLink">
         <router-link to="/">Home</router-link> |
@@ -78,6 +78,13 @@ nav #user {
   margin-top: auto;
   margin-bottom: auto;
   margin-right: .5rem;
+}
+
+#brand {
+  margin-top: auto;
+  margin-bottom: auto;
+  font-size: 20px;
+  font-weight: bold;
 }
 
 footer {

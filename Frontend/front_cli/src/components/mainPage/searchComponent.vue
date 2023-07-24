@@ -1,9 +1,7 @@
 <template>
   <div>
-    <h2>search</h2>
     <form @submit.prevent="goToSearchwithKeyword">
         <div class="input-group">
-            <span class="input-group">검색어</span>
             <input class="form-control" type="text" v-model.trim="searchKeyword">
             <input type="submit" value="검색">
         </div>
@@ -21,19 +19,19 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 export default {
     data() {
         return {
-            keyWord : null,
-            searchKeyword: "",
+            keyWord : "",
+            searchKeyword : "",
             hashTag : ["김치", "돼지", "소", "닭", "된장", "빵"],
         }
     },
     methods: {
         goToSearchwithKeyword() {
             this.keyWord = ""
-            const tempKeyword: String = this.searchKeyword
+            const tempKeyword = this.searchKeyword
             tempKeyword.toLowerCase()
             console.log(tempKeyword)
             if(tempKeyword == "" || tempKeyword == "null") {
@@ -55,7 +53,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #hashTagkeyword {
     display: flex;
     justify-content: center;
@@ -63,5 +61,10 @@ export default {
 #hash {
     margin: 1rem;
 }
-
+.input-group {
+    width: 60rem;
+    margin: auto;
+    margin-top: 3.5rem;
+    margin-bottom: 3.5rem;
+}
 </style>
