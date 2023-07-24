@@ -1,5 +1,7 @@
 package com.project.npdp.refrigerator.entity;
 
+import com.project.npdp.food.entity.Ingredient;
+import com.project.npdp.member.entity.Member;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
