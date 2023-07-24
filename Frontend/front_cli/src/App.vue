@@ -11,8 +11,8 @@
         <router-link to="/about">About Us</router-link>
       </div>
       <div id="user">
-        <a ref="#" id="logIn">Login</a> |
-        <a ref="#" id="signUp">Sign Up</a>
+        <router-link to="/signup">Signup</router-link> | 
+        <router-link to="/login">Login</router-link>
       </div>
     </nav>
     <router-view/>
@@ -26,13 +26,6 @@
 </template>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
 
 nav {
   padding: 25px;
