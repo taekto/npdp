@@ -36,7 +36,7 @@
 
 nav {
   padding: 25px;
-  padding-top: 5px;
+  padding-top: 1.5rem;
   display: flex;
   justify-content: flex-start;
 }

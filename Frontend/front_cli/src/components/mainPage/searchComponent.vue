@@ -2,20 +2,21 @@
   <div>
     <form @submit.prevent="goToSearchwithKeyword">
         <div class="input-group">
-            <input class="form-control" type="text" v-model.trim="searchKeyword">
-            <input type="submit" value="검색">
+            <input id="searchForm" class="form-control" type="text" v-model.trim="searchKeyword">
+            <input id="submitButton" type="submit" value="검색">
+        </div>
+        <div id="hashTagkeyword">
+            <router-link id="hash" :to="{
+                name: 'searchKeyword',
+                params: {
+                    keyword: tag
+                }
+            }" v-for="(tag, index) in hashTag" :key="index">
+                # {{ tag }}
+            </router-link>
         </div>
     </form>
-    <div id="hashTagkeyword">
-        <router-link id="hash" :to="{
-            name: 'searchKeyword',
-            params: {
-                keyword: tag
-            }
-        }" v-for="(tag, index) in hashTag" :key="index">
-            # {{ tag }}
-        </router-link>
-    </div>
+    
   </div>
 </template>
 
@@ -60,11 +61,38 @@ export default {
 }
 #hash {
     margin: 1rem;
+    background-color: #FD7E14;
+    color: white;
+    width: 5rem;
+    padding: 0.6rem;
+    border-radius: .5rem;
+    text-decoration-line: none;
 }
 .input-group {
-    width: 60rem;
+    width: 60%;
+    height: 2.5rem;
     margin: auto;
     margin-top: 3.5rem;
-    margin-bottom: 3.5rem;
 }
+
+#searchForm {
+    border-radius: .5rem;
+    margin-right: 1rem;
+}
+
+#submitButton {
+    width: 5rem;
+    border-radius: .5rem;
+    background-color: #f2f2f2;
+    border: solid rgb(244, 244, 244);
+}
+
+@media screen and (max-width: 992px){
+    .input-group {
+        width: 80%;
+        margin: auto;
+        margin-top: 3.5rem;
+    }
+}
+
 </style>

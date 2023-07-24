@@ -15,11 +15,18 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .categoryList {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
     display: flex;
     justify-content: center;
     margin: auto;
+    background-color: #EEEEEE;
+    font-weight: bold;
+    font-size: 1.75rem;
+    margin-top: 1.5rem;
+    margin-bottom: 2.5rem;
 }
 
 .categoryList label {

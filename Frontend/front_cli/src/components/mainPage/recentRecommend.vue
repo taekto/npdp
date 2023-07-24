@@ -1,14 +1,17 @@
 <template>
-  <Carousel :items-to-show="2.5" :wrap-around="true"
-  :autoplay= "3500" :transition = "1000">
-    <Slide v-for="slide in 12" :key="slide">
-      <SlideCardRecentRecommned :slide = slide />
-    </Slide>
+    <div class="recentRecommend">
+        <p class="menuTitle">최근 본 레시피</p>
+        <Carousel :items-to-show="3" :wrap-around="true"
+        :autoplay= "3500" :transition = "1000">
+            <Slide v-for="slide in 12" :key="slide">
+            <SlideCardRecentRecommned :slide = slide />
+            </Slide>
 
-    <template #addons>
-      <Navigation />
-    </template>
-  </Carousel>
+            <template #addons>
+            <Navigation />
+            </template>
+        </Carousel>
+    </div>
 </template>
 
 <script>
@@ -50,3 +53,19 @@ export default defineComponent({
   }),
 })
 </script>
+
+<style scoped>
+.recentRecommend{
+    width: 75%;
+    margin: auto;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    text-align: start;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.menuTitle {
+    margin-left: 2rem;
+}
+</style>

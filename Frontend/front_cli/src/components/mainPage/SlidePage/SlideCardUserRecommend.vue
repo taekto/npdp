@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="recommendCard">
     <img src="@/assets/123.jpg" alt="">
-    <h2>{{ slide }}</h2>
+    <p>{{ slide }}</p>
   </div>
 </template>
 
@@ -14,6 +14,22 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.recommendCard {
+    border-radius: .5rem;
+    border: solid black;
+    height: 25rem;
+    width: 20rem;
+}
+
+.recommendCard p {
+    margin-top: 2rem;
+    font-size: 2.5rem;
+}
+
+img {
+    width: 90%;
+    margin-top: .5rem;
+}
 
 </style>
