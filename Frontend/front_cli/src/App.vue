@@ -7,7 +7,7 @@
       </div>
       <div id="pageLink">
         <router-link to="/">Home</router-link> |
-        <router-link to="/search">Search</router-link> |
+        <router-link to="/search/">Search</router-link> |
         <router-link to="/about">About Us</router-link>
       </div>
       <div id="user">
