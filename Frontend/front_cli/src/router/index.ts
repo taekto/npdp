@@ -10,7 +10,7 @@ import RecipeDetail from '@/components/recipePage/recipeDetail.vue'
 const routes = [
   {
     path: '/',
-    name: 'home',
+    name: 'main',
     component: MainView
   },
 

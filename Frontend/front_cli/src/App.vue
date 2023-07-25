@@ -1,13 +1,13 @@
 <template>
   <div>
     <nav>
-      <div id="title">
+      <div id="title" @click="goToMainPage">
         <img id="logo" src="./assets/logo.png" alt="">
         <p id="brand">냉파대파</p>
       </div>
       <div id="pageLink">
         <router-link to="/">Home</router-link> |
-        <router-link to="/search/">Search</router-link> |
+        <router-link to="/search">Search</router-link> |
         <router-link to="/about">About Us</router-link>
       </div>
       <div id="user">
@@ -24,6 +24,16 @@
     </footer>
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    goToMainPage() {
+      this.$router.push({name: 'main'})
+    }
+  }
+}
+</script>
 
 <style>
 #app {
@@ -65,6 +75,7 @@ nav #title {
   display: flex;
   justify-content: left;
   margin-left: 0;
+  cursor: pointer;
 }
 
 nav #user {

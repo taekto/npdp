@@ -53,7 +53,7 @@ img {
   .recommendCard {
     border-radius: .5rem;
     box-shadow: 2px 2px 2px 2px;
-    height: 17.5rem;
+    height: 20rem;
     width: 15rem;
     cursor: pointer;
     margin: 1rem;
@@ -62,6 +62,7 @@ img {
     .recommendCard p {
     margin-top: 2rem;
     font-size: 1.5rem;
-}
+    }
+    
 }
 </style>
