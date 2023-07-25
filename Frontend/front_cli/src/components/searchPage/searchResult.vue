@@ -51,14 +51,16 @@ export default {
     }
     };
 </script>
-<style>
+<style scoped>
 .list {
-  height: calc(100vh - 70px);
-  overflow: auto;
-  display: flex;
-  flex-wrap: wrap;
-  width: 75%;
-  margin: auto;
+    height: calc(100vh - 70px);
+    overflow: auto;
+    display: flex;
+    flex-wrap: wrap;
+    width: 75%;
+    margin: auto;
+    margin-bottom: 5rem;
+    justify-content: center;
 }
 .recommendCard {
     border-radius: .5rem;
@@ -102,6 +104,15 @@ img {
     margin-top: 2rem;
     font-size: 1.5rem;
     }
-    
+    .list {
+        height: calc(100vh - 70px);
+        overflow: auto;
+        display: flex;
+        flex-wrap: wrap;
+        width: 80%;
+        margin: auto;
+        margin-bottom: 5rem;
+        justify-content: center;
+    }
 }
 </style>
