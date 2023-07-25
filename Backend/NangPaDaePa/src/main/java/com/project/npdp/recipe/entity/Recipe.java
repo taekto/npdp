@@ -66,7 +66,7 @@ public class Recipe {
 
     // recipe_procedure(과정) 연관관계
     @OneToMany(mappedBy = "recipe")
-    private List<RecipeProcedure> recipeProcedureList = new ArrayList<>();
+    private List<RecipeSequence> recipeSequenceList = new ArrayList<>();
 
     // member_recipe_like(과정) 연관관계
     @OneToMany(mappedBy = "recipe")
