@@ -11,14 +11,14 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Entity
 @Getter
-public class RecipeProcedure {
+public class RecipeSequence {
 
     @Id
     @GeneratedValue
-    @Column(name = "recipe_procedure_id")
+    @Column(name = "recipe_sequence_id")
     private Long id;
 
-    private Long procedure;
+    private Long sequence;
 
     private String description;
 

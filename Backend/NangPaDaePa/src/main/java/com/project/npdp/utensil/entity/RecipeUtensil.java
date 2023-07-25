@@ -1,5 +1,6 @@
 package com.project.npdp.utensil.entity;
 
+import com.project.npdp.recipe.entity.Recipe;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
