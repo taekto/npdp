@@ -4,6 +4,8 @@ import SearchPage from "../components/searchPage/SearchPage.vue"
 import SearchKeyword from "../components/searchPage/SearchKeyword.vue"
 import SingupView from  '@/views/SignupView.vue'
 import LoginView from  '@/views/LoginView..vue'
+import AboutView from '@/views/AboutView.vue'
+import RecipeDetail from '@/components/recipePage/recipeDetail.vue'
 
 const routes = [
   {
@@ -15,10 +17,7 @@ const routes = [
   {
     path: '/about',
     name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    component: AboutView
   },
   {
     path: '/search',
@@ -29,6 +28,11 @@ const routes = [
     path: '/search/:keyword',
     name: 'searchKeyword',
     component: SearchKeyword,
+  },
+  {
+    path: '/recipe/:recipe_id',
+    name: 'recipe',
+    component: RecipeDetail
   },
   {
     path: '/signup',

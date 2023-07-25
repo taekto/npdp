@@ -1,4 +1,5 @@
 <template>
+  <div class="thirdLine">
     <div class="recentRecommend">
         <p class="menuTitle">최근 본 레시피</p>
         <Carousel :items-to-show="3" :wrap-around="true"
@@ -12,6 +13,8 @@
             </template>
         </Carousel>
     </div>
+  </div>
+    
 </template>
 
 <script>
@@ -55,6 +58,11 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.thirdLine {
+  padding-top: 1rem;
+  padding-bottom: 3rem;
+}
+
 .recentRecommend{
     width: 75%;
     margin: auto;
@@ -67,5 +75,17 @@ export default defineComponent({
 
 .menuTitle {
     margin-left: 2rem;
+}
+
+@media screen and (max-width: 992px) {
+  .recentRecommend{
+    width: 100%;
+    margin: auto;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    text-align: start;
+    font-size: 2rem;
+    font-weight: bold;
+  }
 }
 </style>

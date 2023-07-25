@@ -1,4 +1,5 @@
 <template>
+  <div class="secondLine">
     <div class="likeRecommend">
         <p class="menuTitle">좋아요 많은 레시피</p>
         <Carousel :items-to-show="3" :wrap-around="true"
@@ -12,6 +13,8 @@
             </template>
         </Carousel>
     </div>
+  </div>
+    
   
 </template>
 
@@ -56,7 +59,11 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
+.secondLine {
+  background-color: #EEEEEE;
+  padding-top: 1rem;
+  padding-bottom: 3rem;
+}
 
 .likeRecommend{
     width: 75%;
@@ -70,5 +77,17 @@ export default defineComponent({
 
 .menuTitle {
     margin-left: 2rem;
+}
+
+@media screen and (max-width: 992px) {
+  .likeRecommend{
+    width: 100%;
+    margin: auto;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    text-align: start;
+    font-size: 2rem;
+    font-weight: bold;
+  }
 }
 </style>

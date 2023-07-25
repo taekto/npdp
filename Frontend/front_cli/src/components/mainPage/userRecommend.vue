@@ -1,4 +1,5 @@
 <template>
+  <div class="firstLine">
     <div class="userRecommend">
         <p class="menuTitle">유저기반 레시피</p>
         <Carousel :items-to-show="3" :wrap-around="true"
@@ -8,10 +9,12 @@
             </Slide>
 
             <template #addons>
-                <Navigation />
+                <Navigation class="arrowButton" />
             </template>
         </Carousel>
     </div>
+  </div>
+
   
 </template>
 
@@ -31,6 +34,7 @@ export default defineComponent({
     SlideCardUserRecommend
   },
   data: () => ({
+
     // carousel settings
     settings: {
       itemsToShow: 1,
@@ -51,10 +55,18 @@ export default defineComponent({
       },
     },
   }),
+  
+  
+  
 })
 </script>
 
 <style scoped>
+.firstLine {
+  padding-top: 1rem;
+  padding-bottom: 3rem;
+}
+
 .userRecommend{
     width: 75%;
     margin: auto;
@@ -68,4 +80,18 @@ export default defineComponent({
 .menuTitle {
     margin-left: 2rem;
 }
+
+
+@media screen and (max-width: 992px) {
+  .userRecommend{
+    width: 100%;
+    margin: auto;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    text-align: start;
+    font-size: 2rem;
+    font-weight: bold;
+  }
+}
+
 </style>
