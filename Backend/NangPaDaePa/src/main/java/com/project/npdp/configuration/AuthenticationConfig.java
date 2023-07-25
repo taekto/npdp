@@ -1,7 +1,8 @@
 package com.project.npdp.configuration;
 
 import com.project.npdp.member.service.MemberService;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,15 +10,22 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity      // Web 보안 활성화
 @RequiredArgsConstructor
+//@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AuthenticationConfig {
 
     private final MemberService memberService;
+
+    @Bean
+    public BCryptPasswordEncoder encoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Value("${jwt.secret}")
     private String secretKey;
@@ -31,8 +39,8 @@ public class AuthenticationConfig {
                 .csrf().disable()
                 .cors().and()
                 .authorizeRequests()
-                // 해당 api 모든 요청 허가
-                .antMatchers("/member/login").permitAll()
+                // 해당 api 모든 요청 허가 ("/members/login")
+                .antMatchers("/members/login").permitAll()
                 // 해당 api 모든 요청 불허
                 .antMatchers(HttpMethod.POST).authenticated()
                 .and()
