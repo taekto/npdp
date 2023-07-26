@@ -25,12 +25,6 @@ public class FoodService {
         return all;
     }
 
-    // 재료id로 재료 조회
-    @Transactional(readOnly = true)
-    public Optional<Ingredient> findIngredientById(Long IngredientId) {
-        Optional<Ingredient> byId = ingredientRepository.findById(IngredientId);
-        return byId;
-    }
 
     // 전체 양념 조회
     @Transactional(readOnly = true)
@@ -39,12 +33,7 @@ public class FoodService {
         return all;
     }
 
-    // 양념id로 양념 조회
-    @Transactional(readOnly = true)
-    public Optional<Seasoning> findSeasoningById(Long SeasoningId) {
-        Optional<Seasoning> byId = seasoningRepository.findById(SeasoningId);
-        return byId;
-    }
+
 
 
 
