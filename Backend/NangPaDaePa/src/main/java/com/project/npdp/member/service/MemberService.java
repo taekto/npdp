@@ -61,5 +61,5 @@ public class MemberService {
         return memberRepository.findOne(memberId);
     }
 
-    // jenkins test 용
+    // jenkins test 용6666666
 }
