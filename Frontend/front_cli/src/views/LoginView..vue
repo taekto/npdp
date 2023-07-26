@@ -15,7 +15,7 @@
           placeholder="Enter your Email"
           class="input"
           name="email"
-          style="width: 100%; height: 33.6px "  
+          style="width: 97.5%; height: 26px"  
         />
         <label for="password" class="input_label">Password</label>
         <input
@@ -24,7 +24,7 @@
           placeholder="Password"
           class="input"
           name="password"
-          style="width: 100%; height: 33.6px"
+          style="width: 97.5%; height: 26px"
         />
         <div class="login_form_remember">
           <input
@@ -37,29 +37,25 @@
             <router-link to="/signup">Forgot password</router-link>
           </div>
         </div>
-      <button class="login_btn" style="width: 100%;">Sign In</button>
-      
-      <!-- 회원가입 페이지 router -->
-      <div class="login_signup">
-        <span>Don’t have an account? <router-link to="/signup">Sign Up</router-link></span>
-      </div>
-      
-      <!-- 소셜 로그인 -->
-      <div class="login_sns">
-        <div class="login_sns_google">
-          <a href="http://localhost:8080/signup" class="btn_sns btn-google btn-block">
-          Google 계정으로 로그인</a>
-        </div>
-        <div class="login_sns_naver">
-          <a href="http://localhost:8080/signup" class="btn_sns btn-naver btn-block"><i class="fab fab-naver-alt"></i> 네이버 계정으로 로그인</a>
-        </div>
-        <div class="login_sns_kakao">
-          <a href="http://localhost:8080/signup" class="btn_sns btn-kakao btn-block">
-          KaKao 계정으로 로그인</a>
-        </div>
-      </div>
-
+      <button class="btn" style="width: 100%;">Sign In</button>
     </form>
+
+<!-- 회원가입 -->
+
+    <div class="login_signup">
+      <span>Don’t have an account? <router-link to="/signup">Sign Up</router-link></span>
+    </div>
+    <!-- 소셜 로그인 -->
+    <div class="login_sns">
+      <div class="login_sns_google">
+        <a href="https://accounts.google.com/o/oauth2/auth?approval_prompt=auto&amp;response_type=code&amp;scope=email+profile&amp;redirect_uri=https%3A%2F%2Fimweb.me%2Foauth%2F&amp;client_id=632560491025-lqk88mdp4sb1oh6g9evlrrb2b811fpeg.apps.googleusercontent.com&amp;state=%2Fjoin_complete%7Cservice%7Cgoogle&amp;svctype=0" class="btn btn-google btn-block">
+            Google 계정으로 가입</a>
+      </div>
+      <div class="login_sns_naver">
+        <a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&amp;redirect_uri=https%3A%2F%2Fimweb.me%2Foauth%2F&amp;client_id=j3e_Hw3XnZ1u_vI5aZoK&amp;state=%2Fjoin_complete%7Cservice%7Cnaver&amp;svctype=0" class="btn btn-naver btn-block"><i class="fab fab-naver-alt"></i> 네이버 계정으로 가입</a>
+      </div>
+      
+    </div>
   </div>
   
 </div>
@@ -125,44 +121,30 @@ export default class LoginView extends Vue {
   color: #FD7E14;
 }
 
-.login_btn {
+.btn {
   margin-top: 25px;
-  font-size: 14px;
   border: none; 
   background-color: #FD7E14; 
   color: #FFFFFF;
   padding: 7.5px;
   cursor: pointer; 
-  border-radius: 4px; 
+  border-radius: 5px; 
 }
+
+/* 회원가입 */
+.login_signup {
+  margin-top: 35px; /* 로그인 폼과의 여백 */
+}
+
 span > a {
   color: #FD7E14;
 }
 
-.login_signup {
-  margin: 40px 0px 60px 0px;
-  text-align: center;
-}
-
 /* 소셜 로그인 */
-.btn_sns {
-    font-weight: normal;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    cursor: pointer;
-    background-image: none;
-    border: 1px solid transparent;
-    padding: 6px 12px;
-    font-size: 14px;
-    line-height: 1.42857143;
-    border-radius: 4px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    text-decoration: none;
-    margin: 25px 0px 25px 0px;
+.btn {
+    padding: 13px 12px;
+    font-size: 16px;
+    vertical-align: baseline;
 }
 
 .btn-google {
@@ -176,7 +158,6 @@ span > a {
     display: block;
     position: relative;
     font-family: Sans-Serif !important;
-    min-width: 280px;
 }
 
 .btn-naver {
@@ -185,27 +166,8 @@ span > a {
     color: #fff;
     font-weight: 500;
     font-family: 'Nexon Gothic', 'Malgun Gothic', Sans-Serif;
-    background-image: url(../assets/naver_login2x.png);
-    background-size: 17px;
-    background-position: 17px 50%;
-    background-repeat: no-repeat;
-    display: block;
-    position: relative;
-    min-width: 280px;
 }
 
-.btn-kakao {
-    color: #000000;
-    background-color: #FEE500;
-    border-color: #ccc;
-    background-size: 20px;
-    background-position: 15px 50%;
-    background-repeat: no-repeat;
-    display: block;
-    position: relative;
-    font-family: Sans-Serif !important;
-    min-width: 280px;
-    background-image: url(../assets/Kakao.svg);
-}
+
 
 </style>

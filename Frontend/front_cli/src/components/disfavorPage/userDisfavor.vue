@@ -1,25 +1,33 @@
 <template>
   <div>
-    <h3>비선호 재료 검색</h3>
-    <div class="ingredient_search">
-      <input v-model="searchKeyword" class="disfavor_search_form" type="text" @input="searchDisfavorIngredients">
-      <button @click="searchDisfavorIngredients">추가</button>
-    </div>
-    <ul>
-      <li v-for="ingredient in searchResults" :key="ingredient.id">
-        {{ ingredient.name }}
-        <button @click="addToDisfavorList(ingredient)">추가</button>
-      </li>
-    </ul>
-    <h3>비선호 재료 리스트</h3>
-      <div class="user_disfavor_list">
-        <span v-for="ingredient in userDisfavorList" :key="ingredient.id">
-          {{ ingredient.name }} |
-        </span>
+    <form @submit.prevent="addDisfavorIngredient">
+      <div class="input-group">
+        <input v-model="searchKeyword" class="form-control" type="text">
+        <input type="submit" value="검색">
       </div>
-    <button @click="saveUserDisfavorList">저장</button>
-  </div>
+    </form>
 
+    <div>
+      <h3>검색 결과</h3>
+      <ul>
+        <li v-for="ingredient in searchResults" :key="ingredient.id">
+          <span>{{ ingredient.name }}</span>
+          <button @click="userDisfavor(ingredient.id)">추가</button>
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <h3>비선호 재료 리스트</h3>
+      <ul>
+        <li v-for="disfavorIngredient in disfavorIngredients" :key="disfavorIngredient.id">
+          {{ fetchIngredientList.name }}
+        </li>
+      </ul>
+    </div>
+
+    <button @click="userDisfavor">저장</button>
+  </div>
 </template>
 
 <script>
@@ -29,41 +37,29 @@ export default {
   data() {
     return {
       searchKeyword: '',
-      searchResults: [],
     };
   },
   computed: {
-    ...mapGetters(['ingredientList', 'userDisfavorList']),
+    ...mapGetters(['userDisfavor', 'ingredientList']),
   },
   methods: {
-    ...mapActions(['userDisfavorList', 'fetchIngredientList']),
-
-    searchDisfavorIngredients() {
-      if (!this.searchKeyword) {
-        this.searchResults = [];
-        return;
-      }
-
-      // 사용자가 입력한 검색어와 유사한 재료를 찾습니다.
-      this.searchResults = this.ingredientList.filter((ingredient) =>
-        ingredient.name.includes(this.searchKeyword)
-      ).slice(0, 5);
-    },
-    userDisfavorList(ingredient) {
-      if (!this.userDisfavorList.some((item) => item.id === ingredient.id)) {
-        this.userDisfavorList.push(ingredient);
-      }
-    },
-    saveUserDisfavorList() {
-      // 저장기능 구현해야함
-    },
+    ...mapActions(['userDisfavor','fetchIngredientList']),
   },
   created() {
-    this.fetchIngredientList();
+    // tmp 데이터
+    this.$store.commit('SET_INGREDIENTLIST', [
+      { id: 1, name: '재료1' },
+      { id: 2, name: '재료2' },
+      { id: 3, name: '재료3' },
+    ]);
+    this.$store.commit('SET_USERDISFAVOR', [
+      { id: 1, name: '비선호재료1' },
+      { id: 2, name: '비선호재료2' },
+    ]);
   },
+
 };
 </script>
-
 
 <style>
 #hashTagkeyword {

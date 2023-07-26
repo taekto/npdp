@@ -12,9 +12,7 @@
       </div>
       <div id="user">
         <router-link to="/signup">Signup</router-link> | 
-        <router-link to="/login">Login</router-link> |
-        <router-link to="/disfavor">Disfavor</router-link>
-        
+        <router-link to="/login">Login</router-link>
       </div>
     </nav>
     <router-view/>

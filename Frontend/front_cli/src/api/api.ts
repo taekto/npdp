@@ -1,19 +1,12 @@
 const HOST = 'http://localhost:8000/api/v1/';
+const TMP = 'tmp/';
 const USER = 'user/';
-const RECIPE = 'recipe/';
 
 export default {
-  recipe: {
-    ingredientList: function() {
-      return HOST + RECIPE + 'ingredientlist';
-    },
+  ingredientsList: function() {
+    return HOST + TMP;
   },
-  user: {
-    userDisfavorList: function(userPk: number) {
-      return HOST + USER + userPk + '/' + 'disfavorlist/';   
-    },
-    currentUserInfo: function() {
-      return HOST + USER
-    },
+  userDisfavor: function(userPk: number, ingredientId: number) {
+    return HOST + USER + userPk + '/' + ingredientId;
   },
-}
+};
