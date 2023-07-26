@@ -20,8 +20,10 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'chmod +x gradlew'
-                sh '../gradlew clean build'
+                dir('/Backend/NangPaDaePa') {
+                    sh 'chmod +x gradlew'
+                    sh './gradlew clean build'
+                }
             }
             post {
                 success {
