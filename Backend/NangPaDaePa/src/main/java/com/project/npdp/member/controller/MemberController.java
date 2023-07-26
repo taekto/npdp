@@ -25,4 +25,6 @@ public class MemberController {
     public ResponseEntity<String> writeSample(Authentication authentication){
         return ResponseEntity.ok().body(authentication.getName() + "님의 글 등록 완료");
     }
+    
+    // jenkins error 해결
 }
