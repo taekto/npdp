@@ -56,8 +56,8 @@ public class MemberService {
     }
 
     // 회원 단건 조회
-//    @Transactional(readOnly = true)
-//    public Member findOne(Long memberId){
-//        return memberRepository.findOne(memberId);
-//    }
+    @Transactional(readOnly = true)
+    public Member findOne(Long memberId){
+        return memberRepository.findOne(memberId);
+    }
 }
