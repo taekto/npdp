@@ -23,16 +23,15 @@ public class RecipeController {
     // id로 Recipe 조회
     @GetMapping("/{recipeId}")
     public ResponseEntity<?> findRecipeById(@PathVariable("recipeId") Long id) {
-        Recipe recipe = recipeService.findRecipeById(id).orElseThrow();
-        return ResponseEntity.ok().body(ResponseEntity.ok().body(recipe));
+        RecipeResponseDto recipeById = recipeService.findRecipeById(id);
+        return ResponseEntity.ok().body(ResponseEntity.ok().body(recipeById));
     }
     
     // Recipe 전체 조회
     @GetMapping
-    private ResponseEntity<?> findAllRecipe(RecipeResponseDto responseDto) {
-        List<Recipe> allRecipe = recipeService.findAllRecipe();
+    private ResponseEntity<?> findAllRecipe() {
+        List<RecipeResponseDto> allRecipe = recipeService.findAllRecipe();
         return ResponseEntity.ok().body(ResponseEntity.ok().body(allRecipe));
     }
-
 
 }
