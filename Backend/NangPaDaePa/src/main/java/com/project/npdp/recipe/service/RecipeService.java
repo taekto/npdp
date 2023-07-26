@@ -1,5 +1,7 @@
 package com.project.npdp.recipe.service;
 
+import com.project.npdp.recipe.dto.request.RecipeRequestDto;
+import com.project.npdp.recipe.dto.response.RecipeResponseDto;
 import com.project.npdp.recipe.entity.Recipe;
 import com.project.npdp.recipe.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,9 +27,9 @@ public class RecipeService {
 
     // 레시피id로 레시피 조회
     @Transactional(readOnly = true)
-    public Recipe findRecipe(Long recipeId) {
-        Recipe byId = recipeRepository.findById(recipeId).orElseThrow(() -> new IllegalArgumentException("레시피Id 조회불가"));
+    public Optional<Recipe> findRecipeById(Long recipeId) {
+        Optional<Recipe> byId = recipeRepository.findById(recipeId);
         return byId;
     }
-    
+
 }
