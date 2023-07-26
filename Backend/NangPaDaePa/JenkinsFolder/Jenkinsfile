@@ -23,6 +23,8 @@ pipeline {
                 dir('Backend/NangPaDaePa') {
                     sh 'chmod +x gradlew'
                     sh './gradlew clean build'
+                    // 디버깅
+                    sh 'ls -al ./build'
                 }
             }
             post {
