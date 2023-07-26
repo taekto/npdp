@@ -3,9 +3,10 @@ import MainView from '../views/MainView.vue'
 import SearchPage from "../components/searchPage/SearchPage.vue"
 import SearchKeyword from "../components/searchPage/SearchKeyword.vue"
 import SingupView from  '@/views/SignupView.vue'
-import LoginView from  '@/views/LoginView..vue'
+import LoginView from  '@/views/LoginView.vue'
 import AboutView from '@/views/AboutView.vue'
 import RecipeDetail from '@/components/recipePage/recipeDetail.vue'
+import DisfavorView from '@/views/DisfavorView.vue'
 
 const routes = [
   {
@@ -45,6 +46,13 @@ const routes = [
     name: 'login',
     component: LoginView
   },
+
+  {
+    path: '/disfavor',
+    name: 'disfavor',
+    component: DisfavorView
+  },
+
 ]
 
 const router = createRouter({
