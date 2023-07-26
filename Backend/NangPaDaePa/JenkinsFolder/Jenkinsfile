@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Prepare') {
             steps {
-                git branch: 'Back', credentialId: 'jenkins_token'
+                git branch: 'Back',
                     url: 'https://lab.ssafy.com/s09-webmobile1-sub2/S09P12B202.git'
             }
 
