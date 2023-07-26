@@ -1,6 +1,6 @@
 <template>
   <div class="recommendCard" @click="goToDetailRecipe">
-    <img src="@/assets/123.jpg" alt="">
+    <img src='@/assets/123.jpg'>
     <p>{{ slide }}번 레시피</p>
     <button class="recipeButton">View More</button>
   </div>
@@ -10,11 +10,17 @@
 export default {
     name: "SlideCardLikeRecommend",
     props: {
-        slide: Number
+        slide : Number
+    },
+    data() {
+        return {
+            recipe_id : this.slide
+        }
     },
     methods: {
         goToDetailRecipe() {
-            this.$router.push('recipe')
+            this.$router.push({name: 'recipe'})
+            
         }
     }
 }
