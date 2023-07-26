@@ -21,10 +21,10 @@ pipeline {
         stage('Build') {
             steps {
                 dir('./Backend/NangPaDaePa')
-                sh 'chmod +x gradlew'
-                sh  './gradlew clean build'
+//                sh 'chmod +x gradlew'
+                sh 'gradlew clean build'
 
-                sh 'ls -al ./build'
+//                sh 'ls -al ./build'
             }
             post {
                 success {
