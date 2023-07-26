@@ -61,5 +61,5 @@ public class MemberService {
         return memberRepository.findOne(memberId);
     }
 
-    // jenkins test 용6666666
+    // jenkins test 에러 해결 중
 }
