@@ -1,15 +1,19 @@
 package com.project.npdp.food.service;
 
+import com.project.npdp.food.dto.request.SeasoningRequestDto;
+import com.project.npdp.food.dto.response.IngredientResponseDto;
+import com.project.npdp.food.dto.response.SeasoningResponseDto;
 import com.project.npdp.food.entity.Ingredient;
 import com.project.npdp.food.entity.Seasoning;
 import com.project.npdp.food.repository.IngredientRepository;
 import com.project.npdp.food.repository.SeasoningRepository;
+import com.project.npdp.recipe.dto.response.RecipeResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,17 +24,27 @@ public class FoodService {
 
     // 전체 재료 조회
     @Transactional(readOnly = true)
-    public List<Ingredient> findAllIngredient() {
+    public List<IngredientResponseDto> findAllIngredient() {
         List<Ingredient> all = ingredientRepository.findAll();
-        return all;
+        List<IngredientResponseDto> result = all.stream().map(r->IngredientResponseDto.builder()
+                .id(r.getId())
+                .name(r.getName())
+                .build())
+                .collect(Collectors.toList());
+        return result;
     }
 
 
     // 전체 양념 조회
     @Transactional(readOnly = true)
-    public List<Seasoning> findAllSeasoning() {
+    public List<SeasoningResponseDto> findAllSeasoning() {
         List<Seasoning> all = seasoningRepository.findAll();
-        return all;
+        List<SeasoningResponseDto> result = all.stream().map(r-> SeasoningResponseDto.builder()
+                .id(r.getId())
+                .name(r.getName())
+                .build())
+                .collect(Collectors.toList());
+        return result;
     }
 
 
