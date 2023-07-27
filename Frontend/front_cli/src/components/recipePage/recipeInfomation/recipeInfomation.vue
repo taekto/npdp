@@ -4,9 +4,11 @@
           <IngredientInfomation class="tempBox" :ingredients=ingredients :serving=serving />
           <GraphInfomation class="tempBox" :similarity=similarity />
         </div>
+        
         <div class="InfomationLine">
+          <CalorieInformation class="tempBox" :method=method :calorie=calorie :serving=serving />
           <div class="tempBox">
-            <div class="dropdown">
+            <div class="dropdown mt-3">
               <button class="dropdown-toggle servingButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 {{serving}}인분
               </button>
@@ -18,12 +20,11 @@
                 <li class="inputServing">직접기입 : <input class="dropdown-item inputServingNumber" type="number" v-model="serving"></li>
               </ul>
             </div>
-            <button class="ingredientButton" @click="goToIngredient">
-              재료/양념 관리
-            </button>
+            <IngredientModal />
+            <SeasoningModal />
           </div>
           
-          <CalorieInformation class="tempBox" :method=method :calorie=calorie :serving=serving />
+          
         </div>
       </div>
 </template>
@@ -32,6 +33,8 @@
 import IngredientInfomation from './IngredientInfomation.vue'
 import GraphInfomation from './GraphInfomation.vue'
 import CalorieInformation from './CalorieInfomation.vue'
+import IngredientModal from '../../modalPage/IngredientModal'
+import SeasoningModal from '../../modalPage/SeasoningModal'
 
 export default {
     name : 'RecipeInfomation',
@@ -39,6 +42,8 @@ export default {
       IngredientInfomation,
       GraphInfomation,
       CalorieInformation,
+      IngredientModal,
+      SeasoningModal,
     },
     props: {
       recipe: Object,
@@ -117,4 +122,6 @@ export default {
   border: solid rgb(174, 174, 174);
   border-radius: .25rem;
 }
+
+
 </style>
