@@ -1,7 +1,17 @@
 pipeline {
     agent any
+
+    environment {
+        CONTAINER_NAME = "hardcore_zhukovsky"
+        IMAGE_NAME = "nangpadaepa"
+    }
+
+    tools {
+        gradle 'gradle'
+    }
+
     stages {
-        stage('Clone') {
+        stage('Git Clone') {
             steps {
                 git branch: 'Back', credentialsId: 'jenkins_token',
                     url: 'https://lab.ssafy.com/s09-webmobile1-sub2/S09P12B202.git'
@@ -36,21 +46,16 @@ pipeline {
                 }
             }
         }
-        stage('Test') {
-            steps {
-                echo  '테스트 단계와 관련된 몇 가지 단계를 수행합니다.'
-            }
-        }
-        stage('Docker Rm') {
-            steps {
-                sh 'echo "Docker Rm Start"'
-                sh """
-                docker stop jenkins
-                docker rm jenkins
-                docker rmi -f jenkins
-                """
-            }
 
+        stage('Docker Delete') {
+            steps {
+                sh 'echo "Docker Delete Start"'
+                // 컨테이너 존재 시 삭제
+                sh "docker stop ${CONTAINER_NAME}"
+                sh "docker rmi -f ${CONTAINER_NAME}"
+                // 이미지 존재 시 삭제
+                sh "docker image rm ${IMAGE_NAME}"
+            }
             post {
                 success {
                     sh 'echo "Docker Rm Success"'
@@ -64,7 +69,9 @@ pipeline {
         stage('Dockerizing'){
             steps{
                 sh 'echo " Image Bulid Start"'
-                sh 'sudo docker-compose up -d --build'
+                dir('Backend/NangPaDaePa') {
+                    sh 'sudo build -t ${IMAGE_NAME}'
+                }
             }
             post {
                 success {
@@ -79,7 +86,7 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                sh 'sudo docker run --name jenkins -d -p 9090:8080 jenkins'
+                sh 'docker run --name ${CONTAINER_NAME} -d -p8080:8080 ${IMAGE_NAME}'
             }
 
             post {
