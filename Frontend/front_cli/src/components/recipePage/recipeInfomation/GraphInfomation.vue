@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <h1>{{similarity}}</h1>
-  </div>
+    <div>
+        <Doughnut :data="data" :options="options" />
+    </div>
 </template>
 
 <script>
@@ -14,6 +14,7 @@ ChartJS.register(ArcElement, Tooltip, Legend)
 
 export default {
     name: 'GraphInfomation',
+    components: { Doughnut, },
     props: {
         similarity : Number
     },
