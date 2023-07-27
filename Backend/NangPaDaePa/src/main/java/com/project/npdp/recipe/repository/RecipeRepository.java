@@ -1,9 +1,11 @@
-//package com.project.npdp.recipe.repository;
+package com.project.npdp.recipe.repository;
 //
-//import com.project.npdp.recipe.entity.Recipe;
+import com.project.npdp.recipe.entity.Recipe;
 //import org.springframework.data.jpa.repository.JpaRepository;
-//import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Repository;
 //
-//@Repository
+@Repository
+public interface RecipeRepository {
+}
 //public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 //}
