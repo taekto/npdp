@@ -45,9 +45,9 @@ pipeline {
             steps {
                 sh 'echo "Docker Rm Start"'
                 sh """
-                sudo docker stop jenkins
-                sudo docker rm jenkins
-                sudo docker rmi -f jenkins
+                docker stop jenkins
+                docker rm jenkins
+                docker rmi -f jenkins
                 """
             }
 
