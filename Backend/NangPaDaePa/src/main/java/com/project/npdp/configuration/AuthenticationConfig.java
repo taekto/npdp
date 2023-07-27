@@ -16,20 +16,20 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity      // Web 보안 활성화
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 //@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AuthenticationConfig {
 
-    private final MemberService memberService;
-    private final @Value("${jwt.secret}") String secretKey;
+    @Autowired
+    private MemberService memberService;
 
     @Bean
     public BCryptPasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
 
-//    @Value("${jwt.secret}")
-//    private String secretKey;
+    @Value("${jwt.secret}")
+    private String secretKey;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
