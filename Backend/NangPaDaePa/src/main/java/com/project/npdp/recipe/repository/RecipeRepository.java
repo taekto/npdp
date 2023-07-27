@@ -1,4 +1,7 @@
 package com.project.npdp.recipe.repository;
+
+//package com.project.npdp.recipe.repository;
+
 //
 import com.project.npdp.recipe.entity.Recipe;
 //import org.springframework.data.jpa.repository.JpaRepository;
