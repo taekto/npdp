@@ -26,5 +26,5 @@ public class MemberController {
 //        return ResponseEntity.ok().body(authentication.getName() + "님의 글 등록 완료");
 //    }
     
-    // jenkins build error test12
+    // jenkins build error test13
 }
