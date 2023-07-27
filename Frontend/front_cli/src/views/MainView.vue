@@ -2,7 +2,7 @@
   <div>
     <MainImageSlideVue class="mainImage" />
     <div class="explanation">
-      <h1>number</h1>
+      <h1>1114개의 레시피</h1>
     </div>
     <searchComponentVue />
     <CategoryButton />

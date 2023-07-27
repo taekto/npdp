@@ -36,7 +36,9 @@ export default {
             tempKeyword.toLowerCase()
             console.log(tempKeyword)
             if(tempKeyword == "" || tempKeyword == "null") {
-                this.$router.push('search')
+                this.$router.push({
+                    name: 'search',
+                })
             }
             else {
                 this.$router.push({
