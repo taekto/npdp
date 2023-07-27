@@ -44,19 +44,27 @@ pipeline {
 
         stage('Docker Delete') {
             steps {
-                sh 'echo "Docker Delete Start"'
-                // 컨테이너 존재 시 삭제
-                sh "docker stop ${CONTAINER_NAME}"
-                sh "docker rmi -f ${CONTAINER_NAME}"
-                // 이미지 존재 시 삭제
-                sh "docker image rm ${IMAGE_NAME}"
+                try{
+                    sh 'echo "Docker Delete Start"'
+                    // 컨테이너 존재 시 삭제
+                    sh "docker stop ${CONTAINER_NAME}"
+                    sh "docker rmi -f ${CONTAINER_NAME}"
+                }catch (Exception e){
+                    echo "Docker container ${CONTAINER_NAME} does not exist. skip"
+                }
+                try{
+                    // 이미지 존재 시 삭제
+                    sh "docker image rm ${IMAGE_NAME}"
+                }catch (Exception e){
+                    echo "Docker image ${IMAGE_NAME} does not exist. skip"
+                }
             }
             post {
                 success {
-                    sh 'echo "Docker Rm Success"'
+                    sh 'echo "Docker delete Success"'
                 }
                 failure {
-                    sh 'echo "Docker Rm Fail"'
+                    sh 'echo "Docker delete Fail"'
                 }
             }
         }
