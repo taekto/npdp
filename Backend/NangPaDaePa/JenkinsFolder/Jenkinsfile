@@ -94,12 +94,10 @@ pipeline {
                 sh 'docker rm bcf840a08089019cad1762acf0851230057c62c65c36f31c9725741ed9b3b861'
                 sh 'docker run --name ${CONTAINER_NAME} -d -p8080:8080 ${IMAGE_NAME}'
             }
-
             post {
                 success {
                     echo 'Deploy success'
                 }
-
                 failure {
                     echo 'Deploy failed'
                 }
