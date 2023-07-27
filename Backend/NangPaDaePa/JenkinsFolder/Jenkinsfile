@@ -91,8 +91,14 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                sh 'docker rm fbb4adfd3aaef5af8fe3d1fa94c09c2488c75e2912bf9e6fc421fedd26e668ce'
-                sh 'docker run --name ${CONTAINER_NAME} -d -p8080:8080 ${IMAGE_NAME}'
+                script{
+                    try{
+                        sh 'docker rm fbb4adfd3aaef5af8fe3d1fa94c09c2488c75e2912bf9e6fc421fedd26e668ce'
+                    }catch (Exception e){
+                        echo "Docker container does not exist. skip"
+                    }
+                    sh 'docker run --name ${CONTAINER_NAME} -d -p8080:8080 ${IMAGE_NAME}'
+                }
             }
             post {
                 success {
