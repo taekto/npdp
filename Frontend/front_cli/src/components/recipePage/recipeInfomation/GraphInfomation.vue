@@ -7,7 +7,6 @@
 <script>
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { Doughnut } from 'vue-chartjs'
-// import * as chartConfig from './Graph/graph'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
@@ -20,7 +19,7 @@ export default {
         similarity : Number
     },
     data() {
-        return /*chartConfig*/ {
+        return {
             data : {
                 labels: ['Differ', 'Similarity', ],
                 datasets: [
@@ -38,7 +37,3 @@ export default {
     }
 }
 </script>
-
-<style>
-
-</style>

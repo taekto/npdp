@@ -35,7 +35,7 @@ export default {
           name : "떡볶이",
           ingredients: [{ name : '감자', amount : 2, unit : '개'}, { name : '김치', amount : 1/4, unit : '포기'}, 
           {name : '설탕', amount : 50, unit : 'g'}, { name : '멸치', amount : 2, unit : '개'}, { name : '밀가루', amount : 150, unit : 'g'}],
-          similarity : 50,
+          similarity : 75.5,
           method: { name: '조리방법', value: "Grilled"}, 
           calorie : [{ name: '중량', value: 423}, { name: '열량', value: 740}, { name: '탄수화물', value: 826},
           { name: '단백질', value: 922}, { name: '지방', value: 540}, { name: '나트륨', value: 154}]
