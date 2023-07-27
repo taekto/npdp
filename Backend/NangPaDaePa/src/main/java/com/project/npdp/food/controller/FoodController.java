@@ -25,7 +25,7 @@ public class FoodController {
 
 
     // 재료 전체 조회
-    @GetMapping("/ingredient")
+    @GetMapping("/ingredient") // 주소주소
     public ResponseEntity<?> findAllIngredient() {
         List<IngredientResponseDto> allIngredient = foodService.findAllIngredient();
         return ResponseEntity.ok().body(ResponseEntity.ok().body(allIngredient));
