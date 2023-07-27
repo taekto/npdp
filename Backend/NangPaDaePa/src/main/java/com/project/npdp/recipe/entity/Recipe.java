@@ -48,6 +48,8 @@ public class Recipe {
 
     private String category;
 
+    private Long likes;
+
     // calendar(캘린더) 연관관계
     @OneToMany(mappedBy = "recipe")
     private List<Calendar> calendarList = new ArrayList<>();
