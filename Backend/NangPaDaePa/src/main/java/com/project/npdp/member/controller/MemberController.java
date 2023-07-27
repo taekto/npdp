@@ -26,5 +26,5 @@ public class MemberController {
 //        return ResponseEntity.ok().body(authentication.getName() + "님의 글 등록 완료");
 //    }
     
-    // jenkins final build test
+    // jenkins last final build test
 }
