@@ -206,7 +206,7 @@ span > a {
     position: relative;
     font-family: Sans-Serif !important;
     min-width: 280px;
-    background-image: url(../assets/Kakao.svg);
+    background-image: url(../assets/Kakao.png);
 }
 
 </style>

@@ -6,7 +6,7 @@ import SingupView from  '@/views/SignupView.vue'
 import LoginView from  '@/views/LoginView.vue'
 import AboutView from '@/views/AboutView.vue'
 import RecipeDetail from '@/components/recipePage/recipeDetail.vue'
-import DisfavorView from '@/views/DisfavorView.vue'
+import DislikeView from '@/views/DislikeView.vue'
 
 const routes = [
   {
@@ -48,9 +48,9 @@ const routes = [
   },
 
   {
-    path: '/disfavor',
-    name: 'disfavor',
-    component: DisfavorView
+    path: '/dislike',
+    name: 'dislike',
+    component: DislikeView
   },
 
 ]
