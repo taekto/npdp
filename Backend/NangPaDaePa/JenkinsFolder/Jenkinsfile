@@ -5,11 +5,6 @@ pipeline {
         CONTAINER_NAME = "hardcore_zhukovsky"
         IMAGE_NAME = "nangpadaepa"
     }
-
-    tools {
-        gradle 'gradle'
-    }
-
     stages {
         stage('Git Clone') {
             steps {
