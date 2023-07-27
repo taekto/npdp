@@ -45,9 +45,9 @@ pipeline {
             steps {
                 sh 'echo "Docker Rm Start"'
                 sh """
-                docker stop nangpadaepa
-                docker rm nangpadaepa
-                docker rmi -f nangpadaepa
+                sudo docker stop jenkins
+                sudo docker rm jenkins
+                sudo docker rmi -f jenkins
                 """
             }
 
@@ -64,7 +64,7 @@ pipeline {
         stage('Dockerizing'){
             steps{
                 sh 'echo " Image Bulid Start"'
-                sh 'docker build . -t nangpadaepa'
+                sh 'sudo docker-compose up -d --build'
             }
             post {
                 success {
@@ -79,7 +79,7 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                sh 'docker run --name nangpadaepa -d -p 8080:8080 nangpadaepa'
+                sh 'sudo docker run --name jenkins -d -p 9090:8080 jenkins'
             }
 
             post {
