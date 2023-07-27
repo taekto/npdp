@@ -26,7 +26,7 @@ public class MemberRepository {
     // 이메일로 회원 조회
     public List<Member> findByEmail(String email){
         return em.createQuery("select m from Member m where m.email = :email", Member.class)
-                .setParameter("name", email)
+                .setParameter("email", email)
                 .getResultList();
     }
 }
