@@ -49,7 +49,7 @@ pipeline {
                         sh 'echo "Docker Delete Start"'
                         // 컨테이너 존재 시 삭제
                         sh "docker stop ${CONTAINER_NAME}"
-                        sh "docker rmi -f ${CONTAINER_NAME}"
+                        sh "docker rm -f ${CONTAINER_NAME}"
                     }catch (Exception e){
                         echo "Docker container ${CONTAINER_NAME} does not exist. skip"
                     }
