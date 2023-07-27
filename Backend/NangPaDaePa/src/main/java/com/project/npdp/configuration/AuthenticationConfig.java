@@ -21,8 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class AuthenticationConfig {
 
     private final MemberService memberService;
-    @Value("${jwt.secret}")
-    private final String secretKey;
+    private final @Value("${jwt.secret}") String secretKey;
 
     @Bean
     public BCryptPasswordEncoder encoder() {
