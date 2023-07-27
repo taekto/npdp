@@ -41,41 +41,41 @@ pipeline {
                 echo  '테스트 단계와 관련된 몇 가지 단계를 수행합니다.'
             }
         }
-//         stage('Docker Rm') {
-//             steps {
-//                 sh 'echo "Docker Rm Start"'
-//                 sh """
-//                 docker stop S09P12B202
-//                 docker rm S09P12B202
-//                 docker rmi -f s09-webmobile1-sub2/S09P12B202
-//                 """
-//             }
-//
-//             post {
-//                 success {
-//                     sh 'echo "Docker Rm Success"'
-//                 }
-//                 failure {
-//                     sh 'echo "Docker Rm Fail"'
-//                 }
-//             }
-//         }
+         stage('Docker Rm') {
+             steps {
+                 sh 'echo "Docker Rm Start"'
+                 sh """
+                 docker stop S09P12B202
+                 docker rm S09P12B202
+                 docker rmi -f s09-webmobile1-sub2/S09P12B202
+                 """
+             }
 
-//         stage('Dockerizing'){
-//             steps{
-//                 sh 'echo " Image Bulid Start"'
-//                 sh 'docker build . -t s09-webmobile1-sub2/S09P12B202'
-//             }
-//             post {
-//                 success {
-//                     sh 'echo "Bulid Docker Image Success"'
-//                 }
-//
-//                 failure {
-//                     sh 'echo "Bulid Docker Image Fail"'
-//                 }
-//             }
-//         }
+             post {
+                 success {
+                     sh 'echo "Docker Rm Success"'
+                 }
+                 failure {
+                     sh 'echo "Docker Rm Fail"'
+                 }
+             }
+         }
+
+         stage('Dockerizing'){
+             steps{
+                 sh 'echo " Image Bulid Start"'
+                 sh 'docker build . -t s09-webmobile1-sub2/S09P12B202'
+             }
+             post {
+                 success {
+                     sh 'echo "Bulid Docker Image Success"'
+                 }
+
+                 failure {
+                     sh 'echo "Bulid Docker Image Fail"'
+                 }
+             }
+         }
 
         stage('Deploy') {
             steps {
