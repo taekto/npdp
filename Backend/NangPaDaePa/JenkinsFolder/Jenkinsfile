@@ -23,7 +23,7 @@ pipeline {
                     sh './gradlew clean build'
                     // 디버깅
                     sh 'ls -al ./build'
-                    sh 'gradlew build --stacktrace'
+                    sh './gradlew build --stacktrace'
                 }
             }
             post {
