@@ -45,9 +45,9 @@ pipeline {
             steps {
                 sh 'echo "Docker Rm Start"'
                 sh """
-                docker stop S09P12B202
-                docker rm S09P12B202
-                docker rmi -f s09-webmobile1-sub2/S09P12B202
+                docker stop nangpadaepa
+                docker rm nangpadaepa
+                docker rmi -f nangpadaepa
                 """
             }
 
@@ -64,7 +64,7 @@ pipeline {
         stage('Dockerizing'){
             steps{
                 sh 'echo " Image Bulid Start"'
-                sh 'docker build . -t s09-webmobile1-sub2/S09P12B202'
+                sh 'docker build . -t nangpadaepa'
             }
             post {
                 success {
@@ -79,7 +79,7 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                sh 'docker run --name S09P12B202 -d -p 8083:8083 s09-webmobile1-sub2/S09P12B202'
+                sh 'docker run --name nangpadaepa -d -p 8080:8080 nangpadaepa'
             }
 
             post {
