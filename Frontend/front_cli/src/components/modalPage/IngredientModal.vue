@@ -123,12 +123,4 @@ export default {
 }
 
 
-/* .modal {
-  width: 75%;
-} */
-/* 
-.modal-content {
-  width: 75%;
-} */
-
 </style>
