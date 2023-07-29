@@ -1,0 +1,64 @@
+package com.project.npdp.domain;
+
+import static com.querydsl.core.types.PathMetadataFactory.*;
+
+import com.querydsl.core.types.dsl.*;
+
+import com.querydsl.core.types.PathMetadata;
+import javax.annotation.processing.Generated;
+import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.PathInits;
+
+
+/**
+ * QRefregirator is a Querydsl query type for Refregirator
+ */
+@Generated("com.querydsl.codegen.DefaultEntitySerializer")
+public class QRefregirator extends EntityPathBase<Refregirator> {
+
+    private static final long serialVersionUID = 1614442828L;
+
+    private static final PathInits INITS = PathInits.DIRECT2;
+
+    public static final QRefregirator refregirator = new QRefregirator("refregirator");
+
+    public final NumberPath<Double> amount = createNumber("amount", Double.class);
+
+    public final DateTimePath<java.time.LocalDateTime> expiredDate = createDateTime("expiredDate", java.time.LocalDateTime.class);
+
+    public final NumberPath<Long> id = createNumber("id", Long.class);
+
+    public final QIngredient ingredient;
+
+    public final QMember member;
+
+    public final DateTimePath<java.time.LocalDateTime> startDate = createDateTime("startDate", java.time.LocalDateTime.class);
+
+    public final NumberPath<Long> storage = createNumber("storage", Long.class);
+
+    public final StringPath unit = createString("unit");
+
+    public QRefregirator(String variable) {
+        this(Refregirator.class, forVariable(variable), INITS);
+    }
+
+    public QRefregirator(Path<? extends Refregirator> path) {
+        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
+    }
+
+    public QRefregirator(PathMetadata metadata) {
+        this(metadata, PathInits.getFor(metadata, INITS));
+    }
+
+    public QRefregirator(PathMetadata metadata, PathInits inits) {
+        this(Refregirator.class, metadata, inits);
+    }
+
+    public QRefregirator(Class<? extends Refregirator> type, PathMetadata metadata, PathInits inits) {
+        super(type, metadata, inits);
+        this.ingredient = inits.isInitialized("ingredient") ? new QIngredient(forProperty("ingredient")) : null;
+        this.member = inits.isInitialized("member") ? new QMember(forProperty("member")) : null;
+    }
+
+}
+
