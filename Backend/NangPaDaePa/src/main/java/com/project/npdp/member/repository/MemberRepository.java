@@ -2,33 +2,21 @@ package com.project.npdp.member.repository;
 
 import com.project.npdp.member.entity.Member;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
-@Repository
-@RequiredArgsConstructor
-public class MemberRepository {
-    // 왜
-    private final EntityManager em;
+public interface MemberRepository extends JpaRepository {
 
     // 회원 가입
-    public void save(Member member){
-        em.persist(member);
-    }
+    void save(Member member);
 
     // 회원 조회
-    public Member findOne(Long id){
-        Member member = em.find(Member.class, id);
-        return member;
-    }
+    void findOne(Long id);
 
-    // 이메일로 회원 조회
-    public List<Member> findByEmail(String email){
-        return em.createQuery("select m from Member m where m.email = :email", Member.class)
-                .setParameter("email", email)
-                .getResultList();
-    }
+    // 이메일로 회원 조희
+    List<Member> findByEmail(String email);
+
 }
