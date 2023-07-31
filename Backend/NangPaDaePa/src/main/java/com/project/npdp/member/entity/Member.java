@@ -1,7 +1,7 @@
 package com.project.npdp.member.entity;
 
-import com.project.npdp.refrigerator.entity.Refregirator;
-import com.project.npdp.utensil.entity.MemberUtensil;
+import com.project.npdp.domain.Calendar;
+import com.project.npdp.domain.Refregirator;
 import lombok.*;
 
 import javax.persistence.*;
@@ -14,7 +14,8 @@ import java.util.List;
 @Getter
 public class Member {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
 
@@ -26,7 +27,11 @@ public class Member {
 
     private String oauth;
 
-    private String refreshToken;
+    private Long role;
+
+    private String birth;
+
+    private String gender;
 
     // member_utensil(회원보유장비) 연관관계
     @OneToMany(mappedBy = "member")
@@ -44,6 +49,10 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<MemberAllergy> memberAllergyList = new ArrayList<>();
 
+    // member_dislike_ingredient(회원비선호재료) 연관관계
+    @OneToMany(mappedBy = "member")
+    private List<MemberDislikeIngredient> memberDislikeIngredientList = new ArrayList<>();
+
     // calendar(캘린더) 연관관계
     @OneToMany(mappedBy = "member")
     private List<Calendar> calendarList = new ArrayList<>();
@@ -56,7 +65,4 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<MemberRecipeLatest> memberRecipeLatestList = new ArrayList<>();
 
-    // calendar(캘린더) 연관관계
-    @OneToMany(mappedBy = "member")
-    private List<MemberDislikeIngredient> memberDislikeIngredientList = new ArrayList<>();
 }

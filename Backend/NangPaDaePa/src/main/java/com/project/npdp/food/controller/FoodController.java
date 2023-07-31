@@ -1,15 +1,10 @@
 package com.project.npdp.food.controller;
 
 
-import com.project.npdp.food.dto.request.IngredientRequestDto;
-import com.project.npdp.food.dto.request.SeasoningRequestDto;
 import com.project.npdp.food.dto.response.IngredientResponseDto;
 import com.project.npdp.food.dto.response.SeasoningResponseDto;
-import com.project.npdp.food.entity.Ingredient;
-import com.project.npdp.food.entity.Seasoning;
 import com.project.npdp.food.service.FoodService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
