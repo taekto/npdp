@@ -2,6 +2,8 @@
   <div class="recipeDetail">
     <div class="recipeName">
       <h2 class="recipeTitle">레시피이름 : {{recipe.name}}</h2>
+      <button v-if="liked" class="likeButton" @click="changeLike">Like</button>
+      <button v-else class="dislikeButton" @click="changeLike">Dislike</button>
     </div>
     <div class="recipeInfomation">
       <img class="recipeImage" src='@/assets/123.jpg'>
@@ -31,6 +33,7 @@ export default {
     // },
     data() {
       return {
+        liked : false,
         recipe : {
           name : "떡볶이",
           ingredients: [{ name : '감자', amount : 2, unit : '개'}, { name : '김치', amount : 1/4, unit : '포기'}, 
@@ -41,6 +44,11 @@ export default {
           { name: '단백질', value: 922}, { name: '지방', value: 540}, { name: '나트륨', value: 154}]
         },
         lorem : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+      }
+    },
+    methods: {
+      changeLike() {
+        this.liked = this.liked ? false : true;
       }
     }
 
@@ -54,16 +62,35 @@ export default {
   margin: auto;
 }
 
+.likeButton {
+  border-radius: .5rem;
+  background-color: #FD7E14;
+  border: none;
+  color: white;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.dislikeButton {
+  border-radius: .5rem;
+  color: #FD7E14;
+  border: solid #FD7E14;
+  background-color: white;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
 .recipeName {
   margin-top: 2rem;
   margin-left: 2rem;
   margin-bottom: 2rem;
   text-align: start;
-  
+  display: flex;
 }
 
 .recipeTitle {
   font-weight: bold;
+  margin-right: 2rem;
 }
 
 .recipeInfomation {

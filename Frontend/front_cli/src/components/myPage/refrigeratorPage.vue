@@ -2,17 +2,24 @@
   <div class="myPage">
     <CategoryComponent />
     <div id="myPageView">
-        <div class="storageRadio">
-            <label class="radioButton">
-                <input type="radio" name="coldStorage" value="냉장" v-model="storageType" @click="changeClassification">냉장
-            </label>
-            <label class="radioButton">
-                <input type="radio" name="frozenStorage" value="냉동" v-model="storageType" @click="changeClassification">냉동
-            </label>
-            <label class="radioButton">
-                <input type="radio" name="rtStorage" value="실온" v-model="storageType" @click="changeClassification">실온
-            </label>            
+        <div class="buttonGroup">
+            <div class="storageRadio">
+                <label class="radioButton">
+                    <input type="radio" name="coldStorage" value="냉장" v-model="storageType" @click="changeClassification">냉장
+                </label>
+                <label class="radioButton">
+                    <input type="radio" name="frozenStorage" value="냉동" v-model="storageType" @click="changeClassification">냉동
+                </label>
+                <label class="radioButton">
+                    <input type="radio" name="rtStorage" value="실온" v-model="storageType" @click="changeClassification">실온
+                </label>            
+            </div>
+            <div class="modalButtons">
+                <IngredientModal />
+                <SeasoningModal />
+            </div>
         </div>
+        
         <div>
             <div class="refrigeratorCategory">
                 <p class="categoryTitle">{{storageType}} 재료</p>
@@ -21,16 +28,16 @@
                         <div class="ingredientList" v-if="ingredient.storage === storageType">
                             <p class="col-1 ingredientName">{{ingredient.name}}</p>
                             <div class="amount col-2 row">
-                                <button class="amountButton col-3">+</button>
+                                <button class="amountButton col-3" @click="plusAmount(ingredient)">+</button>
                                 <p class="col-6">{{ingredient.amount}}{{ingredient.unit}}</p>
-                                <button class="amountButton col-3">-</button>
+                                <button class="amountButton col-3" @click="minusAmount(ingredient)">-</button>
                             </div>
                             <p class="col-3">보관시작일 : {{ingredient.startDate}}</p>
                             <p class="col-3">
                             유통기한 : {{ingredient.endDate}}
                             </p>
                             <p class="col-2">보관방식 : {{ingredient.storage}}</p>
-                            <button class="col-1 deleteButton">제거</button>
+                            <button class="col-1 deleteButton" @click="deleteIngredient(ingredient)">제거</button>
                         </div>
                     </li>
                 </ul>
@@ -47,24 +54,28 @@
                             유통기한 : {{seasoning.endDate}}
                             </p>
                             <p class="col-2">보관방식 : {{seasoning.storage}}</p>
-                            <button class="col-1 deleteButton">제거</button>
+                            <button class="col-1 deleteButton" @click="deleteSeasoning(seasoning)">제거</button>
                         </div>
                     </li>
                 </ul>
             </div>
         </div>
+        
     </div>
-    
   </div>
 </template>
 
 <script>
 import CategoryComponent from './categoryComponent.vue'
+import IngredientModal from '../modalPage/IngredientModal.vue'
+import SeasoningModal from '../modalPage/SeasoningModal'
 
 export default {
     name: 'RefrigeratorPage',
     components: {
         CategoryComponent,
+        IngredientModal,
+        SeasoningModal,
     },
     data() {
         return {
@@ -93,6 +104,38 @@ export default {
                 {name : "케쳡",  startDate : '2023-07-27', endDate: '', storage: '실온'},],
             storageType : '냉장',
         }
+    },
+    methods: {
+        plusAmount(ingredient) {
+            ingredient.amount ++
+        },
+        minusAmount(ingredient) {
+            ingredient.amount --
+            if (ingredient.amount <= 0) {
+                const arrayRemove = (arr, value) => {
+                    return arr.filter((ele) => {
+                        return ele != value
+                    })
+                }
+                this.ingredients = arrayRemove(this.ingredients, ingredient)
+            }
+        },
+        deleteIngredient(ingredient) {
+            const arrayRemove = (arr, value) => {
+                return arr.filter((ele) => {
+                    return ele != value
+                })
+            }
+            this.ingredients = arrayRemove(this.ingredients, ingredient)
+        },
+        deleteSeasoning(seasoning) {
+            const arrayRemove = (arr, value) => {
+                return arr.filter((ele) => {
+                    return ele != value
+                })
+            }
+            this.seasonings = arrayRemove(this.seasonings, seasoning)
+        }
     }
 }
 </script>
@@ -115,6 +158,21 @@ export default {
 </style>
 
 <style scoped>
+.buttonGroup {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+}
+
+.modalButtons {
+    display: flex;
+    /* border: solid #FD7E14;
+    border-radius: .5rem;
+    padding: .5rem;
+    margin: .5rem;
+    width: 6rem; */
+}
+
 .ListShow {
   border: solid #a7a7a7;
   border-radius: .5rem;

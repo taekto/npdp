@@ -11,16 +11,16 @@
               <li class="ingredientList row" v-for="(ingredient, index) in ingredientList" :key="index">
                 <p class="col-1">{{ingredient.name}}</p>
                 <div class="amount col-2 row">
-                  <button class="amountButton col-3">+</button>
+                  <button class="amountButton col-3" @click="plusAmount(ingredient)">+</button>
                   <p class="col-6">{{ingredient.amount}}{{ingredient.unit}}</p>
-                  <button class="amountButton col-3">-</button>
+                  <button class="amountButton col-3" @click="minusAmount(ingredient)">-</button>
                 </div>
                 <p class="col-3">보관시작일 : {{ingredient.startDate}}</p>
                 <p class="col-3">
                   유통기한 : {{ingredient.endDate}}
                 </p>
                 <p class="col-2">보관방식 : {{ingredient.storage}}</p>
-                <button class="col-1">제거</button>
+                <button class="col-1" @click="deleteIngredient(ingredient)">제거</button>
               </li>
             </ul>
           </div>
@@ -121,7 +121,29 @@ export default {
     pushIngredientData() {
       console.log(this.ingredientList)
       this.ingredientList = []
-    }
+    },
+    plusAmount(ingredient) {
+      ingredient.amount ++
+    },
+    minusAmount(ingredient) {
+      ingredient.amount --
+      if (ingredient.amount <= 0) {
+                const arrayRemove = (arr, value) => {
+                    return arr.filter((ele) => {
+                        return ele != value
+                    })
+                }
+                this.ingredients = arrayRemove(this.ingredientList, ingredient)
+            }
+    },
+    deleteIngredient(ingredient) {
+        const arrayRemove = (arr, value) => {
+          return arr.filter((ele) => {
+            return ele != value
+          })
+        }
+        this.ingredientList = arrayRemove(this.ingredientList, ingredient)
+      },
 
 }
 }
