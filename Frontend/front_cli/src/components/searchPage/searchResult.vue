@@ -1,20 +1,24 @@
 <template>
-  <ul
-    ref="notification-list"
-    class="list"
-    @scroll="handleNotificationListScroll"
-  >
-    <div
-    v-for="(number, index) in 50"
-    :key="index"
+    <!-- 검색 결과가 띄워질 컴포넌트 -->
+    <ul
+        ref="notification-list"
+        class="list"
+        @scroll="handleNotificationListScroll"
     >
-        <div class="recommendCard" @click="goToDetailRecipe">
-            <img src="@/assets/123.jpg" alt="">
-            <p>Recipe Name</p>
-            <button class="recipeButton">View More</button>
+        <!-- 키워드와 관련된 레시피들을 추천 -->
+        <!-- 현재는 임시 값으로 이미지와 이름만 사용 -->
+        <div
+        v-for="(number, index) in 50"
+        :key="index"
+        >
+            <!-- 레시피 카드로 표현 -->
+            <div class="recommendCard" @click="goToDetailRecipe">
+                <img src="@/assets/123.jpg" alt="">
+                <p>Recipe Name</p>
+                <button class="recipeButton">View More</button>
+            </div>
         </div>
-    </div>
-  </ul>
+    </ul>
 </template>
 
 <script>
@@ -22,6 +26,8 @@ export default {
     name: 'SearchResult',
 
     methods: {
+        // 상세 레시피로 보내주는 함수
+        // 데이터 연결 후 변경 예정
         goToDetailRecipe() {
             this.$router.push('recipe')
         },
