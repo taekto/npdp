@@ -2,6 +2,7 @@ package com.project.npdp.food.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
+import com.project.npdp.refregirator.entity.Refregirator;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
@@ -42,7 +43,7 @@ public class QIngredient extends EntityPathBase<Ingredient> {
 
     public final ListPath<com.project.npdp.recipe.entity.RecipeIngredient, com.project.npdp.recipe.entity.QRecipeIngredient> recipeIngredientList = this.<com.project.npdp.recipe.entity.RecipeIngredient, com.project.npdp.recipe.entity.QRecipeIngredient>createList("recipeIngredientList", com.project.npdp.recipe.entity.RecipeIngredient.class, com.project.npdp.recipe.entity.QRecipeIngredient.class, PathInits.DIRECT2);
 
-    public final ListPath<com.project.npdp.domain.Refregirator, com.project.npdp.domain.QRefregirator> refregiratorList = this.<com.project.npdp.domain.Refregirator, com.project.npdp.domain.QRefregirator>createList("refregiratorList", com.project.npdp.domain.Refregirator.class, com.project.npdp.domain.QRefregirator.class, PathInits.DIRECT2);
+    public final ListPath<Refregirator, com.project.npdp.domain.QRefregirator> refregiratorList = this.<Refregirator, com.project.npdp.domain.QRefregirator>createList("refregiratorList", Refregirator.class, com.project.npdp.domain.QRefregirator.class, PathInits.DIRECT2);
 
     public final StringPath supperUpperClass = createString("supperUpperClass");
 

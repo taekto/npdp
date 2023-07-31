@@ -1,6 +1,6 @@
 package com.project.npdp.food.entity;
 
-import com.project.npdp.member.entity.MemberSeasoning;
+import com.project.npdp.refregirator.entity.MemberSeasoning;
 import com.project.npdp.recipe.entity.RecipeSeasoning;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
