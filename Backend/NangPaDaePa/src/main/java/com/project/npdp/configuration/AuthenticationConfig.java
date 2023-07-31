@@ -21,7 +21,6 @@ import javax.annotation.PostConstruct;
 @RequiredArgsConstructor
 public class AuthenticationConfig {
 
-    @Autowired
     private final MemberService memberService;
 
     @Bean
