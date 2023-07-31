@@ -39,6 +39,8 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+    // 추가한거
+    implementation 'javax.persistence:javax.persistence-api:2.2'
 
     // queryDSL 설정
     implementation "com.querydsl:querydsl-jpa"
@@ -62,9 +64,9 @@ tasks.withType(JavaCompile) {
 }
 
 // java source set 에 querydsl QClass 위치 추가
-//sourceSets {
-//    main.java.srcDirs += [ generated ]
-//}
+sourceSets {
+    main.java.srcDirs += [ generated ]
+}
 
 // gradle clean 시에 QClass 디렉토리 삭제
 clean {
