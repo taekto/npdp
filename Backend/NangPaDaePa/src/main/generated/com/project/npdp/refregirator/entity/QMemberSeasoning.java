@@ -1,8 +1,7 @@
-package com.project.npdp.member.entity;
+package com.project.npdp.refregirator.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.project.npdp.refregirator.entity.MemberSeasoning;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
@@ -17,7 +16,7 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QMemberSeasoning extends EntityPathBase<MemberSeasoning> {
 
-    private static final long serialVersionUID = -1033856080L;
+    private static final long serialVersionUID = 1456117162L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
@@ -25,7 +24,7 @@ public class QMemberSeasoning extends EntityPathBase<MemberSeasoning> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final QMember member;
+    public final com.project.npdp.member.entity.QMember member;
 
     public final com.project.npdp.food.entity.QSeasoning seasoning;
 
@@ -49,7 +48,7 @@ public class QMemberSeasoning extends EntityPathBase<MemberSeasoning> {
 
     public QMemberSeasoning(Class<? extends MemberSeasoning> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.member = inits.isInitialized("member") ? new QMember(forProperty("member")) : null;
+        this.member = inits.isInitialized("member") ? new com.project.npdp.member.entity.QMember(forProperty("member")) : null;
         this.seasoning = inits.isInitialized("seasoning") ? new com.project.npdp.food.entity.QSeasoning(forProperty("seasoning")) : null;
     }
 
