@@ -2,8 +2,6 @@ package com.project.npdp.domain;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.project.npdp.member.entity.MemberUtensil;
-import com.project.npdp.recipe.entity.RecipeUtensil;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
@@ -24,11 +22,11 @@ public class QUtensil extends EntityPathBase<Utensil> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final ListPath<MemberUtensil, QMemberUtensil> memberUtensilList = this.<MemberUtensil, QMemberUtensil>createList("memberUtensilList", MemberUtensil.class, QMemberUtensil.class, PathInits.DIRECT2);
+    public final ListPath<com.project.npdp.member.entity.MemberUtensil, com.project.npdp.member.entity.QMemberUtensil> memberUtensilList = this.<com.project.npdp.member.entity.MemberUtensil, com.project.npdp.member.entity.QMemberUtensil>createList("memberUtensilList", com.project.npdp.member.entity.MemberUtensil.class, com.project.npdp.member.entity.QMemberUtensil.class, PathInits.DIRECT2);
 
     public final StringPath name = createString("name");
 
-    public final ListPath<RecipeUtensil, QRecipeUtensil> recipeUtensilList = this.<RecipeUtensil, QRecipeUtensil>createList("recipeUtensilList", RecipeUtensil.class, QRecipeUtensil.class, PathInits.DIRECT2);
+    public final ListPath<com.project.npdp.recipe.entity.RecipeUtensil, com.project.npdp.recipe.entity.QRecipeUtensil> recipeUtensilList = this.<com.project.npdp.recipe.entity.RecipeUtensil, com.project.npdp.recipe.entity.QRecipeUtensil>createList("recipeUtensilList", com.project.npdp.recipe.entity.RecipeUtensil.class, com.project.npdp.recipe.entity.QRecipeUtensil.class, PathInits.DIRECT2);
 
     public final NumberPath<Long> way = createNumber("way", Long.class);
 

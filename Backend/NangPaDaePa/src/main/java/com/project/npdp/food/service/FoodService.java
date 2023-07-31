@@ -2,7 +2,7 @@ package com.project.npdp.food.service;
 
 import com.project.npdp.food.dto.response.IngredientResponseDto;
 import com.project.npdp.food.dto.response.SeasoningResponseDto;
-import com.project.npdp.food.entity.Ingredient;
+import com.project.npdp.domain.Ingredient;
 import com.project.npdp.food.entity.Seasoning;
 import com.project.npdp.food.repository.IngredientRepository;
 import com.project.npdp.food.repository.SeasoningRepository;
@@ -26,7 +26,7 @@ public class FoodService {
         List<Ingredient> all = ingredientRepository.findAll();
         List<IngredientResponseDto> result = all.stream().map(r->IngredientResponseDto.builder()
                 .id(r.getId())
-                .name(r.getName())
+                .name(r.getTitle())
                 .build())
                 .collect(Collectors.toList());
         return result;

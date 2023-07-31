@@ -1,8 +1,7 @@
-package com.project.npdp.domain;
+package com.project.npdp.member.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.project.npdp.member.entity.MemberAllergy;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
@@ -17,13 +16,13 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QMemberAllergy extends EntityPathBase<MemberAllergy> {
 
-    private static final long serialVersionUID = -180798438L;
+    private static final long serialVersionUID = -2103439023L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
     public static final QMemberAllergy memberAllergy = new QMemberAllergy("memberAllergy");
 
-    public final QAllergy allergy;
+    public final com.project.npdp.domain.QAllergy allergy;
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
@@ -47,7 +46,7 @@ public class QMemberAllergy extends EntityPathBase<MemberAllergy> {
 
     public QMemberAllergy(Class<? extends MemberAllergy> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.allergy = inits.isInitialized("allergy") ? new QAllergy(forProperty("allergy")) : null;
+        this.allergy = inits.isInitialized("allergy") ? new com.project.npdp.domain.QAllergy(forProperty("allergy")) : null;
         this.member = inits.isInitialized("member") ? new QMember(forProperty("member")) : null;
     }
 

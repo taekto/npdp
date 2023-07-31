@@ -30,7 +30,7 @@ public class QRefregirator extends EntityPathBase<Refregirator> {
 
     public final QIngredient ingredient;
 
-    public final QMember member;
+    public final com.project.npdp.member.entity.QMember member;
 
     public final DateTimePath<java.time.LocalDateTime> startDate = createDateTime("startDate", java.time.LocalDateTime.class);
 
@@ -57,7 +57,7 @@ public class QRefregirator extends EntityPathBase<Refregirator> {
     public QRefregirator(Class<? extends Refregirator> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.ingredient = inits.isInitialized("ingredient") ? new QIngredient(forProperty("ingredient")) : null;
-        this.member = inits.isInitialized("member") ? new QMember(forProperty("member")) : null;
+        this.member = inits.isInitialized("member") ? new com.project.npdp.member.entity.QMember(forProperty("member")) : null;
     }
 
 }

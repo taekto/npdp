@@ -1,8 +1,7 @@
-package com.project.npdp.domain;
+package com.project.npdp.recipe.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.project.npdp.recipe.entity.RecipeIngredient;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
@@ -17,7 +16,7 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QRecipeIngredient extends EntityPathBase<RecipeIngredient> {
 
-    private static final long serialVersionUID = 738411755L;
+    private static final long serialVersionUID = -937918648L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
@@ -29,7 +28,7 @@ public class QRecipeIngredient extends EntityPathBase<RecipeIngredient> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final QIngredient ingredient;
+    public final com.project.npdp.domain.QIngredient ingredient;
 
     public final QRecipe recipe;
 
@@ -55,7 +54,7 @@ public class QRecipeIngredient extends EntityPathBase<RecipeIngredient> {
 
     public QRecipeIngredient(Class<? extends RecipeIngredient> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.ingredient = inits.isInitialized("ingredient") ? new QIngredient(forProperty("ingredient")) : null;
+        this.ingredient = inits.isInitialized("ingredient") ? new com.project.npdp.domain.QIngredient(forProperty("ingredient")) : null;
         this.recipe = inits.isInitialized("recipe") ? new QRecipe(forProperty("recipe")) : null;
     }
 

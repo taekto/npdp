@@ -1,8 +1,7 @@
-package com.project.npdp.domain;
+package com.project.npdp.member.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.project.npdp.member.entity.MemberRecipeLatest;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
@@ -17,7 +16,7 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QMemberRecipeLatest extends EntityPathBase<MemberRecipeLatest> {
 
-    private static final long serialVersionUID = -1614387621L;
+    private static final long serialVersionUID = 1480014724L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
@@ -29,7 +28,7 @@ public class QMemberRecipeLatest extends EntityPathBase<MemberRecipeLatest> {
 
     public final QMember member;
 
-    public final QRecipe recipe;
+    public final com.project.npdp.recipe.entity.QRecipe recipe;
 
     public QMemberRecipeLatest(String variable) {
         this(MemberRecipeLatest.class, forVariable(variable), INITS);
@@ -50,7 +49,7 @@ public class QMemberRecipeLatest extends EntityPathBase<MemberRecipeLatest> {
     public QMemberRecipeLatest(Class<? extends MemberRecipeLatest> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.member = inits.isInitialized("member") ? new QMember(forProperty("member")) : null;
-        this.recipe = inits.isInitialized("recipe") ? new QRecipe(forProperty("recipe")) : null;
+        this.recipe = inits.isInitialized("recipe") ? new com.project.npdp.recipe.entity.QRecipe(forProperty("recipe")) : null;
     }
 
 }
