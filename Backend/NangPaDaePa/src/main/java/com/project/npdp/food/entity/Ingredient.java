@@ -1,7 +1,7 @@
 package com.project.npdp.food.entity;
 
 import com.project.npdp.domain.AllergyIngredient;
-import com.project.npdp.domain.Refregirator;
+import com.project.npdp.refregirator.entity.Refregirator;
 import com.project.npdp.member.entity.MemberDislikeIngredient;
 import com.project.npdp.recipe.entity.RecipeIngredient;
 import lombok.AccessLevel;

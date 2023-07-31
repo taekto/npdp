@@ -2,6 +2,7 @@ package com.project.npdp.member.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
+import com.project.npdp.refregirator.entity.MemberSeasoning;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
