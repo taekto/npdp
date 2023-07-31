@@ -5,13 +5,13 @@ import lombok.RequiredArgsConstructor;
 
 import javax.persistence.EntityManager;
 
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 public class MemberRepositoryImpl implements MemberRepositoryCustom{
 
-    private JPAQueryFactory queryFactory;
+    private final JPAQueryFactory queryFactory;
 
-    public MemberRepositoryImpl(EntityManager em) {
-        this.queryFactory = new JPAQueryFactory(em);
-    }
+//    public MemberRepositoryImpl(EntityManager em) {
+//        this.queryFactory = new JPAQueryFactory(em);
+//    }
 
 }
