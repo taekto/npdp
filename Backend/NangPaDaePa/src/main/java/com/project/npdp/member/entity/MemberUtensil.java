@@ -1,6 +1,6 @@
-package com.project.npdp.utensil.entity;
+package com.project.npdp.member.entity;
 
-import com.project.npdp.member.entity.Member;
+import com.project.npdp.domain.Utensil;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Getter
 public class MemberUtensil {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_utensil_id")
     private Long id;
 

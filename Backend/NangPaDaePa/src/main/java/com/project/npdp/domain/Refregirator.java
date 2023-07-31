@@ -1,4 +1,4 @@
-package com.project.npdp.refrigerator.entity;
+package com.project.npdp.domain;
 
 import com.project.npdp.food.entity.Ingredient;
 import com.project.npdp.member.entity.Member;
@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class Refregirator {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "refregirator_id")
     private Long id;
 
@@ -28,6 +28,8 @@ public class Refregirator {
     private String unit;
 
     private LocalDateTime startDate;
+
+    private LocalDateTime expiredDate;
 
     // member(회원) 연관관계
     @ManyToOne(fetch = FetchType.LAZY)

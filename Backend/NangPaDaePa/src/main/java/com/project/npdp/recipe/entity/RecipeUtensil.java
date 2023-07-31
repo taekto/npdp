@@ -1,6 +1,6 @@
-package com.project.npdp.utensil.entity;
+package com.project.npdp.recipe.entity;
 
-import com.project.npdp.recipe.entity.Recipe;
+import com.project.npdp.domain.Utensil;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class RecipeUtensil {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "recipe_utensil_id")
     private Long id;
 
@@ -28,4 +28,5 @@ public class RecipeUtensil {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "utensil_id")
     private Utensil utensil;
+
 }

@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class RecipeSequence {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "recipe_sequence_id")
     private Long id;
 
@@ -28,4 +28,5 @@ public class RecipeSequence {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
+
 }
