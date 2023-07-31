@@ -1,6 +1,5 @@
 package com.project.npdp.domain;
 
-import com.project.npdp.food.entity.Ingredient;
 import com.project.npdp.member.entity.Member;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

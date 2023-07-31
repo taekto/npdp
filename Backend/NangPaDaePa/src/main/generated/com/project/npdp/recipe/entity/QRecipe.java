@@ -1,10 +1,7 @@
-package com.project.npdp.domain;
+package com.project.npdp.recipe.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.project.npdp.member.entity.MemberRecipeLatest;
-import com.project.npdp.member.entity.MemberRecipeLike;
-import com.project.npdp.recipe.entity.*;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
@@ -19,11 +16,11 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QRecipe extends EntityPathBase<Recipe> {
 
-    private static final long serialVersionUID = 1203668858L;
+    private static final long serialVersionUID = 1080730135L;
 
     public static final QRecipe recipe = new QRecipe("recipe");
 
-    public final ListPath<Calendar, QCalendar> calendarList = this.<Calendar, QCalendar>createList("calendarList", Calendar.class, QCalendar.class, PathInits.DIRECT2);
+    public final ListPath<com.project.npdp.domain.Calendar, com.project.npdp.domain.QCalendar> calendarList = this.<com.project.npdp.domain.Calendar, com.project.npdp.domain.QCalendar>createList("calendarList", com.project.npdp.domain.Calendar.class, com.project.npdp.domain.QCalendar.class, PathInits.DIRECT2);
 
     public final NumberPath<Double> calorie = createNumber("calorie", Double.class);
 
@@ -41,9 +38,9 @@ public class QRecipe extends EntityPathBase<Recipe> {
 
     public final StringPath imgSmall = createString("imgSmall");
 
-    public final ListPath<MemberRecipeLatest, QMemberRecipeLatest> memberRecipeLatestList = this.<MemberRecipeLatest, QMemberRecipeLatest>createList("memberRecipeLatestList", MemberRecipeLatest.class, QMemberRecipeLatest.class, PathInits.DIRECT2);
+    public final ListPath<com.project.npdp.member.entity.MemberRecipeLatest, com.project.npdp.member.entity.QMemberRecipeLatest> memberRecipeLatestList = this.<com.project.npdp.member.entity.MemberRecipeLatest, com.project.npdp.member.entity.QMemberRecipeLatest>createList("memberRecipeLatestList", com.project.npdp.member.entity.MemberRecipeLatest.class, com.project.npdp.member.entity.QMemberRecipeLatest.class, PathInits.DIRECT2);
 
-    public final ListPath<MemberRecipeLike, QMemberRecipeLike> memberRecipeLikeList = this.<MemberRecipeLike, QMemberRecipeLike>createList("memberRecipeLikeList", MemberRecipeLike.class, QMemberRecipeLike.class, PathInits.DIRECT2);
+    public final ListPath<com.project.npdp.member.entity.MemberRecipeLike, com.project.npdp.member.entity.QMemberRecipeLike> memberRecipeLikeList = this.<com.project.npdp.member.entity.MemberRecipeLike, com.project.npdp.member.entity.QMemberRecipeLike>createList("memberRecipeLikeList", com.project.npdp.member.entity.MemberRecipeLike.class, com.project.npdp.member.entity.QMemberRecipeLike.class, PathInits.DIRECT2);
 
     public final StringPath name = createString("name");
 

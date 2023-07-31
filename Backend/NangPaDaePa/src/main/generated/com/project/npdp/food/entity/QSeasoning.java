@@ -1,11 +1,7 @@
-package com.project.npdp.domain;
+package com.project.npdp.food.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.project.npdp.food.entity.Seasoning;
-import com.project.npdp.food.entity.SeasoningSynonym;
-import com.project.npdp.member.entity.MemberSeasoning;
-import com.project.npdp.recipe.entity.RecipeSeasoning;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
@@ -20,7 +16,7 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QSeasoning extends EntityPathBase<Seasoning> {
 
-    private static final long serialVersionUID = 815240371L;
+    private static final long serialVersionUID = 1361947814L;
 
     public static final QSeasoning seasoning = new QSeasoning("seasoning");
 
@@ -36,11 +32,11 @@ public class QSeasoning extends EntityPathBase<Seasoning> {
 
     public final NumberPath<Long> level = createNumber("level", Long.class);
 
-    public final ListPath<MemberSeasoning, QMemberSeasoning> memberSeasoningList = this.<MemberSeasoning, QMemberSeasoning>createList("memberSeasoningList", MemberSeasoning.class, QMemberSeasoning.class, PathInits.DIRECT2);
+    public final ListPath<com.project.npdp.member.entity.MemberSeasoning, com.project.npdp.member.entity.QMemberSeasoning> memberSeasoningList = this.<com.project.npdp.member.entity.MemberSeasoning, com.project.npdp.member.entity.QMemberSeasoning>createList("memberSeasoningList", com.project.npdp.member.entity.MemberSeasoning.class, com.project.npdp.member.entity.QMemberSeasoning.class, PathInits.DIRECT2);
 
     public final StringPath name = createString("name");
 
-    public final ListPath<RecipeSeasoning, QRecipeSeasoning> recipeIngredientList = this.<RecipeSeasoning, QRecipeSeasoning>createList("recipeIngredientList", RecipeSeasoning.class, QRecipeSeasoning.class, PathInits.DIRECT2);
+    public final ListPath<com.project.npdp.recipe.entity.RecipeSeasoning, com.project.npdp.recipe.entity.QRecipeSeasoning> recipeIngredientList = this.<com.project.npdp.recipe.entity.RecipeSeasoning, com.project.npdp.recipe.entity.QRecipeSeasoning>createList("recipeIngredientList", com.project.npdp.recipe.entity.RecipeSeasoning.class, com.project.npdp.recipe.entity.QRecipeSeasoning.class, PathInits.DIRECT2);
 
     public final ListPath<SeasoningSynonym, QSeasoningSynonym> seasoningSynonymList = this.<SeasoningSynonym, QSeasoningSynonym>createList("seasoningSynonymList", SeasoningSynonym.class, QSeasoningSynonym.class, PathInits.DIRECT2);
 

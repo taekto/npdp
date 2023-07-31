@@ -1,8 +1,7 @@
-package com.project.npdp.domain;
+package com.project.npdp.food.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.project.npdp.food.entity.IngredientSynonym;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
@@ -17,7 +16,7 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QIngredientSynonym extends EntityPathBase<IngredientSynonym> {
 
-    private static final long serialVersionUID = -855144578L;
+    private static final long serialVersionUID = -628360079L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
@@ -27,7 +26,7 @@ public class QIngredientSynonym extends EntityPathBase<IngredientSynonym> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final QIngredient ingredient;
+    public final com.project.npdp.domain.QIngredient ingredient;
 
     public final StringPath word = createString("word");
 
@@ -49,7 +48,7 @@ public class QIngredientSynonym extends EntityPathBase<IngredientSynonym> {
 
     public QIngredientSynonym(Class<? extends IngredientSynonym> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.ingredient = inits.isInitialized("ingredient") ? new QIngredient(forProperty("ingredient")) : null;
+        this.ingredient = inits.isInitialized("ingredient") ? new com.project.npdp.domain.QIngredient(forProperty("ingredient")) : null;
     }
 
 }

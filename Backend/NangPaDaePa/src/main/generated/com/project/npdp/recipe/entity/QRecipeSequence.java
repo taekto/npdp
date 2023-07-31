@@ -1,8 +1,7 @@
-package com.project.npdp.domain;
+package com.project.npdp.recipe.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.project.npdp.recipe.entity.RecipeSequence;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
@@ -17,7 +16,7 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QRecipeSequence extends EntityPathBase<RecipeSequence> {
 
-    private static final long serialVersionUID = -1120974501L;
+    private static final long serialVersionUID = 723089144L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 

@@ -1,8 +1,7 @@
-package com.project.npdp.domain;
+package com.project.npdp.recipe.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.project.npdp.recipe.entity.RecipeUtensil;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
@@ -17,7 +16,7 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QRecipeUtensil extends EntityPathBase<RecipeUtensil> {
 
-    private static final long serialVersionUID = -1029581964L;
+    private static final long serialVersionUID = -2078474697L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
@@ -27,7 +26,7 @@ public class QRecipeUtensil extends EntityPathBase<RecipeUtensil> {
 
     public final QRecipe recipe;
 
-    public final QUtensil utensil;
+    public final com.project.npdp.domain.QUtensil utensil;
 
     public QRecipeUtensil(String variable) {
         this(RecipeUtensil.class, forVariable(variable), INITS);
@@ -48,7 +47,7 @@ public class QRecipeUtensil extends EntityPathBase<RecipeUtensil> {
     public QRecipeUtensil(Class<? extends RecipeUtensil> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.recipe = inits.isInitialized("recipe") ? new QRecipe(forProperty("recipe")) : null;
-        this.utensil = inits.isInitialized("utensil") ? new QUtensil(forProperty("utensil")) : null;
+        this.utensil = inits.isInitialized("utensil") ? new com.project.npdp.domain.QUtensil(forProperty("utensil")) : null;
     }
 
 }

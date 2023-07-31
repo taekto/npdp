@@ -1,7 +1,8 @@
-package com.project.npdp.food.entity;
+package com.project.npdp.domain;
 
 import com.project.npdp.domain.AllergyIngredient;
 import com.project.npdp.domain.Refregirator;
+import com.project.npdp.food.entity.IngredientSynonym;
 import com.project.npdp.member.entity.MemberDislikeIngredient;
 import com.project.npdp.recipe.entity.RecipeIngredient;
 import lombok.AccessLevel;
@@ -24,7 +25,7 @@ public class Ingredient {
     @Column(name = "ingredient_id")
     private Long id;
 
-    private String name;
+    private String title;
 
     private String kor;
 

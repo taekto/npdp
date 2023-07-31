@@ -26,9 +26,9 @@ public class QCalendar extends EntityPathBase<Calendar> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final QMember member;
+    public final com.project.npdp.member.entity.QMember member;
 
-    public final QRecipe recipe;
+    public final com.project.npdp.recipe.entity.QRecipe recipe;
 
     public final NumberPath<Long> seq = createNumber("seq", Long.class);
 
@@ -50,8 +50,8 @@ public class QCalendar extends EntityPathBase<Calendar> {
 
     public QCalendar(Class<? extends Calendar> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.member = inits.isInitialized("member") ? new QMember(forProperty("member")) : null;
-        this.recipe = inits.isInitialized("recipe") ? new QRecipe(forProperty("recipe")) : null;
+        this.member = inits.isInitialized("member") ? new com.project.npdp.member.entity.QMember(forProperty("member")) : null;
+        this.recipe = inits.isInitialized("recipe") ? new com.project.npdp.recipe.entity.QRecipe(forProperty("recipe")) : null;
     }
 
 }

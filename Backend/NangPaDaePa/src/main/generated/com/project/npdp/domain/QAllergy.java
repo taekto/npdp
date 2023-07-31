@@ -2,7 +2,6 @@ package com.project.npdp.domain;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.project.npdp.member.entity.MemberAllergy;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
@@ -25,7 +24,7 @@ public class QAllergy extends EntityPathBase<Allergy> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final ListPath<MemberAllergy, QMemberAllergy> memberAllergyList = this.<MemberAllergy, QMemberAllergy>createList("memberAllergyList", MemberAllergy.class, QMemberAllergy.class, PathInits.DIRECT2);
+    public final ListPath<com.project.npdp.member.entity.MemberAllergy, com.project.npdp.member.entity.QMemberAllergy> memberAllergyList = this.<com.project.npdp.member.entity.MemberAllergy, com.project.npdp.member.entity.QMemberAllergy>createList("memberAllergyList", com.project.npdp.member.entity.MemberAllergy.class, com.project.npdp.member.entity.QMemberAllergy.class, PathInits.DIRECT2);
 
     public final StringPath name = createString("name");
 
