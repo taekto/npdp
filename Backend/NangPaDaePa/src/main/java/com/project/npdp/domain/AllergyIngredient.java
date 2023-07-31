@@ -1,6 +1,6 @@
-package com.project.npdp.recipe.entity;
+package com.project.npdp.domain;
 
-import com.project.npdp.food.entity.Seasoning;
+import com.project.npdp.food.entity.Ingredient;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,20 +12,20 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Entity
 @Getter
-public class RecipeSeasoning {
+public class AllergyIngredient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "recipe_seasoning_id")
+    @Column(name = "allergy_ingredient_id")
     private Long id;
 
-    // recipe(레시피) 연관관계
+    // allergy(알러지) 연관관계
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "recipe_id")
-    private Recipe recipe;
+    @JoinColumn(name = "allergy_id")
+    private Allergy allergy;
 
-    // seasoning(양념) 연관관계
+    // ingredient(재료) 연관관계
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "seasoning_id")
-    private Seasoning seasoning;
+    @JoinColumn(name = "ingredient_id")
+    private Ingredient ingredient;
 }

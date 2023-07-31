@@ -1,20 +1,7 @@
 package com.project.npdp.member.service;
 
-import com.project.npdp.member.entity.Member;
-import com.project.npdp.member.repository.MemberRepository;
-import com.project.npdp.utils.JwtUtil;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import net.bytebuddy.implementation.bind.MethodDelegationBinder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-
-import java.util.List;
 
 @Service
 //@Transactional

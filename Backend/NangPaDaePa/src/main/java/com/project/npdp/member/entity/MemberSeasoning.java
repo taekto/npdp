@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class MemberSeasoning {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_seasoning_id")
     private Long id;
 
@@ -29,6 +29,6 @@ public class MemberSeasoning {
     @JoinColumn(name = "seasoning_id")
     private Seasoning seasoning;
 
-    private int storage;
+    private Long storage;
 
 }

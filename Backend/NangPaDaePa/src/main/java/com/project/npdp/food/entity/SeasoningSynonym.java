@@ -1,4 +1,4 @@
-package com.project.npdp.recipe.entity;
+package com.project.npdp.food.entity;
 
 import com.project.npdp.food.entity.Seasoning;
 import lombok.AccessLevel;
@@ -12,17 +12,16 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Entity
 @Getter
-public class RecipeSeasoning {
+public class SeasoningSynonym {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "recipe_seasoning_id")
+    @Column(name = "seasoning_synonym_id")
     private Long id;
 
-    // recipe(레시피) 연관관계
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "recipe_id")
-    private Recipe recipe;
+    private String word;
+
+    private String code;
 
     // seasoning(양념) 연관관계
     @ManyToOne(fetch = FetchType.LAZY)

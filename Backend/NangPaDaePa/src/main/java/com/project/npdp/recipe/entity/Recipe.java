@@ -1,9 +1,8 @@
 package com.project.npdp.recipe.entity;
 
-import com.project.npdp.member.entity.Calendar;
+import com.project.npdp.domain.Calendar;
 import com.project.npdp.member.entity.MemberRecipeLatest;
 import com.project.npdp.member.entity.MemberRecipeLike;
-import com.project.npdp.utensil.entity.RecipeUtensil;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,7 +19,7 @@ import java.util.List;
 public class Recipe {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "recipe_id")
     private Long id;
 
@@ -48,7 +47,7 @@ public class Recipe {
 
     private String category;
 
-    private Long likes;
+    private Long dish;
 
     // calendar(캘린더) 연관관계
     @OneToMany(mappedBy = "recipe")
