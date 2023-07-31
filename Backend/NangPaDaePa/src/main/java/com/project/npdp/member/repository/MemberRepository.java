@@ -8,13 +8,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-public interface MemberRepository extends JpaRepository {
-
-    // 회원 가입
-    void save(Member member);
-
-    // 회원 조회
-    void findOne(Long id);
+public interface MemberRepository extends JpaRepository<Member, Long> {
 
     // 이메일로 회원 조희
     List<Member> findByEmail(String email);
