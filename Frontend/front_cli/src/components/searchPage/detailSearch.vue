@@ -1,5 +1,7 @@
 <template>
+    <!-- 라디오 버튼을 통해 검색 결과를 필터링하는 컴포넌트 -->
     <div>
+        <!-- 분류(키워드가 레시피명/주재료/보조재료/양념 중 무엇을 검색한 것인지 분류하는 컴포넌트) -->
         <div class="accordion" id="accordionPanelsStayOpenExample">
             <div class="accordion-item">
                 <h2 class="accordion-header">
@@ -27,6 +29,8 @@
                     </div>
                 </div>
             </div>
+
+            <!-- 검색하고자 하는 레시피가 밥/국/반찬 등 카테고리 가운데 어디에 속하는지 파악하는 컴포넌트 -->
             <div class="accordion-item">
                 <h2 class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
@@ -70,9 +74,12 @@ export default {
         }
     },
     methods: {
+        // 분류를 바꿔주는 함수
         changeClassification() {
             setTimeout(() => {console.log(this.selectClassification)}, 250)
         },
+
+        // 카테고리를 바꿔주는 함수
         changeCategory() {
             setTimeout(() => {console.log(this.selectCategory)}, 250)
         }
@@ -81,30 +88,17 @@ export default {
 </script>
 
 <style scoped>
-.classification {
-    display: flex;
-    margin: auto;
-    justify-content: center;
+
+/* 상세 검색 */
+.detailSearch {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .accordion-item {
     width: 60%;
     margin: auto;
 }
-
-.radioButton {
-    border: solid #FD7E14;
-    border-radius: .5rem;
-    padding: .5rem;
-    margin: .5rem;
-    width: 6rem;
-}
-
-[type="radio"] {
-    appearance: none;
-}
-
-
 
 .checkedRadio {
     appearance: none;

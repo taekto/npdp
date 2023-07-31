@@ -8,19 +8,19 @@
           </div>
           <div class="modal-body">
             <ul class="ListShow">
-              <li class="ingredientList row" v-for="(ingredient, index) in ingredientList" :key="index">
-                <p class="col-1">{{ingredient.name}}</p>
+              <li class="ingredientList row" v-for="(seasoning, index) in seasoningList" :key="index">
+                <p class="col-1">{{seasoning.name}}</p>
                 <div class="amount col-2 row">
                   <button class="amountButton col-3">+</button>
-                  <p class="col-6">{{ingredient.amount}}{{ingredient.unit}}</p>
+                  <p class="col-6">{{seasoning.amount}}{{seasoning.unit}}</p>
                   <button class="amountButton col-3">-</button>
                 </div>
-                <p class="col-3">보관시작일 : {{ingredient.startDate}}</p>
+                <p class="col-3">보관시작일 : {{seasoning.startDate}}</p>
                 <p class="col-3">
-                  유통기한 : {{ingredient.endDate}}
+                  유통기한 : {{seasoning.endDate}}
                 </p>
-                <p class="col-2">보관방식 : {{ingredient.storage}}</p>
-                <button class="col-1">제거</button>
+                <p class="col-2">보관방식 : {{seasoning.storage}}</p>
+                <button class="col-1" @click="deleteSeasoning(seasoning)">제거</button>
               </li>
             </ul>
           </div>
@@ -32,7 +32,7 @@
             <button class="modalButton" @click="pushSoundInput">추가하기</button>
           </div>
           <div class="modal-footer">
-            <button class="soundButton" @click="pushIngredientData">저장하기</button>
+            <button class="soundButton" @click="pushSeasoningData">저장하기</button>
           </div>
         </div>
       </div>
@@ -44,12 +44,11 @@ export default {
     name: 'SeasoningSound',
     data() {
       return {
-        ingredientList : [{name : "감자", amount: 2, unit: "개",  startDate : '2023-07-27', endDate: '', storage: '냉장'}, 
-        {name : "김치", amount: 2, unit: "포기",  startDate : '2023-07-27', endDate: '', storage: '냉장'},
-        {name : "계란", amount: 2, unit: "개",  startDate : '2023-07-27', endDate: '', storage: '냉장'},
-        {name : "돼지고기", amount: 600, unit: "g",  startDate : '2023-07-27', endDate: '', storage: '냉장'},
-        {name : "소고기", amount: 1200, unit: "g",  startDate : '2023-07-27', endDate: '', storage: '냉장'},],
-        soundInput: ''
+        seasoningList : [{name : "고춧가루", startDate : '2023-07-27', endDate: '', storage: '냉장'}, 
+        {name : "간장",  startDate : '2023-07-27', endDate: '', storage: '냉장'},
+        {name : "고추장",  startDate : '2023-07-27', endDate: '', storage: '냉장'},
+        {name : "된장",  startDate : '2023-07-27', endDate: '', storage: '냉장'},],
+        soundInput : '',
       }
     },
     methods: {
@@ -57,10 +56,18 @@ export default {
         console.log(this.soundInput)
         this.soundInput = ''
       },
-      pushIngredientData() {
-        console.log(this.ingredientList)
-        this.ingredientList = []
-      }
+      pushSeasoningData() {
+        console.log(this.SeasoningList)
+        this.SeasoningList = []
+      },
+      deleteSeasoning(seasoning) {
+            const arrayRemove = (arr, value) => {
+                return arr.filter((ele) => {
+                    return ele != value
+                })
+            }
+            this.seasoningList = arrayRemove(this.seasoningList, seasoning)
+        }
     }
 
 }

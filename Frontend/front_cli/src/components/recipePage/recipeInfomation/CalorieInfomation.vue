@@ -1,5 +1,6 @@
 <template>
-  <div class="tempBox">
+    <!-- 영양소 박스 -->
+    <div>
         <div class="oneLine menu">
             <div class="ingredientName">
                 <p>영양소명</p>
@@ -24,7 +25,7 @@
                 <p>{{calorieInfo.value*serving}}</p>
             </div>
         </div>
-    </div>
+        </div>
 </template>
 
 <script>
@@ -37,27 +38,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-.menu {
-  font-size: 17.5px;
-  font-weight: bold;
-  margin-bottom: 1rem;
-}
-
-.oneLine {
-  display: flex;
-  justify-content: space-around;
-  justify-items: center;
-  height: 1.5rem;
-}
-.ingredientName {
-  justify-content: center;
-  width: 50%;
-}
-.ingredientAmount {
-  display: flex;
-  justify-content: center;
-  width: 50%;
-}
-</style>
