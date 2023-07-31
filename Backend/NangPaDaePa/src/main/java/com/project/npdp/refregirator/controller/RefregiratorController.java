@@ -2,12 +2,11 @@ package com.project.npdp.refregirator.controller;
 
 import com.project.npdp.recipe.dto.response.RecipeResponseDto;
 import com.project.npdp.recipe.service.RecipeService;
+import com.project.npdp.refregirator.entity.Refregirator;
+import com.project.npdp.refregirator.service.RefregiratorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,18 +15,15 @@ import java.util.List;
 @RequestMapping("/api/refregirator")
 public class RefregiratorController {
 
-    private final RecipeService recipeService;
+    private final RefregiratorService refregiratorService;
 
-    // id로 Recipe 조회
-    public ResponseEntity<?> findRecipeById(@PathVariable("recipeId") Long id) {
-        RecipeResponseDto recipeById = recipeService.findRecipeById(id);
-        return ResponseEntity.ok().body(ResponseEntity.ok().body(recipeById));
+    // 재료삭제
+    @DeleteMapping("/modify/ingredient/{memberId}")
+    public ResponseEntity<?> findRecipeById(@PathVariable("memberId") Long memberId) {
+        refregiratorService.deleteRecipeById(memberId);
+        return ResponseEntity.ok().body(ResponseEntity.ok());
     }
 
-    // Recipe 전체 조회
-    public ResponseEntity<?> findAllRecipe() {
-        List<RecipeResponseDto> allRecipe = recipeService.findAllRecipe();
-        return ResponseEntity.ok().body(ResponseEntity.ok().body(allRecipe));
-    }
+    // 양념삭제
 
 }

@@ -24,7 +24,7 @@ public class RecipeService {
         List<Recipe> allRecipes = recipeRepository.findAll();
         List<RecipeResponseDto> result = allRecipes.stream()
                 .map(recipe -> RecipeResponseDto.builder()
-                        .id(recipe.getId())
+                        .recipeId(recipe.getId())
                         .name(recipe.getName())
                         .imgBig(recipe.getImgBig())
                         .imgSmall(recipe.getImgSmall())
@@ -41,7 +41,7 @@ public class RecipeService {
                 .orElseThrow(() -> new IllegalArgumentException("레시피Id 조회불가"));
 
         RecipeResponseDto result = RecipeResponseDto.builder()
-                .id(recipe.getId())
+                .recipeId(recipe.getId())
                 .name(recipe.getName())
                 .imgBig(recipe.getImgBig())
                 .imgSmall(recipe.getImgSmall())

@@ -2,6 +2,7 @@ package com.project.npdp.refregirator.service;
 
 import com.project.npdp.recipe.dto.response.RecipeResponseDto;
 import com.project.npdp.recipe.entity.Recipe;
+import com.project.npdp.refregirator.repository.MemberSeasoningRepository;
 import com.project.npdp.refregirator.repository.RefregiratorRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,18 +18,30 @@ import java.util.stream.Collectors;
 public class RefregiratorService {
 
     private final RefregiratorRepository refregiratorRepository;
+    private final MemberSeasoningRepository memberSeasoningRepository;
 
-    // 전체 레시피 조회
-//    @Transactional(readOnly = true)
-//    public List<RecipeResponseDto> findAllRecipe() {
-//
-//        return ;
-//    }
+    // 재료삭제
+    @Transactional
+    public void deleteRecipeById(Long recipeId) {
 
-    // 레시피id로 레시피 조회
-//    @Transactional(readOnly = true)
-//    public RecipeResponseDto findRecipeById(Long recipeId) {
-//
-//        return ;
-//    }
+        refregiratorRepository.deleteById(recipeId);
+    }
+
+    // 양념삭제
+    @Transactional
+    public void deleteMemberSeasoningById(Long memberSeasoningId) {
+        memberSeasoningRepository.deleteById(memberSeasoningId);
+    }
+
+    // 재료 텍스트 입력
+
+    // 양념 텍스트 입력
+
+    // 재료 음성 입력
+
+    // 양념 음성 입력
+
+    // 회원 재료 조회
+
+    // 회원 양념 조회
 }
