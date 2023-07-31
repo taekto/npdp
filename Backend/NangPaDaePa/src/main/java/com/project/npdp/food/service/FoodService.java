@@ -26,7 +26,7 @@ public class FoodService {
         List<Ingredient> all = ingredientRepository.findAll();
         List<IngredientResponseDto> result = all.stream().map(r->IngredientResponseDto.builder()
                 .id(r.getId())
-                .name(r.getName())
+                .name(r.getTitle())
                 .build())
                 .collect(Collectors.toList());
         return result;

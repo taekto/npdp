@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 public class RecipeResponseDto {
 
-    private Long id;
+    private Long recipeId;
 
     private String name;
 
