@@ -1,4 +1,4 @@
-package com.project.npdp.domain;
+package com.project.npdp.member.entity;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class MemberAllergy {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_allergy_id")
     private Long id;
 

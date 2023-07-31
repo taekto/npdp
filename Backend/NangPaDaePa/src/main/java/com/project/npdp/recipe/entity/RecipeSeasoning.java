@@ -1,5 +1,6 @@
-package com.project.npdp.domain;
+package com.project.npdp.recipe.entity;
 
+import com.project.npdp.food.entity.Seasoning;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,28 +12,20 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Entity
 @Getter
-public class RecipeIngredient {
+public class RecipeSeasoning {
 
     @Id
-    @GeneratedValue
-    @Column(name = "recipe_ingredient_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "recipe_seasoning_id")
     private Long id;
-
-    private Long type;
-
-    private Long amount;
-
-    private String unit;
-
-    private String etc;
 
     // recipe(레시피) 연관관계
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
 
-    // recipe(레시피) 연관관계
+    // seasoning(양념) 연관관계
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ingredient_id")
-    private Ingredient ingredient;
+    @JoinColumn(name = "seasoning_id")
+    private Seasoning seasoning;
 }

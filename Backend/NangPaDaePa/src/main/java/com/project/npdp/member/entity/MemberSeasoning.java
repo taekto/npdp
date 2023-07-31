@@ -1,5 +1,6 @@
-package com.project.npdp.domain;
+package com.project.npdp.member.entity;
 
+import com.project.npdp.food.entity.Seasoning;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import javax.persistence.*;
 public class MemberSeasoning {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_seasoning_id")
     private Long id;
 

@@ -1,5 +1,7 @@
-package com.project.npdp.domain;
+package com.project.npdp.member.entity;
 
+import com.project.npdp.domain.Calendar;
+import com.project.npdp.domain.Refregirator;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,7 +14,8 @@ import java.util.List;
 @Getter
 public class Member {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
 

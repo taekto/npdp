@@ -1,5 +1,6 @@
-package com.project.npdp.domain;
+package com.project.npdp.food.entity;
 
+import com.project.npdp.food.entity.Seasoning;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import javax.persistence.*;
 public class SeasoningSynonym {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "seasoning_synonym_id")
     private Long id;
 

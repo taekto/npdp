@@ -1,5 +1,8 @@
-package com.project.npdp.domain;
+package com.project.npdp.recipe.entity;
 
+import com.project.npdp.domain.Calendar;
+import com.project.npdp.member.entity.MemberRecipeLatest;
+import com.project.npdp.member.entity.MemberRecipeLike;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +19,7 @@ import java.util.List;
 public class Recipe {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "recipe_id")
     private Long id;
 

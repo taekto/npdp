@@ -2,8 +2,8 @@ package com.project.npdp.food.service;
 
 import com.project.npdp.food.dto.response.IngredientResponseDto;
 import com.project.npdp.food.dto.response.SeasoningResponseDto;
-import com.project.npdp.domain.Ingredient;
-import com.project.npdp.domain.Seasoning;
+import com.project.npdp.food.entity.Ingredient;
+import com.project.npdp.food.entity.Seasoning;
 import com.project.npdp.food.repository.IngredientRepository;
 import com.project.npdp.food.repository.SeasoningRepository;
 import lombok.RequiredArgsConstructor;

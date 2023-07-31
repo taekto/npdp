@@ -1,4 +1,4 @@
-package com.project.npdp.domain;
+package com.project.npdp.food.entity;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class IngredientSynonym {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ingredient_synonym_id")
     private Long id;
 

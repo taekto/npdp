@@ -2,6 +2,10 @@ package com.project.npdp.domain;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
+import com.project.npdp.food.entity.Seasoning;
+import com.project.npdp.food.entity.SeasoningSynonym;
+import com.project.npdp.member.entity.MemberSeasoning;
+import com.project.npdp.recipe.entity.RecipeSeasoning;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;

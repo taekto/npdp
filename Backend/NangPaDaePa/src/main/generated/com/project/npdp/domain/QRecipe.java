@@ -2,6 +2,9 @@ package com.project.npdp.domain;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
+import com.project.npdp.member.entity.MemberRecipeLatest;
+import com.project.npdp.member.entity.MemberRecipeLike;
+import com.project.npdp.recipe.entity.*;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;

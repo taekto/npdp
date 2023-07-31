@@ -1,5 +1,9 @@
-package com.project.npdp.domain;
+package com.project.npdp.food.entity;
 
+import com.project.npdp.domain.AllergyIngredient;
+import com.project.npdp.domain.Refregirator;
+import com.project.npdp.member.entity.MemberDislikeIngredient;
+import com.project.npdp.recipe.entity.RecipeIngredient;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +20,7 @@ import java.util.List;
 public class Ingredient {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ingredient_id")
     private Long id;
 

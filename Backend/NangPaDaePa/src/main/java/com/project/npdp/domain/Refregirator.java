@@ -1,7 +1,7 @@
 package com.project.npdp.domain;
 
-import com.project.npdp.domain.Ingredient;
-import com.project.npdp.domain.Member;
+import com.project.npdp.food.entity.Ingredient;
+import com.project.npdp.member.entity.Member;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class Refregirator {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "refregirator_id")
     private Long id;
 

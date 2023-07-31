@@ -1,5 +1,6 @@
 package com.project.npdp.domain;
 
+import com.project.npdp.food.entity.Ingredient;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import javax.persistence.*;
 public class AllergyIngredient {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "allergy_ingredient_id")
     private Long id;
 

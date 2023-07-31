@@ -1,5 +1,6 @@
 package com.project.npdp.domain;
 
+import com.project.npdp.member.entity.MemberAllergy;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +17,7 @@ import java.util.List;
 public class Allergy {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "allergy_id")
     private Long id;
 
