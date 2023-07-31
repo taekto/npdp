@@ -26,7 +26,7 @@ public class QAllergyIngredient extends EntityPathBase<AllergyIngredient> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final QIngredient ingredient;
+    public final com.project.npdp.food.entity.QIngredient ingredient;
 
     public QAllergyIngredient(String variable) {
         this(AllergyIngredient.class, forVariable(variable), INITS);
@@ -47,7 +47,7 @@ public class QAllergyIngredient extends EntityPathBase<AllergyIngredient> {
     public QAllergyIngredient(Class<? extends AllergyIngredient> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.allergy = inits.isInitialized("allergy") ? new QAllergy(forProperty("allergy")) : null;
-        this.ingredient = inits.isInitialized("ingredient") ? new QIngredient(forProperty("ingredient")) : null;
+        this.ingredient = inits.isInitialized("ingredient") ? new com.project.npdp.food.entity.QIngredient(forProperty("ingredient")) : null;
     }
 
 }

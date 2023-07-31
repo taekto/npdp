@@ -1,8 +1,7 @@
-package com.project.npdp.domain;
+package com.project.npdp.recipe.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.project.npdp.recipe.entity.RecipeSeasoning;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
@@ -17,7 +16,7 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QRecipeSeasoning extends EntityPathBase<RecipeSeasoning> {
 
-    private static final long serialVersionUID = -1753645115L;
+    private static final long serialVersionUID = -422246968L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
@@ -27,7 +26,7 @@ public class QRecipeSeasoning extends EntityPathBase<RecipeSeasoning> {
 
     public final QRecipe recipe;
 
-    public final QSeasoning seasoning;
+    public final com.project.npdp.food.entity.QSeasoning seasoning;
 
     public QRecipeSeasoning(String variable) {
         this(RecipeSeasoning.class, forVariable(variable), INITS);
@@ -48,7 +47,7 @@ public class QRecipeSeasoning extends EntityPathBase<RecipeSeasoning> {
     public QRecipeSeasoning(Class<? extends RecipeSeasoning> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.recipe = inits.isInitialized("recipe") ? new QRecipe(forProperty("recipe")) : null;
-        this.seasoning = inits.isInitialized("seasoning") ? new QSeasoning(forProperty("seasoning")) : null;
+        this.seasoning = inits.isInitialized("seasoning") ? new com.project.npdp.food.entity.QSeasoning(forProperty("seasoning")) : null;
     }
 
 }
