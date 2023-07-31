@@ -15,7 +15,7 @@
                   유통기한 : {{seasoning.endDate}}
                 </p>
                 <p class="col-2">보관방식 : {{seasoning.storage}}</p>
-                <button class="col-1">제거</button>
+                <button class="col-1" @click="deleteSeasoning(seasoning)">제거</button>
               </li>
             </ul>
           </div>
@@ -46,7 +46,7 @@
             
           </div>
           <div class="modal-footer">
-            <button class="soundButton" @click="pushIngredientData">저장하기</button>
+            <button class="soundButton" @click="pushSeasoningData">저장하기</button>
           </div>
         </div>
       </div>
@@ -74,15 +74,23 @@ export default {
       let month = today.getMonth() + 1;  // 월
       let date = today.getDate();  // 날짜
 
-      this.seasoningList.push({name: this.ingredientName, startDate : `${year}-${month}-${date}`, endDate: '', storage: this.selectStorage})
+      this.seasoningList.push({name: this.seasoningName, startDate : `${year}-${month}-${date}`, endDate: '', storage: this.selectStorage})
 
-      this.ingredientName = ''
+      this.seasoningName = ''
       this.selectStorage = '냉장'
     },
-    pushIngredientData() {
+    pushSeasoningData() {
       console.log(this.seasoningList)
       this.seasoningList = []
-    }
+    },
+    deleteSeasoning(seasoning) {
+            const arrayRemove = (arr, value) => {
+                return arr.filter((ele) => {
+                    return ele != value
+                })
+            }
+            this.seasoningList = arrayRemove(this.seasoningList, seasoning)
+        }
 
 }
 }

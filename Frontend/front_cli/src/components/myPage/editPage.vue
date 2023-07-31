@@ -1,12 +1,17 @@
 <template>
+  <!-- 마이페이지 회원정보 수정 페이지 -->
   <div class="myPage">
+    <!-- 좌측 마이페이지 메뉴 컴포넌트 -->
     <CategoryComponent />
+
+    <!-- 우측 회원정보 컴포넌트 -->
     <div id="myPageView">
       <div class="editComponent">
         <div class="editTitle">
           <p>회원정보수정</p>
         </div>
         <div>
+          <!-- 닉네임 변경 -->
           <div class="searchWindow">
             <div class="editCategoryTitle">
               <p>닉네임 변경</p>
@@ -19,6 +24,8 @@
               </form>
             </div>
           </div>
+
+          <!-- 이메일 변경 -->
           <div class="searchWindow">
             <div class="editCategoryTitle">
               <p>이메일 변경</p>
@@ -31,6 +38,8 @@
               </form>
             </div>
           </div>
+
+          <!-- 비밀번호 변경 -->
           <div class="searchWindow">
             <div class="editCategoryTitle">
               <p>비밀번호 변경</p>
@@ -43,7 +52,11 @@
               </form>
             </div>
           </div>
+
+          <!-- 생일 & 성별 변경 -->
           <div class="birthAndgender">
+
+            <!-- 생일 변경 -->
             <div class="birthDate">
               <div class="editCategoryTitle">
                 <p>생일 변경</p>
@@ -53,6 +66,8 @@
                 <input id="searchForm" class="birthInput" type="date" v-model.trim="birthDate">
               </div>
             </div>
+
+            <!-- 성별 변경 -->
             <div class="genderSelect">
               <div class="editCategoryTitle">
                 <p>성별 변경</p>
@@ -86,6 +101,7 @@ export default {
     components: {
         CategoryComponent,
     },
+    // 임시 데이터
     data() {
       return {
         nickName : "임시 닉네임",
@@ -108,26 +124,27 @@ export default {
 
 <style scoped>
 .editTitle {
-  margin: auto;
-  margin-top: 2rem;
-  font-size: 2rem;
-  font-weight: bold;
-  text-align: start;
-  width: 75%;
+    margin: auto;
+    margin-top: 2rem;
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: start;
+    width: 75%;
 }
 
 .editCategoryTitle {
-  margin: auto;
-  margin-top: 2rem;
-  font-size: 1.2rem;
-  font-weight: bold;
-  text-align: start;
+    margin: auto;
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: start;
 }
 
 .editComponent {
-  width: 80%;
-  margin: auto;
+    width: 80%;
+    margin: auto;
 }
+
 
 .searchWindow {
     width: 75%;
@@ -159,15 +176,6 @@ export default {
   margin: auto;
 }
 
-.saveButton {
-  margin-bottom: 5rem;
-  background-color: #FD7E14;
-  border-radius: .5rem;
-  width: 5rem;
-  height: 3rem;
-  color: white;
-  border: none;
-}
 
 #myPageView {
   border: solid grey;
@@ -177,15 +185,6 @@ export default {
   margin-bottom: 5rem;
 }
 
-.radioButton {
-    border: solid #FD7E14;
-    border-radius: .5rem;
-    padding: .5rem;
-    margin: .5rem;
-    width: 6rem;
-}
 
-[type="radio"] {
-    appearance: none;
-}
+
 </style>

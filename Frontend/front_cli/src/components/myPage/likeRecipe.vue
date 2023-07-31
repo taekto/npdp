@@ -1,6 +1,10 @@
 <template>
+  <!-- 마이페이지 좋아요한 레시피 페이지 -->
   <div class="myPage">
+    <!-- 좌측 마이페이지 메뉴 컴포넌트 -->
     <CategoryComponent />
+
+    <!-- 우측 좋아요한 레시피 컴포넌트 -->
     <div id="myPageView">
       <p class="likeTitle">좋아요</p>
         <div class="likeRecipes row" v-for="(num, index) in 30" :key="index">
@@ -35,18 +39,20 @@ export default {
 </script>
 
 <style scoped>
+/* 해당 파일을 외부로 적용시 오류가 생겨 해당 파일은 내부에서 CSS 적용 */
+
 .likeRecipes {
-  margin: auto;
-  display: inline-flex;
-  flex-wrap: wrap;
-  margin-bottom: 5rem;
+    margin: auto;
+    display: inline-flex;
+    flex-wrap: wrap;
+    margin-bottom: 5rem;
 }
 
 .likeTitle {
-  text-align: start;
-  margin-left: 10rem;
-  font-size: 2rem;
-  font-weight: bold;
+    text-align: start;
+    margin-left: 10rem;
+    font-size: 2rem;
+    font-weight: bold;
 }
 
 .recommendCard {
@@ -88,4 +94,5 @@ img {
     margin: .5rem;
 }
 
+/* @import "../assets/CSS/myPage.css" */
 </style>
