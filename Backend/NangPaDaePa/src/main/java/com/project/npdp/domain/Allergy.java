@@ -1,5 +1,6 @@
 package com.project.npdp.domain;
 
+import com.project.npdp.domain.AllergyIngredient;
 import com.project.npdp.member.entity.MemberAllergy;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

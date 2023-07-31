@@ -2,7 +2,7 @@ package com.project.npdp.recipe.dto.response;
 
 import lombok.*;
 
-@Setter
+@Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @AllArgsConstructor
@@ -17,7 +17,5 @@ public class RecipeResponseDto {
     private String imgSmall;
 
     private String category;
-
-    private Long likes;
 
 }

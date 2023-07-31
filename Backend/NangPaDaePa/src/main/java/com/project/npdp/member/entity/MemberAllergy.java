@@ -29,4 +29,5 @@ public class MemberAllergy {
     @JoinColumn(name = "allergy_id")
     private Allergy allergy;
 
+    //
 }
