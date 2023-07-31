@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 //@Transactional
-@RequiredArgsConstructor    // final 필드로 생성자 주입
+@RequiredArgsConstructor
 //@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberService {
 

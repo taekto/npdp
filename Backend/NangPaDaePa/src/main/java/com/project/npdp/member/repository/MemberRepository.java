@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 public class MemberRepository {
-
+    // 왜
     private final EntityManager em;
 
     // 회원 가입
