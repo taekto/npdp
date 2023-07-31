@@ -3,9 +3,16 @@ package com.project.npdp.recipe.repository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
+import javax.persistence.EntityManager;
+
+
+
 public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
+
+    public RecipeRepositoryImpl(EntityManager em) {
+        this.queryFactory = new JPAQueryFactory(em);
+    }
 
 }
