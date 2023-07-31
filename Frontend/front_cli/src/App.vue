@@ -52,6 +52,7 @@ nav {
   padding-top: 1.5rem;
   display: flex;
   justify-content: flex-start;
+  border-bottom: solid #e8e6e6;
 }
 
 nav a {

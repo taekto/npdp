@@ -31,7 +31,8 @@ const routes = [
     component: SearchKeyword,
   },
   {
-    path: '/recipe/:recipe_id',
+    // path: '/recipe/:recipe_id',
+    path: '/recipe',
     name: 'recipe',
     component: RecipeDetail
   },

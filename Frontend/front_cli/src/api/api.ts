@@ -1,12 +1,14 @@
 const HOST = 'http://localhost:8000/api/v1/';
+
 const MEMBER = 'member/';
 const RECIPE = 'recipe/';
-const BASE_HOST = 'http://localhost:8000/'
+const ATC = 'atc/';
+
 
 export default {
   recipe: {
     ingredient: function() {
-      return HOST + RECIPE + 'ingredient/';
+      return HOST + ATC + 'ingredient/';
     },
   },
 
@@ -22,4 +24,5 @@ export default {
       return HOST + MEMBER + nickname + 'allergy/'
     }
   },
+
 };
