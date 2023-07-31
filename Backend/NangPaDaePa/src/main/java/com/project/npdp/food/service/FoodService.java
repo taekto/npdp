@@ -1,5 +1,6 @@
 package com.project.npdp.food.service;
 
+import com.project.npdp.food.dto.request.IngredientRequestDto;
 import com.project.npdp.food.dto.request.SeasoningRequestDto;
 import com.project.npdp.food.dto.response.IngredientResponseDto;
 import com.project.npdp.food.dto.response.SeasoningResponseDto;
@@ -34,6 +35,17 @@ public class FoodService {
         return result;
     }
 
+    // 재료 이름으로 조회
+    @Transactional(readOnly = true)
+    public List<IngredientResponseDto> findIngredientsByName(String name) {
+        List<Ingredient> foundIngredient = ingredientRepository.findByNameContainingIgnoreCase(name);
+        List<IngredientResponseDto> result = foundIngredient.stream().map(r->IngredientResponseDto.builder()
+                        .id(r.getId())
+                        .name(r.getName())
+                        .build())
+                .collect(Collectors.toList());
+        return result;
+    }
 
     // 전체 양념 조회
     @Transactional(readOnly = true)
