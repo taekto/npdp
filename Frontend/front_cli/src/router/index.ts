@@ -11,6 +11,16 @@ import RefrigeratorPage from '../components/myPage/refrigeratorPage.vue'
 import ToolPage from '../components/myPage/toolPage.vue'
 import LikeRecipe from '../components/myPage/likeRecipe.vue'
 import EditPage from '../components/myPage/editPage.vue'
+import DislikeView from '../views/DislikeView.vue'
+
+//adminPage
+import AdminLoginPage from '../views/AdminLoginPage.vue'
+import AdminView from '../views/AdminView.vue'
+import AdminUserPage from '../components/adminPage/userPage.vue'
+import AdminRecipePage from '../components/adminPage/recipePage.vue'
+import AdminIngredientPage from '../components/adminPage/ingredientPage.vue'
+import AdminSeasoningPage from '../components/adminPage/seasoningPage.vue'
+
 
 const routes = [
   {
@@ -56,35 +66,76 @@ const routes = [
     name: 'login',
     component: LoginView
   },
+
   {
-    // 마이페이지(비밀번호 확인) -> 입력해야 마이페이지 이용 가능
     path: '/mypage',
     name: 'mypage',
     component: MyPage,
   },
+
   {
-    // 마이페이지 냉장고 관리 페이지
     path: '/mypage/refrigerator',
     name: 'refrigerator',
     component: RefrigeratorPage,
   },
+
   {
-    // 마이페이지 조리도구 관리 페이지
     path: '/mypage/tool',
     name: 'tool',
     component: ToolPage,
   },
+
   {
-    // 마이페이지 좋아요한 레시피 페이지
     path: '/mypage/like',
     name: 'like',
     component: LikeRecipe,
   },
+  
   {
-    // 마이페이지 회원정보 수정 페이지
     path: '/mypage/edit',
     name: 'edit',
     component: EditPage,
+  },
+
+  {
+    path: '/dislike',
+    name: 'dislike',
+    component: DislikeView
+  },
+  
+  {
+    path: '/admin-login',
+    name: 'admin-login',
+    component: AdminLoginPage
+  },
+  
+  {
+    path: '/admin',
+    name: 'admin',
+    component: AdminView,
+    redirect: '/admin/user', // Default sub-route
+    children: [
+      {
+        path: 'user',
+        name: 'admin/user',
+        component: AdminUserPage,
+      },
+      {
+        path: 'recipe',
+        name: 'admin/recipe',
+        component: AdminRecipePage,
+      },
+      {
+        path: 'ingredient',
+        name: 'admin/ingredient',
+        component: AdminIngredientPage,
+      },
+      {
+        path: 'seasoning',
+        name: 'admin/seasoning',
+        component: AdminSeasoningPage,
+      },
+    ],
   },
 ]
 

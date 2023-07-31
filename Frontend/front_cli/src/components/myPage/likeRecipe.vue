@@ -1,4 +1,14 @@
 <template>
+<<<<<<< HEAD
+  <div>
+    <div>
+        <router-link to="/mypage/refrigerator">내 냉장고</router-link>
+        <router-link to="/mypage/tool">내 조리도구</router-link>
+        <router-link to="/mypage/like">내가 좋아요한 레시피</router-link>
+        <router-link to="/mypage/edit">내 정보 수정</router-link>
+    </div>
+    <h1>좋아요</h1>
+=======
   <!-- 마이페이지 좋아요한 레시피 페이지 -->
   <div class="myPage">
     <!-- 좌측 마이페이지 메뉴 컴포넌트 -->
@@ -18,10 +28,20 @@
           </div>
         </div>
     </div>
+>>>>>>> 7ce6a7470900fd4b2fcfa8cef66603bb7489b144
   </div>
 </template>
 
 <script>
+<<<<<<< HEAD
+export default {
+    name: 'LikeRecipe'
+}
+</script>
+
+<style>
+
+=======
 import CategoryComponent from './categoryComponent.vue'
 
 export default {
@@ -95,4 +115,5 @@ img {
 }
 
 /* @import "../assets/CSS/myPage.css" */
+>>>>>>> 7ce6a7470900fd4b2fcfa8cef66603bb7489b144
 </style>
