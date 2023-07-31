@@ -1,8 +1,7 @@
-package com.project.npdp.domain;
+package com.project.npdp.refregirator.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.project.npdp.refregirator.entity.Refregirator;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
@@ -17,7 +16,7 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QRefregirator extends EntityPathBase<Refregirator> {
 
-    private static final long serialVersionUID = 1614442828L;
+    private static final long serialVersionUID = 851407227L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
