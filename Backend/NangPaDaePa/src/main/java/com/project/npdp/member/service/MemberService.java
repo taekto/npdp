@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-//@Transactional
+@Transactional
 @RequiredArgsConstructor    // final 필드로 생성자 주입
 //@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberService {
