@@ -263,4 +263,5 @@ get days() {
     background-image: url(../assets/Kakao.png);
 }
 
+
 </style>
