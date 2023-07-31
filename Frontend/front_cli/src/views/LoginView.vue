@@ -7,7 +7,6 @@
       <div class="form_title_message">
         <span>Welcome back please enter your details</span>
       </div>
-        <br>
         <label for="email" class="input_label">Email</label>
         <input
           type="email"
@@ -15,7 +14,7 @@
           placeholder="Enter your Email"
           class="input"
           name="email"
-          style="width: 100%; height: 33.6px "  
+          style="width: 100%; height: 33.6px"  
         />
         <label for="password" class="input_label">Password</label>
         <input
@@ -95,10 +94,12 @@ export default class LoginView extends Vue {
 
 .form_title {
   text-align: center;
+  margin-bottom: 15px;
 }
 
 .form_title_message {
   text-align: center;
+  margin-bottom: 25px;
 }
 
 .input_label {
@@ -205,7 +206,8 @@ span > a {
     position: relative;
     font-family: Sans-Serif !important;
     min-width: 280px;
-    background-image: url(../assets/Kakao.svg);
+    background-image: url(../assets/Kakao.png);
 }
 
 </style>
+
