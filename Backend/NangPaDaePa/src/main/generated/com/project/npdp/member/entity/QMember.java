@@ -2,8 +2,6 @@ package com.project.npdp.member.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.project.npdp.refregirator.entity.MemberSeasoning;
-import com.project.npdp.refregirator.entity.Refregirator;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
@@ -40,7 +38,7 @@ public class QMember extends EntityPathBase<Member> {
 
     public final ListPath<MemberRecipeLike, QMemberRecipeLike> memberRecipeLikeList = this.<MemberRecipeLike, QMemberRecipeLike>createList("memberRecipeLikeList", MemberRecipeLike.class, QMemberRecipeLike.class, PathInits.DIRECT2);
 
-    public final ListPath<MemberSeasoning, QMemberSeasoning> memberSeasoningList = this.<MemberSeasoning, QMemberSeasoning>createList("memberSeasoningList", MemberSeasoning.class, QMemberSeasoning.class, PathInits.DIRECT2);
+    public final ListPath<com.project.npdp.refregirator.entity.MemberSeasoning, com.project.npdp.refregirator.entity.QMemberSeasoning> memberSeasoningList = this.<com.project.npdp.refregirator.entity.MemberSeasoning, com.project.npdp.refregirator.entity.QMemberSeasoning>createList("memberSeasoningList", com.project.npdp.refregirator.entity.MemberSeasoning.class, com.project.npdp.refregirator.entity.QMemberSeasoning.class, PathInits.DIRECT2);
 
     public final ListPath<MemberUtensil, QMemberUtensil> memberUtensilList = this.<MemberUtensil, QMemberUtensil>createList("memberUtensilList", MemberUtensil.class, QMemberUtensil.class, PathInits.DIRECT2);
 
@@ -50,7 +48,7 @@ public class QMember extends EntityPathBase<Member> {
 
     public final StringPath password = createString("password");
 
-    public final ListPath<Refregirator, com.project.npdp.domain.QRefregirator> refregiratorList = this.<Refregirator, com.project.npdp.domain.QRefregirator>createList("refregiratorList", Refregirator.class, com.project.npdp.domain.QRefregirator.class, PathInits.DIRECT2);
+    public final ListPath<com.project.npdp.refregirator.entity.Refregirator, com.project.npdp.refregirator.entity.QRefregirator> refregiratorList = this.<com.project.npdp.refregirator.entity.Refregirator, com.project.npdp.refregirator.entity.QRefregirator>createList("refregiratorList", com.project.npdp.refregirator.entity.Refregirator.class, com.project.npdp.refregirator.entity.QRefregirator.class, PathInits.DIRECT2);
 
     public final NumberPath<Long> role = createNumber("role", Long.class);
 

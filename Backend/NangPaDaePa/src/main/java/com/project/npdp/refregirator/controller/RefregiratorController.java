@@ -13,20 +13,18 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/recipes")
+@RequestMapping("/api/refregirator")
 public class RefregiratorController {
 
     private final RecipeService recipeService;
 
     // id로 Recipe 조회
-    @GetMapping("/{recipeId}")
     public ResponseEntity<?> findRecipeById(@PathVariable("recipeId") Long id) {
         RecipeResponseDto recipeById = recipeService.findRecipeById(id);
         return ResponseEntity.ok().body(ResponseEntity.ok().body(recipeById));
     }
 
     // Recipe 전체 조회
-    @GetMapping
     public ResponseEntity<?> findAllRecipe() {
         List<RecipeResponseDto> allRecipe = recipeService.findAllRecipe();
         return ResponseEntity.ok().body(ResponseEntity.ok().body(allRecipe));
