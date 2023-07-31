@@ -53,6 +53,9 @@ public class MemberService {
     // 회원 단건 조회
     @Transactional(readOnly = true)
     public Member findOne(Long memberId){
-        return memberRepository.findOne(memberId);
+
+        Member member = memberRepository.findById(memberId).orElseThrow();
+
+        return member;
     }
 }
