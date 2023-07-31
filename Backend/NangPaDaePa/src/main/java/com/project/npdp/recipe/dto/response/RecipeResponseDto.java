@@ -18,6 +18,4 @@ public class RecipeResponseDto {
 
     private String category;
 
-    private Long likes;
-
 }
