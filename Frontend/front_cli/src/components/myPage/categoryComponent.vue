@@ -1,5 +1,6 @@
 <template>
-  <div class="myPageComponent" id="myPageMenu">
+    <!-- 좌측 메뉴 변경 컴포넌트 -->
+    <div class="myPageComponent" id="myPageMenu">
         <div>
             <router-link to="/mypage/refrigerator">내 냉장고</router-link>
         </div>

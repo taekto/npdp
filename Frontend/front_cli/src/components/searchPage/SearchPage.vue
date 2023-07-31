@@ -1,26 +1,35 @@
 <template>
-  <div>
-    <div class="searchWindow">
-      <form @submit.prevent="goToSearchwithKeyword">
-        <div class="input-group">
-            <input id="searchForm" class="form-control" type="text" v-model.trim="searchKeyword">
-            <input id="submitButton" type="submit" value="검색">
+    <!-- 키워드 없는 레시피 검색 페이지 -->
+    <div>
+        <!-- 검색창 컴포넌트 -->
+        <div class="searchWindow">
+            <form @submit.prevent="goToSearchwithKeyword">
+                <!-- 검색창 -->
+                <div class="input-group">
+                    <input id="searchForm" class="form-control" type="text" v-model.trim="searchKeyword">
+                    <input id="submitButton" type="submit" value="검색">
+                </div>
+
+                <!-- 해시태그 -->
+                <div id="hashTagkeyword">
+                    <router-link id="hash" :to="{
+                        name: 'searchKeyword',
+                        params: {
+                            keyword: tag
+                        }
+                    }" v-for="(tag, index) in hashTag" :key="index">
+                        # {{ tag }}
+                    </router-link>
+                </div>
+            </form>
         </div>
-        <div id="hashTagkeyword">
-            <router-link id="hash" :to="{
-                name: 'searchKeyword',
-                params: {
-                    keyword: tag
-                }
-            }" v-for="(tag, index) in hashTag" :key="index">
-                # {{ tag }}
-            </router-link>
-        </div>
-    </form>
+
+        <!-- 상세 검색 컴포넌트 -->
+        <DetailSearch class="detailSearch" />
+
+        <!-- 검색 결과 컴포넌트 -->
+        <SearchResult />
     </div>
-    <DetailSearch class="detailSearch" />
-    <SearchResult />
-  </div>
 </template>
 
 <script>
@@ -28,10 +37,12 @@ import DetailSearch from './detailSearch.vue'
 import SearchResult from './searchResult.vue'
 
 export default {
-  components: {
-    DetailSearch,
-    SearchResult,
-  },
+    components: {
+        DetailSearch,
+        SearchResult,
+    },
+
+    // 키워드는 vuex에서 관리할 것
     data() {
         return {
             keyWord : "",
@@ -40,7 +51,9 @@ export default {
         }
     },
     methods: {
+        // 키워드를 통해 검색하도록 하는 함수
         goToSearchwithKeyword() {
+            // 키워드를 통해 검색하는 과정
             this.keyWord = ""
             const tempKeyword = this.searchKeyword
             tempKeyword.toLowerCase()
@@ -57,7 +70,7 @@ export default {
                 })
             }
 
-            
+            // 검색창 초기화
             this.keyWord = this.searchKeyword
             this.searchKeyword = ""
         }
@@ -66,27 +79,8 @@ export default {
 }
 </script>
 
-<style scoped>
-.searchWindow {
-    width: 60%;
-    height: 2.5rem;
-    margin: auto;
-    margin-top: 3.5rem;
-    margin-bottom: 5rem;
-}
-
-#searchForm {
-    border-radius: .5rem;
-    margin-right: 1rem;
-}
-
-#submitButton {
-    width: 5rem;
-    border-radius: .5rem;
-    background-color: #f2f2f2;
-    border: solid rgb(244, 244, 244);
-}
-
+<style>
+/* 해시태그 */
 #hashTagkeyword {
     display: flex;
     justify-content: center;
@@ -100,9 +94,7 @@ export default {
     border-radius: .5rem;
     text-decoration-line: none;
 }
+</style>
 
-.detailSearch {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-}
+<style scoped>
 </style>

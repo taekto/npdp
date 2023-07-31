@@ -1,68 +1,80 @@
 <template>
-  <div class="myPage">
-    <CategoryComponent />
-    <div id="myPageView">
-        <div class="buttonGroup">
-            <div class="storageRadio">
-                <label class="radioButton">
-                    <input type="radio" name="coldStorage" value="냉장" v-model="storageType" @click="changeClassification">냉장
-                </label>
-                <label class="radioButton">
-                    <input type="radio" name="frozenStorage" value="냉동" v-model="storageType" @click="changeClassification">냉동
-                </label>
-                <label class="radioButton">
-                    <input type="radio" name="rtStorage" value="실온" v-model="storageType" @click="changeClassification">실온
-                </label>            
+    <!-- 마이페이지 냉장고(재료, 양념 관리) 페이지 -->
+    <div class="myPage">
+        <!-- 좌측 마이페이지 메뉴 컴포넌트 -->
+        <CategoryComponent />
+
+        <!-- 우측 냉장고 컴포넌트 -->
+        <div id="myPageView">
+            <!-- 보관방법 변경 & 재료, 양념 입력 버튼 -->
+            <div class="buttonGroup">
+                <!-- 보관 방법 변경 버튼 -->
+                <div class="storageRadio">
+                    <label class="radioButton">
+                        <input type="radio" name="coldStorage" value="냉장" v-model="storageType" @click="changeClassification">냉장
+                    </label>
+                    <label class="radioButton">
+                        <input type="radio" name="frozenStorage" value="냉동" v-model="storageType" @click="changeClassification">냉동
+                    </label>
+                    <label class="radioButton">
+                        <input type="radio" name="rtStorage" value="실온" v-model="storageType" @click="changeClassification">실온
+                    </label>            
+                </div>
+
+                <!-- 재료, 양념 입력 버튼 -->
+                <div class="modalButtons">
+                    <IngredientModal />
+                    <SeasoningModal />
+                </div>
             </div>
-            <div class="modalButtons">
-                <IngredientModal />
-                <SeasoningModal />
-            </div>
-        </div>
-        
-        <div>
-            <div class="refrigeratorCategory">
-                <p class="categoryTitle">{{storageType}} 재료</p>
-                <ul class="ListShow">
-                    <li class= "row" v-for="(ingredient, index) in ingredients" :key="index">
-                        <div class="ingredientList" v-if="ingredient.storage === storageType">
-                            <p class="col-1 ingredientName">{{ingredient.name}}</p>
-                            <div class="amount col-2 row">
-                                <button class="amountButton col-3" @click="plusAmount(ingredient)">+</button>
-                                <p class="col-6">{{ingredient.amount}}{{ingredient.unit}}</p>
-                                <button class="amountButton col-3" @click="minusAmount(ingredient)">-</button>
-                            </div>
-                            <p class="col-3">보관시작일 : {{ingredient.startDate}}</p>
-                            <p class="col-3">
-                            유통기한 : {{ingredient.endDate}}
-                            </p>
-                            <p class="col-2">보관방식 : {{ingredient.storage}}</p>
-                            <button class="col-1 deleteButton" @click="deleteIngredient(ingredient)">제거</button>
-                        </div>
-                    </li>
-                </ul>
-            </div>
+            
+            <!-- 현재 보관 중인 재료 & 양념 보여주는 컴포넌트(냉장, 냉동, 실온) -->
             <div>
-                <p class="categoryTitle">{{storageType}} 양념</p>
-                <ul class="ListShow">
-                    <li class= "row" v-for="(seasoning, index) in seasonings" :key="index">
-                        <div class="ingredientList" v-if="seasoning.storage === storageType">
-                            <p class="col-2 ingredientName">{{seasoning.name}}</p>
-                            
-                            <p class="col-4">보관시작일 : {{seasoning.startDate}}</p>
-                            <p class="col-3">
-                            유통기한 : {{seasoning.endDate}}
-                            </p>
-                            <p class="col-2">보관방식 : {{seasoning.storage}}</p>
-                            <button class="col-1 deleteButton" @click="deleteSeasoning(seasoning)">제거</button>
-                        </div>
-                    </li>
-                </ul>
+                <!-- 재료 -->
+                <div class="refrigeratorCategory">
+                    <p class="categoryTitle">{{storageType}} 재료</p>
+                    <ul class="ListShow">
+                        <li class= "row" v-for="(ingredient, index) in ingredients" :key="index">
+                            <div class="ingredientList" v-if="ingredient.storage === storageType">
+                                <p class="col-1 ingredientName">{{ingredient.name}}</p>
+                                <div class="amount col-2 row">
+                                    <button class="amountButton col-3" @click="plusAmount(ingredient)">+</button>
+                                    <p class="col-6">{{ingredient.amount}}{{ingredient.unit}}</p>
+                                    <button class="amountButton col-3" @click="minusAmount(ingredient)">-</button>
+                                </div>
+                                <p class="col-3">보관시작일 : {{ingredient.startDate}}</p>
+                                <p class="col-3">
+                                유통기한 : {{ingredient.endDate}}
+                                </p>
+                                <p class="col-2">보관방식 : {{ingredient.storage}}</p>
+                                <button class="col-1 deleteButton" @click="deleteIngredient(ingredient)">제거</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 양념 -->
+                <div>
+                    <p class="categoryTitle">{{storageType}} 양념</p>
+                    <ul class="ListShow">
+                        <li class= "row" v-for="(seasoning, index) in seasonings" :key="index">
+                            <div class="ingredientList" v-if="seasoning.storage === storageType">
+                                <p class="col-2 ingredientName">{{seasoning.name}}</p>
+                                
+                                <p class="col-4">보관시작일 : {{seasoning.startDate}}</p>
+                                <p class="col-3">
+                                유통기한 : {{seasoning.endDate}}
+                                </p>
+                                <p class="col-2">보관방식 : {{seasoning.storage}}</p>
+                                <button class="col-1 deleteButton" @click="deleteSeasoning(seasoning)">제거</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
+            
         </div>
-        
     </div>
-  </div>
 </template>
 
 <script>
@@ -77,6 +89,7 @@ export default {
         IngredientModal,
         SeasoningModal,
     },
+    // 임시 더미 데이터
     data() {
         return {
             ingredients : [{name : "감자", amount: 2, unit: "개",  startDate : '2023-07-27', endDate: '', storage: '냉장'}, 
@@ -140,23 +153,6 @@ export default {
 }
 </script>
 
-<style>
-.myPage {
-    display: flex;
-}
-
-#myPageMenu {
-    width: 15%;
-}
-
-#myPageView {
-    width: 85%;
-    margin-top: 3rem;
-}
-
-
-</style>
-
 <style scoped>
 .buttonGroup {
     display: flex;
@@ -166,63 +162,46 @@ export default {
 
 .modalButtons {
     display: flex;
-    /* border: solid #FD7E14;
-    border-radius: .5rem;
-    padding: .5rem;
-    margin: .5rem;
-    width: 6rem; */
 }
 
 .ListShow {
-  border: solid #a7a7a7;
-  border-radius: .5rem;
-  width: 80%;
-  margin: auto;
-  padding: 1rem;
-  margin-bottom: 5rem;
+    border: solid #a7a7a7;
+    border-radius: .5rem;
+    width: 80%;
+    margin: auto;
+    padding: 1rem;
+    margin-bottom: 5rem;
 }
 
+/* 레시피의 ingredientName과 다름 */
 .ingredientName {
-    font-weight: bold;
+font-weight: bold;
 }
 
 .ingredientList {
-  display: flex;
-  border-bottom: solid grey;
-  align-items: center;
-  width: 95%;
-  padding: .5rem;
-  margin: auto;
+    display: flex;
+    border-bottom: solid grey;
+    align-items: center;
+    width: 95%;
+    padding: .5rem;
+    margin: auto;
 }
 
 .amount {
-  display: flex;
-  border: solid rgb(207, 207, 207);
-  border-radius: .5rem;
-  margin: auto;
-  justify-content: center;
-  align-items: center;
-
+    display: flex;
+    border: solid rgb(207, 207, 207);
+    border-radius: .5rem;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
 }
 
 .amountButton {
-  width: 2rem;
-  height: 60%;
-  border-radius: .5rem;
-  background-color: #f2f2f2;
-  border: solid rgb(244, 244, 244);
-}
-
-.radioButton {
-    border: solid #FD7E14;
+    width: 2rem;
+    height: 60%;
     border-radius: .5rem;
-    padding: .5rem;
-    margin: .5rem;
-    width: 6rem;
-}
-
-[type="radio"] {
-    appearance: none;
+    background-color: #f2f2f2;
+    border: solid rgb(244, 244, 244);
 }
 
 .deleteButton {

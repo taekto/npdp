@@ -14,64 +14,74 @@ import EditPage from '../components/myPage/editPage.vue'
 
 const routes = [
   {
+    // 메인페이지
     path: '/',
     name: 'main',
     component: MainView
   },
-
   {
+    // 서비스 설명 페이지
     path: '/about',
     name: 'about',
     component: AboutView
   },
   {
+    // 검색 결과(키워드 없음) 페이지
     path: '/search',
     name: 'search',
     component: SearchPage,
   },
   {
+    // 검색 결과(키워드 있음) 페이지
     path: '/search/:keyword',
     name: 'searchKeyword',
     component: SearchKeyword,
   },
   {
-    // path: '/recipe/:recipe_id',
+    // 상세 레시피 페이지
+    // 후에 데이터 연결 후 recipe_id 연결해줘야 함
     path: '/recipe',
     name: 'recipe',
     component: RecipeDetail
   },
   {
+    // 회원가입 페이지
     path: '/signup',
     name: 'signup',
     component: SingupView
   },
-
   {
+    // 로그인 페이지
     path: '/login',
     name: 'login',
     component: LoginView
   },
   {
+    // 마이페이지(비밀번호 확인) -> 입력해야 마이페이지 이용 가능
     path: '/mypage',
     name: 'mypage',
     component: MyPage,
   },
   {
+    // 마이페이지 냉장고 관리 페이지
     path: '/mypage/refrigerator',
     name: 'refrigerator',
     component: RefrigeratorPage,
   },
   {
+    // 마이페이지 조리도구 관리 페이지
     path: '/mypage/tool',
     name: 'tool',
     component: ToolPage,
   },
   {
+    // 마이페이지 좋아요한 레시피 페이지
     path: '/mypage/like',
     name: 'like',
     component: LikeRecipe,
   },
   {
+    // 마이페이지 회원정보 수정 페이지
     path: '/mypage/edit',
     name: 'edit',
     component: EditPage,

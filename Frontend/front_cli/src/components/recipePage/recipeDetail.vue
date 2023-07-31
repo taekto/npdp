@@ -1,14 +1,22 @@
 <template>
+  <!-- 레시피 상세 페이지 -->
   <div class="recipeDetail">
+    <!-- 레시피 이름 -->
     <div class="recipeName">
       <h2 class="recipeTitle">레시피이름 : {{recipe.name}}</h2>
       <button v-if="liked" class="likeButton" @click="changeLike">Like</button>
       <button v-else class="dislikeButton" @click="changeLike">Dislike</button>
     </div>
+
     <div class="recipeInfomation">
+      <!-- 레시피 이미지 -->
       <img class="recipeImage" src='@/assets/123.jpg'>
+      
+      <!-- 레시피 정보 -->
       <RecipeInfomation :recipe=recipe />
     </div>
+
+    <!-- 레시피 순서 -->
     <div class="recipeOrder">
       <h2 class="orderTitle">레시피 순서</h2>
       <div class="orderLine" v-for="(order, index) in 5" :key="index">
@@ -28,9 +36,12 @@ export default {
     components: {
       RecipeInfomation,
     },
+    // 추후 데이터 기반 props 필요
     // props: {
     //   recipe_id : Number,
     // },
+
+    // 현재는 더미 데이터를 만들어서 확인
     data() {
       return {
         liked : false,
@@ -51,84 +62,94 @@ export default {
         this.liked = this.liked ? false : true;
       }
     }
-
 }
 </script>
 
 <style scoped>
+/* 레시피 상세 */
 .recipeDetail {
-  width: 75%;
-  margin-top: 2rem;
-  margin: auto;
+    width: 75%;
+    margin-top: 2rem;
+    margin: auto;
 }
 
-.likeButton {
-  border-radius: .5rem;
-  background-color: #FD7E14;
-  border: none;
-  color: white;
-  padding-left: 1rem;
-  padding-right: 1rem;
-}
-
-.dislikeButton {
-  border-radius: .5rem;
-  color: #FD7E14;
-  border: solid #FD7E14;
-  background-color: white;
-  padding-left: 1rem;
-  padding-right: 1rem;
-}
-
+/* 레시피 이름 */
 .recipeName {
-  margin-top: 2rem;
-  margin-left: 2rem;
-  margin-bottom: 2rem;
-  text-align: start;
-  display: flex;
+    margin-top: 2rem;
+    margin-left: 2rem;
+    margin-bottom: 2rem;
+    text-align: start;
+    display: flex;
 }
 
 .recipeTitle {
-  font-weight: bold;
-  margin-right: 2rem;
+    font-weight: bold;
+    margin-right: 2rem;
 }
 
+/* 좋아요 버튼 구분 */
+.likeButton {
+    border-radius: .5rem;
+    background-color: #FD7E14;
+    border: none;
+    color: white;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.dislikeButton {
+    border-radius: .5rem;
+    color: #FD7E14;
+    border: solid #FD7E14;
+    background-color: white;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+/* 레시피 이미지 & 레시피 정보 */
 .recipeInfomation {
-  display: flex;
-  justify-content: space-around;
+    display: flex;
+    justify-content: space-around;
 }
+
+/* 레시피 이미지 */
 .recipeImage {
-  width: 45%;
-  border-radius: .5rem;
-  border: solid rgb(205, 205, 205) 1.5px;
+    width: 45%;
+    border-radius: .5rem;
+    border: solid rgb(205, 205, 205) 1.5px;
 }
 
+/* 레시피 순서 */
 .recipeOrder {
-  margin-top: 3rem;
+    margin-top: 3rem;
 }
-
+/* 레시피 순서 타이틀 */
 .orderTitle {
-  text-align: start;
-  margin-left: 3rem;
-  margin-top: 5rem;
-  margin-bottom: 3rem;
-  font-weight: bold;
+    text-align: start;
+    margin-left: 3rem;
+    margin-top: 5rem;
+    margin-bottom: 3rem;
+    font-weight: bold;
 }
 
+/* 레시피 순서 각 컴포넌트 */
 .orderLine {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 3rem;
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 3rem;
 }
 
+/* 순서 설명 */
 .orderExplain {
-  width: 45%;
-  margin: 2rem;
+    width: 45%;
+    margin: 2rem;
 }
 
+/* 순서 관련 이미지 */
 .orderImage{
-  width: 35%;
-  border-radius: .5rem;
-  border: solid rgb(205, 205, 205) 1.5px;
+    width: 35%;
+    border-radius: .5rem;
+    border: solid rgb(205, 205, 205) 1.5px;
 }
+
 </style>
