@@ -1,40 +1,25 @@
 <template>
   <div class="myPage">
-    <div class="myPageComponent" id="myPageMenu">
-        <div>
-            <router-link to="/mypage/refrigerator">내 냉장고</router-link>
-        </div>
-        <div>
-            <router-link to="/mypage/tool">내 조리도구</router-link>
-        </div>
-        <div>
-            <router-link to="/mypage/like">내가 좋아요한 레시피</router-link>
-        </div>
-        <div>
-            <router-link to="/mypage/edit">내 정보 수정</router-link>
-        </div>
-    </div>
-    <div class="myPageComponent" id="myPageView">
-        <h1>냉장고</h1>
-        <div>
+    <CategoryComponent />
+    <div id="myPageView">
+        <div class="storageRadio">
             <label class="radioButton">
-                <input type="radio" name="classification" value="냉장" v-model="storageType" @click="changeClassification">냉장
+                <input type="radio" name="coldStorage" value="냉장" v-model="storageType" @click="changeClassification">냉장
             </label>
             <label class="radioButton">
-                <input type="radio" name="classification" value="냉동" v-model="storageType" @click="changeClassification">냉동
+                <input type="radio" name="frozenStorage" value="냉동" v-model="storageType" @click="changeClassification">냉동
             </label>
             <label class="radioButton">
-                <input type="radio" name="classification" value="실온" v-model="storageType" @click="changeClassification">실온
-            </label>
-                        
+                <input type="radio" name="rtStorage" value="실온" v-model="storageType" @click="changeClassification">실온
+            </label>            
         </div>
         <div>
-            <div>
-                <p>재료</p>
+            <div class="refrigeratorCategory">
+                <p class="categoryTitle">{{storageType}} 재료</p>
                 <ul class="ListShow">
                     <li class= "row" v-for="(ingredient, index) in ingredients" :key="index">
                         <div class="ingredientList" v-if="ingredient.storage === storageType">
-                            <p class="col-1">{{ingredient.name}}</p>
+                            <p class="col-1 ingredientName">{{ingredient.name}}</p>
                             <div class="amount col-2 row">
                                 <button class="amountButton col-3">+</button>
                                 <p class="col-6">{{ingredient.amount}}{{ingredient.unit}}</p>
@@ -45,28 +30,24 @@
                             유통기한 : {{ingredient.endDate}}
                             </p>
                             <p class="col-2">보관방식 : {{ingredient.storage}}</p>
-                            <button class="col-1">제거</button>
+                            <button class="col-1 deleteButton">제거</button>
                         </div>
                     </li>
                 </ul>
             </div>
             <div>
-                <p>양념</p>
+                <p class="categoryTitle">{{storageType}} 양념</p>
                 <ul class="ListShow">
                     <li class= "row" v-for="(seasoning, index) in seasonings" :key="index">
                         <div class="ingredientList" v-if="seasoning.storage === storageType">
-                            <p class="col-1">{{seasoning.name}}</p>
-                            <div class="amount col-2 row">
-                                <button class="amountButton col-3">+</button>
-                                <p class="col-6">{{seasoning.amount}}{{seasoning.unit}}</p>
-                                <button class="amountButton col-3">-</button>
-                            </div>
-                            <p class="col-3">보관시작일 : {{seasoning.startDate}}</p>
+                            <p class="col-2 ingredientName">{{seasoning.name}}</p>
+                            
+                            <p class="col-4">보관시작일 : {{seasoning.startDate}}</p>
                             <p class="col-3">
                             유통기한 : {{seasoning.endDate}}
                             </p>
                             <p class="col-2">보관방식 : {{seasoning.storage}}</p>
-                            <button class="col-1">제거</button>
+                            <button class="col-1 deleteButton">제거</button>
                         </div>
                     </li>
                 </ul>
@@ -78,8 +59,13 @@
 </template>
 
 <script>
+import CategoryComponent from './categoryComponent.vue'
+
 export default {
     name: 'RefrigeratorPage',
+    components: {
+        CategoryComponent,
+    },
     data() {
         return {
             ingredients : [{name : "감자", amount: 2, unit: "개",  startDate : '2023-07-27', endDate: '', storage: '냉장'}, 
@@ -122,31 +108,43 @@ export default {
 
 #myPageView {
     width: 85%;
+    margin-top: 3rem;
 }
 
-.myPageComponent {
-    margin-top: 3rem;
-    margin-bottom: 3rem;
-    border-radius: .5rem;
-    box-shadow: 1px 1px 1px 1px;
-}
+
 </style>
 
 <style scoped>
 .ListShow {
-  border-bottom: solid #a7a7a7;
-  width: 95%;
+  border: solid #a7a7a7;
+  border-radius: .5rem;
+  width: 80%;
   margin: auto;
+  padding: 1rem;
+  margin-bottom: 5rem;
+}
+
+.ingredientName {
+    font-weight: bold;
 }
 
 .ingredientList {
   display: flex;
   border-bottom: solid grey;
-  
+  align-items: center;
+  width: 95%;
+  padding: .5rem;
+  margin: auto;
 }
 
 .amount {
   display: flex;
+  border: solid rgb(207, 207, 207);
+  border-radius: .5rem;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+
 }
 
 .amountButton {
@@ -155,5 +153,42 @@ export default {
   border-radius: .5rem;
   background-color: #f2f2f2;
   border: solid rgb(244, 244, 244);
+}
+
+.radioButton {
+    border: solid #FD7E14;
+    border-radius: .5rem;
+    padding: .5rem;
+    margin: .5rem;
+    width: 6rem;
+}
+
+[type="radio"] {
+    appearance: none;
+}
+
+.deleteButton {
+    border-radius: .5rem;
+    height: 2rem;
+    background-color: #FD7E14;
+    color: white;
+    border: none
+}
+
+.refrigeratorCategory {
+    margin-top: 2rem;
+}
+
+.storageRadio {
+    display: flex;
+    margin-top: 3rem;
+    margin-left: 7.5rem;
+}
+
+.categoryTitle {
+    text-align: start;
+    margin-left: 9rem;
+    font-size: 2rem;
+    font-weight: bold;
 }
 </style>
