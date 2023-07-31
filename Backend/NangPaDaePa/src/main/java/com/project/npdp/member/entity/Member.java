@@ -1,7 +1,8 @@
 package com.project.npdp.member.entity;
 
 import com.project.npdp.domain.Calendar;
-import com.project.npdp.domain.Refregirator;
+import com.project.npdp.refregirator.entity.MemberSeasoning;
+import com.project.npdp.refregirator.entity.Refregirator;
 import lombok.*;
 
 import javax.persistence.*;

@@ -2,6 +2,7 @@ package com.project.npdp.food.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
+import com.project.npdp.refregirator.entity.MemberSeasoning;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
@@ -32,7 +33,7 @@ public class QSeasoning extends EntityPathBase<Seasoning> {
 
     public final NumberPath<Long> level = createNumber("level", Long.class);
 
-    public final ListPath<com.project.npdp.member.entity.MemberSeasoning, com.project.npdp.member.entity.QMemberSeasoning> memberSeasoningList = this.<com.project.npdp.member.entity.MemberSeasoning, com.project.npdp.member.entity.QMemberSeasoning>createList("memberSeasoningList", com.project.npdp.member.entity.MemberSeasoning.class, com.project.npdp.member.entity.QMemberSeasoning.class, PathInits.DIRECT2);
+    public final ListPath<MemberSeasoning, com.project.npdp.member.entity.QMemberSeasoning> memberSeasoningList = this.<MemberSeasoning, com.project.npdp.member.entity.QMemberSeasoning>createList("memberSeasoningList", MemberSeasoning.class, com.project.npdp.member.entity.QMemberSeasoning.class, PathInits.DIRECT2);
 
     public final StringPath name = createString("name");
 
