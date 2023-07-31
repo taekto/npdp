@@ -26,6 +26,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    implementation 'org.hibernate:hibernate-entitymanager:5.5.6.Final' // 여기서 버전은 사용하는 Hibernate 버전에 따라 달라집니다.
+
     // jwt
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
     implementation "io.jsonwebtoken:jjwt-api:0.11.5"
@@ -41,6 +44,7 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
     // 추가한거
     implementation 'javax.persistence:javax.persistence-api:2.2'
+
 
     // queryDSL 설정
     implementation "com.querydsl:querydsl-jpa"
