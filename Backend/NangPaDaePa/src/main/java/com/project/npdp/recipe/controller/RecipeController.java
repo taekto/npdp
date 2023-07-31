@@ -27,7 +27,7 @@ public class RecipeController {
 
     // Recipe 전체 조회
     @GetMapping
-    private ResponseEntity<?> findAllRecipe() {
+    public ResponseEntity<?> findAllRecipe() {
         List<RecipeResponseDto> allRecipe = recipeService.findAllRecipe();
         return ResponseEntity.ok().body(ResponseEntity.ok().body(allRecipe));
     }
