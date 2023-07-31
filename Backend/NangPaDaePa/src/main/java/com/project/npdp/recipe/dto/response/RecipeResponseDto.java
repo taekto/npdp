@@ -2,7 +2,7 @@ package com.project.npdp.recipe.dto.response;
 
 import lombok.*;
 
-@Setter
+@Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @AllArgsConstructor
