@@ -56,8 +56,6 @@ public class QRecipe extends EntityPathBase<Recipe> {
 
     public final NumberPath<Double> salt = createNumber("salt", Double.class);
 
-    public final StringPath tag = createString("tag");
-
     public final NumberPath<Long> way = createNumber("way", Long.class);
 
     public final NumberPath<Double> weight = createNumber("weight", Double.class);

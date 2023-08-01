@@ -11,8 +11,4 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
-//    public RecipeRepositoryImpl(EntityManager em) {
-//        this.queryFactory = new JPAQueryFactory(em);
-//    }
-
 }
