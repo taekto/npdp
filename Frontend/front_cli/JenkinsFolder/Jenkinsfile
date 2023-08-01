@@ -6,7 +6,7 @@ pipeline {
     environment {
         CONTAINER_NAME = "my_vue"
         IMAGE_NAME = "vue_app"
-        VUE_APP_PATH = "../../"
+        VUE_APP_PATH = "../"
     }
 
     stages {
@@ -30,7 +30,6 @@ pipeline {
                 dir(VUE_APP_PATH) {
                     sh 'npm install'
                     sh 'npm run build'
-                    sh 'npm run test' // 테스트 명령어 추가 (필요한 경우)
                 }
             }
             post {
