@@ -1,0 +1,29 @@
+jwt:
+  secret: 47b7172f9748fa42759cbaa4efbcdfb4d7b5edd67a4d10b36fb95a7dca962591597a2ef42cb4ea07950b404748c0b3707c4754981214ba3c471bf3cb18b80db0
+
+spring:
+  security:
+    user:
+      name: user@gmail.com
+      password: 1234
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://i9B202.p.ssafy.io/test?serverTimezone=UTC&characterEncoding=UTF-8
+    username: npdp
+    password: ssafyI@b202_kbcccy_
+
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
