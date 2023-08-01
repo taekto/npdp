@@ -10,6 +10,12 @@ pipeline {
     }
 
     stages {
+        stage('nodejs 18') {
+            steps {
+                echo "nodejs ============================="
+                sh 'node --version'
+            }
+        }
         stage('Git Clone') {
             steps {
                 git branch: 'Front', credentialsId: 'jenkins_token',
