@@ -24,7 +24,7 @@ public class Ingredient {
     @Column(name = "ingredient_id")
     private Long id;
 
-    private String title;
+    private String name;
 
     private String kor;
 

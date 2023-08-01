@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RefregiratorRepository extends JpaRepository<Refregirator, Long> {
+public interface RefregiratorRepository extends JpaRepository<Refregirator, Long>, RefregiratorRepositoryCustom {
 }
