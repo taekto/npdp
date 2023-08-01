@@ -6,7 +6,7 @@ pipeline {
     environment {
         CONTAINER_NAME = "my_vue"
         IMAGE_NAME = "vue_app"
-        VUE_APP_PATH = "../"
+        VUE_APP_PATH = "../../front_cli/"
     }
 
     stages {
@@ -34,7 +34,6 @@ pipeline {
         stage('Build and Test') {
             steps {
                 dir(VUE_APP_PATH) {
-                    sh 'npm init'
                     sh 'npm install'
                     sh 'npm run build'
                 }
