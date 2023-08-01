@@ -1,4 +1,5 @@
 <template>
+  <!-- 재료 텍스트 입력 모달 -->
   <div class="modal fade modal-xl" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -6,6 +7,8 @@
             <h1 class="modal-title fs-5" id="exampleModalToggleLabel">재료 입력</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
+
+          <!-- 입력된 재료 리스트 -->
           <div class="modal-body">
             <ul class="ListShow">
               <li class="ingredientList row" v-for="(ingredient, index) in ingredientList" :key="index">
@@ -24,6 +27,8 @@
               </li>
             </ul>
           </div>
+
+          <!-- 재료 이름 검색 폼 -->
           <div class="modal-body inputComponent">
             <div>
               <form @submit.prevent="goToSearchwithKeyword">
@@ -33,6 +38,8 @@
                 </div>
               </form>
             </div>
+
+            <!-- 재료 입력 폼 -->
             <div>
               <div>
                 <form @submit.prevent="goToSearchwithKeyword">
@@ -68,8 +75,9 @@
               <button class="soundButton" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">음성입력</button>
               <button class="soundButton" @click="appendList">추가하기</button>
             </div>
-            
           </div>
+
+          <!-- 재료 리스트 저장 -->
           <div class="modal-footer">
             <button class="soundButton" @click="pushIngredientData">저장하기</button>
           </div>
@@ -150,6 +158,7 @@ export default {
 </script>
 
 <style scoped>
+/* 모달 창 */
 .modalButton {
   border: solid #FD7E14;
   color: white;

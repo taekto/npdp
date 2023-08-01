@@ -15,7 +15,7 @@
     <CategoryButton />
 
     <!-- 추천 레시피 컴포넌트(유사도, 좋아요순, 최근 본 순) -->
-    <userRecommendVue />
+    <memberRecommendVue />
     <likeRecommendVue />
     <recentRecommendVue />
   </div>
@@ -24,7 +24,7 @@
 <script setup>
   import MainImageSlideVue from '../components/mainPage/MainImageSlide.vue'
   import searchComponentVue from '../components/mainPage/searchComponent.vue'
-  import userRecommendVue from '../components/mainPage/userRecommend.vue'
+  import memberRecommendVue from '../components/mainPage/memberRecommend.vue'
   import likeRecommendVue from '../components/mainPage/likeRecommend.vue'
   import recentRecommendVue from '../components/mainPage/recentRecommend.vue'
   import CategoryButton from '../components/mainPage/CategoryButton.vue'

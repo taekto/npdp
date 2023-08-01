@@ -44,6 +44,7 @@ export default {
 </script>
 
 <style scoped>
+/* 조리도구 체크박스 */
 .toolBox {
     margin: auto;
     border: solid grey;
@@ -58,6 +59,7 @@ export default {
     padding: 1rem;
 }
 
+/* 저장버튼 */
 .saveButton {
     margin-bottom: 5rem;
     background-color: #FD7E14;

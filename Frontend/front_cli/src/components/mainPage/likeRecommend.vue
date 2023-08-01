@@ -1,4 +1,5 @@
 <template>
+  <!-- 좋아요 많은 레시피 슬라이드 -->
   <div class="secondLine">
     <div class="likeRecommend">
         <p class="menuTitle">좋아요 많은 레시피</p>
@@ -8,6 +9,7 @@
                 <SlideCardLikeRecommend :slide = slide />
             </Slide>
 
+            <!-- 슬라이드 이동 버튼 -->
             <template #addons>
                 <Navigation />
             </template>
@@ -59,6 +61,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
+/* 좋아요 많은 레시피 슬라이드 */
 .secondLine {
   background-color: #EEEEEE;
   padding-top: 1rem;

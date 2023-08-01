@@ -39,8 +39,6 @@ export default {
 </script>
 
 <style scoped>
-/* 해당 파일을 외부로 적용시 오류가 생겨 해당 파일은 내부에서 CSS 적용 */
-
 .likeRecipes {
     margin: auto;
     display: inline-flex;
