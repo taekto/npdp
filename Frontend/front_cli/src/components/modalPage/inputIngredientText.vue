@@ -1,4 +1,5 @@
 <template>
+  <!-- 재료 텍스트 입력 모달 -->
   <div class="modal fade modal-xl" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -6,24 +7,28 @@
             <h1 class="modal-title fs-5" id="exampleModalToggleLabel">재료 입력</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
+
+          <!-- 입력된 재료 리스트 -->
           <div class="modal-body">
             <ul class="ListShow">
               <li class="ingredientList row" v-for="(ingredient, index) in ingredientList" :key="index">
                 <p class="col-1">{{ingredient.name}}</p>
                 <div class="amount col-2 row">
-                  <button class="amountButton col-3">+</button>
+                  <button class="amountButton col-3" @click="plusAmount(ingredient)">+</button>
                   <p class="col-6">{{ingredient.amount}}{{ingredient.unit}}</p>
-                  <button class="amountButton col-3">-</button>
+                  <button class="amountButton col-3" @click="minusAmount(ingredient)">-</button>
                 </div>
                 <p class="col-3">보관시작일 : {{ingredient.startDate}}</p>
                 <p class="col-3">
                   유통기한 : {{ingredient.endDate}}
                 </p>
                 <p class="col-2">보관방식 : {{ingredient.storage}}</p>
-                <button class="col-1">제거</button>
+                <button class="col-1" @click="deleteIngredient(ingredient)">제거</button>
               </li>
             </ul>
           </div>
+
+          <!-- 재료 이름 검색 폼 -->
           <div class="modal-body inputComponent">
             <div>
               <form @submit.prevent="goToSearchwithKeyword">
@@ -33,6 +38,8 @@
                 </div>
               </form>
             </div>
+
+            <!-- 재료 입력 폼 -->
             <div>
               <div>
                 <form @submit.prevent="goToSearchwithKeyword">
@@ -68,8 +75,9 @@
               <button class="soundButton" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">음성입력</button>
               <button class="soundButton" @click="appendList">추가하기</button>
             </div>
-            
           </div>
+
+          <!-- 재료 리스트 저장 -->
           <div class="modal-footer">
             <button class="soundButton" @click="pushIngredientData">저장하기</button>
           </div>
@@ -121,13 +129,36 @@ export default {
     pushIngredientData() {
       console.log(this.ingredientList)
       this.ingredientList = []
-    }
+    },
+    plusAmount(ingredient) {
+      ingredient.amount ++
+    },
+    minusAmount(ingredient) {
+      ingredient.amount --
+      if (ingredient.amount <= 0) {
+                const arrayRemove = (arr, value) => {
+                    return arr.filter((ele) => {
+                        return ele != value
+                    })
+                }
+                this.ingredients = arrayRemove(this.ingredientList, ingredient)
+            }
+    },
+    deleteIngredient(ingredient) {
+        const arrayRemove = (arr, value) => {
+          return arr.filter((ele) => {
+            return ele != value
+          })
+        }
+        this.ingredientList = arrayRemove(this.ingredientList, ingredient)
+      },
 
 }
 }
 </script>
 
 <style scoped>
+/* 모달 창 */
 .modalButton {
   border: solid #FD7E14;
   color: white;

@@ -1,32 +1,46 @@
 <template>
+  <!-- 레시피 정보(재료, 영양소, 유사도 등) -->
   <div>
-        <div class="InfomationLine">
-          <IngredientInfomation class="tempBox" :ingredients=ingredients :serving=serving />
-          <GraphInfomation class="tempBox" :similarity=similarity />
+    <p>{{recipe}}</p>
+    <!-- 레시피 정보 윗줄(재료 & 그래프) -->
+    <div class="InfomationLine">
+      <!-- 재료 정보 -->
+      <IngredientInfomation class="infoBox" :ingredients=ingredients :serving=serving />
+      
+      <!-- 유사도 그래프 -->
+      <GraphInfomation class="infoBox" :similarity=similarity />
+    </div>
+  
+    
+    <!-- 레시피 정보 아랫줄(영양소 & 재료 관리 버튼) -->
+    <div class="InfomationLine">
+      <!-- 영양소 정보 -->
+      <CalorieInformation class="infoBox" :method=method :calorie=calorie :serving=serving />
+      
+      <!-- 각종 버튼(인분 조절, 재료 입력, 양념 입력) -->
+      <div class="infoBox">
+        <!-- 인분 조절 -->
+        <div class="dropdown mt-3">
+          <button class="dropdown-toggle servingButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {{serving}}인분
+          </button>
+          <ul class="dropdown-menu">
+            <li><button class="dropdown-item" type="button" @click="chageServingOne">1인분</button></li>
+            <li><button class="dropdown-item" type="button" @click="chageServingTwo">2인분</button></li>
+            <li><button class="dropdown-item" type="button" @click="chageServingThree">3인분</button></li>
+            <li><button class="dropdown-item" type="button" @click="chageServingFour">4인분</button></li>
+            <li class="inputServing">직접기입 : <input class="dropdown-item inputServingNumber" type="number" v-model="serving"></li>
+          </ul>
         </div>
-        
-        <div class="InfomationLine">
-          <CalorieInformation class="tempBox" :method=method :calorie=calorie :serving=serving />
-          <div class="tempBox">
-            <div class="dropdown mt-3">
-              <button class="dropdown-toggle servingButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                {{serving}}인분
-              </button>
-              <ul class="dropdown-menu">
-                <li><button class="dropdown-item" type="button" @click="chageServingOne">1인분</button></li>
-                <li><button class="dropdown-item" type="button" @click="chageServingTwo">2인분</button></li>
-                <li><button class="dropdown-item" type="button" @click="chageServingThree">3인분</button></li>
-                <li><button class="dropdown-item" type="button" @click="chageServingFour">4인분</button></li>
-                <li class="inputServing">직접기입 : <input class="dropdown-item inputServingNumber" type="number" v-model="serving"></li>
-              </ul>
-            </div>
-            <IngredientModal />
-            <SeasoningModal />
-          </div>
-          
-          
-        </div>
+
+        <!-- 재료 입력 모달 버튼 -->
+        <IngredientModal />
+
+        <!-- 양념 입력 모달 버튼 -->
+        <SeasoningModal />
       </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -77,51 +91,68 @@ export default {
 }
 </script>
 
+<style>
+/* 각 레시피 정보가 들어갈 박스 */
+.infoBox {
+    width: 15rem;
+    height: 15rem;
+}
+/* 재료 정보 박스 */
+/* 각 줄 정보 */
+.oneLine {
+    display: flex;
+    justify-content: space-around;
+    height: 1.5rem;
+}
+.ingredientName {
+    justify-content: center;
+    width: 50%;
+}
+.ingredientAmount {
+    display: flex;
+    justify-content: center;
+    width: 50%;
+}
+/* 상단 설명 */
+.menu {
+    font-size: 17.5px;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+</style>
+
 <style scoped>
+/* 레시피 정보 */
 
+/* 레시피 정보 각 줄 */
 .InfomationLine {
-  display: flex;
+    display: flex;
 }
 
-.tempBox {
-  width: 15rem;
-  height: 15rem;
-}
 
+
+/* 인분 조절 버튼 */
 .servingButton {
-  border: solid #FD7E14;
-  background-color: white;
-  border-radius: .5rem;
-  margin: 1rem;
-  margin-top: 0rem;
-  padding: 0.7rem;
-  padding-left: 1.5rem;
-  font-size: 1.25rem;
-  font-weight: bold;
-  text-align: end;
-}
-
-.ingredientButton {
-  border: solid #FD7E14;
-  color: white;
-  background-color: #FD7E14;
-  border-radius: .5rem;
-  margin: 1rem;
-  margin-top: 5rem;
-  padding: 0.7rem;
-  font-size: 1.25rem;
-  font-weight: bold;
+    border: solid #FD7E14;
+    background-color: white;
+    border-radius: .5rem;
+    margin: 1rem;
+    margin-top: 0rem;
+    padding: 0.7rem;
+    padding-left: 1.5rem;
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-align: end;    
 }
 
 .inputServing {
-  margin-left: 1rem;
-  margin-right: 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
 }
 
 .inputServingNumber {
-  border: solid rgb(174, 174, 174);
-  border-radius: .25rem;
+    border: solid rgb(174, 174, 174);
+    border-radius: .25rem;
 }
-
 
 </style>

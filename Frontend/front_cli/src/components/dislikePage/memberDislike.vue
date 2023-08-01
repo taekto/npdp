@@ -9,22 +9,22 @@
       
       <div class="search_kwd">
         <span v-for="ingredient in searchResults" :key="ingredient.ingredient_id">
-          {{ ingredient.name }}
+          {{ ingredient.title }}
           <button @click="addToDislikeList(ingredient)">추가</button>
         </span>
       </div>
     </div>
-    
+
       <div class="col-5 member_dislike_list">
         <h3 class="list_title">비선호 재료 리스트</h3>
           <div class="member_check_list" v-if="memberDislikeIngredient.length > 0 || tmplst.length > 0" >
             <span v-for="ingredient in memberDislikeIngredient" :key="ingredient.ingredient_id">
-              {{ ingredient.name }} |
+              {{ ingredient.title }} |
             </span>
             <!-- 사용자가 search_kwd에서 재료를 선택하면 임시로 추가해놓고 저장버튼을 누르면 리스트를 들고 사용자 비선호 테이블에 저장 요청 -->
             <span v-for="addedIngredient in tmplst" :key="addedIngredient.ingredient_id" @click="removeFromTmplst(addedIngredient)"
             >
-              {{ addedIngredient.name }} |
+              {{ addedIngredient.title }} |
             </span>
             </div>
           <button @click="saveMemberDislikeList">저장</button>
@@ -64,7 +64,7 @@ export default {
       const tmplstIngredientIds = this.tmplst.map((item) => item.ingredient_id);
       // 사용자가 입력한 검색어와 유사한 재료 서치
       this.searchResults = this.ingredient.filter((ingredient) =>
-      !tmplstIngredientIds.includes(ingredient.ingredient_id) && ingredient.name.includes(this.searchKeyword)
+      !tmplstIngredientIds.includes(ingredient.ingredient_id) && ingredient.title.includes(this.searchKeyword)
       ).slice(0, 5);
     },
     memberDislikeList(ingredient) {

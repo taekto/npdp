@@ -1,4 +1,5 @@
 <template>
+  <!-- 유저기반 레시피 슬라이드 -->
   <div class="firstLine">
     <div class="userRecommend">
         <p class="menuTitle">유저기반 레시피</p>
@@ -8,6 +9,7 @@
                 <SlideCardUserRecommend :slide = slide />
             </Slide>
 
+            <!-- 슬라이드 이동 버튼 -->
             <template #addons>
                 <Navigation class="arrowButton" />
             </template>
@@ -26,7 +28,7 @@ import { Carousel, Navigation, Slide } from 'vue3-carousel'
 import 'vue3-carousel/dist/carousel.css'
 
 export default defineComponent({
-  name: 'UserRecommend',
+  name: 'MemberRecommend',
   components: {
     Carousel,
     Slide,
@@ -62,6 +64,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
+/* 유저 추천 슬라이드 */
 .firstLine {
   padding-top: 1rem;
   padding-bottom: 3rem;

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text-to-Speech 한글좀 </title>
+</head>
+<body>
+  <div>
+    <input type="text" id="textInput" placeholder="Enter text to convert to speech ">
+    <button onclick="convertToSpeech()">한글좀 Convert to Speech</button>
+    <audio id="audioElement" controls></audio>
+  </div>
+  <script>
+    function textToSpeech(_text) {
+      const url = "https://texttospeech.googleapis.com/v1/text:synthesize?key=AIzaSyCN8qg_05_pSKpv6wRKwKyUfVfEAOC-uaA";
+      const data = {
+        input: {
+          text: _text,
+        },
+        voice: {
+          languageCode: 'ko-KR',
+          name: 'ko-KR-Neural2-c',
+          ssmlGender: 'MALE',
+        },
+        audioConfig: {
+          audioEncoding: "MP3",
+        },
+      };
+      const otherparam = {
+        headers: {
+          "content-type": "application/json; charset=UTF-8",
+        },
+        body: JSON.stringify(data),
+        method: "POST",
+      };
+
+      // 사운드 생성
+      fetch(url, otherparam)
+        .then((data) => {
+          return data.json();
+        })
+        .then((res) => {
+          const audioContent = "data:audio/mpeg;base64," + res.audioContent;
+          const audioElement = document.getElementById("audioElement");
+          audioElement.src = audioContent;
+          audioElement.play();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+
+    function convertToSpeech() {
+      const textInput = document.getElementById("textInput");
+      const text = textInput.value;
+      textToSpeech(text);
+    }
+  </script>
+</body>
+</html>
