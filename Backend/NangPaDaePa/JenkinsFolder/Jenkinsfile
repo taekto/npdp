@@ -1,8 +1,10 @@
 pipeline {
     agent any
+
     tools {
         nodejs 'nodejs-18.17.0'
     }
+
     environment {
         CONTAINER_NAME = "hardcore_zhukovsky"
         IMAGE_NAME = "d72f4b351307"
@@ -52,7 +54,6 @@ pipeline {
                 failure {
                     sh 'echo "Failed to Build Vue.js App"'
                 }
-            }
         }
 
         stage('Build') {
