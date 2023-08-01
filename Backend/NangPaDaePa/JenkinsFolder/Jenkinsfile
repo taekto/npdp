@@ -38,7 +38,7 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                dir(VUE_APP_PATH) {
+                dir($VUE_APP_PATH) {
                     sh 'npm install'
                 }
             }
@@ -54,7 +54,7 @@ pipeline {
 
         stage('Build Vue.js App') {
             steps {
-                dir(VUE_APP_PATH) {
+                dir($VUE_APP_PATH) {
                     sh 'npm run'
                     sh 'npm run build'
                 }
