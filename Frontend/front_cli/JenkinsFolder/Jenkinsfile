@@ -7,6 +7,7 @@ pipeline {
         CONTAINER_NAME = "my_vue"
         IMAGE_NAME = "vue_app"
         VUE_APP_PATH = "Frontend/front_cli"
+        VUE_PORT = "3000"
     }
 
     stages {
@@ -62,6 +63,35 @@ pipeline {
             }
         }
 
+        stage('Docker Delete') {
+            steps {
+                script {
+                    try{
+                        sh 'echo "Docker Delete Start"'
+                        // 컨테이너 존재 시 삭제
+                        sh "docker stop ${CONTAINER_NAME}"
+                        sh "docker rm -f ${CONTAINER_NAME}"
+                    }catch (Exception e){
+                        echo "Docker container ${CONTAINER_NAME} does not exist. skip"
+                    }
+                    try{
+                        // 이미지 존재 시 삭제
+                        sh "docker image rm ${IMAGE_NAME}"
+                    }catch (Exception e){
+                        echo "Docker image ${IMAGE_NAME} does not exist. skip"
+                    }
+                }
+            }
+            post {
+                success {
+                    sh 'echo "Docker delete Success"'
+                }
+                failure {
+                    sh 'echo "Docker delete Fail"'
+                }
+            }
+        }
+
         stage('Docker Build') {
             steps {
                 sh 'echo "Building Docker Image"'
@@ -80,7 +110,7 @@ pipeline {
         stage('Docker Run') {
             steps {
                 sh 'echo "Running Docker Container"'
-                sh "docker run -d --name ${CONTAINER_NAME} -p 80:80 ${IMAGE_NAME}"
+                sh "docker run -d --name ${CONTAINER_NAME} -p ${VUE_PORT}:80 ${IMAGE_NAME}"
             }
             post {
                 success {
