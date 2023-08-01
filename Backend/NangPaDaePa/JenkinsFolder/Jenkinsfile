@@ -89,26 +89,10 @@ pipeline {
                 }
             }
         }
-        stage('Run Docker Container') {
-            steps {
-                sh 'echo "Running Docker Container"'
-                sh "docker run -d --name ${CONTAINER_NAME} -p 8080:80 ${IMAGE_NAME}"
-            }
-            post {
-                success {
-                    sh 'echo "Docker Container Started"'
-                }
-
-                failure {
-                    sh 'echo "Failed to Start Docker Container"'
-                }
-            }
-        }
-
         stage('Deploy') {
             steps {
                 script{
-                    sh 'docker run --name jenkins -d -p 9091:8080 jenkins/jenkins:lts'
+                    sh 'docker run -d --name ${CONTAINER_NAME} -p 8080:80 ${IMAGE_NAME}'
                 }
             }
             post {
