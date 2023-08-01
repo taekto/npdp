@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        CONTAINER_NAME = "hardcore_zhukovsky"
+        CONTAINER_NAME = "happy_mestorf"
         IMAGE_NAME = "nangpadaepa"
     }
     stages {
@@ -104,6 +104,7 @@ pipeline {
                 failure {
                     echo 'Deploy failed'
                 }
+                // jenkins test
             }
         }
     }
