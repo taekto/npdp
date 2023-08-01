@@ -6,7 +6,7 @@ pipeline {
     environment {
         CONTAINER_NAME = "my_vue"
         IMAGE_NAME = "vue_app"
-        VUE_APP_PATH = "../../front_cli/"
+        VUE_APP_PATH = "Frontend/front_cli"
     }
 
     stages {
