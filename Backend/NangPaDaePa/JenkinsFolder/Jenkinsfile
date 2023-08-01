@@ -74,11 +74,6 @@ pipeline {
         stage('Dockerizing'){
             steps{
                 sh 'echo " Image Bulid Start"'
-                // Vue.js 앱 빌드 결과물을 Nginx가 서빙할 수 있도록 Dockerfile에 복사
-                sh "mkdir -p dist"
-                sh "cp -r ${VUE_APP_PATH}/dist/* dist/"
-                sh "ls -al dist" // 디버깅용 명령어, 빌드 결과물 확인용
-
                 // Nginx가 설치된 도커 이미지를 기반으로 컨테이너 빌드
                 dir('Backend/NangPaDaePa') {
                     sh 'docker build -t ${IMAGE_NAME} .'
