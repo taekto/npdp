@@ -24,7 +24,11 @@ pipeline {
                 }
             }
         }
-
+       stage('Clean Node Modules') {
+            steps {
+                sh 'rm -rf ${VUE_APP_PATH}/node_modules'
+            }
+        }
         stage('Installl Nodejs18'){
             steps {
                 echo "nodejs ============================="
