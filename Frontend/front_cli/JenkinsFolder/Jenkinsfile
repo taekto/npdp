@@ -34,6 +34,7 @@ pipeline {
         stage('Build and Test') {
             steps {
                 dir(VUE_APP_PATH) {
+                    sh 'npm init'
                     sh 'npm install'
                     sh 'npm run build'
                 }
