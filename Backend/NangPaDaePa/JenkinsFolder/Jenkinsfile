@@ -105,20 +105,20 @@ pipeline {
             }
         }
 
-//         stage('Deploy') {
-//             steps {
-//                 script{
-//                     sh 'docker run --name ${CONTAINER_NAME} -d -p8080:8080 ${IMAGE_NAME}'
-//                 }
-//             }
-//             post {
-//                 success {
-//                     echo 'Deploy success'
-//                 }
-//                 failure {
-//                     echo 'Deploy failed'
-//                 }
-//             }
-//         }
+        stage('Deploy') {
+            steps {
+                script{
+                    sh 'docker run --name ${CONTAINER_NAME} -d -p 8080:8080 ${IMAGE_NAME}'
+                }
+            }
+            post {
+                success {
+                    echo 'Deploy success'
+                }
+                failure {
+                    echo 'Deploy failed'
+                }
+            }
+        }
     }
 }
