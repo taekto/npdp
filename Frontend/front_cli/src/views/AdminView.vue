@@ -3,7 +3,7 @@
     <div class="left-sidebar">
       <!-- 메뉴 영역 -->
       <ul>
-        <li @click="navigateTo('/admin/user')">유저 관리</li>
+        <li @click="navigateTo('/admin/member')">유저 관리</li>
         <li @click="navigateTo('/admin/recipe')">레시피 관리</li>
         <li @click="navigateTo('/admin/ingredient')">재료 관리</li>
         <li @click="navigateTo('/admin/seasoning')">양념 관리</li>

@@ -26,7 +26,6 @@ export default {
     },
     methods: {
         confirmPassword() {
-            console.log(this.password)
             this.$router.push({name: 'refrigerator'})
         }
     }

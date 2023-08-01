@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
+
+// 기능 페이지
 import MainView from '../views/MainView.vue'
 import SearchPage from "../components/searchPage/SearchPage.vue"
 import SearchKeyword from "../components/searchPage/SearchKeyword.vue"
@@ -10,13 +12,13 @@ import MyPage from '../views/MyPage.vue'
 import RefrigeratorPage from '../components/myPage/refrigeratorPage.vue'
 import ToolPage from '../components/myPage/toolPage.vue'
 import LikeRecipe from '../components/myPage/likeRecipe.vue'
-import EditPage from '../components/myPage/editPage.vue'
+import memberInfoEditPage from '../components/myPage/editPage.vue'
 import DislikeView from '../views/DislikeView.vue'
 
 //adminPage
 import AdminLoginPage from '../views/AdminLoginPage.vue'
 import AdminView from '../views/AdminView.vue'
-import AdminUserPage from '../components/adminPage/userPage.vue'
+import AdminMemberPage from '../components/adminPage/memberPage.vue'
 import AdminRecipePage from '../components/adminPage/recipePage.vue'
 import AdminIngredientPage from '../components/adminPage/ingredientPage.vue'
 import AdminSeasoningPage from '../components/adminPage/seasoningPage.vue'
@@ -66,71 +68,75 @@ const routes = [
     name: 'login',
     component: LoginView
   },
-
   {
+    // 마이페이지(비밀번호 확인)
     path: '/mypage',
     name: 'mypage',
     component: MyPage,
   },
-
   {
+    // 마이페이지(냉장고)
     path: '/mypage/refrigerator',
     name: 'refrigerator',
     component: RefrigeratorPage,
   },
-
   {
+    // 마이페이지(조리도구)
     path: '/mypage/tool',
     name: 'tool',
     component: ToolPage,
   },
-
   {
+    // 마이페이지(좋아요한 레시피)
     path: '/mypage/like',
     name: 'like',
     component: LikeRecipe,
   },
-  
   {
+    // 마이페이지(회원정보 수정)
     path: '/mypage/edit',
     name: 'edit',
-    component: EditPage,
+    component: memberInfoEditPage,
   },
-
   {
+    // 비선호 재료
     path: '/dislike',
     name: 'dislike',
     component: DislikeView
   },
-  
   {
+    // 관리자 페이지(로그인)
     path: '/admin-login',
     name: 'admin-login',
     component: AdminLoginPage
   },
-  
   {
+    // 관리자 페이지(메인)
     path: '/admin',
     name: 'admin',
     component: AdminView,
     redirect: '/admin/user', // Default sub-route
     children: [
       {
-        path: 'user',
-        name: 'admin/user',
-        component: AdminUserPage,
+        // 관리자 페이지(유저)
+        path: 'member',
+        name: 'admin/member',
+        component: AdminMemberPage,
       },
       {
+        // 관리자 페이지(레시피)
         path: 'recipe',
         name: 'admin/recipe',
         component: AdminRecipePage,
       },
       {
+        // 관리자 페이지(재료)
         path: 'ingredient',
         name: 'admin/ingredient',
         component: AdminIngredientPage,
       },
       {
+        // 관리자 페이지(양념)
         path: 'seasoning',
         name: 'admin/seasoning',
         component: AdminSeasoningPage,

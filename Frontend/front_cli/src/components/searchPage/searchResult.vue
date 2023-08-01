@@ -8,13 +8,15 @@
         <!-- 키워드와 관련된 레시피들을 추천 -->
         <!-- 현재는 임시 값으로 이미지와 이름만 사용 -->
         <div
-        v-for="(number, index) in 50"
+        v-for="(recipe_item, index) in recipe"
         :key="index"
         >
             <!-- 레시피 카드로 표현 -->
             <div class="recommendCard" @click="goToDetailRecipe">
                 <img src="@/assets/123.jpg" alt="">
-                <p>Recipe Name</p>
+                <!-- <p>Recipe Name</p> -->
+                <p>{{recipe_item.name}}</p>
+                
                 <button class="recipeButton">View More</button>
             </div>
         </div>
@@ -22,8 +24,13 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
+
 export default {
     name: 'SearchResult',
+    computed: {
+        ...mapGetters(['recipe'])
+    },
 
     methods: {
         // 상세 레시피로 보내주는 함수
@@ -57,7 +64,9 @@ export default {
     }
     };
 </script>
+
 <style scoped>
+/* 검색 결과 인피니티 스크롤 */
 .list {
     height: calc(100vh - 70px);
     overflow: auto;
@@ -68,6 +77,8 @@ export default {
     margin-bottom: 5rem;
     justify-content: center;
 }
+
+/* 검색 결과 레시피 카드 */
 .recommendCard {
     border-radius: .5rem;
     box-shadow: 2px 2px 2px 2px;

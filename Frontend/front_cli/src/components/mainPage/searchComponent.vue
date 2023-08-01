@@ -1,23 +1,25 @@
 <template>
-  <div>
-    <form @submit.prevent="goToSearchwithKeyword">
-        <div class="input-group">
-            <input id="searchForm" class="form-control" type="text" v-model.trim="searchKeyword">
-            <input id="submitButton" type="submit" value="검색">
-        </div>
-        <div id="hashTagkeyword">
-            <router-link id="hash" :to="{
-                name: 'searchKeyword',
-                params: {
-                    keyword: tag
-                }
-            }" v-for="(tag, index) in hashTag" :key="index">
-                # {{ tag }}
-            </router-link>
-        </div>
-    </form>
-    
-  </div>
+    <!-- 검색창 컴포넌트 -->
+    <div>
+        <form @submit.prevent="goToSearchwithKeyword">
+            <div class="input-group">
+                <input id="searchForm" class="form-control" type="text" v-model.trim="searchKeyword">
+                <input id="submitButton" type="submit" value="검색">
+            </div>
+
+            <!-- 해시태그 -->
+            <div id="hashTagkeyword">
+                <router-link id="hash" :to="{
+                    name: 'searchKeyword',
+                    params: {
+                        keyword: tag
+                    }
+                }" v-for="(tag, index) in hashTag" :key="index">
+                    # {{ tag }}
+                </router-link>
+            </div>
+        </form>
+    </div>
 </template>
 
 <script>
@@ -57,6 +59,7 @@ export default {
 </script>
 
 <style scoped>
+/* 해시태그 */
 #hashTagkeyword {
     display: flex;
     justify-content: center;
@@ -70,6 +73,8 @@ export default {
     border-radius: .5rem;
     text-decoration-line: none;
 }
+
+/* 검색창 */
 .input-group {
     width: 60%;
     height: 2.5rem;

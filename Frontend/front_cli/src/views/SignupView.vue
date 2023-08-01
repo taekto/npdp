@@ -1,11 +1,10 @@
 <template>
+  <!-- 로컬 회원가입 -->
   <div class="signup_container">
     <div class="signup_card">
+      <!-- 회원정보입력 -->
       <form class="signup_form" id="signup_form">
         <h1 class="form_title">Craete an account</h1>
-        <div class="form_title_message">
-          <span>Start your journey</span>
-        </div>
           <label for="nickname" class="input_label">NickName</label>
           <input
             type="text"
@@ -34,6 +33,7 @@
             style="width: 100%; height: 33.6px" 
           />
           
+  <!-- VCalender로 대체 -->
   <div class="birthdate_container">
     <label for="birthdate">생년월일</label>
     <div class="birthdate_select_container">
@@ -52,6 +52,7 @@
     </div>
   </div>
 
+        <!-- 라디오버튼 폼으로 변경 -->
         <div class="gender_container">
           <div class="gender">
             <label for="gender">성별</label>
@@ -86,57 +87,58 @@ import { Options, Vue } from 'vue-class-component';
 @Options({})
 export default class SignupView extends Vue {
   credentials = {
-    name: '',
+    nickname: '',
     email: '',
     password: '',
+    birth: '',
     gender: '',
   };
 
-  birthdate = {
-    year: '',
-    month: '',
-    day: '',
-  };
+  // birthdate = {
+  //   year: '',
+  //   month: '',
+  //   day: '',
+  // };
 
-  get years() {
-    const currentYear = new Date().getFullYear();
-    const startYear = 1900;
-    const years = [];
+  // get years() {
+  //   const currentYear = new Date().getFullYear();
+  //   const startYear = 1900;
+  //   const years = [];
 
-    for (let year = currentYear; year >= startYear; year--) {
-      years.push(year.toString());
-    }
+  //   for (let year = currentYear; year >= startYear; year--) {
+  //     years.push(year.toString());
+  //   }
 
-    return years;
-  }
+  //   return years;
+  // }
 
-  get months() {
-    const months = [];
+//   get months() {
+//     const months = [];
 
-    for (let month = 1; month <= 12; month++) {
-      months.push(month.toString());
-    }
+//     for (let month = 1; month <= 12; month++) {
+//       months.push(month.toString());
+//     }
 
-    return months;
-  }
+//     return months;
+//   }
 
-get days() {
-    const selectedMonth = Number(this.birthdate.month);
-    const selectedYear = Number(this.birthdate.year);
-    const daysInMonth = new Date(selectedYear, selectedMonth, 0).getDate();
+// get days() {
+//     const selectedMonth = Number(this.birthdate.month);
+//     const selectedYear = Number(this.birthdate.year);
+//     const daysInMonth = new Date(selectedYear, selectedMonth, 0).getDate();
 
-    if (!selectedMonth || !selectedYear) {
-      return [];
-    }
+//     if (!selectedMonth || !selectedYear) {
+//       return [];
+//     }
 
-    const days = [];
+//     const days = [];
 
-    for (let day = 1; day <= daysInMonth; day++) {
-      days.push(day.toString());
-    }
+//     for (let day = 1; day <= daysInMonth; day++) {
+//       days.push(day.toString());
+//     }
 
-    return days;
-  }
+//     return days;
+//   }
 }
 </script>
 
@@ -153,11 +155,6 @@ get days() {
 .form_title {
   text-align: center;
   margin-bottom: 15px;
-}
-
-.form_title_message {
-  text-align: center;
-  margin-bottom: 25px;
 }
 
 .input_label {

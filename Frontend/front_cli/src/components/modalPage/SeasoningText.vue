@@ -1,4 +1,5 @@
 <template>
+  <!-- 양념 텍스트 입력 모달 -->
   <div class="modal fade modal-xl" id="seasoningModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -6,6 +7,8 @@
             <h1 class="modal-title fs-5" id="exampleModalToggleLabel">양념 입력</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
+
+          <!-- 현재 입력된 양념 리스트 -->
           <div class="modal-body">
             <ul class="ListShow">
               <li class="ingredientList row" v-for="(seasoning, index) in seasoningList" :key="index">
@@ -19,6 +22,8 @@
               </li>
             </ul>
           </div>
+
+          <!-- 양념 이름 검색 -->
           <div class="modal-body inputComponent">
             <div>
               <form @submit.prevent="goToSearchwithKeyword">
@@ -28,6 +33,8 @@
                 </div>
               </form>
             </div>
+
+            <!-- 보관 방법 라디오 버튼 -->
             <div>
               <div>
                 <label class="radioButton">
@@ -43,8 +50,9 @@
               <button class="soundButton" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">음성입력</button>
               <button class="soundButton" @click="appendList">추가하기</button>
             </div>
-            
           </div>
+
+          <!-- 현재 입력된 리스트 저장 -->
           <div class="modal-footer">
             <button class="soundButton" @click="pushSeasoningData">저장하기</button>
           </div>
@@ -97,6 +105,7 @@ export default {
 </script>
 
 <style scoped>
+/* 모달 버튼 */
 .modalButton {
   border: solid #FD7E14;
   color: white;
@@ -116,6 +125,7 @@ export default {
   border: solid rgb(244, 244, 244);
 }
 
+/* 양념 리스트 */
 .ListShow {
   border-bottom: solid #a7a7a7;
   width: 95%;

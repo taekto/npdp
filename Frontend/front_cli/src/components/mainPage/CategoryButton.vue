@@ -1,4 +1,5 @@
 <template>
+  <!-- 검색 결과 필터링 컴포넌트 -->
   <div class="categoryList">
     <label><input type="radio" name="category" value="전체">전체</label>
     <label><input type="radio" name="category" value="밥">밥</label>
@@ -16,6 +17,7 @@ export default {
 </script>
 
 <style scoped>
+/* 검색결과 필터링 */
 .categoryList {
     padding-top: 2.5rem;
     padding-bottom: 2.5rem;

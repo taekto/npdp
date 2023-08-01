@@ -1,4 +1,5 @@
 <template>
+  <!-- 최근 본 레시피 슬라이드 -->
   <div class="thirdLine">
     <div class="recentRecommend">
         <p class="menuTitle">최근 본 레시피</p>
@@ -8,8 +9,9 @@
             <SlideCardRecentRecommned :slide = slide />
             </Slide>
 
+            <!-- 슬라이드 이동 버튼 -->
             <template #addons>
-            <Navigation />
+              <Navigation />
             </template>
         </Carousel>
     </div>
@@ -58,6 +60,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
+/* 최근 본 레시피 슬라이드 */
 .thirdLine {
   padding-top: 1rem;
   padding-bottom: 3rem;
