@@ -108,7 +108,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 script{
-                    sh 'docker run --name jenkins -d -p 9091:8080 jenkins'
+                    sh 'docker run --name jenkins -d -p 9091:8080 jenkins/jenkins:lts'
                 }
             }
             post {
