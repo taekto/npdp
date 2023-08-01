@@ -3,6 +3,7 @@ import { RootState } from '../index'; // Root Vuex Store에서 정의한 RootSta
 import router from '@/router';
 import api from '@/api/api';
 import axios from 'axios';
+import { AnyObject } from 'chart.js/dist/types/basic';
 
 interface RecipeState {
   recipe: Recipe[];
@@ -64,6 +65,8 @@ interface RecipeIngredient {
   unit: string
   etc?: string
 }
+
+
 const recipe: Module<RecipeState, RootState> = {
   state: {
     recipe: [
@@ -80,7 +83,7 @@ const recipe: Module<RecipeState, RootState> = {
         tag: "한식",
         img_small: "https://example.com/omurice_small.jpg",
         img_big: "https://example.com/omurice_big.jpg",
-        category: "밥류",
+        category: "밥",
         dish: 1
       },
       {
@@ -96,7 +99,7 @@ const recipe: Module<RecipeState, RootState> = {
         tag: "양식",
         img_small: "https://example.com/spaghetti_small.jpg",
         img_big: "https://example.com/spaghetti_big.jpg",
-        category: "면류",
+        category: "일품",
         dish: 1
       },
       {
@@ -112,7 +115,7 @@ const recipe: Module<RecipeState, RootState> = {
         tag: "중식",
         img_small: "https://example.com/jjajangmyeon_small.jpg",
         img_big: "https://example.com/jjajangmyeon_big.jpg",
-        category: "면류",
+        category: "일품",
         dish: 1
       },
       {
@@ -128,7 +131,7 @@ const recipe: Module<RecipeState, RootState> = {
         tag: "한식",
         img_small: "https://example.com/samgyeopsal_small.jpg",
         img_big: "https://example.com/samgyeopsal_big.jpg",
-        category: "고기요리",
+        category: "반찬",
         dish: 1
       },
       {
@@ -144,8 +147,8 @@ const recipe: Module<RecipeState, RootState> = {
         tag: "양식",
         img_small: "https://example.com/pizza_small.jpg",
         img_big: "https://example.com/pizza_big.jpg",
-        category: "피자",
-        dish: 1
+        category: "일품",
+        dish: 1,
       },
       {
         recipe_id: 6,
@@ -160,7 +163,7 @@ const recipe: Module<RecipeState, RootState> = {
         tag: "이탈리아",
         img_small: "https://example.com/samsaek_pasta_small.jpg",
         img_big: "https://example.com/samsaek_pasta_big.jpg",
-        category: "면류",
+        category: "일품",
         dish: 1
       },
       {
@@ -176,8 +179,8 @@ const recipe: Module<RecipeState, RootState> = {
         tag: "한식",
         img_small: "https://example.com/bulgogi_small.jpg",
         img_big: "https://example.com/bulgogi_big.jpg",
-        category: "고기요리",
-        dish: 1
+        category: "반찬",
+        dish: 1,
       },
       {
         recipe_id: 8,
@@ -192,7 +195,7 @@ const recipe: Module<RecipeState, RootState> = {
         tag: "다이어트",
         img_small: "https://example.com/salad_small.jpg",
         img_big: "https://example.com/salad_big.jpg",
-        category: "샐러드",
+        category: "반찬",
         dish: 1
       },
       {
@@ -208,7 +211,7 @@ const recipe: Module<RecipeState, RootState> = {
         tag: "중식",
         img_small: "https://example.com/jjamppong_small.jpg",
         img_big: "https://example.com/jjamppong_big.jpg",
-        category: "면류",
+        category: "일품",
         dish: 1
       },
       {
@@ -224,7 +227,7 @@ const recipe: Module<RecipeState, RootState> = {
         tag: "일식",
         img_small: "https://example.com/kare_rice_small.jpg",
         img_big: "https://example.com/kare_rice_big.jpg",
-        category: "밥류",
+        category: "밥",
         dish: 1
       },
       {
@@ -256,7 +259,7 @@ const recipe: Module<RecipeState, RootState> = {
         tag: "간편식",
         img_small: "https://example.com/ramen_small.jpg",
         img_big: "https://example.com/ramen_big.jpg",
-        category: "면류",
+        category: "일품",
         dish: 1
       },
       {
@@ -272,7 +275,7 @@ const recipe: Module<RecipeState, RootState> = {
         tag: "일식",
         img_small: "https://example.com/sushi_small.jpg",
         img_big: "https://example.com/sushi_big.jpg",
-        category: "초밥",
+        category: "밥",
         dish: 1
       },
       {
@@ -288,7 +291,7 @@ const recipe: Module<RecipeState, RootState> = {
         tag: "한식",
         img_small: "https://example.com/dak_bokkeumtang_small.jpg",
         img_big: "https://example.com/dak_bokkeumtang_big.jpg",
-        category: "고기요리",
+        category: "반찬",
         dish: 1
       },
       {
@@ -304,7 +307,7 @@ const recipe: Module<RecipeState, RootState> = {
         tag: "양식",
         img_small: "https://example.com/hamburger_small.jpg",
         img_big: "https://example.com/hamburger_big.jpg",
-        category: "햄버거",
+        category: "후식",
         dish: 1
       },
     ],
@@ -315,12 +318,14 @@ const recipe: Module<RecipeState, RootState> = {
   },
   getters: {
     recipe: state => state.recipe,
+    getRecipeById: (state) => (recipe_id: number) => {
+      return state.recipe.find((recipe) => recipe.recipe_id === recipe_id) || null;
+    },
   },
   mutations: {
     SET_RECIPE: (state, recipe) => (state.recipe = recipe),
   },
   actions: {
-    
   },
 };
 
