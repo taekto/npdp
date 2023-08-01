@@ -9,6 +9,7 @@
       <!-- 유사도 그래프 -->
       <GraphInfomation class="infoBox" :similarity=similarity />
     </div>
+  
     
     <!-- 레시피 정보 아랫줄(영양소 & 재료 관리 버튼) -->
     <div class="InfomationLine">

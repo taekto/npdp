@@ -3,7 +3,7 @@
   <div class="recipeDetail">
     <!-- 레시피 이름 -->
     <div class="recipeName">
-      <h2 class="recipeTitle">레시피이름 : {{recipe.name}}</h2>
+      <h2 class="recipeTitle">레시피이름 : {{recipeItem.name}}</h2>
       <button v-if="liked" class="likeButton" @click="changeLike">Like</button>
       <button v-else class="dislikeButton" @click="changeLike">Dislike</button>
     </div>
@@ -61,6 +61,17 @@ export default {
       changeLike() {
         this.liked = this.liked ? false : true;
       }
+    },
+    computed: {
+      recipeItem() {
+        console.log('-----------------')
+        console.log(this.$route.params.recipeItem)
+        const recipeItem = this.$route.query.recipeItem;
+        if (recipeItem) {
+          return JSON.parse(recipeItem);
+        }
+        return null;
+      },
     }
 }
 </script>

@@ -23,7 +23,7 @@ interface Recipe {
   protein: number
   fat: number
   salt: number
-  tag: string
+  // tag: string
   img_small: string
   img_big: string
   category: string
@@ -57,12 +57,15 @@ interface RecipeIngredient {
   ingredient_inclusion_id: number
   recipe_key: number
   ingredients_key: number
-  // have_id: number
-  // member_id: number
   type: number
   amount: number
   unit: string
   etc?: string
+}
+
+// 레시피 디테일
+interface RecipeDetail {
+  
 }
 const recipe: Module<RecipeState, RootState> = {
   state: {
@@ -77,7 +80,7 @@ const recipe: Module<RecipeState, RootState> = {
         protein: 20,
         fat: 15,
         salt: 1,
-        tag: "한식",
+        // tag: "한식",
         img_small: "https://example.com/omurice_small.jpg",
         img_big: "https://example.com/omurice_big.jpg",
         category: "밥류",
@@ -93,7 +96,7 @@ const recipe: Module<RecipeState, RootState> = {
         protein: 25,
         fat: 18,
         salt: 2,
-        tag: "양식",
+        // tag: "양식",
         img_small: "https://example.com/spaghetti_small.jpg",
         img_big: "https://example.com/spaghetti_big.jpg",
         category: "면류",
@@ -109,7 +112,7 @@ const recipe: Module<RecipeState, RootState> = {
         protein: 22,
         fat: 17,
         salt: 1.5,
-        tag: "중식",
+        // tag: "중식",
         img_small: "https://example.com/jjajangmyeon_small.jpg",
         img_big: "https://example.com/jjajangmyeon_big.jpg",
         category: "면류",
@@ -125,7 +128,7 @@ const recipe: Module<RecipeState, RootState> = {
         protein: 40,
         fat: 60,
         salt: 3,
-        tag: "한식",
+        // tag: "한식",
         img_small: "https://example.com/samgyeopsal_small.jpg",
         img_big: "https://example.com/samgyeopsal_big.jpg",
         category: "고기요리",
@@ -141,7 +144,7 @@ const recipe: Module<RecipeState, RootState> = {
         protein: 30,
         fat: 40,
         salt: 2.5,
-        tag: "양식",
+        // tag: "양식",
         img_small: "https://example.com/pizza_small.jpg",
         img_big: "https://example.com/pizza_big.jpg",
         category: "피자",
@@ -157,7 +160,7 @@ const recipe: Module<RecipeState, RootState> = {
         protein: 25,
         fat: 20,
         salt: 1.5,
-        tag: "이탈리아",
+        // tag: "이탈리아",
         img_small: "https://example.com/samsaek_pasta_small.jpg",
         img_big: "https://example.com/samsaek_pasta_big.jpg",
         category: "면류",
@@ -173,7 +176,7 @@ const recipe: Module<RecipeState, RootState> = {
         protein: 30,
         fat: 25,
         salt: 1.5,
-        tag: "한식",
+        // tag: "한식",
         img_small: "https://example.com/bulgogi_small.jpg",
         img_big: "https://example.com/bulgogi_big.jpg",
         category: "고기요리",
@@ -189,7 +192,7 @@ const recipe: Module<RecipeState, RootState> = {
         protein: 10,
         fat: 5,
         salt: 0.5,
-        tag: "다이어트",
+        // tag: "다이어트",
         img_small: "https://example.com/salad_small.jpg",
         img_big: "https://example.com/salad_big.jpg",
         category: "샐러드",
@@ -205,7 +208,7 @@ const recipe: Module<RecipeState, RootState> = {
         protein: 25,
         fat: 15,
         salt: 2,
-        tag: "중식",
+        // tag: "중식",
         img_small: "https://example.com/jjamppong_small.jpg",
         img_big: "https://example.com/jjamppong_big.jpg",
         category: "면류",
@@ -221,7 +224,7 @@ const recipe: Module<RecipeState, RootState> = {
         protein: 20,
         fat: 15,
         salt: 1.5,
-        tag: "일식",
+        // tag: "일식",
         img_small: "https://example.com/kare_rice_small.jpg",
         img_big: "https://example.com/kare_rice_big.jpg",
         category: "밥류",
@@ -237,7 +240,7 @@ const recipe: Module<RecipeState, RootState> = {
         protein: 15,
         fat: 20,
         salt: 0.5,
-        tag: "한식",
+        // tag: "한식",
         img_small: "https://example.com/gyeran_mari_small.jpg",
         img_big: "https://example.com/gyeran_mari_big.jpg",
         category: "반찬",
@@ -253,7 +256,7 @@ const recipe: Module<RecipeState, RootState> = {
         protein: 10,
         fat: 20,
         salt: 3,
-        tag: "간편식",
+        // tag: "간편식",
         img_small: "https://example.com/ramen_small.jpg",
         img_big: "https://example.com/ramen_big.jpg",
         category: "면류",
@@ -269,7 +272,7 @@ const recipe: Module<RecipeState, RootState> = {
         protein: 25,
         fat: 15,
         salt: 1.5,
-        tag: "일식",
+        // tag: "일식",
         img_small: "https://example.com/sushi_small.jpg",
         img_big: "https://example.com/sushi_big.jpg",
         category: "초밥",
@@ -285,7 +288,7 @@ const recipe: Module<RecipeState, RootState> = {
         protein: 30,
         fat: 25,
         salt: 2,
-        tag: "한식",
+        // tag: "한식",
         img_small: "https://example.com/dak_bokkeumtang_small.jpg",
         img_big: "https://example.com/dak_bokkeumtang_big.jpg",
         category: "고기요리",
@@ -301,7 +304,7 @@ const recipe: Module<RecipeState, RootState> = {
         protein: 25,
         fat: 30,
         salt: 2.5,
-        tag: "양식",
+        // tag: "양식",
         img_small: "https://example.com/hamburger_small.jpg",
         img_big: "https://example.com/hamburger_big.jpg",
         category: "햄버거",
@@ -313,12 +316,18 @@ const recipe: Module<RecipeState, RootState> = {
     recipeSeasoning: [],
     recipeIngredient: [],
   },
+
   getters: {
     recipe: state => state.recipe,
+    getRecipeById: state => (recipe_id: number) => {
+    return state.recipe.find((recipe) => recipe.recipe_id === recipe_id) || null;
   },
+  },
+
   mutations: {
     SET_RECIPE: (state, recipe) => (state.recipe = recipe),
   },
+
   actions: {
     
   },

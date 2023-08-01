@@ -53,6 +53,11 @@ export default {
     },
     methods: {
         // 키워드를 통해 검색하도록 하는 함수
+
+
+        // 재료데이터 다 받아옴
+        // find 키워드 동일한거 추려서
+        // 해당 레시피 id를 들고 axios요청하면 그 데이터 상세조회
         goToSearchwithKeyword() {
             // 키워드를 통해 검색하는 과정
             this.keyWord = ""

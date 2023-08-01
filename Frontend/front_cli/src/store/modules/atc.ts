@@ -282,7 +282,7 @@ const atc: Module<ATCState, RootState> = {
   },
   getters: {
     ingredient: state => state.ingredient,
-    seasoning: state => state.seasoning
+    seasoning: state => state.seasoning,
     // ATC 게터 정의
   },
   mutations: {
@@ -292,7 +292,7 @@ const atc: Module<ATCState, RootState> = {
   actions: {
     fetchIngredient({ commit, getters }) {
       axios({
-        url: api.recipe.ingredient(),
+        url: api.atc.ingredient(),
         method: 'get',
         headers: getters.authHeader,
       })

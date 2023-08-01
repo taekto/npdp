@@ -107,7 +107,7 @@ export default {
         nickName : "임시 닉네임",
         email : "temp123@ssafy.com",
         password : "",
-        birthDate : "1996-07-11",
+        birthDate : "",
         gender : "남자",
         user_data : {nickname : this.nickName, email : this.email, password : this.password, birthDate : this.birthDate, gender : this.gender}
       }

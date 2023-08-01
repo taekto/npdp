@@ -12,7 +12,7 @@
             id="nickname"
             placeholder="Enter your NickName"
             class="input"
-            name="name"
+            name="nickname"
             style="width: 100%; height: 33.6px" 
           />
           <label for="email" class="input_label">Email</label>
@@ -33,24 +33,16 @@
             name="password"
             style="width: 100%; height: 33.6px" 
           />
-          
-  <div class="birthdate_container">
-    <label for="birthdate">생년월일</label>
-    <div class="birthdate_select_container">
-      <select class="birthdate_select" name="birthdate" v-model="birthdate.year">
-        <option value="">년</option>
-        <option v-for="year in years" :key="year" :value="year">{{ year }}</option>
-      </select>
-      <select class="birthdate_select" name="birthmonth" v-model="birthdate.month">
-        <option value="">월</option>
-        <option v-for="month in months" :key="month" :value="month">{{ month }}</option>
-      </select>
-      <select class="birthdate_select" name="birthday" v-model="birthdate.day">
-        <option value="">일</option>
-        <option v-for="day in days" :key="day" :value="day">{{ day }}</option>
-      </select>
-    </div>
-  </div>
+        
+         <div class="birthdate_container">
+          <label for="birthdate">생년월일</label>
+          <v-date-picker
+            v-model="credentials.birth"
+            :max="new Date()"
+            name="birthdate"
+          ></v-date-picker>
+          <h1>{{credentials.birth}}</h1>
+        </div>
 
         <div class="gender_container">
           <div class="gender">
@@ -86,57 +78,14 @@ import { Options, Vue } from 'vue-class-component';
 @Options({})
 export default class SignupView extends Vue {
   credentials = {
-    name: '',
     email: '',
+    nickname: '',
     password: '',
+    birth: '',
     gender: '',
-  };
-
-  birthdate = {
-    year: '',
-    month: '',
-    day: '',
-  };
-
-  get years() {
-    const currentYear = new Date().getFullYear();
-    const startYear = 1900;
-    const years = [];
-
-    for (let year = currentYear; year >= startYear; year--) {
-      years.push(year.toString());
-    }
-
-    return years;
   }
 
-  get months() {
-    const months = [];
-
-    for (let month = 1; month <= 12; month++) {
-      months.push(month.toString());
-    }
-
-    return months;
-  }
-
-get days() {
-    const selectedMonth = Number(this.birthdate.month);
-    const selectedYear = Number(this.birthdate.year);
-    const daysInMonth = new Date(selectedYear, selectedMonth, 0).getDate();
-
-    if (!selectedMonth || !selectedYear) {
-      return [];
-    }
-
-    const days = [];
-
-    for (let day = 1; day <= daysInMonth; day++) {
-      days.push(day.toString());
-    }
-
-    return days;
-  }
+  
 }
 </script>
 

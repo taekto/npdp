@@ -25,7 +25,7 @@ interface Member {
     oauth: string
     // refresh_token: string
     role: number
-    birth: string
+    birth?: any
     gender: string
     quit: boolean
 }
@@ -186,7 +186,7 @@ const member: Module<MemberState, RootState> = {
       localStorage.removeItem('refreshToken');
     },
 
-    // 로그인
+    // 로컬 로그인
     // login ({}) {
       
     // },
