@@ -1,13 +1,20 @@
 pipeline {
     agent any
 
+<<<<<<< HEAD
 //     tools {
 //         nodejs 'NodeJS 18.16.1'
 //     }
+=======
+    tools {
+        nodejs 'nodejs-18.17.0'
+    }
+
+>>>>>>> 7595ff2a687e16e816b0683f432b1e8e8e38c44b
     environment {
         CONTAINER_NAME = "hardcore_zhukovsky"
         IMAGE_NAME = "d72f4b351307"
-        VUE_APP_PATH = "../../../Frontend/front_cli"
+        VUE_APP_PATH = "Frontend/front_cli"
     }
     stages {
         stage('Git Clone') {
@@ -24,6 +31,7 @@ pipeline {
                 }
             }
         }
+<<<<<<< HEAD
 
 //         stage('Installl Nodejs18'){
 //             steps {
@@ -71,6 +79,38 @@ pipeline {
 //                 }
 //             }
 //         }
+=======
+        stage('Install Dependencies') {
+            steps {
+                dir(${VUE_APP_PATH}) {
+                    sh 'npm install'
+                }
+            }
+            post {
+                success {
+                    sh 'echo "Installed Dependencies"'
+                }
+                failure {
+                    sh 'echo "Failed to Install Dependencies"'
+                }
+            }
+        }
+
+        stage('Build Vue.js App') {
+            steps {
+                dir(${VUE_APP_PATH}) {
+                    sh 'npm run build'
+                }
+            }
+            post {
+                success {
+                    sh 'echo "Built Vue.js App"'
+                }
+                failure {
+                    sh 'echo "Failed to Build Vue.js App"'
+                }
+        }
+>>>>>>> 7595ff2a687e16e816b0683f432b1e8e8e38c44b
 
         stage('Build') {
             steps {
