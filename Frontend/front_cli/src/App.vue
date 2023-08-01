@@ -10,7 +10,7 @@
 
       <!-- 기본 메뉴(메인, 검색, 설명) -->
       <div id="pageLink">
-        <router-link to="/">Home</router-link> |
+        <router-link to="/">Main</router-link> |
         <router-link to="/search">Search</router-link> |
         <router-link to="/about">About Us</router-link>
       </div>
@@ -18,9 +18,13 @@
       <!-- 유저 관련 메뉴 -->
       <div id="user">
         <router-link to="/signup">Signup</router-link> | 
+<<<<<<< HEAD
         <router-link to="/login">Login</router-link> |
         <router-link to="/dislike">Dislike</router-link>
   
+=======
+        <router-link to="/login">Login</router-link>
+>>>>>>> 8a12f3913746d6ef902157d5fe95586f80ed151a
       </div>
     </nav>
 

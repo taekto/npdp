@@ -1,9 +1,10 @@
 <template>
-  <div class="recommendCard" @click="goToDetailRecipe">
-    <img src='@/assets/123.jpg'>
-    <p>{{ slide }}번 레시피</p>
-    <button class="recipeButton">View More</button>
-  </div>
+    <!-- 최근 본 레시피 카드 -->
+    <div class="recommendCard" @click="goToDetailRecipe">
+        <img src='@/assets/123.jpg'>
+        <p>{{ slide }}번 레시피</p>
+        <button class="recipeButton">View More</button>
+    </div>
 </template>
 
 <script>
@@ -27,6 +28,7 @@ export default {
 </script>
 
 <style scoped>
+/* 최근 본 레시피 카드 */
 .recommendCard {
     border-radius: .5rem;
     box-shadow: 2px 2px 2px 2px;

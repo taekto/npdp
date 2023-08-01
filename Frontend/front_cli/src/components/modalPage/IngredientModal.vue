@@ -1,4 +1,5 @@
 <template>
+  <!-- 재료 입력 모달 상위 컴포넌트 -->
   <div>
     <IngredientText />
     <IngredientSound />
@@ -25,6 +26,7 @@ export default {
 </script>
 
 <style scoped>
+/* 모달버튼 */
 .modalButton {
   border: solid #FD7E14;
   color: white;

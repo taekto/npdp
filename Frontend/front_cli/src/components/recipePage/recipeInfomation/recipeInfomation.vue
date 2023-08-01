@@ -1,6 +1,7 @@
 <template>
   <!-- 레시피 정보(재료, 영양소, 유사도 등) -->
   <div>
+    <p>{{recipe}}</p>
     <!-- 레시피 정보 윗줄(재료 & 그래프) -->
     <div class="InfomationLine">
       <!-- 재료 정보 -->

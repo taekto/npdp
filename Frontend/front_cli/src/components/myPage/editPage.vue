@@ -61,7 +61,7 @@
               <div class="editCategoryTitle">
                 <p>생일 변경</p>
               </div>
-              <VDatePicker v-model="birthDate" />
+              <VDatePicker v-model="birthDate" :max-date="new Date()" @click="whatDate(birthDate)"/>
               <div>
                 <input id="searchForm" class="birthInput" type="date" v-model.trim="birthDate">
               </div>
@@ -97,7 +97,7 @@
 import CategoryComponent from './categoryComponent.vue'
 
 export default {
-    name: "EditPage",
+    name: "UserInfoEditPage",
     components: {
         CategoryComponent,
     },
@@ -117,6 +117,20 @@ export default {
         this.user_data = {nickname : this.nickName, email : this.email, password : this.password, birthDate : this.birthDate, gender : this.gender}
         console.log(this.user_data)
         alert("저장되었습니다.")
+      },
+      whatDate(birthDate, delimiter = '-') {
+        const year = birthDate.getFullYear()
+        const month = birthDate.getMonth() + 1
+        const date = birthDate.getDate()
+        console.log(year + delimiter + month + delimiter + date)
+        console.log(typeof(month))
+        if(month < 10) {
+          this.birthDate = year + delimiter + '0' + month + delimiter + date
+        }
+        else {
+          this.birthDate = year + delimiter + month + delimiter + date
+        }
+        
       }
     }
 }

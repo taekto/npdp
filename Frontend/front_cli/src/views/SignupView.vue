@@ -1,19 +1,19 @@
 <template>
+  <!-- 로컬 회원가입 -->
   <div class="signup_container">
     <div class="signup_card">
-      <form class="signup_form" id="signup_form">
+      <!-- 회원정보입력 -->
+      <form class="signup_form" id="signup_form" @submit.prevent="signup">
         <h1 class="form_title">Craete an account</h1>
-        <div class="form_title_message">
-          <span>Start your journey</span>
-        </div>
           <label for="nickname" class="input_label">NickName</label>
           <input
             type="text"
             id="nickname"
             placeholder="Enter your NickName"
             class="input"
-            name="nickname"
-            style="width: 100%; height: 33.6px" 
+            name="name"
+            style="width: 100%; height: 33.6px"
+            v-model="credentials.nickname" 
           />
           <label for="email" class="input_label">Email</label>
           <input
@@ -23,6 +23,7 @@
             class="input"
             name="email"
             style="width: 100%; height: 33.6px" 
+            v-model="credentials.email"
           />
           <label for="password" class="input_label">Password</label>
           <input
@@ -32,19 +33,19 @@
             class="input"
             name="password"
             style="width: 100%; height: 33.6px" 
+            v-model="credentials.password"
           />
-        
-         <div class="birthdate_container">
-          <label for="birthdate">생년월일</label>
-          <v-date-picker
-            v-model="credentials.birth"
-            :max="new Date()"
-            name="birthdate"
-          ></v-date-picker>
-          <h1>{{credentials.birth}}</h1>
-        </div>
+          
+  <VDatePicker 
+  v-model="credentials.birth"
+  :max="new Date()"
+  name="birth"
+  @dayclick="whatDate(credentials.birth)" />
+  <p>생일 : {{credentials.birth}}</p>
+  <p>생일 : {{birthdate}}</p>
 
-        <div class="gender_container">
+        <!-- 라디오버튼 폼으로 변경 -->
+        <!-- <div class="gender_container">
           <div class="gender">
             <label for="gender">성별</label>
           </div>
@@ -54,8 +55,25 @@
             <option value="">남</option>
             <option value="">여</option>
           </select>
-        </div>
-        <button class="signup_btn" style="width: 100%;">Get started</button>
+        </div> -->
+        <!-- 성별 변경 -->
+            <div class="genderSelect">
+              <div class="editCategoryTitle">
+                <p>성별 변경</p>
+              </div>
+              <div class="storageRadio">
+                <label class="radioButton">
+                  <input type="radio" name="male" value="남자" v-model="credentials.gender" @click="changeClassification">남자
+                </label>
+                <label class="radioButton">
+                  <input type="radio" name="female" value="여자" v-model="credentials.gender" @click="changeClassification">여자
+                </label>
+                <label class="radioButton">
+                  <input type="radio" name="noGender" value="미선택" v-model="credentials.gender" @click="changeClassification">선택 안함
+                </label>            
+              </div>
+            </div>
+        <button class="signup_btn" style="width: 100%;" @click="signup">Get started</button>
 
       <!-- 소셜 로그인 -->
       <div class="signup_sns">
@@ -72,20 +90,60 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import { Options, Vue } from 'vue-class-component';
 
 @Options({})
 export default class SignupView extends Vue {
   credentials = {
+    nickname: '',
     email: '',
     nickname: '',
     password: '',
     birth: '',
     gender: '',
+  };
+  data() {
+    return {
+      birthdate : "",
+    }
+  }
+  changeClassification() {
+
+  }
+  // birthdate = new Date(); // birthdate 매개변수의 타입을 Date | null로 명시
+
+  signup() {
+    // ... (signup 메서드의 나머지 부분)
+    console.log(this.credentials)
   }
 
-  
+  whatDate(birthdate, delimiter = '-') {
+    // if (!birthdate) return ''; // 날짜가 선택되지 않은 경우 빈 문자열 반환
+
+    
+    const year = birthdate.getFullYear();
+    const month = birthdate.getMonth() + 1;
+    const date = birthdate.getDate();
+
+    if (month < 10) {
+      if(date < 10) {
+        this.birthdate = `${year}${delimiter}0${month}${delimiter}0${date}`;
+      }
+      else {
+        this.birthdate = `${year}${delimiter}0${month}${delimiter}${date}`;
+      }
+      
+    } else {
+      if(date < 10) {
+        this.birthdate = `${year}${delimiter}${month}${delimiter}0${date}`;
+      }
+      else {
+        this.birthdate = `${year}${delimiter}${month}${delimiter}${date}`;
+      }
+    }
+    this.credentials.birth = this.birthdate
+  }
 }
 </script>
 
@@ -102,11 +160,6 @@ export default class SignupView extends Vue {
 .form_title {
   text-align: center;
   margin-bottom: 15px;
-}
-
-.form_title_message {
-  text-align: center;
-  margin-bottom: 25px;
 }
 
 .input_label {
