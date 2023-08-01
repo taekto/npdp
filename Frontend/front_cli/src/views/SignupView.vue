@@ -1,11 +1,10 @@
 <template>
+  <!-- 로컬 회원가입 -->
   <div class="signup_container">
     <div class="signup_card">
-      <form class="signup_form" id="signup_form">
+      <!-- 회원정보입력 -->
+      <form class="signup_form" id="signup_form" @submit.prevent="signup">
         <h1 class="form_title">Craete an account</h1>
-        <div class="form_title_message">
-          <span>Start your journey</span>
-        </div>
           <label for="nickname" class="input_label">NickName</label>
           <input
             type="text"
@@ -13,7 +12,8 @@
             placeholder="Enter your NickName"
             class="input"
             name="name"
-            style="width: 100%; height: 33.6px" 
+            style="width: 100%; height: 33.6px"
+            v-model="credentials.nickname" 
           />
           <label for="email" class="input_label">Email</label>
           <input
@@ -23,6 +23,7 @@
             class="input"
             name="email"
             style="width: 100%; height: 33.6px" 
+            v-model="credentials.email"
           />
           <label for="password" class="input_label">Password</label>
           <input
@@ -32,27 +33,19 @@
             class="input"
             name="password"
             style="width: 100%; height: 33.6px" 
+            v-model="credentials.password"
           />
           
-  <div class="birthdate_container">
-    <label for="birthdate">생년월일</label>
-    <div class="birthdate_select_container">
-      <select class="birthdate_select" name="birthdate" v-model="birthdate.year">
-        <option value="">년</option>
-        <option v-for="year in years" :key="year" :value="year">{{ year }}</option>
-      </select>
-      <select class="birthdate_select" name="birthmonth" v-model="birthdate.month">
-        <option value="">월</option>
-        <option v-for="month in months" :key="month" :value="month">{{ month }}</option>
-      </select>
-      <select class="birthdate_select" name="birthday" v-model="birthdate.day">
-        <option value="">일</option>
-        <option v-for="day in days" :key="day" :value="day">{{ day }}</option>
-      </select>
-    </div>
-  </div>
+  <VDatePicker 
+  v-model="credentials.birth"
+  :max="new Date()"
+  name="birth"
+  @dayclick="whatDate(credentials.birth)" />
+  <p>생일 : {{credentials.birth}}</p>
+  <p>생일 : {{birthdate}}</p>
 
-        <div class="gender_container">
+        <!-- 라디오버튼 폼으로 변경 -->
+        <!-- <div class="gender_container">
           <div class="gender">
             <label for="gender">성별</label>
           </div>
@@ -62,8 +55,25 @@
             <option value="">남</option>
             <option value="">여</option>
           </select>
-        </div>
-        <button class="signup_btn" style="width: 100%;">Get started</button>
+        </div> -->
+        <!-- 성별 변경 -->
+            <div class="genderSelect">
+              <div class="editCategoryTitle">
+                <p>성별 변경</p>
+              </div>
+              <div class="storageRadio">
+                <label class="radioButton">
+                  <input type="radio" name="male" value="남자" v-model="credentials.gender" @click="changeClassification">남자
+                </label>
+                <label class="radioButton">
+                  <input type="radio" name="female" value="여자" v-model="credentials.gender" @click="changeClassification">여자
+                </label>
+                <label class="radioButton">
+                  <input type="radio" name="noGender" value="미선택" v-model="credentials.gender" @click="changeClassification">선택 안함
+                </label>            
+              </div>
+            </div>
+        <button class="signup_btn" style="width: 100%;" @click="signup">Get started</button>
 
       <!-- 소셜 로그인 -->
       <div class="signup_sns">
@@ -80,62 +90,58 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import { Options, Vue } from 'vue-class-component';
 
 @Options({})
 export default class SignupView extends Vue {
   credentials = {
-    name: '',
+    nickname: '',
     email: '',
     password: '',
+    birth: '',
     gender: '',
   };
-
-  birthdate = {
-    year: '',
-    month: '',
-    day: '',
-  };
-
-  get years() {
-    const currentYear = new Date().getFullYear();
-    const startYear = 1900;
-    const years = [];
-
-    for (let year = currentYear; year >= startYear; year--) {
-      years.push(year.toString());
+  data() {
+    return {
+      birthdate : "",
     }
+  }
+  changeClassification() {
 
-    return years;
+  }
+  // birthdate = new Date(); // birthdate 매개변수의 타입을 Date | null로 명시
+
+  signup() {
+    // ... (signup 메서드의 나머지 부분)
+    console.log(this.credentials)
   }
 
-  get months() {
-    const months = [];
+  whatDate(birthdate, delimiter = '-') {
+    // if (!birthdate) return ''; // 날짜가 선택되지 않은 경우 빈 문자열 반환
 
-    for (let month = 1; month <= 12; month++) {
-      months.push(month.toString());
+    
+    const year = birthdate.getFullYear();
+    const month = birthdate.getMonth() + 1;
+    const date = birthdate.getDate();
+
+    if (month < 10) {
+      if(date < 10) {
+        this.birthdate = `${year}${delimiter}0${month}${delimiter}0${date}`;
+      }
+      else {
+        this.birthdate = `${year}${delimiter}0${month}${delimiter}${date}`;
+      }
+      
+    } else {
+      if(date < 10) {
+        this.birthdate = `${year}${delimiter}${month}${delimiter}0${date}`;
+      }
+      else {
+        this.birthdate = `${year}${delimiter}${month}${delimiter}${date}`;
+      }
     }
-
-    return months;
-  }
-
-get days() {
-    const selectedMonth = Number(this.birthdate.month);
-    const selectedYear = Number(this.birthdate.year);
-    const daysInMonth = new Date(selectedYear, selectedMonth, 0).getDate();
-
-    if (!selectedMonth || !selectedYear) {
-      return [];
-    }
-
-    const days = [];
-
-    for (let day = 1; day <= daysInMonth; day++) {
-      days.push(day.toString());
-    }
-
-    return days;
+    this.credentials.birth = this.birthdate
   }
 }
 </script>
@@ -153,11 +159,6 @@ get days() {
 .form_title {
   text-align: center;
   margin-bottom: 15px;
-}
-
-.form_title_message {
-  text-align: center;
-  margin-bottom: 25px;
 }
 
 .input_label {

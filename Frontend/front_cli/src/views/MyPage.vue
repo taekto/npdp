@@ -1,18 +1,19 @@
 <template>
-  <div>
-    <div class="searchWindow">
-        <h2>Password</h2>
-        <div>
-            <form @submit.prevent="confirmPassword">
-                <div class="input-group">
-                    <input id="searchForm" class="form-control" type="password" v-model.trim="password">
-                    <input id="submitButton" type="submit" value="확인">
-                </div>
-            </form>
+    <!-- 마이 페이지 들어갈시 비밀번호 확인 -->
+    <div>
+        <div class="searchWindow">
+            <h2>Password</h2>
+            <div>
+                <form @submit.prevent="confirmPassword">
+                    <div class="input-group">
+                        <input id="searchForm" class="form-control" type="password" v-model.trim="password">
+                        <input id="submitButton" type="submit" value="확인">
+                    </div>
+                </form>
+            </div>
+            
         </div>
-        
     </div>
-  </div>
 </template>
 
 <script>
@@ -25,12 +26,26 @@ export default {
     },
     methods: {
         confirmPassword() {
-            console.log(this.password)
             this.$router.push({name: 'refrigerator'})
         }
     }
 }
 </script>
+
+<style>
+.myPage {
+    display: flex;
+}
+
+#myPageMenu {
+    width: 15%;
+}
+
+#myPageView {
+    width: 85%;
+    margin-top: 3rem;
+}
+</style>
 
 <style scoped>
 .searchWindow {
@@ -42,21 +57,5 @@ export default {
 }
 .input-group {
     margin-top: 3rem;
-}
-
-#searchForm {
-    border-radius: .5rem;
-    margin-right: 1rem;
-}
-
-#submitButton {
-    width: 5rem;
-    border-radius: .5rem;
-    background-color: #f2f2f2;
-    border: solid rgb(244, 244, 244);
-}
-
-.amount {
-  display: flex;
 }
 </style>

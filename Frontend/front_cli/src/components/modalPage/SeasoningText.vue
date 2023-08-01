@@ -1,4 +1,5 @@
 <template>
+  <!-- 양념 텍스트 입력 모달 -->
   <div class="modal fade modal-xl" id="seasoningModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -6,6 +7,8 @@
             <h1 class="modal-title fs-5" id="exampleModalToggleLabel">양념 입력</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
+
+          <!-- 현재 입력된 양념 리스트 -->
           <div class="modal-body">
             <ul class="ListShow">
               <li class="ingredientList row" v-for="(seasoning, index) in seasoningList" :key="index">
@@ -15,10 +18,12 @@
                   유통기한 : {{seasoning.endDate}}
                 </p>
                 <p class="col-2">보관방식 : {{seasoning.storage}}</p>
-                <button class="col-1">제거</button>
+                <button class="col-1" @click="deleteSeasoning(seasoning)">제거</button>
               </li>
             </ul>
           </div>
+
+          <!-- 양념 이름 검색 -->
           <div class="modal-body inputComponent">
             <div>
               <form @submit.prevent="goToSearchwithKeyword">
@@ -28,6 +33,8 @@
                 </div>
               </form>
             </div>
+
+            <!-- 보관 방법 라디오 버튼 -->
             <div>
               <div>
                 <label class="radioButton">
@@ -43,10 +50,11 @@
               <button class="soundButton" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">음성입력</button>
               <button class="soundButton" @click="appendList">추가하기</button>
             </div>
-            
           </div>
+
+          <!-- 현재 입력된 리스트 저장 -->
           <div class="modal-footer">
-            <button class="soundButton" @click="pushIngredientData">저장하기</button>
+            <button class="soundButton" @click="pushSeasoningData">저장하기</button>
           </div>
         </div>
       </div>
@@ -74,21 +82,30 @@ export default {
       let month = today.getMonth() + 1;  // 월
       let date = today.getDate();  // 날짜
 
-      this.seasoningList.push({name: this.ingredientName, startDate : `${year}-${month}-${date}`, endDate: '', storage: this.selectStorage})
+      this.seasoningList.push({name: this.seasoningName, startDate : `${year}-${month}-${date}`, endDate: '', storage: this.selectStorage})
 
-      this.ingredientName = ''
+      this.seasoningName = ''
       this.selectStorage = '냉장'
     },
-    pushIngredientData() {
+    pushSeasoningData() {
       console.log(this.seasoningList)
       this.seasoningList = []
-    }
+    },
+    deleteSeasoning(seasoning) {
+            const arrayRemove = (arr, value) => {
+                return arr.filter((ele) => {
+                    return ele != value
+                })
+            }
+            this.seasoningList = arrayRemove(this.seasoningList, seasoning)
+        }
 
 }
 }
 </script>
 
 <style scoped>
+/* 모달 버튼 */
 .modalButton {
   border: solid #FD7E14;
   color: white;
@@ -108,6 +125,7 @@ export default {
   border: solid rgb(244, 244, 244);
 }
 
+/* 양념 리스트 */
 .ListShow {
   border-bottom: solid #a7a7a7;
   width: 95%;

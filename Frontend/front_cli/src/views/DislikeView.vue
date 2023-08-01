@@ -2,7 +2,6 @@
   <div>
     <memberDislike />
     <memberAllergy />
-    
   </div>
 </template>
 
