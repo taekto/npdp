@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -15,9 +16,11 @@ import javax.persistence.*;
 public class MemberRecipeLatest {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_recipe_latest_id")
     private Long id;
+
+    private LocalDateTime date;
 
     // recipe(레시피) 연관관계
     @ManyToOne(fetch = FetchType.LAZY)
