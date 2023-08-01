@@ -1,5 +1,6 @@
 package com.project.npdp.recipe.entity;
 
+import com.project.npdp.food.entity.Ingredient;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import javax.persistence.*;
 public class RecipeIngredient {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "recipe_ingredient_id")
     private Long id;
 
@@ -23,6 +24,8 @@ public class RecipeIngredient {
     private Long amount;
 
     private String unit;
+
+    private String etc;
 
     // recipe(레시피) 연관관계
     @ManyToOne(fetch = FetchType.LAZY)

@@ -1,0 +1,113 @@
+pipeline {
+    agent any
+
+    environment {
+        CONTAINER_NAME = "hardcore_zhukovsky"
+        IMAGE_NAME = "nangpadaepa"
+    }
+    stages {
+        stage('Git Clone') {
+            steps {
+                git branch: 'Back', credentialsId: 'jenkins_token',
+                    url: 'https://lab.ssafy.com/s09-webmobile1-sub2/S09P12B202.git'
+            }
+            post {
+                success {
+                    sh 'echo "Successfully Cloned Repository"'
+                }
+                failure {
+                    sh 'echo "Fail Cloned Repository"'
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                dir('Backend/NangPaDaePa') {
+                    sh 'chmod +x gradlew'
+                    sh './gradlew clean build'
+                    // 디버깅
+                    sh 'ls -al ./build'
+                    sh './gradlew build --stacktrace'
+                }
+            }
+            post {
+                success {
+                    echo 'gradle build success'
+                }
+
+                failure {
+                    echo 'gradle build failed'
+                }
+            }
+        }
+
+        stage('Docker Delete') {
+            steps {
+                script {
+                    try{
+                        sh 'echo "Docker Delete Start"'
+                        // 컨테이너 존재 시 삭제
+                        sh "docker stop ${CONTAINER_NAME}"
+                        sh "docker rm -f ${CONTAINER_NAME}"
+                    }catch (Exception e){
+                        echo "Docker container ${CONTAINER_NAME} does not exist. skip"
+                    }
+                    try{
+                        // 이미지 존재 시 삭제
+                        sh "docker image rm ${IMAGE_NAME}"
+                    }catch (Exception e){
+                        echo "Docker image ${IMAGE_NAME} does not exist. skip"
+                    }
+                }
+            }
+            post {
+                success {
+                    sh 'echo "Docker delete Success"'
+                }
+                failure {
+                    sh 'echo "Docker delete Fail"'
+                }
+            }
+        }
+
+        stage('Dockerizing'){
+            steps{
+                sh 'echo " Image Bulid Start"'
+                dir('Backend/NangPaDaePa') {
+                    sh 'docker build -t ${IMAGE_NAME} .'
+                }
+            }
+            post {
+                success {
+                    sh 'echo "Bulid Docker Image Success"'
+                }
+
+                failure {
+                    sh 'echo "Bulid Docker Image Fail"'
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                script{
+                    try{
+                        sh 'docker rm fbb4adfd3aaef5af8fe3d1fa94c09c2488c75e2912bf9e6fc421fedd26e668ce'
+                    }catch (Exception e){
+                        echo "Docker container does not exist. skip"
+                    }
+                    sh 'docker run --name ${CONTAINER_NAME} -d -p8080:8080 ${IMAGE_NAME}'
+                }
+            }
+            post {
+                success {
+                    echo 'Deploy success'
+                }
+                failure {
+                    echo 'Deploy failed'
+                }
+            }
+        }
+    }
+}

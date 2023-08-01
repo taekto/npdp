@@ -1,5 +1,9 @@
 package com.project.npdp.food.entity;
 
+import com.project.npdp.domain.AllergyIngredient;
+import com.project.npdp.refregirator.entity.Refregirator;
+import com.project.npdp.member.entity.MemberDislikeIngredient;
+import com.project.npdp.recipe.entity.RecipeIngredient;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,11 +20,25 @@ import java.util.List;
 public class Ingredient {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ingredient_id")
     private Long id;
 
-    private String name;
+    private String title;
+
+    private String kor;
+
+    private String eng;
+
+    private String def;
+
+    private Long level;
+
+    private String upperClass;
+
+    private String supperUpperClass;
+
+    private String etc;
 
     // refregirator(냉장고) 연관관계
     @OneToMany(mappedBy = "ingredient")
@@ -32,9 +50,13 @@ public class Ingredient {
 
     // member_allergy(회원알러지정보) 연관관계
     @OneToMany(mappedBy = "ingredient")
-    private List<MemberAllergy> memberAllergyList = new ArrayList<>();
+    private List<AllergyIngredient> allergyIngredientList = new ArrayList<>();
 
-    // member_allergy(회원알러지정보) 연관관계
+    // member_dislike_ingredient(회원비선호재료) 연관관계
     @OneToMany(mappedBy = "ingredient")
     private List<MemberDislikeIngredient> memberDislikeIngredientList = new ArrayList<>();
+
+    // ingredient_symnonym(재료동의어) 연관관계
+    @OneToMany(mappedBy = "ingredient")
+    private List<IngredientSynonym> ingredientSynonymList = new ArrayList<>();
 }
