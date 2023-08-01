@@ -1,5 +1,7 @@
 package com.project.npdp.food.entity;
 
+import com.project.npdp.refregirator.entity.MemberSeasoning;
+import com.project.npdp.recipe.entity.RecipeSeasoning;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,11 +18,25 @@ import java.util.List;
 public class Seasoning {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "seasoning_id")
     private Long id;
 
     private String name;
+
+    private String kor;
+
+    private String eng;
+
+    private String definition;
+
+    private Long level;
+
+    private String upperClass;
+
+    private String supperUpperClass;
+
+    private String etc;
 
     // member_seasoning(양념칸) 연관관계
     @OneToMany(mappedBy = "seasoning")
@@ -30,4 +46,7 @@ public class Seasoning {
     @OneToMany(mappedBy = "seasoning")
     private List<RecipeSeasoning> recipeIngredientList = new ArrayList<>();
 
+    // seasoning_symnonym(양념동의어) 연관관계
+    @OneToMany(mappedBy = "seasoning")
+    private List<SeasoningSynonym> seasoningSynonymList = new ArrayList<>();
 }
