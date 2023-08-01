@@ -1,4 +1,5 @@
 <template>
+  <!-- 재료 음성 입력 모달창 -->
   <div class="modal fade modal-xl" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -6,6 +7,8 @@
             <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">음성 입력</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
+
+          <!-- 입력된 재료 리스트 -->
           <div class="modal-body">
             <ul class="ListShow">
               <li class="ingredientList row" v-for="(ingredient, index) in ingredientList" :key="index">
@@ -24,6 +27,8 @@
               </li>
             </ul>
           </div>
+
+          <!-- 음성입력을 텍스트로 바꿔주는 부분 -->
           <div class="modal-body">
             <textarea class="soundToTextarea" name="soundToText" id="" rows="5" v-model="soundInput"></textarea>
           </div>
@@ -31,6 +36,8 @@
             <button class="modalButton" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">TEXT 입력</button>
             <button class="modalButton" @click="pushSoundInput">추가하기</button>
           </div>
+
+          <!-- 입력된 재료 리스트 저장 -->
           <div class="modal-footer">
             <button class="soundButton" @click="pushIngredientData">저장하기</button>
           </div>
@@ -89,6 +96,7 @@ export default {
 </script>
 
 <style scoped>
+/* 모달 버튼 */
 .buttonGroup {
   display: flex;
   justify-content: end;

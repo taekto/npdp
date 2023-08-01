@@ -154,6 +154,7 @@ export default {
 </script>
 
 <style scoped>
+/* 보관 방법 & 모달창 버튼 */
 .buttonGroup {
     display: flex;
     justify-content: space-between;

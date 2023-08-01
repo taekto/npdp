@@ -97,7 +97,7 @@
 import CategoryComponent from './categoryComponent.vue'
 
 export default {
-    name: "EditPage",
+    name: "UserInfoEditPage",
     components: {
         CategoryComponent,
     },

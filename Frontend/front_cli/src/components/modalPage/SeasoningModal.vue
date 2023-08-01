@@ -1,4 +1,5 @@
 <template>
+  <!-- 모달창 이동 하게하는 상위 컴퍼넌트 -->
   <div>
     <SeasoningText />
     <SeasoningSound />
@@ -25,6 +26,7 @@ export default {
 </script>
 
 <style scoped>
+/* 모달 버튼 */
 .modalButton {
   border: solid #FD7E14;
   color: white;

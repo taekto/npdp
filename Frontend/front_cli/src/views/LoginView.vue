@@ -1,12 +1,9 @@
 <template>
-<!-- 로그인 -->
+<!-- 로컬로그인 -->
 <div class="login_container">
   <div class="login_card">
     <form class="login_form" id="login_form">
       <h1 class="form_title">Log in to your account</h1>
-      <div class="form_title_message">
-        <span>Welcome back please enter your details</span>
-      </div>
         <label for="email" class="input_label">Email</label>
         <input
           type="email"
@@ -26,12 +23,12 @@
           style="width: 100%; height: 33.6px"
         />
         <div class="login_form_remember">
-          <input
+          <!-- <input
             type="checkbox"
             id="remember_me"
             v-model="rememberMe"
-          />
-          <label for="remember_me">Remember me</label>
+          /> -->
+          <!-- <label for="remember_me">Remember me</label> -->
           <div class="forgot_password">
             <router-link to="/signup">Forgot password</router-link>
           </div>
@@ -95,11 +92,6 @@ export default class LoginView extends Vue {
 .form_title {
   text-align: center;
   margin-bottom: 15px;
-}
-
-.form_title_message {
-  text-align: center;
-  margin-bottom: 25px;
 }
 
 .input_label {
