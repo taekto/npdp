@@ -32,7 +32,7 @@ public class FoodController {
     // 재료 이름으로 조회
     @GetMapping("/ingredient/{name}")
     public ResponseEntity<?> findIngredientByName(@PathVariable("name") String name) {
-        List<IngredientResponseDto> foundIngredient = foodService.findIngredientsByName(name);
+        List<IngredientResponseDto> foundIngredient = foodService.findIngredientByName(name);
         return ResponseEntity.ok().body(ResponseEntity.ok().body(foundIngredient));
     }
 
@@ -43,6 +43,12 @@ public class FoodController {
         return ResponseEntity.ok().body(ResponseEntity.ok().body(allSeasoning));
     }
 
+    // 양념 이름으로 조회
+    @GetMapping("/ingredient/{name}")
+    public ResponseEntity<?> findSeasoningByName(@PathVariable("name") String name) {
+        List<IngredientResponseDto> foundSeasoning = foodService.findSeasoningByName(name);
+        return ResponseEntity.ok().body(ResponseEntity.ok().body(foundSeasoning));
+    }
 
 
 }
