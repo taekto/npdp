@@ -45,6 +45,8 @@ dependencies {
     // 추가한거
     implementation 'javax.persistence:javax.persistence-api:2.2'
 
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok:'
 
     // queryDSL 설정
     implementation "com.querydsl:querydsl-jpa"

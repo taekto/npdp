@@ -26,6 +26,7 @@ pipeline {
             steps {
                 dir(VUE_APP_PATH) {
                     sh 'npm install'
+                    sh 'npm install vue'
                 }
             }
             post {
