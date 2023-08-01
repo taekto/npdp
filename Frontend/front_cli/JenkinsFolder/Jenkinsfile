@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        CONTAINER_NAME = "happy_mestorf"
+        CONTAINER_NAME = "gifted_booth"
         IMAGE_NAME = "nangpadaepa"
     }
     stages {
