@@ -51,6 +51,7 @@ pipeline {
         stage('Build Vue.js App') {
             steps {
                 dir(VUE_APP_PATH) {
+                    sh 'npm run'
                     sh 'npm run build'
                 }
             }
