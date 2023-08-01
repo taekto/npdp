@@ -98,7 +98,6 @@ export default class SignupView extends Vue {
   credentials = {
     nickname: '',
     email: '',
-    nickname: '',
     password: '',
     birth: '',
     gender: '',

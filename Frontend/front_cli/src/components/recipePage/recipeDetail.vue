@@ -4,10 +4,7 @@
 
     <!-- 레시피 이름 -->
     <div class="recipeName">
-<<<<<<< HEAD
-=======
       <!-- <h2 class="recipeTitle">레시피이름 : {{recipe_data.name}}</h2> -->
->>>>>>> 8a12f3913746d6ef902157d5fe95586f80ed151a
       <h2 class="recipeTitle">레시피이름 : {{recipeItem.name}}</h2>
       <button v-if="liked" class="likeButton" @click="changeLike">Like</button>
       <button v-else class="dislikeButton" @click="changeLike">Dislike</button>
@@ -64,22 +61,8 @@ export default {
     methods: {
       changeLike() {
         this.liked = this.liked ? false : true;
-<<<<<<< HEAD
-      }
-    },
-    computed: {
-      recipeItem() {
-        console.log('-----------------')
-        console.log(this.$route.params.recipeItem)
-        const recipeItem = this.$route.query.recipeItem;
-        if (recipeItem) {
-          return JSON.parse(recipeItem);
-        }
-        return null;
-=======
         console.log(this.$route.params)
         console.log(this.recipe_data)
->>>>>>> 8a12f3913746d6ef902157d5fe95586f80ed151a
       },
     }
 }
