@@ -3,12 +3,13 @@ pipeline {
 
     environment {
         CONTAINER_NAME = "hardcore_zhukovsky"
-        IMAGE_NAME = "nangpadaepa"
+        IMAGE_NAME = "d72f4b351307"
+        VUE_APP_PATH = "../../../Frontend/front_cli"
     }
     stages {
         stage('Git Clone') {
             steps {
-                git branch: 'Back', credentialsId: 'jenkins_token',
+                git branch: 'develop', credentialsId: 'jenkins_token',
                     url: 'https://lab.ssafy.com/s09-webmobile1-sub2/S09P12B202.git'
             }
             post {
@@ -17,6 +18,38 @@ pipeline {
                 }
                 failure {
                     sh 'echo "Fail Cloned Repository"'
+                }
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                dir(VUE_APP_PATH) {
+                    sh 'npm install'
+                }
+            }
+            post {
+                success {
+                    sh 'echo "Installed Dependencies"'
+                }
+                failure {
+                    sh 'echo "Failed to Install Dependencies"'
+                }
+            }
+        }
+
+        stage('Build Vue.js App') {
+            steps {
+                dir(VUE_APP_PATH) {
+                    sh 'npm run build'
+                }
+            }
+            post {
+                success {
+                    sh 'echo "Built Vue.js App"'
+                }
+                failure {
+                    sh 'echo "Failed to Build Vue.js App"'
                 }
             }
         }
@@ -74,6 +107,12 @@ pipeline {
         stage('Dockerizing'){
             steps{
                 sh 'echo " Image Bulid Start"'
+                // Vue.js 앱 빌드 결과물을 Nginx가 서빙할 수 있도록 Dockerfile에 복사
+                sh "mkdir -p dist"
+                sh "cp -r ${VUE_APP_PATH}/dist/* dist/"
+                sh "ls -al dist" // 디버깅용 명령어, 빌드 결과물 확인용
+
+                // Nginx가 설치된 도커 이미지를 기반으로 컨테이너 빌드
                 dir('Backend/NangPaDaePa') {
                     sh 'docker build -t ${IMAGE_NAME} .'
                 }
@@ -88,15 +127,25 @@ pipeline {
                 }
             }
         }
+        stage('Run Docker Container') {
+            steps {
+                sh 'echo "Running Docker Container"'
+                sh "docker run -d --name ${CONTAINER_NAME} -p 8080:80 ${IMAGE_NAME}"
+            }
+            post {
+                success {
+                    sh 'echo "Docker Container Started"'
+                }
+
+                failure {
+                    sh 'echo "Failed to Start Docker Container"'
+                }
+            }
+        }
 
         stage('Deploy') {
             steps {
                 script{
-                    try{
-                        sh 'docker rm fbb4adfd3aaef5af8fe3d1fa94c09c2488c75e2912bf9e6fc421fedd26e668ce'
-                    }catch (Exception e){
-                        echo "Docker container does not exist. skip"
-                    }
                     sh 'docker run --name ${CONTAINER_NAME} -d -p8080:8080 ${IMAGE_NAME}'
                 }
             }
