@@ -7,7 +7,7 @@ pipeline {
     environment {
         CONTAINER_NAME = "hardcore_zhukovsky"
         IMAGE_NAME = "d72f4b351307"
-        VUE_APP_PATH = "../../../Frontend/front_cli"
+        VUE_APP_PATH = "../../Frontend/front_cli"
     }
     stages {
         stage('Git Clone') {
@@ -36,7 +36,6 @@ pipeline {
             steps {
                 dir(VUE_APP_PATH) {
                     sh 'npm install'
-                    sh 'npm install vue'
                 }
             }
             post {
@@ -52,7 +51,7 @@ pipeline {
         stage('Build Vue.js App') {
             steps {
                 dir(VUE_APP_PATH) {
-                    sh 'npm run serve'
+                    sh 'npm run build'
                 }
             }
             post {
