@@ -31,6 +31,20 @@ pipeline {
             }
         }
 
+        stage('Print current File'){
+            steps{
+                sh 'ls -R'
+            }
+            post {
+                success {
+                    echo "Print current File Succeeded"
+                }
+                failure {
+                    echo "Print current File Failed"
+                }
+            }
+        }
+
         stage('Build and Test') {
             steps {
                 dir(VUE_APP_PATH) {
