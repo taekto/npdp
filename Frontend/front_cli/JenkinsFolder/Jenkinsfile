@@ -1,0 +1,110 @@
+pipeline {
+    agent any
+
+    environment {
+        CONTAINER_NAME = "hardcore_zhukovsky"
+        IMAGE_NAME = "nangpadaepa"
+    }
+    stages {
+        stage('Git Clone') {
+            steps {
+                git branch: 'Front', credentialsId: 'jenkins_token',
+                    url: 'https://lab.ssafy.com/s09-webmobile1-sub2/S09P12B202.git'
+            }
+            post {
+                success {
+                    sh 'echo "Successfully Cloned Repository"'
+                }
+                failure {
+                    sh 'echo "Fail Cloned Repository"'
+                }
+            }
+        }
+        // 의존성 설치
+        stages('Install dependencies'){
+            steps {
+                sh "npm install"
+            }
+        }
+        // 빌드
+        stage('Build') {
+            steps {
+                dir('Frontend/front_cli') {
+                    sh "npm run build"
+                }
+            }
+            post {
+                success {
+                    echo 'gradle build success'
+                }
+
+                failure {
+                    echo 'gradle build failed'
+                }
+            }
+        }
+
+        stage('Docker Delete') {
+            steps {
+                script {
+                    try{
+                        sh 'echo "Docker Delete Start"'
+                        // 컨테이너 존재 시 삭제
+                        sh "docker stop ${CONTAINER_NAME}"
+                        sh "docker rm -f ${CONTAINER_NAME}"
+                    }catch (Exception e){
+                        echo "Docker container ${CONTAINER_NAME} does not exist. skip"
+                    }
+                    try{
+                        // 이미지 존재 시 삭제
+                        sh "docker image rm ${IMAGE_NAME}"
+                    }catch (Exception e){
+                        echo "Docker image ${IMAGE_NAME} does not exist. skip"
+                    }
+                }
+            }
+            post {
+                success {
+                    sh 'echo "Docker delete Success"'
+                }
+                failure {
+                    sh 'echo "Docker delete Fail"'
+                }
+            }
+        }
+
+        stage('Dockerizing'){
+            steps{
+                sh 'echo " Image Bulid Start"'
+                dir('Backend/NangPaDaePa') {
+                    sh 'docker build -t ${IMAGE_NAME} .'
+                }
+            }
+            post {
+                success {
+                    sh 'echo "Bulid Docker Image Success"'
+                }
+
+                failure {
+                    sh 'echo "Bulid Docker Image Fail"'
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                script{
+                    sh 'docker run --name ${CONTAINER_NAME} -d -p3030:3030 ${IMAGE_NAME}'
+                }
+            }
+            post {
+                success {
+                    echo 'Deploy success'
+                }
+                failure {
+                    echo 'Deploy failed'
+                }
+            }
+        }
+    }
+}
