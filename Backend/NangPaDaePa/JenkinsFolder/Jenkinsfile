@@ -1,18 +1,14 @@
 pipeline {
     agent any
 
-    tools {
-        nodejs 'nodejs-18.16.1'
-    }
     environment {
         CONTAINER_NAME = "hardcore_zhukovsky"
         IMAGE_NAME = "d72f4b351307"
-        VUE_APP_PATH = "../../../Frontend/front_cli"
     }
     stages {
         stage('Git Clone') {
             steps {
-                git branch: 'develop', credentialsId: 'jenkins_token',
+                git branch: 'Back', credentialsId: 'jenkins_token',
                     url: 'https://lab.ssafy.com/s09-webmobile1-sub2/S09P12B202.git'
             }
             post {
@@ -21,46 +17,6 @@ pipeline {
                 }
                 failure {
                     sh 'echo "Fail Cloned Repository"'
-                }
-            }
-        }
-
-        stage('Installl Nodejs18'){
-            steps {
-                echo "nodejs ============================="
-                sh 'node --version'
-            }
-        }
-
-        stage('Install Dependencies') {
-            steps {
-                dir(VUE_APP_PATH) {
-                    sh 'npm install'
-                    sh 'npm install vue'
-                }
-            }
-            post {
-                success {
-                    sh 'echo "Installed Dependencies"'
-                }
-                failure {
-                    sh 'echo "Failed to Install Dependencies"'
-                }
-            }
-        }
-
-        stage('Build Vue.js App') {
-            steps {
-                dir(VUE_APP_PATH) {
-                    sh 'npm run serve'
-                }
-            }
-            post {
-                success {
-                    sh 'echo "Built Vue.js App"'
-                }
-                failure {
-                    sh 'echo "Failed to Build Vue.js App"'
                 }
             }
         }
