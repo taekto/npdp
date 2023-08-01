@@ -1,6 +1,5 @@
 pipeline {
     agent any
-
     tools {
         nodejs 'nodejs-18.17.0'
     }
@@ -24,21 +23,9 @@ pipeline {
                 }
             }
         }
-//       stage('Clean Node Modules') {
-//            steps {
-//                sh 'rm -rf ${VUE_APP_PATH}/node_modules'
-//            }
-//        }
-//        stage('Install Nodejs18'){
-//            steps {
-//                echo "nodejs ============================="
-//                sh 'node --version'
-//            }
-//        }
-
         stage('Install Dependencies') {
             steps {
-                dir(VUE_APP_PATH) {
+                dir(${VUE_APP_PATH}) {
                     sh 'npm install'
                 }
             }
@@ -54,7 +41,7 @@ pipeline {
 
         stage('Build Vue.js App') {
             steps {
-                dir(VUE_APP_PATH) {
+                dir(${VUE_APP_PATH}) {
                     sh 'npm run build'
                 }
             }
