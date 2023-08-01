@@ -2,6 +2,7 @@ package com.project.npdp.refregirator.controller;
 
 import com.project.npdp.recipe.dto.response.RecipeResponseDto;
 import com.project.npdp.recipe.service.RecipeService;
+import com.project.npdp.refregirator.dto.request.RefregiratorModifyIngredientRequestDto;
 import com.project.npdp.refregirator.entity.Refregirator;
 import com.project.npdp.refregirator.service.RefregiratorService;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +20,8 @@ public class RefregiratorController {
 
     // 재료삭제
     @DeleteMapping("/modify/ingredient/{memberId}")
-    public ResponseEntity<?> findRecipeById(@PathVariable("memberId") Long memberId) {
-        refregiratorService.deleteRecipeById(memberId);
+    public ResponseEntity<?> deleteRecipeById(@PathVariable("memberId") Long memberId, RefregiratorModifyIngredientRequestDto refregiratorModifyIngredientRequestDto) {
+        refregiratorService.deleteRecipeById(memberId, refregiratorModifyIngredientRequestDto);
         return ResponseEntity.ok().body(ResponseEntity.ok());
     }
 

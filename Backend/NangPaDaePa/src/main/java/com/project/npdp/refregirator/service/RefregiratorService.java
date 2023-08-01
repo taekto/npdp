@@ -1,7 +1,11 @@
 package com.project.npdp.refregirator.service;
 
+import com.project.npdp.food.entity.Ingredient;
 import com.project.npdp.recipe.dto.response.RecipeResponseDto;
 import com.project.npdp.recipe.entity.Recipe;
+import com.project.npdp.refregirator.dto.request.RefregiratorModifyIngredientRequestDto;
+import com.project.npdp.refregirator.dto.response.MemberIngredientFindResponseDto;
+import com.project.npdp.refregirator.entity.Refregirator;
 import com.project.npdp.refregirator.repository.MemberSeasoningRepository;
 import com.project.npdp.refregirator.repository.RefregiratorRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,15 +26,14 @@ public class RefregiratorService {
 
     // 재료삭제
     @Transactional
-    public void deleteRecipeById(Long recipeId) {
+    public void deleteRecipeById(Long memberId, RefregiratorModifyIngredientRequestDto refregiratorModifyIngredientRequestDto) {
 
-        refregiratorRepository.deleteById(recipeId);
     }
 
     // 양념삭제
     @Transactional
-    public void deleteMemberSeasoningById(Long memberSeasoningId) {
-        memberSeasoningRepository.deleteById(memberSeasoningId);
+    public void deleteMemberSeasoningById(Long memberId) {
+
     }
 
     // 재료 텍스트 입력
@@ -42,6 +45,11 @@ public class RefregiratorService {
     // 양념 음성 입력
 
     // 회원 재료 조회
-
+//    public List<Refregirator> findMemberIngredient(Long memberId) {
+//        List<Ingredient> memberIngredient = refregiratorRepository.findMemberIngredient(memberId);
+//
+//
+//
+//    }
     // 회원 양념 조회
 }
