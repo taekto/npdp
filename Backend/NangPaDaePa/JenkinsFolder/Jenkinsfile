@@ -1,13 +1,13 @@
 pipeline {
     agent any
 
-    tools {
-        nodejs 'nodejs-18.17.0'
-    }
+//     tools {
+//         nodejs 'NodeJS 18.16.1'
+//     }
     environment {
         CONTAINER_NAME = "hardcore_zhukovsky"
         IMAGE_NAME = "d72f4b351307"
-        VUE_APP_PATH = "Frontend/front_cli"
+        VUE_APP_PATH = "../../../Frontend/front_cli"
     }
     stages {
         stage('Git Clone') {
@@ -24,48 +24,53 @@ pipeline {
                 }
             }
         }
-//       stage('Clean Node Modules') {
-//            steps {
-//                sh 'rm -rf ${VUE_APP_PATH}/node_modules'
-//            }
-//        }
-//        stage('Install Nodejs18'){
-//            steps {
-//                echo "nodejs ============================="
-//                sh 'node --version'
-//            }
-//        }
-        stage('Install Dependencies') {
-            steps {
-                dir(VUE_APP_PATH) {
-                    sh 'npm install'
+
+//         stage('Installl Nodejs18'){
+//             steps {
+//                 echo "nodejs ============================="
+//                 sh 'node --version'
+//             }
+//         }
+
+        stage('FE-build') {
+                steps { dir("./frontend") {
+                        nodejs(nodeJSInstallationName: 'NodeJS 18.16.1') {
+                                 sh 'npm install && npm run build'
+                        }
                 }
-            }
-            post {
-                success {
-                    sh 'echo "Installed Dependencies"'
-                }
-                failure {
-                    sh 'echo "Failed to Install Dependencies"'
-                }
-            }
         }
 
-        stage('Build Vue.js App') {
-            steps {
-                dir(VUE_APP_PATH) {
-                    sh 'npm run serve'
-                }
-            }
-            post {
-                success {
-                    sh 'echo "Built Vue.js App"'
-                }
-                failure {
-                    sh 'echo "Failed to Build Vue.js App"'
-                }
-            }
-        }
+//         stage('Install Dependencies') {
+//             steps {
+//                 dir(VUE_APP_PATH) {
+//                     sh 'npm install'
+//                 }
+//             }
+//             post {
+//                 success {
+//                     sh 'echo "Installed Dependencies"'
+//                 }
+//                 failure {
+//                     sh 'echo "Failed to Install Dependencies"'
+//                 }
+//             }
+//         }
+//
+//         stage('Build Vue.js App') {
+//             steps {
+//                 dir(VUE_APP_PATH) {
+//                     sh 'npm run build'
+//                 }
+//             }
+//             post {
+//                 success {
+//                     sh 'echo "Built Vue.js App"'
+//                 }
+//                 failure {
+//                     sh 'echo "Failed to Build Vue.js App"'
+//                 }
+//             }
+//         }
 
         stage('Build') {
             steps {
