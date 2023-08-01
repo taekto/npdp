@@ -2,12 +2,12 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'nodejs-18.16.1'
+        nodejs 'nodejs-18.17.0'
     }
     environment {
         CONTAINER_NAME = "hardcore_zhukovsky"
         IMAGE_NAME = "d72f4b351307"
-        VUE_APP_PATH = "../../../Frontend/front_cli"
+        VUE_APP_PATH = "Frontend/front_cli"
     }
     stages {
         stage('Git Clone') {
@@ -24,14 +24,17 @@ pipeline {
                 }
             }
         }
-
-        stage('Installl Nodejs18'){
-            steps {
-                echo "nodejs ============================="
-                sh 'node --version'
-            }
-        }
-
+//       stage('Clean Node Modules') {
+//            steps {
+//                sh 'rm -rf ${VUE_APP_PATH}/node_modules'
+//            }
+//        }
+//        stage('Install Nodejs18'){
+//            steps {
+//                echo "nodejs ============================="
+//                sh 'node --version'
+//            }
+//        }
         stage('Install Dependencies') {
             steps {
                 dir(VUE_APP_PATH) {
