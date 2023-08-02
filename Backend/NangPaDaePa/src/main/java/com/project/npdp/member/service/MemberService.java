@@ -4,6 +4,7 @@ import com.project.npdp.member.dto.MemberJoinRequestDto;
 import com.project.npdp.member.entity.Member;
 import com.project.npdp.member.repository.MemberRepository;
 import com.project.npdp.utils.JwtUtil;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -28,9 +29,15 @@ public class MemberService {
 
     // 회원 가입
     public Long join(MemberJoinRequestDto memberJoinRequestDto){
+
+        Member member = Member.builder()
+                .email(memberJoinRequestDto.getEmail()).password(memberJoinRequestDto.getPassword()).nickname(memberJoinRequestDto.getNickname()).gender(memberJoinRequestDto.getGender()).birth(memberJoinRequestDto.getBirth()).build();
+
+
         // 중복 가입 방지 확인 (이메일)
         validateDuplicateJoin(memberJoinRequestDto);
-        memberRepository.save(memberJoinRequestDto);
+
+        memberRepository.save(member);
         return memberJoinRequestDto.getId();
     }
 

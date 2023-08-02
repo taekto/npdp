@@ -4,6 +4,7 @@ import com.project.npdp.domain.Calendar;
 import com.project.npdp.refregirator.entity.MemberSeasoning;
 import com.project.npdp.refregirator.entity.Refregirator;
 import lombok.*;
+import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Getter
+@Builder
 public class Member {
 
     @Id
