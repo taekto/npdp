@@ -40,7 +40,7 @@ public class AuthenticationConfig {
                 .csrf().disable()
                 .cors().and()
                 .authorizeRequests()
-                // 해당 api 모든 요청 허가 ("/members/login")
+                // 해당 api 모든 요청 허가
                 .antMatchers("/api/members/login", "/api/members/join").permitAll()
                 // 해당 api 모든 요청 불허
                 .antMatchers(HttpMethod.POST).authenticated()
