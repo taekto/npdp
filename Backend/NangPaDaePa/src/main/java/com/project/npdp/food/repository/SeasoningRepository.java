@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface SeasoningRepository extends JpaRepository<Seasoning, Long> {
-    List<Ingredient> findByNameContainingIgnoreCase(String name);
+//    List<Ingredient> findByNameContainingIgnoreCase(String name);
 }

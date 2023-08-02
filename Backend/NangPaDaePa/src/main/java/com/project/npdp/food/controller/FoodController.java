@@ -26,11 +26,11 @@ public class FoodController {
     }
 
     // 재료 이름으로 조회
-    @GetMapping("/ingredient/{name}")
-    public ResponseEntity<?> findIngredientByName(@PathVariable("name") String name) {
-        List<IngredientResponseDto> foundIngredient = foodService.findIngredientByName(name);
-        return ResponseEntity.ok().body(ResponseEntity.ok().body(foundIngredient));
-    }
+//    @GetMapping("/ingredient/{name}")
+//    public ResponseEntity<?> findIngredientByName(@PathVariable("name") String name) {
+//        List<IngredientResponseDto> foundIngredient = foodService.findIngredientByName(name);
+//        return ResponseEntity.ok().body(ResponseEntity.ok().body(foundIngredient));
+//    }
 
     // 양념 전체 조회
     @GetMapping("/seasoning")
@@ -40,11 +40,11 @@ public class FoodController {
     }
 
     // 양념 이름으로 조회
-    @GetMapping("/seasoning/{name}")
-    public ResponseEntity<?> findSeasoningByName(@PathVariable("name") String name) {
-        List<IngredientResponseDto> foundSeasoning = foodService.findSeasoningByName(name);
-        return ResponseEntity.ok().body(ResponseEntity.ok().body(foundSeasoning));
-    }
+//    @GetMapping("/seasoning/{name}")
+//    public ResponseEntity<?> findSeasoningByName(@PathVariable("name") String name) {
+//        List<IngredientResponseDto> foundSeasoning = foodService.findSeasoningByName(name);
+//        return ResponseEntity.ok().body(ResponseEntity.ok().body(foundSeasoning));
+//    }
 
 
 }
