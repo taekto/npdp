@@ -6,9 +6,7 @@ import com.project.npdp.food.dto.response.SeasoningResponseDto;
 import com.project.npdp.food.service.FoodService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,12 +19,18 @@ public class FoodController {
 
 
     // 재료 전체 조회
-    @GetMapping("/ingredient")
+    @GetMapping("/ingredient") // 주소주소
     public ResponseEntity<?> findAllIngredient() {
         List<IngredientResponseDto> allIngredient = foodService.findAllIngredient();
         return ResponseEntity.ok().body(ResponseEntity.ok().body(allIngredient));
     }
 
+    // 재료 이름으로 조회
+    @GetMapping("/ingredient/{name}")
+    public ResponseEntity<?> findIngredientByName(@PathVariable("name") String name) {
+        List<IngredientResponseDto> foundIngredient = foodService.findIngredientByName(name);
+        return ResponseEntity.ok().body(ResponseEntity.ok().body(foundIngredient));
+    }
 
     // 양념 전체 조회
     @GetMapping("/seasoning")
@@ -35,6 +39,12 @@ public class FoodController {
         return ResponseEntity.ok().body(ResponseEntity.ok().body(allSeasoning));
     }
 
+    // 양념 이름으로 조회
+    @GetMapping("/seasoning/{name}")
+    public ResponseEntity<?> findSeasoningByName(@PathVariable("name") String name) {
+        List<IngredientResponseDto> foundSeasoning = foodService.findSeasoningByName(name);
+        return ResponseEntity.ok().body(ResponseEntity.ok().body(foundSeasoning));
+    }
 
 
 }
