@@ -30,7 +30,7 @@ public class Member {
 
     private String oauth;
 
-    private Long role;
+    private String role = "USER";
 
     private String birth;
 
