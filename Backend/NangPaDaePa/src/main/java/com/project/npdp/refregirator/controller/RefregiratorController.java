@@ -1,8 +1,14 @@
 package com.project.npdp.refregirator.controller;
 
+import com.project.npdp.food.entity.Ingredient;
+import com.project.npdp.food.entity.Seasoning;
 import com.project.npdp.recipe.dto.response.RecipeResponseDto;
 import com.project.npdp.recipe.service.RecipeService;
+import com.project.npdp.refregirator.dto.request.IngredientFindRequestDto;
 import com.project.npdp.refregirator.dto.request.RefregiratorModifyIngredientRequestDto;
+import com.project.npdp.refregirator.dto.request.SeasoningFindRequestDto;
+import com.project.npdp.refregirator.dto.response.IngredientFindResponseDto;
+import com.project.npdp.refregirator.dto.response.SeasoningFindResponseDto;
 import com.project.npdp.refregirator.entity.Refregirator;
 import com.project.npdp.refregirator.service.RefregiratorService;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -26,5 +33,19 @@ public class RefregiratorController {
     }
 
     // 양념삭제
+
+    // 재료 텍스트 조회
+    @GetMapping("/search/ingredient")
+    public List<IngredientFindResponseDto> findIngredientByKor(IngredientFindRequestDto ingredientFindRequestDto) {
+        List<IngredientFindResponseDto> result = refregiratorService.findIngredientByKor(ingredientFindRequestDto);
+        return result;
+    }
+
+    // 양념 텍스트 조회
+    @GetMapping("/search/seasoning")
+    public List<SeasoningFindResponseDto> findIngredientByKor(SeasoningFindRequestDto seasoningFindRequestDto) {
+        List<SeasoningFindResponseDto> result = refregiratorService.findSeasoningByKor(seasoningFindRequestDto);
+        return result;
+    }
 
 }
