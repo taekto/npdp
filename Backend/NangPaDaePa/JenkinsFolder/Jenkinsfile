@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        CONTAINER_NAME = "hardcore_zhukovsky"
-        IMAGE_NAME = "d72f4b351307"
+        CONTAINER_NAME = "nangpadaepa-back"
+        IMAGE_NAME = "nangpadaepa-back"
     }
     stages {
         stage('Git Clone') {
