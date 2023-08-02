@@ -14,6 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/foods")
 public class FoodController {
+
     private final FoodService foodService;
 
 
