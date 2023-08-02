@@ -2,7 +2,7 @@
 <!-- 로컬로그인 -->
 <div class="login_container">
   <div class="login_card">
-    <form class="login_form" id="login_form">
+    <form class="login_form" id="login_form" @submit.prevent = memberLogin(credentials)>
       <h1 class="form_title">Log in to your account</h1>
         <label for="email" class="input_label">Email</label>
         <input
@@ -11,6 +11,7 @@
           placeholder="Enter your Email"
           class="input"
           name="email"
+          v-model="credentials.email"
           style="width: 100%; height: 33.6px"  
         />
         <label for="password" class="input_label">Password</label>
@@ -20,6 +21,7 @@
           placeholder="Password"
           class="input"
           name="password"
+          v-model="credentials.password"
           style="width: 100%; height: 33.6px"
         />
         <div class="login_form_remember">
@@ -33,7 +35,7 @@
             <router-link to="/signup">Forgot password</router-link>
           </div>
         </div>
-      <button class="login_btn" style="width: 100%;">Sign In</button>
+      <button class="login_btn" style="width: 100%;">Log In</button>
       
       <!-- 회원가입 페이지 router -->
       <div class="login_signup">
@@ -63,18 +65,23 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
+import { mapActions } from "vuex";
 
-@Options({
-})
-export default class LoginView extends Vue {
-  
-  credentials = {
-    email: '',
-    password: '',
-  };
-  
+export default {
+  data() {
+    return {
+      credentials : {
+        email: '',
+        password: '',
+      },
+    }
+  },
+  methods: {
+    ...mapActions(["memberLogin"]),
+  },
+
 }
+
 </script>
 
 <style scoped>

@@ -1,8 +1,8 @@
 <template>
     <!-- 좋아요 많은 레시피 카드 -->
-    <div class="recommendCard" @click="goToDetailRecipe">
+    <div class="recommendCard" @click="goToDetailRecipe(recipe)">
         <img src='@/assets/123.jpg'>
-        <p>{{ slide }}번 레시피</p>
+        <p>{{ recipe.name }}</p>
         <button class="recipeButton">View More</button>
     </div>
 </template>
@@ -11,18 +11,19 @@
 export default {
     name: "SlideCardLikeRecommend",
     props: {
-        slide : Number
-    },
-    data() {
-        return {
-            recipe_id : this.slide
-        }
+        recipe : Object
     },
     methods: {
-        goToDetailRecipe() {
-            this.$router.push({name: 'recipe'})
-            
-        }
+        goToDetailRecipe(recipeItem) {
+            this.$router.push({name: "recipe",  
+                params: { 
+                    recipe_id: recipeItem.recipe_id,
+                },
+                query: {
+                    recipeItem: JSON.stringify(recipeItem),
+                },
+            })
+        },
     }
 }
 </script>

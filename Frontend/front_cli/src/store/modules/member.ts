@@ -185,6 +185,26 @@ const member: Module<MemberState, RootState> = {
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
     },
+    memberLogin({ commit, dispatch }, credentials) {
+      axios({
+        url: api.member.login(),
+        method: 'post',
+        data: credentials
+      })
+        .then(res => {
+          const token = res.data.key
+          dispatch('saveToken', token)
+          commit('SET_MEMBER', res.data)
+          dispatch('fetchMember')
+          router.push({ name: 'main' })
+          console.log(credentials)
+        })
+        .catch(err => {
+          console.log(credentials)
+          console.error(err.response.data)
+          // commit('SET_AUTH_ERROR', err.response.data)
+        })
+    },
 
     // 로컬 로그인
     // login ({}) {

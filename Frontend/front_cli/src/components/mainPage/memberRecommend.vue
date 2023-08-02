@@ -5,8 +5,8 @@
         <p class="menuTitle">유저기반 레시피</p>
         <Carousel :items-to-show="3" :wrap-around="true"
         :autoplay= "3500" :transition = "1000">
-            <Slide v-for="slide in 12" :key="slide">
-                <SlideCardUserRecommend :slide = slide />
+            <Slide v-for="recipe_item in recipe" :key="recipe_item.recipe_id">
+                <SlideCardUserRecommend :recipe = recipe_item />
             </Slide>
 
             <!-- 슬라이드 이동 버튼 -->
@@ -27,6 +27,8 @@ import { Carousel, Navigation, Slide } from 'vue3-carousel'
 
 import 'vue3-carousel/dist/carousel.css'
 
+import {mapGetters} from 'vuex' 
+
 export default defineComponent({
   name: 'MemberRecommend',
   components: {
@@ -34,6 +36,9 @@ export default defineComponent({
     Slide,
     Navigation,
     SlideCardUserRecommend
+  },
+  computed: {
+    ...mapGetters(['recipe'])
   },
   data: () => ({
 
