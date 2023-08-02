@@ -8,5 +8,7 @@ import java.util.List;
 
 @Repository
 public interface IngredientRepository extends JpaRepository<Ingredient, Long> {
-//    List<Ingredient> findByNameContainingIgnoreCase(String name);
+    // refregirator에서 쓰는 것
+    List<Ingredient> findByKorContaining(String keyword);
+
 }
