@@ -7,7 +7,7 @@ pipeline {
         CONTAINER_NAME = "my_vue"
         IMAGE_NAME = "vue_app"
         VUE_APP_PATH = "Frontend/front_cli"
-        VUE_PORT = "3000"
+        VUE_PORT = "3030"
     }
 
     stages {
