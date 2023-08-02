@@ -22,7 +22,7 @@ public class Seasoning {
     @Column(name = "seasoning_id")
     private Long id;
 
-    private String name;
+    private String code;
 
     private String kor;
 
