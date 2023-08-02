@@ -44,9 +44,9 @@
               <div>
                 <form @submit.prevent="goToSearchwithKeyword">
                   <div class="input-group">
-                      <button class="amountButton">+</button>
+                      <button class="amountButton" @click="addAmount">+</button>
                       <input id="searchForm" class="form-control" type="number" v-model.trim="amount">
-                      <button class="amountButton">-</button>
+                      <button class="amountButton" @click="reduceAmount">-</button>
                       <div class="dropdown">
                         <button class="dropdown-toggle servingButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                           {{unit}}
@@ -119,7 +119,26 @@ export default {
       let month = today.getMonth() + 1;  // 월
       let date = today.getDate();  // 날짜
 
-      this.ingredientList.push({name: this.ingredientName, amount : this.amount, unit: this.unit, startDate : `${year}-${month}-${date}`, endDate: '', storage: this.selectStorage})
+      let todayDate
+
+      if(month < 10) {
+        if(date < 10) {
+          todayDate = `${year}-0${month}-0${date}`
+        }
+        else {
+          todayDate = `${year}-0${month}-${date}`
+        }
+      }
+      else {
+        if(date < 10) {
+          todayDate = `${year}-${month}-0${date}`
+        }
+        else {
+          todayDate = `${year}-${month}-${date}`
+        }
+      }
+
+      this.ingredientList.push({name: this.ingredientName, amount : this.amount, unit: this.unit, startDate : todayDate, endDate: '', storage: this.selectStorage})
 
       this.ingredientName = ''
       this.amount = 0
@@ -130,19 +149,37 @@ export default {
       console.log(this.ingredientList)
       this.ingredientList = []
     },
+    addAmount() {
+      if(this.unit === 'g') {
+        this.amount += 10
+      }
+      else {
+        this.amount ++
+      }
+    },
+    reduceAmount() {
+      if(this.unit === 'g') {
+        this.amount -= 10
+      }
+      else {
+        this.amount --
+      }
+
+      
+    },
     plusAmount(ingredient) {
       ingredient.amount ++
     },
     minusAmount(ingredient) {
       ingredient.amount --
       if (ingredient.amount <= 0) {
-                const arrayRemove = (arr, value) => {
-                    return arr.filter((ele) => {
-                        return ele != value
-                    })
-                }
-                this.ingredients = arrayRemove(this.ingredientList, ingredient)
-            }
+        const arrayRemove = (arr, value) => {
+          return arr.filter((ele) => {
+              return ele != value
+          })
+        }
+        this.ingredientList = arrayRemove(this.ingredientList, ingredient)
+      }
     },
     deleteIngredient(ingredient) {
         const arrayRemove = (arr, value) => {
