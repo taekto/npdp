@@ -33,7 +33,6 @@ public class MemberService {
         Member member = Member.builder()
                 .email(memberJoinRequestDto.getEmail()).password(memberJoinRequestDto.getPassword()).nickname(memberJoinRequestDto.getNickname()).gender(memberJoinRequestDto.getGender()).birth(memberJoinRequestDto.getBirth()).build();
 
-
         // 중복 가입 방지 확인 (이메일)
         validateDuplicateJoin(memberJoinRequestDto);
 
