@@ -92,7 +92,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 script{
-                    sh 'sudo docker run --name ${CONTAINER_NAME} -d -p 8080:80 ${IMAGE_NAME}'
+                    sh 'docker run --name ${CONTAINER_NAME} -d -p 8080:808080 ${IMAGE_NAME}'
                 }
             }
             post {
