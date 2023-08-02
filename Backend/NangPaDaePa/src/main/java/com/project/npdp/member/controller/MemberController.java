@@ -6,10 +6,7 @@ import com.project.npdp.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/members")
@@ -19,7 +16,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/join")
-    public ResponseEntity<?> join(MemberJoinRequestDto memberJoinRequestDto){
+    public ResponseEntity<?> join(@RequestBody MemberJoinRequestDto memberJoinRequestDto){
         return ResponseEntity.ok().body(memberService.join(memberJoinRequestDto));
     }
 
