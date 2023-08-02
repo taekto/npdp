@@ -28,7 +28,7 @@ public class MemberService {
     private Long expiredMs = 1000 * 60 * 60l;
 
     // 회원 가입
-    public String join(MemberJoinRequestDto memberJoinRequestDto){
+    public void join(MemberJoinRequestDto memberJoinRequestDto){
 
         Member member = Member.builder()
                 .email(memberJoinRequestDto.getEmail()).password(memberJoinRequestDto.getPassword()).nickname(memberJoinRequestDto.getNickname()).gender(memberJoinRequestDto.getGender()).birth(memberJoinRequestDto.getBirth()).build();
@@ -37,8 +37,6 @@ public class MemberService {
         validateDuplicateJoin(memberJoinRequestDto);
 
         memberRepository.save(member);
-
-        return member.getRole();
     }
 
     // 중복 가입 방지
