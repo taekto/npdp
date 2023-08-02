@@ -1,6 +1,7 @@
 package com.project.npdp.recipe.service;
 
 import com.project.npdp.recipe.dto.response.RecipeResponseDto;
+import com.project.npdp.recipe.dto.response.RecipeWantResponseDto;
 import com.project.npdp.recipe.entity.Recipe;
 import com.project.npdp.recipe.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
@@ -49,4 +50,20 @@ public class RecipeService {
                 .build();
         return result;
     }
+
+    // 특정 레시피 검색
+    @Transactional(readOnly = true)
+    public List<RecipeWantResponseDto> findWantRecipe(String content) {
+        List<Recipe> wantRecipe = recipeRepository.findRecipeByContent(content);
+        List<RecipeWantResponseDto> result = wantRecipe.stream()
+                .map(recipe -> RecipeWantResponseDto.builder()
+                        .recipeId(recipe.getId())
+                        .name(recipe.getName())
+                        .imgBig(recipe.getImgBig())
+                        .build())
+                .collect(Collectors.toList());
+
+        return result;
+    }
+
 }
