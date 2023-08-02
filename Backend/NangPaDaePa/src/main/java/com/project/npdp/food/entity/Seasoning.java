@@ -28,13 +28,13 @@ public class Seasoning {
 
     private String eng;
 
-    private String definition;
+    private String def;
 
     private Long level;
 
     private String upperClass;
 
-    private String supperUpperClass;
+    private String superUpperClass;
 
     private String etc;
 
