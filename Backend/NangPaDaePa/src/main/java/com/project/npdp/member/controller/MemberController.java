@@ -18,8 +18,9 @@ public class MemberController {
 
     @PostMapping("/join")
     public ResponseEntity<?> join(@RequestBody MemberJoinRequestDto memberJoinRequestDto){
-        memberService.join(memberJoinRequestDto);
-        return ResponseEntity.status(HttpStatus.OK).build();
+//        memberService.join(memberJoinRequestDto);
+//        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.ok().body(memberService.join(memberJoinRequestDto));
     }
 
 
