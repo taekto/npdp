@@ -4,6 +4,7 @@ import com.project.npdp.member.dto.MemberJoinRequestDto;
 import com.project.npdp.member.entity.Member;
 import com.project.npdp.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,8 @@ public class MemberController {
 
     @PostMapping("/join")
     public ResponseEntity<?> join(@RequestBody MemberJoinRequestDto memberJoinRequestDto){
-        return ResponseEntity.ok().body(memberService.join(memberJoinRequestDto));
+        memberService.join(memberJoinRequestDto);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 
