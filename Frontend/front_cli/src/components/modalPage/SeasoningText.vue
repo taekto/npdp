@@ -1,6 +1,6 @@
 <template>
   <!-- 양념 텍스트 입력 모달 -->
-  <div class="modal fade modal-xl" id="seasoningModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+  <div class="modal fade modal-xl" id="seasoningModalToggle" aria-hidden="true" aria-labelledby="seasoningModalToggleLabel" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
@@ -47,7 +47,7 @@
                   <input type="radio" name="classification" value="실온" v-model="selectStorage" @click="changeStorage">실온
                 </label>
               </div>
-              <button class="soundButton" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">음성입력</button>
+              <button class="soundButton" data-bs-target="#seasoningModalToggle2" data-bs-toggle="modal">음성입력</button>
               <button class="soundButton" @click="appendList">추가하기</button>
             </div>
           </div>
