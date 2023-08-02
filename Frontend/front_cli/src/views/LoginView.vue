@@ -11,6 +11,7 @@
           placeholder="Enter your Email"
           class="input"
           name="email"
+          v-model="credentials.email"
           style="width: 100%; height: 33.6px"  
         />
         <label for="password" class="input_label">Password</label>
@@ -20,6 +21,7 @@
           placeholder="Password"
           class="input"
           name="password"
+          v-model="credentials.password"
           style="width: 100%; height: 33.6px"
         />
         <div class="login_form_remember">
@@ -33,7 +35,7 @@
             <router-link to="/signup">Forgot password</router-link>
           </div>
         </div>
-      <button class="login_btn" style="width: 100%;">Sign In</button>
+      <button class="login_btn" style="width: 100%;">Log In</button>
       
       <!-- 회원가입 페이지 router -->
       <div class="login_signup">
@@ -83,6 +85,7 @@ export default {
   
   
 }
+
 </script>
 
 <style scoped>

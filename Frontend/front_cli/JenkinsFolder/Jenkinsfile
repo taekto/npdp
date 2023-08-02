@@ -1,11 +1,22 @@
 pipeline {
     agent any
-
-    environment {
-        CONTAINER_NAME = "gifted_booth"
-        IMAGE_NAME = "nangpadaepa"
+    tools {
+        nodejs 'NodeJS 18.16.1'
     }
+    environment {
+        CONTAINER_NAME = "my_vue"
+        IMAGE_NAME = "vue_app"
+        VUE_APP_PATH = "Frontend/front_cli"
+        VUE_PORT = "3030"
+    }
+
     stages {
+        stage('nodejs 18') {
+            steps {
+                echo "nodejs ============================="
+                sh 'node --version'
+            }
+        }
         stage('Git Clone') {
             steps {
                 git branch: 'Front', credentialsId: 'jenkins_token',
@@ -13,33 +24,41 @@ pipeline {
             }
             post {
                 success {
-                    sh 'echo "Successfully Cloned Repository"'
+                    echo "Successfully Cloned Repository"
                 }
                 failure {
-                    sh 'echo "Fail Cloned Repository"'
+                    echo "Fail Cloned Repository"
                 }
             }
         }
-        // 의존성 설치
-        stages('Install dependencies'){
-            steps {
-                sh "npm install"
+
+        stage('Print current File'){
+            steps{
+                sh 'ls -R'
+            }
+            post {
+                success {
+                    echo "Print current File Succeeded"
+                }
+                failure {
+                    echo "Print current File Failed"
+                }
             }
         }
-        // 빌드
-        stage('Build') {
+
+        stage('Build and Test') {
             steps {
-                dir('Frontend/front_cli') {
-                    sh "npm run build"
+                dir(VUE_APP_PATH) {
+                    sh 'npm install'
+                    sh 'npm run build'
                 }
             }
             post {
                 success {
-                    echo 'gradle build success'
+                    echo "Build and Test Succeeded"
                 }
-
                 failure {
-                    echo 'gradle build failed'
+                    echo "Build and Test Failed"
                 }
             }
         }
@@ -73,38 +92,50 @@ pipeline {
             }
         }
 
-        stage('Dockerizing'){
-            steps{
-                sh 'echo " Image Bulid Start"'
-                dir('Backend/NangPaDaePa') {
-                    sh 'docker build -t ${IMAGE_NAME} .'
-                }
+        stage('Docker Build') {
+            steps {
+                sh 'echo "Building Docker Image"'
+                sh 'docker build -t ${IMAGE_NAME} ${VUE_APP_PATH}'
             }
             post {
                 success {
-                    sh 'echo "Bulid Docker Image Success"'
+                    echo "Docker Image Build Succeeded"
                 }
-
                 failure {
-                    sh 'echo "Bulid Docker Image Fail"'
+                    echo "Docker Image Build Failed"
+                }
+            }
+        }
+
+        stage('Docker Run') {
+            steps {
+                sh 'echo "Running Docker Container"'
+                sh "docker run -d --name ${CONTAINER_NAME} -p ${VUE_PORT}:80 ${IMAGE_NAME}"
+            }
+            post {
+                success {
+                    echo "Docker Container Started"
+                }
+                failure {
+                    echo "Failed to Start Docker Container"
                 }
             }
         }
 
         stage('Deploy') {
             steps {
-                script{
-                    sh 'docker run --name ${CONTAINER_NAME} -d -p3030:3030 ${IMAGE_NAME}'
-                }
+                sh 'echo "Deploying to Remote Server"'
+                // 원격 서버로 이미지 전송 및 컨테이너 실행 등의 작업을 추가 (서버에 Docker가 필요)
+                // 이 단계는 프로젝트의 구체적인 배포 요구 사항에 따라 다양하게 수정될 수 있습니다.
+                // 원격 배포 스크립트, 인증 정보, 서버 환경 구성 등을 포함해야 합니다.
             }
             post {
                 success {
-                    echo 'Deploy success'
+                    echo 'Deploy Success'
                 }
                 failure {
-                    echo 'Deploy failed'
+                    echo 'Deploy Failed'
                 }
-                // jenkins test2
             }
         }
     }

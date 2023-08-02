@@ -1,10 +1,14 @@
 <template>
   <!-- 양념 음성입력 모달 -->
-  <div class="modal fade modal-xl" id="seasoningModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+  <div class="modal fade modal-xl" id="seasoningModalToggle2" aria-hidden="true" aria-labelledby="seasoningModalToggleLabel2" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
+<<<<<<< HEAD
             <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">시소음성 입력</h1>
+=======
+            <h1 class="modal-title fs-5" id="seasoningModalToggleLabel2">음성 입력</h1>
+>>>>>>> 096066d030fa4928421fb82c7f85fc8b06f0fad4
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
 
@@ -13,11 +17,6 @@
             <ul class="ListShow">
               <li class="ingredientList row" v-for="(seasoning, index) in seasoningList" :key="index">
                 <p class="col-1">{{seasoning.name}}</p>
-                <div class="amount col-2 row">
-                  <button class="amountButton col-3">+</button>
-                  <p class="col-6">{{seasoning.amount}}{{seasoning.unit}}</p>
-                  <button class="amountButton col-3">-</button>
-                </div>
                 <p class="col-3">보관시작일 : {{seasoning.startDate}}</p>
                 <p class="col-3">
                   유통기한 : {{seasoning.endDate}}
@@ -30,10 +29,15 @@
 
           <!-- 음성으로 입력한 내용 띄워줄 텍스트아레아 -->
           <div class="modal-body">
-            <textarea class="soundToTextarea" name="soundToText" id="" rows="5" v-model="soundInput"></textarea>
+            <div>
+              <button @click="startSpeechRecognition">음성으로 양념 입력</button>
+              <p class="output">인식된 재료: {{ recognizedSeasoning }}</p>
+            </div>
+            
+            <textarea class="soundToTextarea" name="soundToText" id="" rows="5" v-model="recognizedSeasoning"></textarea>
           </div>
           <div class="buttonGroup">
-            <button class="modalButton" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">TEXT 입력</button>
+            <button class="modalButton" data-bs-target="#seasoningModalToggle" data-bs-toggle="modal">TEXT 입력</button>
             <button class="modalButton" @click="pushSoundInput">추가하기</button>
           </div>
           <div class="modal-footer">
@@ -46,6 +50,7 @@
 </template>
 
 <script>
+
 export default {
     name: 'SeasoningSound',
     data() {
@@ -55,6 +60,7 @@ export default {
         {name : "고추장",  startDate : '2023-07-27', endDate: '', storage: '냉장'},
         {name : "된장",  startDate : '2023-07-27', endDate: '', storage: '냉장'},],
         soundInput : '',
+        recognizedSeasoning : "",
       }
     },
     methods: {
@@ -73,11 +79,35 @@ export default {
                 })
             }
             this.seasoningList = arrayRemove(this.seasoningList, seasoning)
+<<<<<<< HEAD
         },
 
 
     }
+=======
+      },
+      startSpeechRecognition() {
+        const recognition = new window.webkitSpeechRecognition();
+        recognition.lang = "ko-KR";
+        recognition.interimResults = false;
+        recognition.continuous = false;
+        recognition.maxAlternatives = 1;
+>>>>>>> 096066d030fa4928421fb82c7f85fc8b06f0fad4
 
+        recognition.onresult = (event) => {
+          const speechResult = event.results[0][0].transcript.toLowerCase();
+          console.log("Confidence: " + event.results[0][0].confidence);
+          console.log("Speech Result: " + speechResult);
+          this.recognizedIngredients = speechResult;
+      };
+
+        recognition.onend = () => {
+          console.log("SpeechRecognition.onend");
+        };
+
+        recognition.start();
+      },
+    }
 }
 </script>
 

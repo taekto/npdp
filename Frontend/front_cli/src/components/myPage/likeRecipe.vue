@@ -7,10 +7,10 @@
     <!-- 우측 좋아요한 레시피 컴포넌트 -->
     <div id="myPageView">
       <p class="likeTitle">좋아요</p>
-        <div class="likeRecipes row" v-for="(num, index) in 30" :key="index">
-          <div class="recommendCard col-4" @click="goToDetailRecipe">
+        <div class="likeRecipes row" v-for="recipe_item in recipe" :key="recipe_item.recipe_id">
+          <div class="recommendCard col-4" @click="goToDetailRecipe(recipe_item)">
             <img src='@/assets/123.jpg'>
-            <p>{{ num }}번 레시피</p>
+            <p>{{ recipe_item.name }}</p>
             <div class="buttonGroup">
               <button class="recipeButton">View More</button>
               <button class="deleteButton">좋아요 삭제</button>
@@ -23,17 +23,27 @@
 
 <script>
 import CategoryComponent from './categoryComponent.vue'
+import {mapGetters} from 'vuex'
 
 export default {
     name: 'LikeRecipe',
     components: {
         CategoryComponent,
     },
+    computed: {
+      ...mapGetters(['recipe'])
+    },
     methods: {
-        goToDetailRecipe() {
-            this.$router.push({name: 'recipe'})
-            
-        }
+        goToDetailRecipe(recipeItem) {
+            this.$router.push({name: "recipe",  
+                params: { 
+                    recipe_id: recipeItem.recipe_id,
+                },
+                query: {
+                    recipeItem: JSON.stringify(recipeItem),
+                },
+            })
+        },
     }
 }
 </script>

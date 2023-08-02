@@ -82,6 +82,8 @@ import CategoryComponent from './categoryComponent.vue'
 import IngredientModal from '../modalPage/IngredientModal.vue'
 import SeasoningModal from '../modalPage/SeasoningModal'
 
+import {mapGetters, mapActions} from 'vuex'
+
 export default {
     name: 'RefrigeratorPage',
     components: {
@@ -89,41 +91,34 @@ export default {
         IngredientModal,
         SeasoningModal,
     },
+    computed: {
+        ...mapGetters(['ingredients', 'seasonings']),
+        ...mapActions(['plusAmount()', 'minusAmount'])
+    },
     // 임시 더미 데이터
     data() {
         return {
-            ingredients : [{name : "감자", amount: 2, unit: "개",  startDate : '2023-07-27', endDate: '', storage: '냉장'}, 
-                {name : "김치", amount: 2, unit: "포기",  startDate : '2023-07-27', endDate: '', storage: '냉장'},
-                {name : "계란", amount: 2, unit: "개",  startDate : '2023-07-27', endDate: '', storage: '냉장'},
-                {name : "돼지고기", amount: 600, unit: "g",  startDate : '2023-07-27', endDate: '', storage: '냉장'},
-                {name : "소고기", amount: 1200, unit: "g",  startDate : '2023-07-27', endDate: '', storage: '냉장'},
-                {name : "양파", amount: 2, unit: "개",  startDate : '2023-07-27', endDate: '', storage: '냉동'}, 
-                {name : "닭", amount: 2, unit: "마리",  startDate : '2023-07-27', endDate: '', storage: '냉동'},
-                {name : "대파", amount: 2, unit: "개",  startDate : '2023-07-27', endDate: '', storage: '냉동'},
-                {name : "칡", amount: 600, unit: "g",  startDate : '2023-07-27', endDate: '', storage: '냉동'},
-                {name : "마", amount: 1200, unit: "g",  startDate : '2023-07-27', endDate: '', storage: '냉동'},
-                {name : "라면", amount: 2, unit: "개",  startDate : '2023-07-27', endDate: '', storage: '실온'}, 
-                {name : "김", amount: 2, unit: "개",  startDate : '2023-07-27', endDate: '', storage: '실온'},],
-            seasonings : [{name : "고춧가루", startDate : '2023-07-27', endDate: '', storage: '냉장'}, 
-                {name : "진간장",  startDate : '2023-07-27', endDate: '', storage: '냉장'},
-                {name : "고추장",  startDate : '2023-07-27', endDate: '', storage: '냉장'},
-                {name : "된장",  startDate : '2023-07-27', endDate: '', storage: '냉장'},
-                {name : "고춧가루", startDate : '2023-07-27', endDate: '', storage: '냉동'}, 
-                {name : "다진마늘",  startDate : '2023-07-27', endDate: '', storage: '냉동'},
-                {name : "다시마",  startDate : '2023-07-27', endDate: '', storage: '냉동'},
-                {name : "멸치액젓", startDate : '2023-07-27', endDate: '', storage: '실온'}, 
-                {name : "양조간장",  startDate : '2023-07-27', endDate: '', storage: '실온'},
-                {name : "초고추장",  startDate : '2023-07-27', endDate: '', storage: '실온'},
-                {name : "케쳡",  startDate : '2023-07-27', endDate: '', storage: '실온'},],
             storageType : '냉장',
         }
     },
     methods: {
         plusAmount(ingredient) {
-            ingredient.amount ++
+            if(ingredient.unit === "g") {
+                ingredient.amount += 10
+            }
+            else{
+                ingredient.amount ++
+            }
+            
         },
         minusAmount(ingredient) {
-            ingredient.amount --
+            if(ingredient.unit === "g") {
+                ingredient.amount -= 10
+            }
+            else{
+                ingredient.amount --
+            }
+
             if (ingredient.amount <= 0) {
                 const arrayRemove = (arr, value) => {
                     return arr.filter((ele) => {
