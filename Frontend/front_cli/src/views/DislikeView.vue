@@ -3,6 +3,7 @@
     <memberDislike />
     <memberAllergy />
   </div>
+
 </template>
 
 <script setup>

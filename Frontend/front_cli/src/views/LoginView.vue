@@ -2,7 +2,7 @@
 <!-- 로컬로그인 -->
 <div class="login_container">
   <div class="login_card">
-    <form class="login_form" id="login_form">
+    <form class="login_form" id="login_form" @submit.prevent="memberLogin(credentials)">
       <h1 class="form_title">Log in to your account</h1>
         <label for="email" class="input_label">Email</label>
         <input
@@ -63,16 +63,24 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
 
-@Options({
-})
-export default class LoginView extends Vue {
+import { mapActions } from 'vuex';
+
+export default {
   
-  credentials = {
-    email: '',
-    password: '',
-  };
+  data() {
+    return {
+      credentials: {
+        email: '',
+        password: '',
+      },
+    }
+  },
+
+  methods: {
+    ...mapActions(["memberLogin"]),
+  },
+  
   
 }
 </script>

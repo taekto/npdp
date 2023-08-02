@@ -18,13 +18,7 @@
       <!-- 유저 관련 메뉴 -->
       <div id="user">
         <router-link to="/signup">Signup</router-link> | 
-<<<<<<< HEAD
-        <router-link to="/login">Login</router-link> |
-        <router-link to="/dislike">Dislike</router-link>
-  
-=======
         <router-link to="/login">Login</router-link>
->>>>>>> 8a12f3913746d6ef902157d5fe95586f80ed151a
       </div>
     </nav>
 

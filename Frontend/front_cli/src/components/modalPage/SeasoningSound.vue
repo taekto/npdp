@@ -4,7 +4,7 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">음성 입력</h1>
+            <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">시소음성 입력</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
 
@@ -39,6 +39,7 @@
           <div class="modal-footer">
             <button class="soundButton" @click="pushSeasoningData">저장하기</button>
           </div>
+
         </div>
       </div>
     </div>
@@ -49,7 +50,7 @@ export default {
     name: 'SeasoningSound',
     data() {
       return {
-        seasoningList : [{name : "고춧가루", startDate : '2023-07-27', endDate: '', storage: '냉장'}, 
+        seasoningList : [{name : "그기ㅡ고춧가루", startDate : '2023-07-27', endDate: '', storage: '냉장'}, 
         {name : "간장",  startDate : '2023-07-27', endDate: '', storage: '냉장'},
         {name : "고추장",  startDate : '2023-07-27', endDate: '', storage: '냉장'},
         {name : "된장",  startDate : '2023-07-27', endDate: '', storage: '냉장'},],
@@ -72,7 +73,9 @@ export default {
                 })
             }
             this.seasoningList = arrayRemove(this.seasoningList, seasoning)
-        }
+        },
+
+
     }
 
 }

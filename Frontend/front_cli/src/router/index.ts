@@ -52,11 +52,7 @@ const routes = [
   {
     // 상세 레시피 페이지
     // 후에 데이터 연결 후 recipe_id 연결해줘야 함
-<<<<<<< HEAD
-    path: "/recipe/:recipe_id",
-=======
     path: '/recipe/:recipe_id',
->>>>>>> 8a12f3913746d6ef902157d5fe95586f80ed151a
     name: 'recipe',
     component: RecipeDetail,
   },

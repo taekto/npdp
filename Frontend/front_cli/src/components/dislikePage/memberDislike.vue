@@ -32,6 +32,11 @@
 
         
       </div>
+  <div>
+    <button @click="startSpeechRecognition">음성으로 재료 입력</button>
+    <p class="output">인식된 재료: {{ recognizedIngredients }}</p>
+  </div>  
+      
   </div>
 
 
@@ -48,6 +53,7 @@ export default {
       searchResults: [],
       tmplst:[],
       deleteMode: false,
+      recognizedIngredients: "", // 음성으로 인식된 재료를 저장할 변수
     };
   },
   computed: {
@@ -108,8 +114,29 @@ export default {
         }
       }
     },
-  },
+    
+    /////
+    startSpeechRecognition() {
+      const recognition = new window.webkitSpeechRecognition();
+      recognition.lang = "ko-KR";
+      recognition.interimResults = false;
+      recognition.continuous = false;
+      recognition.maxAlternatives = 1;
 
+      recognition.onresult = (event) => {
+        const speechResult = event.results[0][0].transcript.toLowerCase();
+        console.log("Confidence: " + event.results[0][0].confidence);
+        console.log("Speech Result: " + speechResult);
+        this.recognizedIngredients = speechResult;
+      };
+
+      recognition.onend = () => {
+        console.log("SpeechRecognition.onend");
+      };
+
+      recognition.start();
+    },
+  },
   created() {
     this.fetchIngredient();
   },

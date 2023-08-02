@@ -8,6 +8,9 @@ const RECIPES = 'recipes/';
 const DISLIKE = 'dislikeingredient/'
 const UTENSIL = 'utensil/'
 const CALENDAR = 'calendar/'
+const REFRIGERATOR = 'refrigerator/'
+const INGREDIENT = 'ingredient/'
+const SEASONING = 'seasoning/'
 
 
 export default {
@@ -64,10 +67,41 @@ export default {
       return HOST + 'recipes/Latest/' + member_id
     },
 
-    // 회원 양념 (조회/ 수정/ 삭제)
-    memberSeasoning: function(member_id: number) {
-      return HOST + MEMBER + member_id +'/' + 'seasoning/'
-    } 
+    // 회원 양념 조회
+    fetchMemberSeasoning: function(member_id: number) {
+      return HOST + REFRIGERATOR + SEASONING + member_id
+    },
+
+    // 회원 양념 삭제
+    deleteMemberSeasoning: function(member_id: number) {
+      return HOST + REFRIGERATOR + 'modify/' + SEASONING + member_id
+    },
+
+    // 회원 재료 텍스트 입력
+    memberIngredient: function(member_id: number) {
+      return HOST + REFRIGERATOR + 'text/' + INGREDIENT + member_id
+    },
+
+    // 회원 양념 텍스트 입력
+    memberTextSeasoning: function(member_id: number) {
+      return HOST + REFRIGERATOR + 'text/' + SEASONING + member_id
+    },
+
+    // 회원 재료 음성 입력
+    memberVoiceIngredient: function(member_id: number) {
+      return HOST + REFRIGERATOR +'voice/' + INGREDIENT + member_id
+    },
+
+    // 회원 양념 음성 입력
+    memberVoiceSeasoning: function(member_id: number) {
+      return HOST + REFRIGERATOR + 'voice/' + SEASONING + member_id
+    },
+    
+    // 회원 재료 조회
+    fetchMemberIngredient: function(member_id: number) {
+      return HOST + REFRIGERATOR + INGREDIENT + member_id
+    },
+
   },
 
   recipe:{
@@ -106,7 +140,21 @@ export default {
     calendarEat: function(member_id: number) {
       return HOST + RECIPES + CALENDAR + 'date/' + member_id
     },
-    // 기타 - 재료 조회
-    ingredient: () => HOST + 'ingredient'
+
+    // 기타 - 모든 재료 조회
+    ingredient: () => HOST + 'foods/' + 'ingredient',
+
+    // 기타 - 모든 양념 조회
+    seasoning: () => HOST + 'foods/' + 'seasoning',
+
+    // 기타 - 특정 재료 조회
+    specificIngredient: function(name: string) {
+      return HOST + 'foods/' + INGREDIENT + name
+    },
+
+    // 기타 - 특정 양념 조회
+    specificSeasoning: function(name: string) {
+      return HOST + 'foods/' + SEASONING + name
+    }
   },
 };

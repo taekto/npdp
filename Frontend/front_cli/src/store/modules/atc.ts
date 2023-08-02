@@ -50,6 +50,7 @@ interface Seasoning {
   superUpperClass: string
   etc: string
 }
+
 // 양념 동의어
 interface SeasoningSymnonym {
   seasoning_symnonym: number
@@ -160,7 +161,9 @@ const atc: Module<ATCState, RootState> = {
         etc: '기타 정보 5',
       },
     ],
+
     ingredientsymnonym: [],
+    
     seasoning: [ 
       {
       seasoning_id: 1,

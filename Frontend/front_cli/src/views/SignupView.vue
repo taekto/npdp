@@ -3,7 +3,7 @@
   <div class="signup_container">
     <div class="signup_card">
       <!-- 회원정보입력 -->
-      <form class="signup_form" id="signup_form" @submit.prevent="signup">
+      <form class="signup_form" id="signup_form" @submit.prevent="localSignup(credentials)">
         <h1 class="form_title">Craete an account</h1>
           <label for="nickname" class="input_label">NickName</label>
           <input
@@ -44,19 +44,7 @@
   <p>생일 : {{credentials.birth}}</p>
   <p>생일 : {{birthdate}}</p>
 
-        <!-- 라디오버튼 폼으로 변경 -->
-        <!-- <div class="gender_container">
-          <div class="gender">
-            <label for="gender">성별</label>
-          </div>
 
-          <select class="gender_male" name="gender">
-            <option value="">선택</option>
-            <option value="">남</option>
-            <option value="">여</option>
-          </select>
-        </div> -->
-        <!-- 성별 변경 -->
             <div class="genderSelect">
               <div class="editCategoryTitle">
                 <p>성별 변경</p>
@@ -91,32 +79,29 @@
 </template>
 
 <script>
-import { Options, Vue } from 'vue-class-component';
 
-@Options({})
-export default class SignupView extends Vue {
-  credentials = {
-    nickname: '',
-    email: '',
-    nickname: '',
-    password: '',
-    birth: '',
-    gender: '',
-  };
+import { mapActions } from 'vuex';
+
+
+export default {
+
   data() {
     return {
-      birthdate : "",
+       credentials: {
+        nickname: '',
+        email: '',
+        password: '',
+        birth: '',
+        gender: '',
+      },
     }
-  }
-  changeClassification() {
+  },
 
-  }
   // birthdate = new Date(); // birthdate 매개변수의 타입을 Date | null로 명시
+  methods: {
+    ...mapActions(["localSignup"]),
+  },
 
-  signup() {
-    // ... (signup 메서드의 나머지 부분)
-    console.log(this.credentials)
-  }
 
   whatDate(birthdate, delimiter = '-') {
     // if (!birthdate) return ''; // 날짜가 선택되지 않은 경우 빈 문자열 반환
