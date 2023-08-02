@@ -1,5 +1,6 @@
 package com.project.npdp.member.service;
 
+import com.project.npdp.member.dto.MemberJoinRequestDto;
 import com.project.npdp.member.entity.Member;
 import com.project.npdp.member.repository.MemberRepository;
 import com.project.npdp.utils.JwtUtil;
@@ -26,16 +27,16 @@ public class MemberService {
     private Long expiredMs = 1000 * 60 * 60l;
 
     // 회원 가입
-    public Long join(Member member){
-        // 중복 가입 방지 확인
-        validateDuplicateMember(member);
-        memberRepository.save(member);
-        return member.getId();
+    public Long join(MemberJoinRequestDto memberJoinRequestDto){
+        // 중복 가입 방지 확인 (이메일)
+        validateDuplicateJoin(memberJoinRequestDto);
+        memberRepository.save(memberJoinRequestDto);
+        return memberJoinRequestDto.getId();
     }
 
     // 중복 가입 방지
-    private void validateDuplicateMember(Member member) {
-        List<Member> findMembers = memberRepository.findByEmail(member.getEmail());
+    private void validateDuplicateJoin(MemberJoinRequestDto memberJoinRequestDto) {
+        List<Member> findMembers = memberRepository.findByEmail(memberJoinRequestDto.getEmail());
         if(!findMembers.isEmpty()){
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
