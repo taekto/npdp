@@ -1,5 +1,7 @@
-package com.project.npdp.utensil.entity;
+package com.project.npdp.domain;
 
+import com.project.npdp.member.entity.MemberUtensil;
+import com.project.npdp.recipe.entity.RecipeUtensil;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +17,7 @@ import java.util.List;
 @Getter
 public class Utensil {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "utensil_id")
     private Long id;
 

@@ -1,14 +1,11 @@
 package com.project.npdp.food.service;
 
-import com.project.npdp.food.dto.request.IngredientRequestDto;
-import com.project.npdp.food.dto.request.SeasoningRequestDto;
 import com.project.npdp.food.dto.response.IngredientResponseDto;
 import com.project.npdp.food.dto.response.SeasoningResponseDto;
 import com.project.npdp.food.entity.Ingredient;
 import com.project.npdp.food.entity.Seasoning;
 import com.project.npdp.food.repository.IngredientRepository;
 import com.project.npdp.food.repository.SeasoningRepository;
-import com.project.npdp.recipe.dto.response.RecipeResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

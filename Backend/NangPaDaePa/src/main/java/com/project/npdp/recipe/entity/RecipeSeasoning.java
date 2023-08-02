@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class RecipeSeasoning {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "recipe_seasoning_id")
     private Long id;
 

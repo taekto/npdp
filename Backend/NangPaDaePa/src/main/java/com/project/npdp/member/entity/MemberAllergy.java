@@ -1,6 +1,6 @@
 package com.project.npdp.member.entity;
 
-import com.project.npdp.food.entity.Ingredient;
+import com.project.npdp.domain.Allergy;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class MemberAllergy {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_allergy_id")
     private Long id;
 
@@ -24,9 +24,10 @@ public class MemberAllergy {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    // ingredient(재료) 연관관계
+    // allergy(알러지) 연관관계
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ingredient_id")
-    private Ingredient ingredient;
+    @JoinColumn(name = "allergy_id")
+    private Allergy allergy;
 
+    //
 }

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/members")
+@RequestMapping("/api/members")
 @RequiredArgsConstructor
 public class MemberController {
 
@@ -25,4 +25,5 @@ public class MemberController {
     public ResponseEntity<String> writeSample(Authentication authentication){
         return ResponseEntity.ok().body(authentication.getName() + "님의 글 등록 완료");
     }
+
 }

@@ -1,35 +1,32 @@
-package com.project.npdp.member.entity;
+package com.project.npdp.recipe.entity;
 
-import com.project.npdp.recipe.entity.Recipe;
+import com.project.npdp.domain.Utensil;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
 @Getter
-public class Calendar {
+public class RecipeUtensil {
 
     @Id
-    @GeneratedValue
-    @Column(name = "calendar_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "recipe_utensil_id")
     private Long id;
-
-    private LocalDateTime date;
 
     // recipe(레시피) 연관관계
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
 
-    // member(회원) 연관관계
+    // recipe(레시피) 연관관계
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @JoinColumn(name = "utensil_id")
+    private Utensil utensil;
+
 }

@@ -1,7 +1,7 @@
-package com.project.npdp.refrigerator.entity;
+package com.project.npdp.domain;
 
-import com.project.npdp.food.entity.Ingredient;
 import com.project.npdp.member.entity.Member;
+import com.project.npdp.recipe.entity.Recipe;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,29 +14,24 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Entity
 @Getter
-public class Refregirator {
+public class Calendar {
 
     @Id
-    @GeneratedValue
-    @Column(name = "refregirator_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "calendar_id")
     private Long id;
 
-    private Long storage;
+    private LocalDateTime date;
 
-    private Double amount;
+    private Long seq;
 
-    private String unit;
-
-    private LocalDateTime startDate;
+    // recipe(레시피) 연관관계
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "recipe_id")
+    private Recipe recipe;
 
     // member(회원) 연관관계
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
-
-    // ingredient(재료) 연관관계
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ingredient_id")
-    private Ingredient ingredient;
-
 }
