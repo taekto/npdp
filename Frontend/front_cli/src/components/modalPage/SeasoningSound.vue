@@ -30,7 +30,9 @@
 
           <!-- 음성으로 입력한 내용 띄워줄 텍스트아레아 -->
           <div class="modal-body">
-            <textarea class="soundToTextarea" name="soundToText" id="" rows="5" v-model="soundInput"></textarea>
+            <button onclick="sendSpeech">STT 버튼</button>
+            <p class="output">{{ diagnosticMessage }}</p>
+            <!-- <textarea class="soundToTextarea output" name="soundToText" id="" rows="5" v-model="soundInput"></textarea> -->
           </div>
           <div class="buttonGroup">
             <button class="modalButton" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">TEXT 입력</button>
@@ -45,6 +47,7 @@
 </template>
 
 <script>
+
 export default {
     name: 'SeasoningSound',
     data() {
@@ -54,6 +57,7 @@ export default {
         {name : "고추장",  startDate : '2023-07-27', endDate: '', storage: '냉장'},
         {name : "된장",  startDate : '2023-07-27', endDate: '', storage: '냉장'},],
         soundInput : '',
+        diagnosticMessage : "...diagnostic messages",
       }
     },
     methods: {
@@ -72,9 +76,26 @@ export default {
                 })
             }
             this.seasoningList = arrayRemove(this.seasoningList, seasoning)
-        }
-    }
+      },
+      sendSpeech() {
+        let recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)()
+        let speechRecognitionList = new (window.SpeechGrammarList || window.webkitSpeechGrammarList)()
+        recognition.grammars = speechRecognitionList;
+        recognition.lang = "ko-KR";
+        recognition.interimResults = true; // true: 중간 결과를 반환, false: 최종 결과만 반환
+        recognition.continuous = true; // true: 음성인식을 계속해서 수행, false: 음성인식을 한번만 수행
+        recognition.maxAlternatives = 1;
 
+        recognition.onresult = (event) => {
+          var speechResult = event.results[0][0].transcript.toLowerCase();
+          console.log("Confidence: " + event.results[0][0].confidence);
+          console.log("Speech Result: " + speechResult);
+          this.diagnosticMessage = "Speech received: " + speechResult + ".";
+        }
+
+        recognition.start();
+      }
+    }
 }
 </script>
 

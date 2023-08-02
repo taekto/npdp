@@ -30,7 +30,12 @@
 
           <!-- 음성입력을 텍스트로 바꿔주는 부분 -->
           <div class="modal-body">
-            <textarea class="soundToTextarea" name="soundToText" id="" rows="5" v-model="soundInput"></textarea>
+            <div>
+              <button @click="startSpeechRecognition">음성으로 재료 입력</button>
+              <p class="output">인식된 재료: {{ recognizedIngredients }}</p>
+            </div>
+            
+            <textarea class="soundToTextarea" name="soundToText" id="" rows="5" v-model="recognizedIngredients"></textarea>
           </div>
           <div class="buttonGroup">
             <button class="modalButton" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">TEXT 입력</button>
@@ -56,7 +61,8 @@ export default {
         {name : "계란", amount: 2, unit: "개",  startDate : '2023-07-27', endDate: '', storage: '냉장'},
         {name : "돼지고기", amount: 600, unit: "g",  startDate : '2023-07-27', endDate: '', storage: '냉장'},
         {name : "소고기", amount: 1200, unit: "g",  startDate : '2023-07-27', endDate: '', storage: '냉장'},],
-        soundInput: ''
+        soundInput: '',
+        recognizedIngredients : "",
       }
     },
     methods: {
@@ -90,8 +96,29 @@ export default {
         }
         this.ingredientList = arrayRemove(this.ingredientList, ingredient)
       },
-    }
+      startSpeechRecognition() {
+        const recognition = new window.webkitSpeechRecognition();
+        recognition.lang = "ko-KR";
+        recognition.interimResults = false;
+        recognition.continuous = false;
+        recognition.maxAlternatives = 1;
 
+        recognition.onresult = (event) => {
+          const speechResult = event.results[0][0].transcript.toLowerCase();
+          console.log("Confidence: " + event.results[0][0].confidence);
+          console.log("Speech Result: " + speechResult);
+          this.recognizedIngredients = speechResult;
+      };
+
+      recognition.onend = () => {
+        console.log("SpeechRecognition.onend");
+      };
+
+      recognition.start();
+    },
+  
+  }
+  
 }
 </script>
 
