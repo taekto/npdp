@@ -39,7 +39,7 @@ public class FoodController {
     }
 
     // 양념 이름으로 조회
-    @GetMapping("/ingredient/{name}")
+    @GetMapping("/seasoning/{name}")
     public ResponseEntity<?> findSeasoningByName(@PathVariable("name") String name) {
         List<IngredientResponseDto> foundSeasoning = foodService.findSeasoningByName(name);
         return ResponseEntity.ok().body(ResponseEntity.ok().body(foundSeasoning));
