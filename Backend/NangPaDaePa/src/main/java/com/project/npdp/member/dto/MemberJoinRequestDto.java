@@ -15,7 +15,7 @@ public class MemberJoinRequestDto {
     private String email;
     private String password;
     private String nickname;
-    private String phone;
+    private String gender;
     private String birth;
 
 }
