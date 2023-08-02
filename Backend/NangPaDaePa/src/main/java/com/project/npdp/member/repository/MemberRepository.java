@@ -1,5 +1,6 @@
 package com.project.npdp.member.repository;
 
+import com.project.npdp.member.dto.MemberJoinRequestDto;
 import com.project.npdp.member.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,6 +11,9 @@ import java.util.List;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
+
+    // 회원가입
+    void save(MemberJoinRequestDto member);
 
     // 이메일로 회원 조희
     List<Member> findByEmail(String email);
