@@ -22,6 +22,8 @@ public class QIngredient extends EntityPathBase<Ingredient> {
 
     public final ListPath<com.project.npdp.domain.AllergyIngredient, com.project.npdp.domain.QAllergyIngredient> allergyIngredientList = this.<com.project.npdp.domain.AllergyIngredient, com.project.npdp.domain.QAllergyIngredient>createList("allergyIngredientList", com.project.npdp.domain.AllergyIngredient.class, com.project.npdp.domain.QAllergyIngredient.class, PathInits.DIRECT2);
 
+    public final StringPath code = createString("code");
+
     public final StringPath def = createString("def");
 
     public final StringPath eng = createString("eng");
@@ -38,13 +40,11 @@ public class QIngredient extends EntityPathBase<Ingredient> {
 
     public final ListPath<com.project.npdp.member.entity.MemberDislikeIngredient, com.project.npdp.member.entity.QMemberDislikeIngredient> memberDislikeIngredientList = this.<com.project.npdp.member.entity.MemberDislikeIngredient, com.project.npdp.member.entity.QMemberDislikeIngredient>createList("memberDislikeIngredientList", com.project.npdp.member.entity.MemberDislikeIngredient.class, com.project.npdp.member.entity.QMemberDislikeIngredient.class, PathInits.DIRECT2);
 
-    public final StringPath name = createString("name");
-
     public final ListPath<com.project.npdp.recipe.entity.RecipeIngredient, com.project.npdp.recipe.entity.QRecipeIngredient> recipeIngredientList = this.<com.project.npdp.recipe.entity.RecipeIngredient, com.project.npdp.recipe.entity.QRecipeIngredient>createList("recipeIngredientList", com.project.npdp.recipe.entity.RecipeIngredient.class, com.project.npdp.recipe.entity.QRecipeIngredient.class, PathInits.DIRECT2);
 
     public final ListPath<com.project.npdp.refregirator.entity.Refregirator, com.project.npdp.refregirator.entity.QRefregirator> refregiratorList = this.<com.project.npdp.refregirator.entity.Refregirator, com.project.npdp.refregirator.entity.QRefregirator>createList("refregiratorList", com.project.npdp.refregirator.entity.Refregirator.class, com.project.npdp.refregirator.entity.QRefregirator.class, PathInits.DIRECT2);
 
-    public final StringPath supperUpperClass = createString("supperUpperClass");
+    public final StringPath superUpperClass = createString("superUpperClass");
 
     public final StringPath upperClass = createString("upperClass");
 

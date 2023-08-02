@@ -26,7 +26,7 @@ public class FoodService {
         List<Ingredient> all = ingredientRepository.findAll();
         List<IngredientResponseDto> result = all.stream().map(r->IngredientResponseDto.builder()
                 .id(r.getId())
-                .name(r.getName())
+                .name(r.getKor())
                 .build())
                 .collect(Collectors.toList());
         return result;
@@ -50,7 +50,7 @@ public class FoodService {
         List<Seasoning> all = seasoningRepository.findAll();
         List<SeasoningResponseDto> result = all.stream().map(r-> SeasoningResponseDto.builder()
                 .id(r.getId())
-                .name(r.getName())
+                .name(r.getKor())
                 .build())
                 .collect(Collectors.toList());
         return result;

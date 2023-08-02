@@ -20,6 +20,8 @@ public class QSeasoning extends EntityPathBase<Seasoning> {
 
     public static final QSeasoning seasoning = new QSeasoning("seasoning");
 
+    public final StringPath code = createString("code");
+
     public final StringPath definition = createString("definition");
 
     public final StringPath eng = createString("eng");
@@ -33,8 +35,6 @@ public class QSeasoning extends EntityPathBase<Seasoning> {
     public final NumberPath<Long> level = createNumber("level", Long.class);
 
     public final ListPath<com.project.npdp.refregirator.entity.MemberSeasoning, com.project.npdp.refregirator.entity.QMemberSeasoning> memberSeasoningList = this.<com.project.npdp.refregirator.entity.MemberSeasoning, com.project.npdp.refregirator.entity.QMemberSeasoning>createList("memberSeasoningList", com.project.npdp.refregirator.entity.MemberSeasoning.class, com.project.npdp.refregirator.entity.QMemberSeasoning.class, PathInits.DIRECT2);
-
-    public final StringPath name = createString("name");
 
     public final ListPath<com.project.npdp.recipe.entity.RecipeSeasoning, com.project.npdp.recipe.entity.QRecipeSeasoning> recipeIngredientList = this.<com.project.npdp.recipe.entity.RecipeSeasoning, com.project.npdp.recipe.entity.QRecipeSeasoning>createList("recipeIngredientList", com.project.npdp.recipe.entity.RecipeSeasoning.class, com.project.npdp.recipe.entity.QRecipeSeasoning.class, PathInits.DIRECT2);
 
