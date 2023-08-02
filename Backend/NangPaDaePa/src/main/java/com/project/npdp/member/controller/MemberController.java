@@ -25,7 +25,7 @@ public class MemberController {
 
 
     // 로그인
-    @PostMapping("/login")
+    @PostMapping("/localLogin")
     public ResponseEntity<String> login(String email, String password){
         return ResponseEntity.ok().body(memberService.login(email, password));
     }

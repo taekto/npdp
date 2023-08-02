@@ -12,9 +12,6 @@ import java.util.List;
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
-    // 회원가입
-    void save(MemberJoinRequestDto member);
-
     // 이메일로 회원 조희
     List<Member> findByEmail(String email);
 
