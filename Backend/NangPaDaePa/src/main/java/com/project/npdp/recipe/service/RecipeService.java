@@ -1,5 +1,6 @@
 package com.project.npdp.recipe.service;
 
+import com.project.npdp.recipe.dto.response.RecipeIdResponseDto;
 import com.project.npdp.recipe.dto.response.RecipeResponseDto;
 import com.project.npdp.recipe.dto.response.RecipeWantResponseDto;
 import com.project.npdp.recipe.entity.Recipe;
@@ -37,16 +38,20 @@ public class RecipeService {
 
     // 레시피id로 레시피 조회
     @Transactional(readOnly = true)
-    public RecipeResponseDto findRecipeById(Long recipeId) {
+    public RecipeIdResponseDto findRecipeById(Long recipeId) {
         Recipe recipe = recipeRepository.findById(recipeId)
                 .orElseThrow(() -> new IllegalArgumentException("레시피Id 조회불가"));
 
-        RecipeResponseDto result = RecipeResponseDto.builder()
-                .recipeId(recipe.getId())
+        RecipeIdResponseDto result = RecipeIdResponseDto.builder()
                 .name(recipe.getName())
+                .way(recipe.getWay())
+                .weight(recipe.getWeight())
+                .calorie(recipe.getCalorie())
+                .carbohydrate(recipe.getCarbohydrate())
+                .protein(recipe.getProtein())
+                .fat(recipe.getFat())
+                .salt(recipe.getSalt())
                 .imgBig(recipe.getImgBig())
-                .imgSmall(recipe.getImgSmall())
-                .category(recipe.getCategory())
                 .build();
         return result;
     }
