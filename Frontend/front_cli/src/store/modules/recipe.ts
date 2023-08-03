@@ -1,6 +1,6 @@
 import { Module } from 'vuex';
 import { RootState } from '../index'; // Root Vuex Store에서 정의한 RootState 임포트
-import router from '@/router';
+import router from '@/router/index';
 import api from '@/api/api';
 import axios from 'axios';
 import { AnyObject } from 'chart.js/dist/types/basic';
@@ -407,36 +407,30 @@ const recipe: Module<RecipeState, RootState> = {
     },
 
     // 레시피 특정 조회
-    recipeSpecific({ commit }, content) {
-      console.log(content, '레시피 특정 조회 시작!');
-      console.log(content);
-    
-      if (content === "" || content === null) {
-        router.push({ name: 'search' });
-      } else {
-        axios({
-          url: api.recipe.specificRecipe(),
-          method: 'get',
+    recipeSpecific ({commit}, content) {
+      console.log(content, '레시피 특정 조회 시작!')
+      axios ({
+        url: api.recipe.specificRecipe(),
+        method: 'get',
+        params: {
+          content: content 
+        }
+      })
+      .then (res=> {
+        console.log('레시피 특정 조회 성공!')
+        console.log(res)
+        commit('SET_RECIPE_SPECIFIC', res.data)
+        router.push({
+          name: 'searchKeyword',
           params: {
-            content: content,
-          }
-        })
-          .then(res => {
-            console.log('레시피 특정 조회 성공!');
-            console.log(res);
-            commit('SET_RECIPE_SPECIFIC', res.data);
-            router.push({
-              name: "searchKeyword",
-              params: {
-                keyword: content,
-              }
-            });
-          })
-          .catch(err => {
-            console.log('레시피 특정 조회 실패..');
-            console.log(err.response);
-          });
-      }
+            keyword: content,
+          },
+        });
+      })
+      .catch(err => {
+        console.log('레시피 특정 조회 실패..')
+        console.log(err.response)
+      })
     },
 
     // 레시피 상세 조회

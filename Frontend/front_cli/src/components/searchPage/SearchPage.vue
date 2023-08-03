@@ -11,7 +11,7 @@
                 </div>
 
                 <!-- 해시태그 -->
-                <div id="hashTagkeyword">
+                <!-- <div id="hashTagkeyword"> -->
                     <!-- <router-link id="hash" :to="{
                         name: 'searchKeyword',
                         params: {
@@ -20,10 +20,10 @@
                     }" v-for="(tag, index) in hashTag" :key="index">
                         # {{ tag }}
                     </router-link> -->
-                    <div @click="recipeSpecific(tag)" id="hash" v-for="(tag, index) in hashTag" :key="index">
+                    <!-- <div @click="recipeSpecific(tag)" id="hash" v-for="(tag, index) in hashTag" :key="index">
                         # {{ tag }}
-                    </div>
-                </div>
+                    </div> -->
+                <!-- </div> -->
             </form>
         </div>
 
