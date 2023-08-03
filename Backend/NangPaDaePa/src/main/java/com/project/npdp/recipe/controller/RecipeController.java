@@ -1,5 +1,6 @@
 package com.project.npdp.recipe.controller;
 
+import com.project.npdp.recipe.dto.response.RecipeIdResponseDto;
 import com.project.npdp.recipe.dto.response.RecipeResponseDto;
 import com.project.npdp.recipe.dto.response.RecipeWantResponseDto;
 import com.project.npdp.recipe.service.RecipeService;
@@ -19,8 +20,9 @@ public class RecipeController {
     // id로 Recipe 조회
     @GetMapping("/{recipeId}")
     public ResponseEntity<?> findRecipeById(@PathVariable("recipeId") Long id) {
-        RecipeResponseDto recipeById = recipeService.findRecipeById(id);
-        return ResponseEntity.ok().body(ResponseEntity.ok().body(recipeById));
+        RecipeIdResponseDto recipeById = recipeService.findRecipeById(id);
+//        if (recipeById.) return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("레시피가 없습니다.");
+        return ResponseEntity.ok().body(recipeById);
     }
 
     // Recipe 전체 조회
