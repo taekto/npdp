@@ -44,7 +44,7 @@ public class QMember extends EntityPathBase<Member> {
 
     public final StringPath nickname = createString("nickname");
 
-    public final StringPath oauth = createString("oauth");
+    public final EnumPath<OAuthType> oauth = createEnum("oauth", OAuthType.class);
 
     public final StringPath password = createString("password");
 

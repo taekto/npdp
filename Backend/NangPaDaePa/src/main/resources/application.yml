@@ -27,3 +27,8 @@ logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
+
+
+kakao:
+  default:
+    password: kakao_user_default_password

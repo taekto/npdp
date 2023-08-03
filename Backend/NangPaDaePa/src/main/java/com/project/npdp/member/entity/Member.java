@@ -28,7 +28,9 @@ public class Member {
 
     private String password;
 
-    private String oauth;
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private OAuthType oauth = OAuthType.LOCAL;
 
 //    @Column(nullable = false, columnDefinition = "VARCHAR(10) DEFAULT 'USER'")
     @Builder.Default
