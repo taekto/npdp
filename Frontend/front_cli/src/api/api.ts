@@ -19,7 +19,7 @@ export default {
     signup:() => '/api/members/join',
 
     // 회원 로컬 로그인 
-    login: () => "/" + MEMBER + 'localLogin',
+    login: () => '/api/members/localLogin/',
 
     // 회원 소셜 로그인
     socialLogin: () => HOST + 'members/socialLogin',

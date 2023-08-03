@@ -208,12 +208,14 @@ const member: Module<MemberState, RootState> = {
     },
 
     memberLogin({ commit, dispatch }, credentials) {
+      console.log(credentials)
       axios({
         url: api.member.login(),
         method: 'post',
-        data: credentials
+        data: credentials,
       })
         .then(res => {
+          console.log(res)
           const token = res.data.key
           dispatch('saveToken', token)
           commit('SET_MEMBER', res.data)
