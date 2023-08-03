@@ -109,7 +109,7 @@ export default {
     fetchRecipe: () => HOST + 'recipes',
   
     // 레시피 특정 조회
-    specificRecipe: () => HOST + RECIPES + 'want/' ,
+    specificRecipe: () =>  + '/recipes' + '/want' ,
   
     // 레시피 상세 보기
     detailRecipe: function(recipe_id: number) {

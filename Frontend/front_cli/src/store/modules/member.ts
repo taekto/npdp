@@ -233,8 +233,8 @@ const member: Module<MemberState, RootState> = {
       // const CORSHEADERS = ({Access-Control-Allow-Origin: http://localhost:8080/})
       console.log(credentials)
         axios({
-          // url: api.member.signup(),
-          url: 'https://i9b202.p.ssafy.io/api/members/join',
+          url: api.member.signup(),
+          // url: 'https://i9b202.p.ssafy.io/api/members/join',
           method: 'post',
           data: {
             credentials

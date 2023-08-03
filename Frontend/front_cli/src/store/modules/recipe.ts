@@ -407,8 +407,8 @@ const recipe: Module<RecipeState, RootState> = {
     recipeSpecific ({commit, getters}, content) {
       console.log(content)
       axios ({
-        // url: api.recipe.specificRecipe(),
-        url: 'https://i9b202.p.ssafy.io/api/recipes/want',
+        url: api.recipe.specificRecipe(),
+        // url: 'https://i9b202.p.ssafy.io/api/recipes/want',
         method: 'get',
         data:{
           content,
