@@ -218,7 +218,7 @@ const member: Module<MemberState, RootState> = {
           router.push({ name: 'main' })
           setTimeout(() => {
             router.go(0)
-          }, 1000)
+          }, 500)
           
         })
         .catch(err => {
@@ -256,6 +256,9 @@ const member: Module<MemberState, RootState> = {
       commit('SET_MEMBER', null)
       alert('성공적으로 logout!')
       router.push({ name: 'main' })
+      setTimeout(() => {
+        router.go(0)
+      }, 500)
     },
 
     // 회원 정보 조회
