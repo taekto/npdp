@@ -82,15 +82,16 @@ interface RecipeDetail {
   weight: number
   calorie: number
   carbohydrate: number
-  recipe_id: number
   protein: number
   fat: number
   salt: number
+  img: string
+  // recipe_id: number
   // tag: string
-  img_small: string
-  img_big: string
-  category: string
-  dish: number
+  // img_small: string
+  // img_big: string
+  // category: string
+  // dish: number
 }
 
 // 레시피 맞춤 추천
@@ -407,15 +408,14 @@ const recipe: Module<RecipeState, RootState> = {
 
     // 레시피 특정 조회
     recipeSpecific ({commit}, content) {
-      console.log(content)
+      console.log(content, '레시피 특정 조회 시작!')
       axios ({
-      //   url: api.recipe.specificRecipe(),
-        url: 'https://i9b202.p.ssafy.io/api/recipes/want',
+        url: api.recipe.specificRecipe(),
         method: 'get',
         data: content,
-        // headers: getters.authHeader,
       })
         .then (res=> {
+          console.log('레시피 특정 조회 성공!')
           console.log(res)
           commit('SET_RECIPE_SPECIFIC', res.data)
         })

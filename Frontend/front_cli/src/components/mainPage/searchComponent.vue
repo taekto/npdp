@@ -1,6 +1,7 @@
 <template>
     <!-- 검색창 컴포넌트 -->
     <div>
+        <h1>서치?</h1>
         <form @submit.prevent="recipeSpecific(searchKeyword)">
             <div class="input-group">
                 <input id="searchForm" class="form-control" type="text" v-model.trim="searchKeyword">
@@ -18,7 +19,6 @@
                 </router-link>
             </div>
         </form>
-        <h1><button @click="fetchRecipe">레시피 전체 조회 버튼4</button></h1>
     </div>
 </template>
 
@@ -34,7 +34,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['fetchRecipe','recipeSpecific']),
+        ...mapActions(['recipeSpecific']),
         goToSearchwithKeyword() {
             this.keyWord = ""
             const tempKeyword = this.searchKeyword
