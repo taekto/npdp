@@ -10,7 +10,7 @@ public class CorsConfig implements WebMvcConfigurer {
         // 해당 서버의 모든 URL 요청에 해당 Class가
         registry.addMapping("/**")
                 // 허용할 도메인 설정
-                .allowedOrigins("https://i9b202.p.ssafy.io/*", "http://localhost:9091/*")
+                .allowedOrigins("https://i9b202.p.ssafy.io/*")
                 // 허용할 HTTP 메서드 설정
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 // 허용할 HTTP 헤더 설정
