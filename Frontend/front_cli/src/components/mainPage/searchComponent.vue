@@ -6,7 +6,7 @@
                 <input id="searchForm" class="form-control" type="text" v-model.trim="content">
                 <input id="submitButton" type="submit" value="검색">
             </div>
-            <p>1231231234564</p>
+            <p>테스트</p>
             <button @click="fetchRecipe">레시피 전체 조회 버튼</button>
 3
             <!-- 해시태그 -->
