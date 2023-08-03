@@ -62,6 +62,7 @@
           <p>1234567987564165</p>
           <p>1234567987564165</p>
           <p>1234567987564165</p>
+          <p>1234567987564165</p>
       <button class="signup_btn" style="width: 100%;" @click="signup">Get started</button>
 
       <!-- 소셜 로그인 -->
