@@ -8,7 +8,7 @@
                 <input id="submitButton" type="submit" value="검색">
             </div>
             <!-- 해시태그 -->
-            <div id="hashTagkeyword">
+            <!-- <div id="hashTagkeyword">
                 <router-link id="hash" :to="{
                     name: 'content',
                     params: {
@@ -17,13 +17,13 @@
                 }" v-for="(tag, index) in hashTag" :key="index">
                     # {{ tag }}
                 </router-link>
-            </div>
+            </div> -->
         </form>
     </div>
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
     data() {
