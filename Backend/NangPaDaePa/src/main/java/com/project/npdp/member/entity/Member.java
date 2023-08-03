@@ -1,5 +1,6 @@
 package com.project.npdp.member.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.npdp.domain.Calendar;
 import com.project.npdp.refregirator.entity.MemberSeasoning;
 import com.project.npdp.refregirator.entity.Refregirator;
@@ -41,6 +42,7 @@ public class Member {
     // member_utensil(회원보유장비) 연관관계
     @OneToMany(mappedBy = "member")
     private List<MemberUtensil> memberUtensilList = new ArrayList<>();
+
 
     // refregirator(냉장고) 연관관계
     @OneToMany(mappedBy = "member")

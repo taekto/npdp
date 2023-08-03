@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface RefregiratorRepositoryCustom {
 
-    public List<Ingredient> findMemberIngredient(Long memberId);
+    public List<Refregirator> findMemberRefregirator(Long memberId);
 
 }
