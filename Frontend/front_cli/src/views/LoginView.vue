@@ -11,7 +11,7 @@
           placeholder="Enter your Email"
           class="input"
           name="email"
-          v-model="credentiacditials.email"
+          v-model="credentials.email"
           style="width: 100%; height: 33.6px"  
         />
         <label for="password" class="input_label">Password</label>
