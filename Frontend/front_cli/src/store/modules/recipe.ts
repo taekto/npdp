@@ -413,9 +413,7 @@ const recipe: Module<RecipeState, RootState> = {
       axios ({
         url: api.recipe.specificRecipe(),
         method: 'get',
-        data: {
-          content
-        },
+        data: content
       })
         .then (res=> {
           console.log('레시피 특정 조회 성공!')
