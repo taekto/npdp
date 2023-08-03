@@ -11,6 +11,7 @@
             <p>1231231234564</p>
             <p>1231231234564</p>
             <p>1231231234564</p>
+            <button @click="fetchRecipe">1234</button>
 
             <!-- 해시태그 -->
             <div id="hashTagkeyword">
@@ -39,7 +40,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['recipeSpecific']),
+        ...mapActions(['recipeSpecific', 'fetchRecipe']),
         goToSearchwithKeyword() {
             this.keyWord = ""
             const tempKeyword = this.searchKeyword
