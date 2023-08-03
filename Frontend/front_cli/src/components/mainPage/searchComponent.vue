@@ -18,7 +18,7 @@
                 </router-link>
             </div>
         </form>
-        <h1><button @click="fetchRecipe">레시피 전체 조회 버튼3</button></h1>
+        <h1><button @click="fetchRecipe">레시피 전체 조회 버튼4</button></h1>
     </div>
 </template>
 
