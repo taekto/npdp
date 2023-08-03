@@ -59,4 +59,11 @@ public class RefregiratorController {
         refregiratorService.memberSaveIngredient(memberId, memberSeasoningSaveRequestDto);
         return ResponseEntity.ok().build();
     }
+
+    //회원 재료 조회
+    @GetMapping("/ingredient/{memberId}")
+    public ResponseEntity<?> findMemberIngredient(@PathVariable("memberId") Long memberId) {
+        List<Refregirator> result = refregiratorService.findMemberIngredient(memberId);
+        return ResponseEntity.ok().body(result);
+    }
 }

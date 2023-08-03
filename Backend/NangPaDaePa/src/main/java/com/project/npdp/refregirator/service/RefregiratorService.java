@@ -85,7 +85,7 @@ public class RefregiratorService {
         refregiratorRepository.save(result);
 
     }
-
+    // 회원 양념 입력
     public void memberSaveIngredient(Long memberId, MemberSeasoningSaveRequestDto memberSeasoningSaveRequestDto) {
 
         Member member = memberRepository.findById(memberId)
@@ -97,6 +97,10 @@ public class RefregiratorService {
 
     }
 
-
+    // 회원 재료 조회
+    public List<Refregirator> findMemberIngredient(Long memberId) {
+        List<Refregirator> memberRefregirator = refregiratorRepository.findMemberRefregirator(memberId);
+        return memberRefregirator;
+    }
 
 }
