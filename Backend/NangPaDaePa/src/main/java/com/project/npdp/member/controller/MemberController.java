@@ -1,6 +1,7 @@
 package com.project.npdp.member.controller;
 
 import com.project.npdp.member.dto.request.MemberJoinRequestDto;
+import com.project.npdp.member.dto.response.MemberDetailResponseDto;
 import com.project.npdp.member.entity.Member;
 import com.project.npdp.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -30,8 +31,9 @@ public class MemberController {
 
     // 회원 상세조회
     @GetMapping("/{memberId}")
-    public ResponseEntity<?> detail(@PathVariable Long memberId){
-        return ResponseEntity.ok().body(memberService.findMemberById(memberId));
+    public ResponseEntity<?> detail(@PathVariable("memberId") Long memberId){
+        MemberDetailResponseDto memberDetail = memberService.findMemberById(memberId);
+        return ResponseEntity.ok().body(ResponseEntity.ok().body(memberDetail));
     }
 
 //    @PostMapping("/write")
