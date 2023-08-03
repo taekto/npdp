@@ -422,7 +422,7 @@ const recipe: Module<RecipeState, RootState> = {
         commit('SET_RECIPE_SPECIFIC', res.data)
         router.push({
           name: 'searchKeyword',
-          params: {
+          query: {
             keyword: content,
           },
         });
