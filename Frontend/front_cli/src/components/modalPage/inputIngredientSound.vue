@@ -34,12 +34,8 @@
               <button @click="startSpeechRecognition">음성으로 재료 입력</button>
               <p class="output">인식된 재료: {{ recognizedIngredients }}</p>
             </div>
-<<<<<<< HEAD
-            <textarea class="soundToTextarea" name="soundToText" id="" rows="5" v-model="soundInput"></textarea>
-=======
             
             <textarea class="soundToTextarea" name="soundToText" id="" rows="5" v-model="recognizedIngredients"></textarea>
->>>>>>> 096066d030fa4928421fb82c7f85fc8b06f0fad4
           </div>
           <div class="buttonGroup">
             <button class="modalButton" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">TEXT 입력</button>
@@ -66,11 +62,7 @@ export default {
         {name : "돼지고기", amount: 600, unit: "g",  startDate : '2023-07-27', endDate: '', storage: '냉장'},
         {name : "소고기", amount: 1200, unit: "g",  startDate : '2023-07-27', endDate: '', storage: '냉장'},],
         soundInput: '',
-<<<<<<< HEAD
         recognizedIngredients: '',
-=======
-        recognizedIngredients : "",
->>>>>>> 096066d030fa4928421fb82c7f85fc8b06f0fad4
       }
     },
     methods: {
@@ -104,17 +96,12 @@ export default {
         }
         this.ingredientList = arrayRemove(this.ingredientList, ingredient)
       },
-<<<<<<< HEAD
-
-=======
->>>>>>> 096066d030fa4928421fb82c7f85fc8b06f0fad4
       startSpeechRecognition() {
         const recognition = new window.webkitSpeechRecognition();
         recognition.lang = "ko-KR";
         recognition.interimResults = false;
         recognition.continuous = false;
         recognition.maxAlternatives = 1;
-<<<<<<< HEAD
 
         recognition.onresult = (event) => {
           const speechResult = event.results[0][0].transcript.toLowerCase();
@@ -130,26 +117,14 @@ export default {
       recognition.start();
     },
     }
-=======
->>>>>>> 096066d030fa4928421fb82c7f85fc8b06f0fad4
 
-        recognition.onresult = (event) => {
-          const speechResult = event.results[0][0].transcript.toLowerCase();
-          console.log("Confidence: " + event.results[0][0].confidence);
-          console.log("Speech Result: " + speechResult);
-          this.recognizedIngredients = speechResult;
-      };
+        
 
-      recognition.onend = () => {
-        console.log("SpeechRecognition.onend");
-      };
-
-      recognition.start();
-    },
+      
   
   }
   
-}
+
 </script>
 
 <style scoped>

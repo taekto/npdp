@@ -36,32 +36,29 @@
             v-model="credentials.password"
           />
           
-  <VDatePicker 
-  v-model="credentials.birth"
-  :max="new Date()"
-  name="birth"
-  @dayclick="whatDate(credentials.birth)" />
-  <p>생일 : {{credentials.birth}}</p>
-  <p>생일 : {{birthdate}}</p>
-
-
-            <div class="genderSelect">
-              <div class="editCategoryTitle">
-                <p>성별 변경</p>
-              </div>
-              <div class="storageRadio">
-                <label class="radioButton">
-                  <input type="radio" name="male" value="남자" v-model="credentials.gender" @click="changeClassification">남자
-                </label>
-                <label class="radioButton">
-                  <input type="radio" name="female" value="여자" v-model="credentials.gender" @click="changeClassification">여자
-                </label>
-                <label class="radioButton">
-                  <input type="radio" name="noGender" value="미선택" v-model="credentials.gender" @click="changeClassification">선택 안함
-                </label>            
-              </div>
+          <VDatePicker 
+          v-model="credentials.birth"
+          :max="new Date()"
+          name="birth"
+          @dayclick="whatDate(credentials.birth)" />
+          <p>생일 : {{credentials.birth}}</p>
+          <div class="genderSelect">
+            <div class="editCategoryTitle">
+              <p>성별 변경</p>
             </div>
-        <button class="signup_btn" style="width: 100%;" @click="signup">Get started</button>
+            <div class="storageRadio">
+              <label class="radioButton">
+                <input type="radio" name="male" value="남자" v-model="credentials.gender" @click="changeClassification">남자
+              </label>
+              <label class="radioButton">
+                <input type="radio" name="female" value="여자" v-model="credentials.gender" @click="changeClassification">여자
+              </label>
+              <label class="radioButton">
+                <input type="radio" name="noGender" value="미선택" v-model="credentials.gender" @click="changeClassification">선택 안함
+              </label>            
+            </div>
+          </div>
+      <button class="signup_btn" style="width: 100%;" @click="signup">Get started</button>
 
       <!-- 소셜 로그인 -->
       <div class="signup_sns">
@@ -100,10 +97,7 @@ export default {
   // birthdate = new Date(); // birthdate 매개변수의 타입을 Date | null로 명시
   methods: {
     ...mapActions(["localSignup"]),
-  },
-
-
-  whatDate(birthdate, delimiter = '-') {
+    whatDate(birthdate, delimiter = '-') {
     // if (!birthdate) return ''; // 날짜가 선택되지 않은 경우 빈 문자열 반환
 
     
@@ -129,6 +123,10 @@ export default {
     }
     this.credentials.birth = this.birthdate
   }
+  },
+
+
+  
 }
 </script>
 
