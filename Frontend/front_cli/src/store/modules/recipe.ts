@@ -407,35 +407,35 @@ const recipe: Module<RecipeState, RootState> = {
     },
 
     // 레시피 특정 조회
-    recipeSpecific ({commit}, content) {
-      console.log(content, '레시피 특정 조회 시작!')
-      console.log(content)
-      axios ({
-        url: api.recipe.specificRecipe(),
-        method: 'get',
-        params: {
-          content: content 
-        }
-      })
-      .then (res=> {
-        console.log('레시피 특정 조회 성공!')
-        console.log(res)
-        commit('SET_RECIPE_SPECIFIC', res.data)
-      })
-      .catch(err => {
-        console.log('레시피 특정 조회 실패..')
-        console.log(err.response)
-      })
-      if(content === "" || content === null) {
-        router.push({name: 'search'})
-      }
-      else {
-        router.push({
-          name: "searchKeyword",
+    recipeSpecific({ commit }, content) {
+      console.log(content, '레시피 특정 조회 시작!');
+      console.log(content);
+    
+      if (content === "" || content === null) {
+        router.push({ name: 'search' });
+      } else {
+        axios({
+          url: api.recipe.specificRecipe(),
+          method: 'get',
           params: {
-            keyword: content,
+            content: content,
           }
         })
+          .then(res => {
+            console.log('레시피 특정 조회 성공!');
+            console.log(res);
+            commit('SET_RECIPE_SPECIFIC', res.data);
+            router.push({
+              name: "searchKeyword",
+              params: {
+                keyword: content,
+              }
+            });
+          })
+          .catch(err => {
+            console.log('레시피 특정 조회 실패..');
+            console.log(err.response);
+          });
       }
     },
 
