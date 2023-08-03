@@ -8,13 +8,11 @@ import com.project.npdp.member.entity.Member;
 import com.project.npdp.member.repository.MemberRepository;
 import com.project.npdp.recipe.dto.response.RecipeResponseDto;
 import com.project.npdp.recipe.entity.Recipe;
-import com.project.npdp.refregirator.dto.request.IngredientFindRequestDto;
-import com.project.npdp.refregirator.dto.request.MemberIngredientSaveRequestDto;
-import com.project.npdp.refregirator.dto.request.RefregiratorModifyIngredientRequestDto;
-import com.project.npdp.refregirator.dto.request.SeasoningFindRequestDto;
+import com.project.npdp.refregirator.dto.request.*;
 import com.project.npdp.refregirator.dto.response.IngredientFindResponseDto;
 import com.project.npdp.refregirator.dto.response.MemberIngredientFindResponseDto;
 import com.project.npdp.refregirator.dto.response.SeasoningFindResponseDto;
+import com.project.npdp.refregirator.entity.MemberSeasoning;
 import com.project.npdp.refregirator.entity.Refregirator;
 import com.project.npdp.refregirator.repository.MemberSeasoningRepository;
 import com.project.npdp.refregirator.repository.RefregiratorRepository;
@@ -31,6 +29,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class RefregiratorService {
 
     private final RefregiratorRepository refregiratorRepository;
@@ -52,6 +51,7 @@ public class RefregiratorService {
     }
 
     // 재료 텍스트 조회
+    @Transactional(readOnly = true)
     public List<IngredientFindResponseDto> findIngredientByKor(IngredientFindRequestDto ingredientFindRequestDto) {
         List<Ingredient> all = ingredientRepository.findByKorContaining(ingredientFindRequestDto.getKeyword());
         List<IngredientFindResponseDto> result = all.stream().map(ingredient -> IngredientFindResponseDto.builder()
@@ -61,8 +61,9 @@ public class RefregiratorService {
                 .collect(Collectors.toList());
         return result;
     }
-
     // 양념 텍스트 조회
+
+    @Transactional(readOnly = true)
     public List<SeasoningFindResponseDto> findSeasoningByKor(SeasoningFindRequestDto seasoningFindRequestDto) {
         List<Seasoning> all = seasoningRepository.findByKorContaining(seasoningFindRequestDto.getKeyword());
         List<SeasoningFindResponseDto> result = all.stream().map(seasoning -> SeasoningFindResponseDto.builder()
@@ -84,5 +85,18 @@ public class RefregiratorService {
         refregiratorRepository.save(result);
 
     }
+
+    public void memberSaveIngredient(Long memberId, MemberSeasoningSaveRequestDto memberSeasoningSaveRequestDto) {
+
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new NoSuchElementException("Member not found with id: "));
+        Seasoning seasoning = seasoningRepository.findById(memberSeasoningSaveRequestDto.getSeasoningId())
+                .orElseThrow(() -> new NoSuchElementException("Ingredient not found with id: "));
+        MemberSeasoning result = memberSeasoningSaveRequestDto.toEntity(memberSeasoningSaveRequestDto, member, seasoning);
+        memberSeasoningRepository.save(result);
+
+    }
+
+
 
 }
