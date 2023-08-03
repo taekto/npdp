@@ -34,10 +34,8 @@ export default {
             hashTag : ["김치", "돼지", "소", "닭", "된장", "빵"],
         }
     },
-    computed: {
-        ...mapActions(['recipeSpecific'])
-    },
     methods: {
+        ...mapActions(['recipeSpecific']),
         goToSearchwithKeyword() {
             this.keyWord = ""
             const tempKeyword = this.searchKeyword
