@@ -12,6 +12,6 @@ public interface SeasoningRepository extends JpaRepository<Seasoning, Long> {
 //    List<Ingredient> findByNameContainingIgnoreCase(String name);
 
     //refregirator 에서 사용함
-    List<Seasoning> findByKorContaining(String keyword);
+    List<Seasoning> findByKorContaining(String name);
 
 }
