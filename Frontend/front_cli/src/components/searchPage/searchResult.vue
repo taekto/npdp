@@ -88,6 +88,7 @@ export default {
     width: 20rem;
     cursor: pointer;
     margin: 1rem;
+    font-weight: bold;
 }
 
 .recommendCard p {
@@ -97,6 +98,7 @@ export default {
 
 img {
     width: 90%;
+    height: 60%;
     margin-top: 1rem;
 }
 
