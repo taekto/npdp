@@ -215,7 +215,7 @@ const member: Module<MemberState, RootState> = {
           console.log(res)
           sessionStorage.setItem("accessToken", res.data.accessToken);
           // commit('SET_CURRENT_MEMBER', res.data)
-          dispatch('fetchMember', res.data.memeberId)
+          dispatch('fetchMember', res.data.id)
           router.push({ name: 'main' })
         })
         .catch(err => {
