@@ -12,7 +12,7 @@
         :key="recipe_item.recipe_id"
         >
             <!-- 레시피 카드로 표현 -->
-            <div class="recommendCard" @click="goToDetailRecipe(recipe_item.recipeId)">
+            <div class="recommendCard" @click="goToDetailRecipe(recipe_item)">
                 <img :src="recipe_item.imgBig" alt="">
                 <!-- <p>Recipe Name</p> -->
                 <!-- <img :src="recipe_item.img_small" alt=""> -->
@@ -39,7 +39,7 @@ export default {
         goToDetailRecipe(recipeItem) {
             this.$router.push({name: "recipe",  
                 params: { 
-                    recipe_id: recipeItem.recipe_id,
+                    recipe_id: recipeItem.recipeId,
                 },
                 query: {
                     recipeItem: JSON.stringify(recipeItem),
