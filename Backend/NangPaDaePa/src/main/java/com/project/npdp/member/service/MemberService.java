@@ -7,6 +7,7 @@ import com.project.npdp.member.dto.response.MemberLoginResponseDto;
 import com.project.npdp.member.entity.Member;
 import com.project.npdp.member.repository.MemberRepository;
 import com.project.npdp.utils.JwtUtil;
+import com.project.npdp.utils.SHA256Util;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -32,9 +33,12 @@ public class MemberService {
     // 회원 가입
     public void join(MemberJoinRequestDto memberJoinRequestDto){
 
+        // 비밀번호 해시 암호화
+        String hashedPw = SHA256Util.getSHA256(memberJoinRequestDto.getPassword());
+
         Member member = Member.builder()
                 .email(memberJoinRequestDto.getEmail())
-                .password(memberJoinRequestDto.getPassword())
+                .password(hashedPw)
                 .nickname(memberJoinRequestDto.getNickname())
                 .gender(memberJoinRequestDto.getGender())
                 .birth(memberJoinRequestDto.getBirth())
