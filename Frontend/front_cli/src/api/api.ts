@@ -17,7 +17,7 @@ export default {
   // member_id or member_id
   member: {
     // 회원 가입
-    signup:() => HOST + MEMBER + 'join',
+    signup:() => '/' + MEMBER + 'join',
 
     // 회원 로컬 로그인 
     login: () => HOST + MEMBER + 'localLogin',
