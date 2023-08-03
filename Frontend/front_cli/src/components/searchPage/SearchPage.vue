@@ -12,14 +12,17 @@
 
                 <!-- 해시태그 -->
                 <div id="hashTagkeyword">
-                    <router-link id="hash" :to="{
+                    <!-- <router-link id="hash" :to="{
                         name: 'searchKeyword',
                         params: {
                             keyword: tag
                         }
                     }" v-for="(tag, index) in hashTag" :key="index">
                         # {{ tag }}
-                    </router-link>
+                    </router-link> -->
+                    <div @click="recipeSpecific(tag)" id="hash" v-for="(tag, index) in hashTag" :key="index">
+                        # {{ tag }}
+                    </div>
                 </div>
             </form>
         </div>
@@ -96,6 +99,7 @@ export default {
     padding: 0.6rem;
     border-radius: .5rem;
     text-decoration-line: none;
+    cursor: pointer;
 }
 </style>
 
