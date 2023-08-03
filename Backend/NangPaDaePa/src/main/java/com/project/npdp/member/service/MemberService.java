@@ -33,11 +33,14 @@ public class MemberService {
     public void join(MemberJoinRequestDto memberJoinRequestDto){
 
         Member member = Member.builder()
-                .email(memberJoinRequestDto.getEmail()).password(memberJoinRequestDto.getPassword()).nickname(memberJoinRequestDto.getNickname()).gender(memberJoinRequestDto.getGender()).birth(memberJoinRequestDto.getBirth()).build();
-
+                .email(memberJoinRequestDto.getEmail())
+                .password(memberJoinRequestDto.getPassword())
+                .nickname(memberJoinRequestDto.getNickname())
+                .gender(memberJoinRequestDto.getGender())
+                .birth(memberJoinRequestDto.getBirth())
+                .build();
         // 중복 가입 방지 확인 (이메일)
         validateDuplicateJoin(memberJoinRequestDto);
-
         memberRepository.save(member);
     }
 
