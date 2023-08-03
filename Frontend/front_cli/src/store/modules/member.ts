@@ -33,8 +33,7 @@ interface Member {
 
 // 현재 유저 정보
 interface CurrentMember {
-  member_id: number
-  nickname: string
+  email: string
   accessToken: string
 }
 
@@ -209,17 +208,17 @@ const member: Module<MemberState, RootState> = {
 
     memberLogin({ commit, dispatch }, credentials) {
       console.log(credentials)
-      // axios({
-      //   url: api.member.login(),
-      //   method: 'post',
-      //   data: credentials,
-      // })
-        axios.post("/api/members/localLogin", credentials)
+      axios({
+        url: api.member.login(),
+        method: 'post',
+        data: credentials,
+      })
+        // axios.post("/api/members/localLogin", credentials)
         .then(res => {
           console.log(res)
-          const token = res.data.key
-          dispatch('saveToken', token)
-          commit('SET_MEMBER', res.data)
+          const token = res.data
+          // dispatch('saveToken', token)
+          commit('SET_CURRENT_MEMBER', token)
           dispatch('fetchMember')
           router.push({ name: 'main' })
           console.log(credentials)
@@ -232,21 +231,19 @@ const member: Module<MemberState, RootState> = {
     },
 
     // 로컬 회원 가입
-    localSignup({ commit, dispatch }, MemberJoinRequestDto) {
-      // const CORSHEADERS = ({Access-Control-Allow-Origin: http://localhost:8080/})
-      console.log(MemberJoinRequestDto)
+    localSignup({ commit }, credentials) {
+      console.log(credentials)
         axios({
           url: api.member.signup(),
           method: 'post',
-          data: MemberJoinRequestDto,
+          data: credentials,
         })
-        // axios.post("/api/members/join", MemberJoinRequestDto)
+        // axios.post("/api/members/join", credentials)
         .then(res => {
+          console.log('-----------------------------------------------')
             console.log(res)
-            const token = res.data.key
-            console.log('-----------------------------------------------')
-            console.log('-----------------------------------------------')
-            dispatch('saveToken', token)
+            // const token = res.data.token
+            // dispatch('saveToken', token)
             commit('SET_CURRENT_MEMBER', res.data)
             // dispatch('fetchMember', res.data.member_id)
             router.push({ name: 'main' })

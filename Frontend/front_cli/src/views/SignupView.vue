@@ -3,7 +3,7 @@
   <div class="signup_container">
     <div class="signup_card">
       <!-- 회원정보입력 -->
-      <form class="signup_form" id="signup_form" @submit.prevent="localSignup(MemberJoinRequestDto)">
+      <form class="signup_form" id="signup_form" @submit.prevent="localSignup(credentials)">
         <h1 class="form_title">Craete an account</h1>
           <label for="nickname" class="input_label">NickName</label>
           <input
@@ -13,7 +13,7 @@
             class="input"
             name="name"
             style="width: 100%; height: 33.6px"
-            v-model="MemberJoinRequestDto.nickname" 
+            v-model="credentials.nickname" 
           />
           <label for="email" class="input_label">Email</label>
           <input
@@ -23,7 +23,7 @@
             class="input"
             name="email"
             style="width: 100%; height: 33.6px" 
-            v-model="MemberJoinRequestDto.email"
+            v-model="credentials.email"
           />
           <label for="password" class="input_label">Password</label>
           <input
@@ -33,36 +33,35 @@
             class="input"
             name="password"
             style="width: 100%; height: 33.6px" 
-            v-model="MemberJoinRequestDto.password"
+            v-model="credentials.password"
           />
           
           <VDatePicker 
-          v-model="MemberJoinRequestDto.birth"
+          v-model="credentials.birth"
           :max="new Date()"
           name="birth"
-          @dayclick="whatDate(MemberJoinRequestDto.birth)" />
-          <p>생일 : {{MemberJoinRequestDto.birth}}</p>
+          @dayclick="whatDate(credentials.birth)" />
+          <p>생일 : {{credentials.birth}}</p>
           <div class="genderSelect">  
             <div class="editCategoryTitle">
               <p>성별 변경</p>
             </div>
             <div class="storageRadio">
               <label class="radioButton">
-                <input type="radio" name="male" value="남자" v-model="MemberJoinRequestDto.gender" @click="changeClassification">남자
+                <input type="radio" name="male" value="남자" v-model="credentials.gender" @click="changeClassification">남자
               </label>
               <label class="radioButton">
-                <input type="radio" name="female" value="여자" v-model="MemberJoinRequestDto.gender" @click="changeClassification">여자
+                <input type="radio" name="female" value="여자" v-model="credentials.gender" @click="changeClassification">여자
               </label>
               <label class="radioButton">
-                <input type="radio" name="noGender" value="미선택" v-model="MemberJoinRequestDto.gender" @click="changeClassification">선택 안함
+                <input type="radio" name="noGender" value="미선택" v-model="credentials.gender" @click="changeClassification">선택 안함
               </label>            
             </div>
-            <p>{{MemberJoinRequestDto.gender}}</p>
+            <p>{{credentials.gender}}</p>
           </div>
-          <p>성별 : {{MemberJoinRequestDto.gender}}</p>
-          <p>테스트 1</p>
+          <p>성별 : {{credentials.gender}}</p>
+          <p>테스트 9191</p>
       <button class="signup_btn" style="width: 100%;" @click="signup">Get started</button>
-      <p>11:44 테스트</p>
       <!-- 소셜 로그인 -->
       <div class="signup_sns">
           <a href="http://localhost:8080/signup" class="btn_sns btn-google btn-block">
@@ -87,7 +86,7 @@ export default {
 
   data() {
     return {
-       MemberJoinRequestDto: {
+       credentials: {
         email: '',
         password: '',
         nickname: '',
@@ -123,7 +122,7 @@ export default {
           this.birthdate = `${year}${delimiter}${month}${delimiter}${date}`;
         }
       }
-      this.MemberJoinRequestDto.birth = this.birthdate
+      this.credentials.birth = this.birthdate
     }
   }
 }
