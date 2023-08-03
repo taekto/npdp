@@ -30,7 +30,8 @@ public class MemberController {
 
     // 회원 상세조회
     @GetMapping("/{memberId}")
-    public ResponseEntity<?> detail(@PathVariable Long memberId){
+    public ResponseEntity<?> detail(@PathVariable("memberId") Long memberId){
+        System.out.println(memberId);
         return ResponseEntity.ok().body(memberService.findMemberById(memberId));
     }
 
