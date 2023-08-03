@@ -72,4 +72,9 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<MemberRecipeLatest> memberRecipeLatestList = new ArrayList<>();
 
+    // 로그인 검증
+    public boolean authenticate(String email, String password){
+        return this.email.equals(email) && this.password.equals(password);
+    }
+
 }
