@@ -57,16 +57,16 @@ public class FoodService {
     }
 
     // 양념 이름으로 조회
-//    @Transactional(readOnly = true)
-//    public List<IngredientResponseDto> findSeasoningByName(String name) {
-//        List<Ingredient> foundSeasoning = seasoningRepository.findByNameContainingIgnoreCase(name);
-//        List<IngredientResponseDto> result = foundSeasoning.stream().map(r->IngredientResponseDto.builder()
-//                        .id(r.getId())
-//                        .name(r.getKor())
-//                        .build())
-//                .collect(Collectors.toList());
-//        return result;
-//    }
+    @Transactional(readOnly = true)
+    public List<SeasoningResponseDto> findSeasoningByName(String name) {
+        List<Seasoning> foundSeasoning = seasoningRepository.findByKorContaining(name);
+        List<SeasoningResponseDto> result = foundSeasoning.stream().map(r->SeasoningResponseDto.builder()
+                        .id(r.getId())
+                        .name(r.getKor())
+                        .build())
+                .collect(Collectors.toList());
+        return result;
+    }
 
 
 
