@@ -7,6 +7,7 @@
                 <input id="submitButton" type="submit" value="검색">
             </div>
             <p>1231231234564</p>
+            <p>1231231234564</p>
 
             <!-- 해시태그 -->
             <div id="hashTagkeyword">
