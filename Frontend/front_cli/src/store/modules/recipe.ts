@@ -409,13 +409,8 @@ const recipe: Module<RecipeState, RootState> = {
     // 레시피 특정 조회
     recipeSpecific ({commit}, content) {
       console.log(content, '레시피 특정 조회 시작!')
-      axios ({
-        url: api.recipe.specificRecipe(),
-        method: 'get',
-        data: {
-          content
-        },
-      })
+      console.log(content)
+      axios.get(api.recipe.specificRecipe(), content)
         .then (res=> {
           console.log('레시피 특정 조회 성공!')
           console.log(res)
