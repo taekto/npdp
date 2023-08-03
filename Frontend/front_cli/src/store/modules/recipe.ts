@@ -388,7 +388,7 @@ const recipe: Module<RecipeState, RootState> = {
   },
 
   actions: {
-    // 레시피 조회
+    // 레시피 전체 조회
     fetchRecipe ({commit}) {
       console.log('get요청 보내기')
       axios ({
@@ -406,7 +406,7 @@ const recipe: Module<RecipeState, RootState> = {
     },
 
     // 레시피 특정 조회
-    recipeSpecific ({commit, getters}, content) {
+    recipeSpecific ({commit}, content) {
       console.log(content)
       axios ({
       //   url: api.recipe.specificRecipe(),
