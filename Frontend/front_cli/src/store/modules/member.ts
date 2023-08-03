@@ -217,6 +217,7 @@ const member: Module<MemberState, RootState> = {
           // commit('SET_CURRENT_MEMBER', res.data)
           dispatch('fetchMember', res.data.id)
           router.push({ name: 'main' })
+          router.go(0)
         })
         .catch(err => {
           console.error(err.response.data)
