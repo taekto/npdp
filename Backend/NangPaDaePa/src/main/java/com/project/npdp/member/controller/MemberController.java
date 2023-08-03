@@ -1,7 +1,8 @@
 package com.project.npdp.member.controller;
 
 import com.project.npdp.member.dto.request.MemberJoinRequestDto;
-import com.project.npdp.member.entity.Member;
+import com.project.npdp.member.dto.request.MemberLoginRequestDto;
+import com.project.npdp.member.dto.response.MemberLoginResponseDto;
 import com.project.npdp.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,11 +22,15 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-
     // 로그인
     @PostMapping("/localLogin")
-    public ResponseEntity<String> login(String email, String password){
-        return ResponseEntity.ok().body(memberService.login(email, password));
+    public ResponseEntity<?> login(@RequestBody MemberLoginRequestDto memberLoginRequestDto){
+        MemberLoginResponseDto memberLoginInfo = memberService.login(memberLoginRequestDto);
+        if(memberLoginInfo != null){
+            return ResponseEntity.ok().body(memberLoginInfo);
+        }else{
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 인증 실패");
+        }
     }
 
     // 회원 상세조회
