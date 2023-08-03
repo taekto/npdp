@@ -20,7 +20,7 @@ export default {
     signup:() => '/members' + '/join',
 
     // 회원 로컬 로그인 
-    login: () => HOST + MEMBER + 'localLogin',
+    login: () => "/" + MEMBER + 'localLogin',
 
     // 회원 소셜 로그인
     socialLogin: () => HOST + 'members/socialLogin',
