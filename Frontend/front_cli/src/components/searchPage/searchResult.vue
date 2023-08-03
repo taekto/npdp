@@ -12,7 +12,7 @@
         :key="recipe_item.recipe_id"
         >
             <!-- 레시피 카드로 표현 -->
-            <div class="recommendCard" @click="goToDetailRecipe(recipe_item.recipeId)">
+            <div class="recommendCard" @click="goToDetailRecipe(recipe_item)">
                 <img :src="recipe_item.imgBig" alt="">
                 <!-- <p>Recipe Name</p> -->
                 <!-- <img :src="recipe_item.img_small" alt=""> -->
