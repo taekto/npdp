@@ -12,7 +12,7 @@
         :key="recipe_item.recipe_id"
         >
             <!-- 레시피 카드로 표현 -->
-            <div class="recommendCard" @click="goToDetailRecipe(recipe_item)">
+            <div class="recommendCard" @click="detailRecipe(recipe_item.recipeId)">
                 <img :src="recipe_item.imgBig" alt="">
                 <!-- <p>Recipe Name</p> -->
                 <!-- <img :src="recipe_item.img_small" alt=""> -->
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 
 export default {
     name: 'SearchResult',
@@ -34,6 +34,7 @@ export default {
     },
 
     methods: {
+        ...mapActions(['detailRecipe']),
         // 상세 레시피로 보내주는 함수
         // 데이터 연결 후 변경 예정
         goToDetailRecipe(recipeItem) {
