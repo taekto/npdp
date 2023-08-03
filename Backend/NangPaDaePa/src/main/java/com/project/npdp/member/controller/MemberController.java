@@ -42,6 +42,11 @@ public class MemberController {
         return ResponseEntity.ok().body(ResponseEntity.ok().body(memberDetail));
     }
 
+    // 회원 닉네임 변경
+    
+
+    // 회원 전화번호 변경
+
 //    @PostMapping("/write")
 //    public ResponseEntity<String> writeSample(Authentication authentication){
 //        return ResponseEntity.ok().body(authentication.getName() + "님의 글 등록 완료");
