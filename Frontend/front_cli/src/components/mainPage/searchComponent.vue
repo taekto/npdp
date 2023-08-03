@@ -1,7 +1,7 @@
 <template>
     <!-- 검색창 컴포넌트 -->
     <div>
-        <form @submit.prevent="goToSearchwithKeyword">
+        <form @submit.prevent="recipeSpecific(searchKeyword)">
             <div class="input-group">
                 <input id="searchForm" class="form-control" type="text" v-model.trim="searchKeyword">
                 <input id="submitButton" type="submit" value="검색">
@@ -23,6 +23,8 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
+
 export default {
     data() {
         return {
@@ -30,6 +32,9 @@ export default {
             searchKeyword : "",
             hashTag : ["김치", "돼지", "소", "닭", "된장", "빵"],
         }
+    },
+    computed: {
+        ...mapActions(['recipeSpecific'])
     },
     methods: {
         goToSearchwithKeyword() {
@@ -48,7 +53,7 @@ export default {
                 params: { keyword : tempKeyword }
                 })
             }
-
+            
             
             this.keyWord = this.searchKeyword
             this.searchKeyword = ""
