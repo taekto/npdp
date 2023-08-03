@@ -26,11 +26,11 @@ public class FoodController {
     }
 
     // 재료 이름으로 조회
-//    @GetMapping("/ingredient/{name}")
-//    public ResponseEntity<?> findIngredientByName(@PathVariable("name") String name) {
-//        List<IngredientResponseDto> foundIngredient = foodService.findIngredientByName(name);
-//        return ResponseEntity.ok().body(ResponseEntity.ok().body(foundIngredient));
-//    }
+    @GetMapping("/ingredient/search")
+    public ResponseEntity<?> findIngredientByName(@RequestParam String name) {
+        List<IngredientResponseDto> foundIngredient = foodService.findIngredientByName(name);
+        return ResponseEntity.ok().body(ResponseEntity.ok().body(foundIngredient));
+    }
 
     // 양념 전체 조회
     @GetMapping("/seasoning")

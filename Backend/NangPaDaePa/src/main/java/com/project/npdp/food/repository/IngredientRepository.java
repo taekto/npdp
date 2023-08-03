@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface IngredientRepository extends JpaRepository<Ingredient, Long> {
     // refregirator에서 쓰는 것
-    List<Ingredient> findByKorContaining(String keyword);
+    List<Ingredient> findByKorContaining(String name);
 
 }
