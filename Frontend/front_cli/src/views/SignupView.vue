@@ -57,6 +57,7 @@
                 <input type="radio" name="noGender" value="미선택" v-model="credentials.gender" @click="changeClassification">선택 안함
               </label>            
             </div>
+            <p>{{credentials.gender}}</p>
           </div>
       <button class="signup_btn" style="width: 100%;" @click="signup">Get started</button>
 
