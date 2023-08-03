@@ -19,7 +19,7 @@ public class FoodController {
 
 
     // 재료 전체 조회
-    @GetMapping("/ingredient") // 주소주소
+    @GetMapping("/ingredient")
     public ResponseEntity<?> findAllIngredient() {
         List<IngredientResponseDto> allIngredient = foodService.findAllIngredient();
         return ResponseEntity.ok().body(ResponseEntity.ok().body(allIngredient));
@@ -28,15 +28,20 @@ public class FoodController {
     // 재료 이름으로 조회
     @GetMapping("/ingredient/search")
     public ResponseEntity<?> findIngredientByName(@RequestParam String name) {
+
         List<IngredientResponseDto> foundIngredient = foodService.findIngredientByName(name);
-        return ResponseEntity.ok().body(ResponseEntity.ok().body(foundIngredient));
+        if (foundIngredient.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok().body(foundIngredient);
+
     }
 
     // 양념 전체 조회
     @GetMapping("/seasoning")
     public ResponseEntity<?> findAllSeasoning() {
         List<SeasoningResponseDto> allSeasoning = foodService.findAllSeasoning();
-        return ResponseEntity.ok().body(ResponseEntity.ok().body(allSeasoning));
+        return ResponseEntity.ok().body(allSeasoning);
     }
 
     // 양념 이름으로 조회
