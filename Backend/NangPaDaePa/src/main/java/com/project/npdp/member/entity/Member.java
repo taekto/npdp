@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.npdp.domain.Calendar;
 import com.project.npdp.refregirator.entity.MemberSeasoning;
 import com.project.npdp.refregirator.entity.Refregirator;
+import com.project.npdp.utils.SHA256Util;
 import lombok.*;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 
@@ -74,7 +75,10 @@ public class Member {
 
     // 로그인 검증
     public boolean authenticate(String email, String password){
-        return this.email.equals(email) && this.password.equals(password);
+
+        String sha256Pw = SHA256Util.getSHA256(password);
+
+        return this.email.equals(email) && this.password.equals(sha256Pw);
     }
 
 }
