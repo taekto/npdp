@@ -236,10 +236,10 @@ const member: Module<MemberState, RootState> = {
             credentials
           },
         })
-          .then(res => {
+        .then(res => {
+            console.log(res)
             const token = res.data.key
             console.log('-----------------------------------------------')
-            console.log(res.data)
             console.log('-----------------------------------------------')
             dispatch('saveToken', token)
             commit('SET_CURRENT_MEMBER', res.data)
