@@ -64,6 +64,7 @@ public class MemberService {
         String jwt = JwtUtil.createJwt(email, secretKey, expiredMs);
         // 토큰과 닉네임 반환
         MemberLoginResponseDto result = MemberLoginResponseDto.builder()
+                .id(findMemberByEmail.getId())
                 .nickname(findMemberByEmail.getNickname())
                 .accessToken(jwt)
                 .build();
