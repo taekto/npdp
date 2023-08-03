@@ -396,6 +396,7 @@ const recipe: Module<RecipeState, RootState> = {
         headers: getters.authHeader,
       })
         .then(res=> {
+          console.log(res)
           commit('SET_RECIPE', res.data)
         })
         .catch(err => {
@@ -407,8 +408,8 @@ const recipe: Module<RecipeState, RootState> = {
     recipeSpecific ({commit, getters}, content) {
       console.log(content)
       axios ({
-        url: api.recipe.specificRecipe(),
-        // url: 'https://i9b202.p.ssafy.io/api/recipes/want',
+      //   url: api.recipe.specificRecipe(),
+        url: 'https://i9b202.p.ssafy.io/api/recipes/want',
         method: 'get',
         data:{
           content,
