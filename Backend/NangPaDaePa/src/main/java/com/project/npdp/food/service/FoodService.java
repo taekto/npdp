@@ -33,16 +33,16 @@ public class FoodService {
     }
 
     // 재료 이름으로 조회
-//    @Transactional(readOnly = true)
-//    public List<IngredientResponseDto> findIngredientByName(String name) {
-//        List<Ingredient> foundIngredient = ingredientRepository.findByNameContainingIgnoreCase(name);
-//        List<IngredientResponseDto> result = foundIngredient.stream().map(r->IngredientResponseDto.builder()
-//                        .id(r.getId())
-//                        .name(r.getKor())
-//                        .build())
-//                .collect(Collectors.toList());
-//        return result;
-//    }
+    @Transactional(readOnly = true)
+    public List<IngredientResponseDto> findIngredientByName(String name) {
+        List<Ingredient> foundIngredient = ingredientRepository.findByKorContaining(name);
+        List<IngredientResponseDto> result = foundIngredient.stream().map(r->IngredientResponseDto.builder()
+                        .id(r.getId())
+                        .name(r.getKor())
+                        .build())
+                .collect(Collectors.toList());
+        return result;
+    }
 
     // 전체 양념 조회
     @Transactional(readOnly = true)
