@@ -240,7 +240,7 @@ const member: Module<MemberState, RootState> = {
           },
           
         })
-          .then(res => {
+        .then(res => {
             console.log(res)
             const token = res.data.key
             console.log('-----------------------------------------------')

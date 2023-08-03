@@ -102,6 +102,8 @@ export default {
         recognition.interimResults = false;
         recognition.continuous = false;
         recognition.maxAlternatives = 1;
+<<<<<<< HEAD
+=======
 
         recognition.onresult = (event) => {
           const speechResult = event.results[0][0].transcript.toLowerCase();
@@ -116,10 +118,16 @@ export default {
 
       recognition.start();
     },
+    }
+>>>>>>> 4db351d5a2058fdc9db6062fa2628b1bb92ed1b7
+
+        
+
+      
   
   }
   
-}
+
 </script>
 
 <style scoped>
