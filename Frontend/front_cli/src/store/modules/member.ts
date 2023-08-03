@@ -167,7 +167,7 @@ const member: Module<MemberState, RootState> = {
   getters: {
     member: state => state.member,
     currentMember: state => state.currentMember,
-    isLoggedIn: state => !!state.accessToken,
+    isLoggedIn: () => !!sessionStorage.getItem('accessToken'),
     authHeader: state => ({ Authorization: `Bearer ${state.accessToken}` }),
     memberRecipeLike: state => state.memberRecipeLike,
     memberRecipeLatest: state => state.memberRecipeLatest,
@@ -203,7 +203,7 @@ const member: Module<MemberState, RootState> = {
       // localStorage.removeItem('refreshToken')
     },
 
-    localLogin({ commit, dispatch }, credentials) {
+    localLogin({ dispatch }, credentials) {
       console.log(credentials)
       axios({
         url: api.member.login(),
@@ -213,7 +213,8 @@ const member: Module<MemberState, RootState> = {
         .then(res => {
           console.log('로컬로그인')
           console.log(res)
-          commit('SET_CURRENT_MEMBER', res.data)
+          sessionStorage.setItem("accessToken", res.data.accessToken);
+          // commit('SET_CURRENT_MEMBER', res.data)
           dispatch('fetchMember', res.data.memeberId)
           router.push({ name: 'main' })
         })
