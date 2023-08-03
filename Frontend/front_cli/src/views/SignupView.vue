@@ -87,7 +87,7 @@ export default {
 
   data() {
     return {
-       credentials: {
+       MemberJoinRequestDto: {
         email: '',
         password: '',
         nickname: '',

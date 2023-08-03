@@ -248,7 +248,7 @@ const member: Module<MemberState, RootState> = {
             console.log('-----------------------------------------------')
             dispatch('saveToken', token)
             commit('SET_CURRENT_MEMBER', res.data)
-            dispatch('fetchMember', res.data.member_id)
+            // dispatch('fetchMember', res.data.member_id)
             router.push({ name: 'main' })
           })
           .catch(err => {
@@ -297,7 +297,7 @@ const member: Module<MemberState, RootState> = {
       axios({
         url: api.member.member(member_id),
         method: 'get',
-        headers: getters.authHeader,
+        // headers: getters.authHeader,
       })
         .then(res => {
           if (res.data) {
