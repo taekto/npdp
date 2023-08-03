@@ -8,6 +8,8 @@ import lombok.*;
 @Data
 public class MemberLoginResponseDto {
 
+    private Long id;
+
     private String nickname;
 
     private String accessToken;
