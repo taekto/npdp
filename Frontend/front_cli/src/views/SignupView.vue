@@ -42,7 +42,7 @@
           name="birth"
           @dayclick="whatDate(credentials.birth)" />
           <p>생일 : {{credentials.birth}}</p>
-          <div class="genderSelect">
+          <div class="genderSelect">  
             <div class="editCategoryTitle">
               <p>성별 변경</p>
             </div>
