@@ -8,12 +8,12 @@
         <!-- 키워드와 관련된 레시피들을 추천 -->
         <!-- 현재는 임시 값으로 이미지와 이름만 사용 -->
         <div
-        v-for="recipe_item in recipe"
+        v-for="recipe_item in recipeSpecific"
         :key="recipe_item.recipe_id"
         >
             <!-- 레시피 카드로 표현 -->
-            <div class="recommendCard" @click="goToDetailRecipe(recipe_item)">
-                <img src="@/assets/123.jpg" alt="">
+            <div class="recommendCard" @click="goToDetailRecipe(recipe_item.recipeId)">
+                <img :src="recipe_item.imgBig" alt="">
                 <!-- <p>Recipe Name</p> -->
                 <!-- <img :src="recipe_item.img_small" alt=""> -->
                 <p>{{recipe_item.name}}</p>
@@ -30,7 +30,7 @@ import {mapGetters} from 'vuex'
 export default {
     name: 'SearchResult',
     computed: {
-        ...mapGetters(['recipe'])
+        ...mapGetters(['recipe', 'recipeSpecific'])
     },
 
     methods: {

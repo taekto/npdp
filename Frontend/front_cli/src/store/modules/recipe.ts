@@ -417,15 +417,26 @@ const recipe: Module<RecipeState, RootState> = {
           content: content 
         }
       })
-        .then (res=> {
-          console.log('레시피 특정 조회 성공!')
-          console.log(res)
-          commit('SET_RECIPE_SPECIFIC', res.data)
+      .then (res=> {
+        console.log('레시피 특정 조회 성공!')
+        console.log(res)
+        commit('SET_RECIPE_SPECIFIC', res.data)
+      })
+      .catch(err => {
+        console.log('레시피 특정 조회 실패..')
+        console.log(err.response)
+      })
+      if(content === "" || content === null) {
+        router.push({name: 'search'})
+      }
+      else {
+        router.push({
+          name: "searchKeyword",
+          params: {
+            keyword: content,
+          }
         })
-        .catch(err => {
-          console.log('레시피 특정 조회 실패..')
-          console.log(err.response)
-        })
+      }
     },
 
     // 레시피 상세 조회

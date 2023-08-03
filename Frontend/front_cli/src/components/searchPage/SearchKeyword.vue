@@ -36,12 +36,12 @@
 import DetailSearch from './detailSearch.vue'
 import SearchResult from './searchResult.vue'
 
+
 export default {
     components: {
         DetailSearch,
         SearchResult,
     },
-
     // 키워드는 vuex에서 관리할 것
     data() {
         return {
