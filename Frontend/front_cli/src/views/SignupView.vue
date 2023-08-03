@@ -59,7 +59,7 @@
             </div>
           </div>
           <p>성별 : {{credentials.gender}}</p>
-          <p>테스트 1</p>
+          <p>테스트 2</p>
       <button class="signup_btn" style="width: 100%;" @click="signup">Get started</button>
 
       <!-- 소셜 로그인 -->
