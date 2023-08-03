@@ -236,10 +236,7 @@ const member: Module<MemberState, RootState> = {
           url: api.member.signup(),
           // url: 'https://i9b202.p.ssafy.io/api/members/join',
           method: 'post',
-          data: {
-            MemberJoinRequestDto
-          },
-          
+          params: MemberJoinRequestDto,
         })
         .then(res => {
             console.log(res)
