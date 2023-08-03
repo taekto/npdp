@@ -98,7 +98,7 @@ export default {
 
 img {
     width: 90%;
-    height: 60%;
+    height: 50%;
     margin-top: 1rem;
 }
 
