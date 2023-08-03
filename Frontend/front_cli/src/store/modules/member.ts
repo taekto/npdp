@@ -19,20 +19,21 @@ interface MemberState {
 
 // 회원
 interface Member {
-    member_id: number
-    email: string
-    nickname: string
-    password: string
-    oauth: string
+  email: string
+  nickname: string
+  birth: any
+    // member_id: number
+    // password: string
+    // oauth: string
     // refresh_token: string
-    role: number
-    birth?: any
-    gender: string
-    quit: boolean
+    // role: number
+    // gender: string
+    // quit: boolean
 }
 
-// 현재 유저 정보
+// 회원 현재 정보
 interface CurrentMember {
+  member_id: number
   email: string
   accessToken: string
 }
@@ -90,59 +91,59 @@ const member: Module<MemberState, RootState> = {
     // refreshToken: null,
     member: [
       {
-        member_id: 1,
+        // member_id: 1,
         email: 'user1@example.com',
         nickname: 'user1_nickname',
-        password: 'user1_password',
-        oauth: '',
-        role: 1,
+        // password: 'user1_password',
+        // oauth: '',
+        // role: 1,
         birth: '1990-01-01',
-        gender: 'male',
-        quit: false,
+        // gender: 'male',
+        // quit: false,
       },
       {
-        member_id: 2,
+        // member_id: 2,
         email: 'user2@example.com',
         nickname: 'user2_nickname',
-        password: 'user2_password',
-        oauth: '',
-        role: 2,
         birth: '1995-02-15',
-        gender: 'female',
-        quit: true,
+        // password: 'user2_password',
+        // oauth: '',
+        // role: 2,
+        // gender: 'female',
+        // quit: true,
       },
       {
-        member_id: 3,
+        // member_id: 3,
         email: 'user3@example.com',
         nickname: 'user3_nickname',
-        password: 'user3_password',
-        oauth: 'google',
-        role: 1,
         birth: '1985-07-22',
-        gender: 'female',
-        quit: false,
+        // password: 'user3_password',
+        // oauth: 'google',
+        // role: 1,
+        // gender: 'female',
+        // quit: false,
       },
       {
-        member_id: 4,
+        // member_id: 4,
         email: 'user4@example.com',
         nickname: 'user4_nickname',
-        password: 'user4_password',
-        oauth: 'facebook',
-        role: 1,
+        // password: 'user4_password',
+        // oauth: 'facebook',
+        // role: 1,
         birth: '1992-11-11',
-        gender: 'male',
-        quit: false,
+        // gender: 'male',
+        // quit: false,
       },
       {
-        member_id: 5,
+        // member_id: 5,
         email: 'user5@example.com',
         nickname: 'user5_nickname',
-        password: 'user5_password',
-        oauth: '',
-        role: 2,
         birth: '1998-04-30',
-        gender: 'female',
-        quit: true,
+        // password: 'user5_password',
+        // oauth: '',
+        // role: 2,
+        // gender: 'female',
+        // quit: true,
       },
     ],
     currentMember:[],
@@ -194,39 +195,34 @@ const member: Module<MemberState, RootState> = {
   actions: {
     saveToken({ commit }, { accessToken}) {
       commit('SET_ACCESS_TOKEN', accessToken)
-      // commit('SET_REFRESH_TOKEN', refreshToken)
       localStorage.setItem('accessToken', accessToken)
+      // commit('SET_REFRESH_TOKEN', refreshToken)
       // localStorage.setItem('refreshToken', refreshToken)
     },
 
     removeToken({ commit }) {
       commit('SET_ACCESS_TOKEN', null)
-      // commit('SET_REFRESH_TOKEN', null)
       localStorage.removeItem('accessToken')
+      // commit('SET_REFRESH_TOKEN', null)
       // localStorage.removeItem('refreshToken')
     },
 
-    memberLogin({ commit, dispatch }, credentials) {
+    localLogin({ commit, dispatch }, credentials) {
       console.log(credentials)
       axios({
         url: api.member.login(),
         method: 'post',
         data: credentials,
       })
-        // axios.post("/api/members/localLogin", credentials)
         .then(res => {
+          console.log('로컬로그인')
           console.log(res)
-          const token = res.data
-          // dispatch('saveToken', token)
-          commit('SET_CURRENT_MEMBER', token)
-          dispatch('fetchMember')
+          commit('SET_CURRENT_MEMBER', res.data)
+          dispatch('fetchMember', res.data.memeberId)
           router.push({ name: 'main' })
-          console.log(credentials)
         })
         .catch(err => {
-          console.log(credentials)
           console.error(err.response.data)
-          // commit('SET_AUTH_ERROR', err.response.data)
         })
     },
 
@@ -238,7 +234,6 @@ const member: Module<MemberState, RootState> = {
           method: 'post',
           data: credentials,
         })
-        // axios.post("/api/members/join", credentials)
         .then(res => {
           console.log('-----------------------------------------------')
             console.log(res)
@@ -253,28 +248,6 @@ const member: Module<MemberState, RootState> = {
             // commit('SET_AUTH_ERROR', err.response.data)
           })
       },
-    
-    // // 로컬 로그인
-    // memberLogin({ commit, dispatch }, credentials) {
-    //   axios({
-    //     url: api.member.login(),
-    //     method: 'post',
-    //     data: credentials
-    //   })
-    //     .then(res => {
-    //       const token = res.data.acessToken
-    //       dispatch('saveToken', token)
-    //       commit('SET_CURRENT_MEMBER', res.data)
-    //       // dispatch('fetchMember')
-    //       router.push({ name: 'main' })
-    //       console.log(credentials)
-    //     })
-    //     .catch(err => {
-    //       console.log(credentials)
-    //       console.error(err.response.data)
-    //       // commit('SET_AUTH_ERROR', err.response.data)
-    //     })
-    // },
 
     // 회원 로그아웃
     logout({  dispatch, commit }) {
@@ -285,45 +258,23 @@ const member: Module<MemberState, RootState> = {
     },
 
     // 회원 정보 조회
-    fetchMember({ commit, getters, dispatch }, member_id) {
-      if (!getters.isLoggedIn) {
-        // 유저가 로그인되어 있지 않으면 아무 작업 없이 종료
+    fetchMember({ commit, getters}, member_id) {
+      if (!getters.currentMember) {
+        // 로그인 리턴값이 없으면 아무것도 안하고 종료
         return
       }
       // 유저 정보를 요청하여 Vuex 상태에 저장
       axios({
         url: api.member.member(member_id),
         method: 'get',
-        // headers: getters.authHeader,
       })
-        .then(res => {
-          if (res.data) {
-            commit('SET_MEMBER', res.data)
-          } else {
-            // 유저 정보가 없는 경우에 대한 처리 ex) 로그인 토큰은 있지만 유저 정보가 서버에 없는 경우
-            dispatch('removeToken')
-            router.push({ name: 'login' })
-          }
+        .then(res => {      
+          console.log('회원 정보 조회 (fetchMember)') 
+          commit('SET_MEMBER', res.data);
         })
         .catch(err => {
-          if (err.response) {
-            // 서버에서 응답을 받았지만 응답이 에러인 경우에 대한 처리
-            if (err.response.status === 401) {
-              // 유효하지 않은 토큰 등 로그인 에러에 대한 처리
-              dispatch('removeToken')
-              router.push({ name: 'login' })
-            } else if (err.response.status === 403) {
-              // 권한이 없는 요청에 대한 처리 ex) 로그인은 했지만 해당 리소스에 접근할 권한이 없는 경우
-              router.push({ name: 'forbidden' })
-            } else {
-              // 그 외 서버에서 받은 에러에 대한 처리
-              console.error('서버 응답 에러:', err.response)
-            }
-          } else {
-            // 네트워크 연결이 끊긴 경우
-            // 서버에 요청 자체가 실패한 경우에 대한 처리
-            console.error('서버 요청 실패:', err)
-          }
+          console.log(err.response)
+          router.push({ name: 'login' })
         })
     },
 

@@ -2,7 +2,6 @@
   <div>
     <!-- 상단 광고 or 정보가 들어갈 슬라이드(캐러셀) -->
     <MainImageSlideVue class="mainImage" />
-
     <!-- 서비스 정보 들어갈 공간 -->
     <div class="explanation">
       <h1>1114개의 레시피</h1>

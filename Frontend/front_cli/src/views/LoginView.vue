@@ -2,7 +2,7 @@
 <!-- 로컬로그인 -->
 <div class="login_container">
   <div class="login_card">
-    <form class="login_form" id="login_form" @submit.prevent="memberLogin(credentials)">
+    <form class="login_form" id="login_form" @submit.prevent="localLogin(credentials)">
       <h1 class="form_title">Log in to your account</h1>
         <label for="email" class="input_label">Email</label>
         <input
@@ -80,7 +80,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(["memberLogin"]),
+    ...mapActions(["localLogin"]),
   },
   
   

@@ -36,7 +36,10 @@
 </template>
 
 <script>
+
+
 export default {
+
   methods: {
     goToMainPage() {
       this.$router.push({name: 'main'})
