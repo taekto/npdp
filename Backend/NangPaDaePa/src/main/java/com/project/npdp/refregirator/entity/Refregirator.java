@@ -2,10 +2,7 @@ package com.project.npdp.refregirator.entity;
 
 import com.project.npdp.food.entity.Ingredient;
 import com.project.npdp.member.entity.Member;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -40,5 +37,16 @@ public class Refregirator {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ingredient_id")
     private Ingredient ingredient;
+
+    @Builder
+    public Refregirator(Long storage, Double amount, String unit, LocalDateTime startDate, LocalDateTime expiredDate, Member member, Ingredient ingredient) {
+        this.storage = storage;
+        this.amount = amount;
+        this.unit = unit;
+        this.startDate = startDate;
+        this.expiredDate = expiredDate;
+        this.member = member;
+        this.ingredient = ingredient;
+    }
 
 }

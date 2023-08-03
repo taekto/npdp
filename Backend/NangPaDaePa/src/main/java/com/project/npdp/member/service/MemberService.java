@@ -1,10 +1,10 @@
 package com.project.npdp.member.service;
 
-import com.project.npdp.member.dto.MemberJoinRequestDto;
+import com.project.npdp.member.dto.request.MemberJoinRequestDto;
+import com.project.npdp.member.dto.response.MemberDetailResponseDto;
 import com.project.npdp.member.entity.Member;
 import com.project.npdp.member.repository.MemberRepository;
 import com.project.npdp.utils.JwtUtil;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -56,10 +56,19 @@ public class MemberService {
         return tmp;
     }
 
-    // 회원 단건 조회
+    // 회원id로 상세정보 조회
     @Transactional(readOnly = true)
-    public Member findOne(Long memberId){
-        Member member = memberRepository.findById(memberId).orElseThrow();
-        return member;
+    public MemberDetailResponseDto findMemberById(Long memberId){
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("회원 상세정보 조회 불가"));
+
+        MemberDetailResponseDto result = MemberDetailResponseDto.builder()
+                .email(member.getEmail())
+                .nickname(member.getNickname())
+                .gender(member.getGender())
+                .birth(member.getBirth())
+                .build();
+
+        return result;
     }
 }

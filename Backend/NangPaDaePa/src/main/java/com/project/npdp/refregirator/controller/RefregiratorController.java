@@ -5,6 +5,7 @@ import com.project.npdp.food.entity.Seasoning;
 import com.project.npdp.recipe.dto.response.RecipeResponseDto;
 import com.project.npdp.recipe.service.RecipeService;
 import com.project.npdp.refregirator.dto.request.IngredientFindRequestDto;
+import com.project.npdp.refregirator.dto.request.MemberIngredientSaveRequestDto;
 import com.project.npdp.refregirator.dto.request.RefregiratorModifyIngredientRequestDto;
 import com.project.npdp.refregirator.dto.request.SeasoningFindRequestDto;
 import com.project.npdp.refregirator.dto.response.IngredientFindResponseDto;
@@ -36,16 +37,22 @@ public class RefregiratorController {
 
     // 재료 텍스트 조회
     @GetMapping("/search/ingredient")
-    public List<IngredientFindResponseDto> findIngredientByKor(IngredientFindRequestDto ingredientFindRequestDto) {
+    public ResponseEntity<?> findIngredientByKor(@RequestBody IngredientFindRequestDto ingredientFindRequestDto) {
         List<IngredientFindResponseDto> result = refregiratorService.findIngredientByKor(ingredientFindRequestDto);
-        return result;
+        return ResponseEntity.ok().body(ResponseEntity.ok().body(result));
     }
 
     // 양념 텍스트 조회
     @GetMapping("/search/seasoning")
-    public List<SeasoningFindResponseDto> findIngredientByKor(SeasoningFindRequestDto seasoningFindRequestDto) {
+    public ResponseEntity<?> findIngredientByKor(@RequestBody SeasoningFindRequestDto seasoningFindRequestDto) {
         List<SeasoningFindResponseDto> result = refregiratorService.findSeasoningByKor(seasoningFindRequestDto);
-        return result;
+        return ResponseEntity.ok().body(result);
     }
 
+    // 회원 재료 입력
+    @PostMapping("/member/ingredient/{memberId}")
+    public ResponseEntity<?> memberSaveIngredient(@PathVariable("memberId") Long memberId, @RequestBody MemberIngredientSaveRequestDto memberIngredientSaveRequestDto) {
+        refregiratorService.memberSaveIngredient(memberId, memberIngredientSaveRequestDto);
+        return ResponseEntity.ok().build();
+    }
 }

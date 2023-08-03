@@ -1,4 +1,4 @@
-package com.project.npdp.member.dto;
+package com.project.npdp.member.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
