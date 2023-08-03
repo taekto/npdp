@@ -196,9 +196,8 @@ const member: Module<MemberState, RootState> = {
       // localStorage.setItem('refreshToken', refreshToken)
     },
 
-    removeToken({ commit }) {
-      commit('SET_ACCESS_TOKEN', null)
-      localStorage.removeItem('accessToken')
+    removeToken() {
+      sessionStorage.removeItem("accessToken")
       // commit('SET_REFRESH_TOKEN', null)
       // localStorage.removeItem('refreshToken')
     },
@@ -248,11 +247,11 @@ const member: Module<MemberState, RootState> = {
       },
 
     // 회원 로그아웃
-    logout({  dispatch, commit }) {
+    logout({ dispatch, commit }) {
       dispatch('removeToken')
-      commit('SET_CUREENT_MEMBER', null)
+      commit('SET_MEMBER', null)
       alert('성공적으로 logout!')
-      router.push({ name: 'login' })
+      router.push({ name: 'main' })
     },
 
     // 회원 정보 조회
@@ -268,7 +267,7 @@ const member: Module<MemberState, RootState> = {
       })
         .then(res => {     
           console.log(res.data) 
-          console.log('회원 정보 조회 (fetchMember)') 
+          console.log('회원 정보 조회 성공! (fetchMember)') 
           commit('SET_MEMBER', res.data);
         })
         .catch(err => {

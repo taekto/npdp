@@ -22,6 +22,7 @@
       </div>
       <div v-else id="user">
         <router-link to="/mypage">MyPage</router-link>
+        <a @click="logout">Logout</a>
       </div>
     </nav>
 
@@ -39,13 +40,14 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 
 export default {
   computed: {
     ...mapGetters(['isLoggedIn'])
   },
   methods: {
+    ...mapActions(['logout']),
     goToMainPage() {
       this.$router.push({name: 'main'})
     }
