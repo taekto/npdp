@@ -444,7 +444,7 @@ const recipe: Module<RecipeState, RootState> = {
       console.log('레시피 상세 조회 시작!')
       axios({
         // url: api.recipe.detailRecipe(recipe_id),
-        url: ` https://i9b202.p.ssafy.io/api/recipes/${recipe_id}`,
+        url: `https://i9b202.p.ssafy.io/api/recipes/${recipe_id}`,
         method:'get',
         // headers: getters.authHeader,
       })
