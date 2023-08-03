@@ -16,7 +16,7 @@
                 <img :src="recipe_item.imgBig" alt="">
                 <!-- <p>Recipe Name</p> -->
                 <!-- <img :src="recipe_item.img_small" alt=""> -->
-                <p>{{recipe_item.name}}</p>
+                <p class="recipeName">{{recipe_item.name}}</p>
                 
                 <button class="recipeButton">View More</button>
             </div>
@@ -100,6 +100,11 @@ img {
     width: 90%;
     height: 50%;
     margin-top: 1rem;
+}
+
+.recipeName {
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .recipeButton {
