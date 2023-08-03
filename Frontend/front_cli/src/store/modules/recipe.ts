@@ -412,7 +412,9 @@ const recipe: Module<RecipeState, RootState> = {
       axios ({
         url: api.recipe.specificRecipe(),
         method: 'get',
-        data: content,
+        data: {
+          content
+        },
       })
         .then (res=> {
           console.log('레시피 특정 조회 성공!')
@@ -420,6 +422,7 @@ const recipe: Module<RecipeState, RootState> = {
           commit('SET_RECIPE_SPECIFIC', res.data)
         })
         .catch(err => {
+          console.log('레시피 특정 조회 실패..')
           console.log(err.response)
         })
     },
