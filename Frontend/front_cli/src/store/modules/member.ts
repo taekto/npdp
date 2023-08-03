@@ -232,12 +232,13 @@ const member: Module<MemberState, RootState> = {
     localSignup({ commit, dispatch }, MemberJoinRequestDto) {
       // const CORSHEADERS = ({Access-Control-Allow-Origin: http://localhost:8080/})
       console.log(MemberJoinRequestDto)
-        axios({
-          url: api.member.signup(),
-          // url: 'https://i9b202.p.ssafy.io/api/members/join',
-          method: 'post',
-          params: MemberJoinRequestDto,
-        })
+        // axios({
+        //   url: api.member.signup(),
+        //   // url: 'https://i9b202.p.ssafy.io/api/members/join',
+        //   method: 'post',
+        //   params: MemberJoinRequestDto,
+        // })
+        axios.post("/api/members/join", MemberJoinRequestDto)
         .then(res => {
             console.log(res)
             const token = res.data.key

@@ -100,10 +100,9 @@ export default {
   // birthdate = new Date(); // birthdate 매개변수의 타입을 Date | null로 명시
   methods: {
     ...mapActions(["localSignup"]),
+    
     whatDate(birthdate, delimiter = '-') {
     // if (!birthdate) return ''; // 날짜가 선택되지 않은 경우 빈 문자열 반환
-
-      
       const year = birthdate.getFullYear();
       const month = birthdate.getMonth() + 1;
       const date = birthdate.getDate();
