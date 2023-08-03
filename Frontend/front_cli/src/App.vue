@@ -16,9 +16,12 @@
       </div>
 
       <!-- 유저 관련 메뉴 -->
-      <div id="user">
+      <div v-if="!isLoggedIn" id="user">
         <router-link to="/signup">Signup</router-link> | 
         <router-link to="/login">Login</router-link>
+      </div>
+      <div v-else id="user">
+        <router-link to="/mypage">MyPage</router-link>
       </div>
     </nav>
 
@@ -36,10 +39,12 @@
 </template>
 
 <script>
-
+import {mapGetters} from 'vuex'
 
 export default {
-
+  computed: {
+    ...mapGetters(['isLoggedIn'])
+  },
   methods: {
     goToMainPage() {
       this.$router.push({name: 'main'})
