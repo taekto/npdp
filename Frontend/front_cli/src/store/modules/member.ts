@@ -206,6 +206,7 @@ const member: Module<MemberState, RootState> = {
       localStorage.removeItem('accessToken')
       // localStorage.removeItem('refreshToken')
     },
+
     memberLogin({ commit, dispatch }, credentials) {
       axios({
         url: api.member.login(),
@@ -229,17 +230,20 @@ const member: Module<MemberState, RootState> = {
 
     // 로컬 회원 가입
     localSignup({ commit, dispatch }, credentials) {
+      // const CORSHEADERS = ({Access-Control-Allow-Origin: http://localhost:8080/})
+      console.log(credentials)
         axios({
           url: api.member.signup(),
           method: 'post',
           data: {
             credentials
           },
+          
         })
           .then(res => {
+            console.log(res)
             const token = res.data.key
             console.log('-----------------------------------------------')
-            console.log(res.data)
             console.log('-----------------------------------------------')
             dispatch('saveToken', token)
             commit('SET_CURRENT_MEMBER', res.data)

@@ -4,11 +4,7 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-<<<<<<< HEAD
-            <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">시소음성 입력</h1>
-=======
             <h1 class="modal-title fs-5" id="seasoningModalToggleLabel2">음성 입력</h1>
->>>>>>> 096066d030fa4928421fb82c7f85fc8b06f0fad4
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
 
@@ -79,12 +75,6 @@ export default {
                 })
             }
             this.seasoningList = arrayRemove(this.seasoningList, seasoning)
-<<<<<<< HEAD
-        },
-
-
-    }
-=======
       },
       startSpeechRecognition() {
         const recognition = new window.webkitSpeechRecognition();
@@ -92,7 +82,6 @@ export default {
         recognition.interimResults = false;
         recognition.continuous = false;
         recognition.maxAlternatives = 1;
->>>>>>> 096066d030fa4928421fb82c7f85fc8b06f0fad4
 
         recognition.onresult = (event) => {
           const speechResult = event.results[0][0].transcript.toLowerCase();

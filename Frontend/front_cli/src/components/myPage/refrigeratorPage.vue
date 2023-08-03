@@ -34,20 +34,20 @@
                 <div class="refrigeratorCategory">
                     <p class="categoryTitle">{{storageType}} 재료</p>
                     <ul class="ListShow">
-                        <li class= "row" v-for="(ingredient, index) in ingredients" :key="index">
-                            <div class="ingredientList" v-if="ingredient.storage === storageType">
-                                <p class="col-1 ingredientName">{{ingredient.name}}</p>
+                        <li class= "row" v-for="tmpingredient in ingredients" :key="tmpingredient.pk">
+                            <div class="ingredientList" v-if="tmpingredient.storage === storageType">
+                                <p class="col-1 ingredientName">{{tmpingredient.name}}</p>
                                 <div class="amount col-2 row">
-                                    <button class="amountButton col-3" @click="plusAmount(ingredient)">+</button>
-                                    <p class="col-6">{{ingredient.amount}}{{ingredient.unit}}</p>
-                                    <button class="amountButton col-3" @click="minusAmount(ingredient)">-</button>
+                                    <button class="amountButton col-3" @click="plusAmount(tmpingredient)">+</button>
+                                    <p class="col-6">{{tmpingredient.amount}}{{tmpingredient.unit}}</p>
+                                    <button class="amountButton col-3" @click="minusAmount(tmpingredient)">-</button>
                                 </div>
-                                <p class="col-3">보관시작일 : {{ingredient.startDate}}</p>
+                                <p class="col-3">보관시작일 : {{tmpingredient.startDate}}</p>
                                 <p class="col-3">
-                                유통기한 : {{ingredient.endDate}}
+                                유통기한 : {{tmpingredient.endDate}}
                                 </p>
-                                <p class="col-2">보관방식 : {{ingredient.storage}}</p>
-                                <button class="col-1 deleteButton" @click="deleteIngredient(ingredient)">제거</button>
+                                <p class="col-2">보관방식 : {{tmpingredient.storage}}</p>
+                                <button class="col-1 deleteButton" @click="deleteIngredient(tmpingredient)">제거</button>
                             </div>
                         </li>
                     </ul>
@@ -93,7 +93,7 @@ export default {
     },
     computed: {
         ...mapGetters(['ingredients', 'seasonings']),
-        ...mapActions(['plusAmount()', 'minusAmount'])
+        ...mapActions(['plusAmount', 'minusAmount'])
     },
     // 임시 더미 데이터
     data() {
@@ -102,39 +102,31 @@ export default {
         }
     },
     methods: {
-        plusAmount(ingredient) {
-            if(ingredient.unit === "g") {
-                ingredient.amount += 10
+
+        minusAmount(tmpingredient) {
+            if(tmpingredient.unit === "g") {
+                tmpingredient.amount -= 10
             }
             else{
-                ingredient.amount ++
-            }
-            
-        },
-        minusAmount(ingredient) {
-            if(ingredient.unit === "g") {
-                ingredient.amount -= 10
-            }
-            else{
-                ingredient.amount --
+                tmpingredient.amount --
             }
 
-            if (ingredient.amount <= 0) {
+            if (tmpingredient.amount <= 0) {
                 const arrayRemove = (arr, value) => {
                     return arr.filter((ele) => {
                         return ele != value
                     })
                 }
-                this.ingredients = arrayRemove(this.ingredients, ingredient)
+                this.ingredients = arrayRemove(this.ingredients, tmpingredient)
             }
         },
-        deleteIngredient(ingredient) {
+        deleteIngredient(tmpingredient) {
             const arrayRemove = (arr, value) => {
                 return arr.filter((ele) => {
                     return ele != value
                 })
             }
-            this.ingredients = arrayRemove(this.ingredients, ingredient)
+            this.ingredients = arrayRemove(this.ingredients, tmpingredient)
         },
         deleteSeasoning(seasoning) {
             const arrayRemove = (arr, value) => {
