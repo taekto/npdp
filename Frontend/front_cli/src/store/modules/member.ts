@@ -209,11 +209,12 @@ const member: Module<MemberState, RootState> = {
 
     memberLogin({ commit, dispatch }, credentials) {
       console.log(credentials)
-      axios({
-        url: api.member.login(),
-        method: 'post',
-        data: credentials,
-      })
+      // axios({
+      //   url: api.member.login(),
+      //   method: 'post',
+      //   data: credentials,
+      // })
+        axios.post("/api/members/localLogin", credentials)
         .then(res => {
           console.log(res)
           const token = res.data.key
