@@ -2,9 +2,9 @@
     <!-- 검색창 컴포넌트 -->
     <div>
         <h1>서치?</h1>
-        <form @submit.prevent="recipeSpecific(keyword.content)">
+        <form @submit.prevent="recipeSpecific(word)">
             <div class="input-group">
-                <input id="searchForm" class="form-control" type="text" v-model.trim="keyword.content">
+                <input id="searchForm" class="form-control" type="text" v-model.trim="word.content">
                 <input id="submitButton" type="submit" value="검색">
             </div>
             <!-- 해시태그 -->
@@ -28,18 +28,18 @@ import {mapActions} from 'vuex'
 export default {
     data() {
         return {
-            keyword : {
-            content : "",    
+            word : {
+                content : "",    
+            },
             keyWord : "",
             hashTag : ["김치", "돼지", "소", "닭", "된장", "빵"],
-            },
         }
     },
     methods: {
         ...mapActions(['recipeSpecific']),
         goToSearchwithKeyword() {
-            this.keyWord.keyword = ""
-            const tempKeyword = this.keyword.content
+            this.keyWord = ""
+            const tempKeyword = this.word.content
             tempKeyword.toLowerCase()
             console.log(tempKeyword)
             if(tempKeyword == "" || tempKeyword == "null") {
