@@ -151,10 +151,6 @@ const member: Module<MemberState, RootState> = {
       { member_recipe_like_id: 1, member_id: 1, recipe_id: 1 },
       { member_recipe_like_id: 2, member_id: 1, recipe_id: 2 },
       { member_recipe_like_id: 3, member_id: 1, recipe_id: 3 },
-      { member_recipe_like_id: 4, member_id: 1, recipe_id: 4 },
-      { member_recipe_like_id: 5, member_id: 2, recipe_id: 5 },
-      { member_recipe_like_id: 6, member_id: 2, recipe_id: 6 },
-      { member_recipe_like_id: 7, member_id: 3, recipe_id: 7 },
     ],
 
     memberRecipeLatest: [],
@@ -241,6 +237,7 @@ const member: Module<MemberState, RootState> = {
             // dispatch('saveToken', token)
             commit('SET_CURRENT_MEMBER', res.data)
             // dispatch('fetchMember', res.data.member_id)
+            alert('회원가입이 완료되었습니다!')
             router.push({ name: 'main' })
           })
           .catch(err => {
@@ -268,7 +265,8 @@ const member: Module<MemberState, RootState> = {
         url: api.member.member(member_id),
         method: 'get',
       })
-        .then(res => {      
+        .then(res => {     
+          console.log(res.data) 
           console.log('회원 정보 조회 (fetchMember)') 
           commit('SET_MEMBER', res.data);
         })

@@ -105,10 +105,10 @@ export default {
 
   recipe:{
     // 레시피 전체 조회
-    fetchRecipe: () => '/api/recipes/',
+    fetchRecipe: () => API + 'recipes',
   
     // 레시피 특정 조회
-    specificRecipe: () =>  + '/api/recipes/want/' ,
+    specificRecipe: () =>  + API + RECIPES + 'want' ,
   
     // 레시피 상세 보기
     detailRecipe: function(recipe_id: number) {

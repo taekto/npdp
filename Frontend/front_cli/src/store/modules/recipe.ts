@@ -77,12 +77,12 @@ interface RecipeSpecific {
 
 // 레시피 상세
 interface RecipeDetail {
-  recipe_id: number
   name: string
   way: number
   weight: number
   calorie: number
   carbohydrate: number
+  recipe_id: number
   protein: number
   fat: number
   salt: number
@@ -412,14 +412,12 @@ const recipe: Module<RecipeState, RootState> = {
       //   url: api.recipe.specificRecipe(),
         url: 'https://i9b202.p.ssafy.io/api/recipes/want',
         method: 'get',
-        data:{
-          content,
-        },
+        data: content,
         // headers: getters.authHeader,
       })
         .then (res=> {
           console.log(res)
-          commit('SET_RECIPE_SPECIFIC_RECIPE', res.data)
+          commit('SET_RECIPE_SPECIFIC', res.data)
         })
         .catch(err => {
           console.log(err.response)
