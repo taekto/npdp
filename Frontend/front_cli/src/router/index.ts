@@ -115,7 +115,7 @@ const routes = [
     path: '/admin',
     name: 'admin',
     component: AdminView,
-    redirect: '/admin/user', // Default sub-route
+    redirect: '/admin/member', // Default sub-route
     children: [
       {
         // 관리자 페이지(유저)

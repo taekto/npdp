@@ -85,11 +85,11 @@ export default {
   data() {
     return {
        credentials: {
-        nickname: '',
         email: '',
         password: '',
-        birth: '',
+        nickname: '',
         gender: '',
+        birth: '',
       },
     }
   },
@@ -100,33 +100,30 @@ export default {
     whatDate(birthdate, delimiter = '-') {
     // if (!birthdate) return ''; // 날짜가 선택되지 않은 경우 빈 문자열 반환
 
-    
-    const year = birthdate.getFullYear();
-    const month = birthdate.getMonth() + 1;
-    const date = birthdate.getDate();
-
-    if (month < 10) {
-      if(date < 10) {
-        this.birthdate = `${year}${delimiter}0${month}${delimiter}0${date}`;
-      }
-      else {
-        this.birthdate = `${year}${delimiter}0${month}${delimiter}${date}`;
-      }
       
-    } else {
-      if(date < 10) {
-        this.birthdate = `${year}${delimiter}${month}${delimiter}0${date}`;
+      const year = birthdate.getFullYear();
+      const month = birthdate.getMonth() + 1;
+      const date = birthdate.getDate();
+
+      if (month < 10) {
+        if(date < 10) {
+          this.birthdate = `${year}${delimiter}0${month}${delimiter}0${date}`;
+        }
+        else {
+          this.birthdate = `${year}${delimiter}0${month}${delimiter}${date}`;
+        }
+        
+      } else {
+        if(date < 10) {
+          this.birthdate = `${year}${delimiter}${month}${delimiter}0${date}`;
+        }
+        else {
+          this.birthdate = `${year}${delimiter}${month}${delimiter}${date}`;
+        }
       }
-      else {
-        this.birthdate = `${year}${delimiter}${month}${delimiter}${date}`;
-      }
+      this.credentials.birth = this.birthdate
     }
-    this.credentials.birth = this.birthdate
   }
-  },
-
-
-  
 }
 </script>
 

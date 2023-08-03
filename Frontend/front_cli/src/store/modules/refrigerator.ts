@@ -32,7 +32,8 @@ interface Seasoning {
 
 const refrigerator: Module<RefrigeratorState, RootState> = {
     state: {
-        ingredients : [{pk: 0, name : "감자", amount: 2, unit: "개",  startDate : '2023-07-27', endDate: '', storage: '냉장'}, 
+        ingredients : [
+            {pk: 0, name : "감자", amount: 2, unit: "개",  startDate : '2023-07-27', endDate: '', storage: '냉장'}, 
             {pk: 1,name : "김치", amount: 2, unit: "포기",  startDate : '2023-07-27', endDate: '', storage: '냉장'},
             {pk: 2,name : "계란", amount: 2, unit: "개",  startDate : '2023-07-27', endDate: '', storage: '냉장'},
             {pk: 3,name : "돼지고기", amount: 600, unit: "g",  startDate : '2023-07-27', endDate: '', storage: '냉장'},
@@ -43,7 +44,8 @@ const refrigerator: Module<RefrigeratorState, RootState> = {
             {pk: 8,name : "칡", amount: 600, unit: "g",  startDate : '2023-07-27', endDate: '', storage: '냉동'},
             {pk: 9,name : "마", amount: 1200, unit: "g",  startDate : '2023-07-27', endDate: '', storage: '냉동'},
             {pk: 10,name : "라면", amount: 2, unit: "개",  startDate : '2023-07-27', endDate: '', storage: '실온'}, 
-            {pk: 11,name : "김", amount: 2, unit: "개",  startDate : '2023-07-27', endDate: '', storage: '실온'},],
+            {pk: 11,name : "김", amount: 2, unit: "개",  startDate : '2023-07-27', endDate: '', storage: '실온'},
+        ],
         seasonings : [{pk: 0, name : "고춧가루", startDate : '2023-07-27', endDate: '', storage: '냉장'}, 
             {pk: 1, name : "진간장",  startDate : '2023-07-27', endDate: '', storage: '냉장'},
             {pk: 2,name : "고추장",  startDate : '2023-07-27', endDate: '', storage: '냉장'},
@@ -65,22 +67,21 @@ const refrigerator: Module<RefrigeratorState, RootState> = {
             
     },
     actions: {
-        plusAmount({commit, getters}, ingredient) {
-            const tempIngredient = getters.ingredients
-            console.log(tempIngredient)
-            for (let i: number = 0; i < tempIngredient.length; i++) {
-                if(ingredient.pk === tempIngredient[i].pk) {
-                    if(tempIngredient[i].unit === "g") {
-                        tempIngredient[i].amount += 100
+        plusAmount({ commit, getters }, tmpingredient) {
+            console.log('-----------------')
+            console.log(tmpingredient)
+            const tempIngredient = [...getters.ingredients]; // 배열을 복사하여 변경
+            for (let i = 0; i < tempIngredient.length; i++) {
+                if (tmpingredient.pk === tempIngredient[i].pk) {
+                    if (tempIngredient[i].unit === "g") {
+                        tempIngredient[i].amount += 100;
+                    } else {
+                        tempIngredient[i].amount++;
                     }
-                    else {
-                        tempIngredient[i].amount ++
-                    }
-                    
                 }
             }
-            console.log(tempIngredient)
-            commit("PLUS_AMOUNT", tempIngredient)
+            console.log(tempIngredient); // 변경된 재료 배열 출력
+            commit('PLUS_AMOUNT', tempIngredient); // 변경된 배열을 스토어에 커밋
         }
             
         }
