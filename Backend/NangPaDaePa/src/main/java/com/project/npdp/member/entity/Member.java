@@ -30,7 +30,7 @@ public class Member {
 
     private String oauth;
 
-    @Column(nullable = false, columnDefinition = "VARCHAR(10) DEFAULT 'USER'")
+//    @Column(nullable = false, columnDefinition = "VARCHAR(10) DEFAULT 'USER'")
     private String role = "USER";
 
     private String birth;
