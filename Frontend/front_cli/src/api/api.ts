@@ -14,13 +14,12 @@ const SEASONING = 'seasoning/'
 
 
 export default {
-  // member_id or member_id
   member: {
     // 회원 가입
-    signup:() => '/members' + '/join',
+    signup:() => '/api/members/join',
 
     // 회원 로컬 로그인 
-    login: () => HOST + MEMBER + 'localLogin',
+    login: () => "/" + MEMBER + 'localLogin',
 
     // 회원 소셜 로그인
     socialLogin: () => HOST + 'members/socialLogin',
@@ -106,10 +105,10 @@ export default {
 
   recipe:{
     // 레시피 전체 조회
-    fetchRecipe: () => HOST + 'recipes',
+    fetchRecipe: () => '/api/recipes/',
   
     // 레시피 특정 조회
-    specificRecipe: () => HOST + RECIPES + 'want/' ,
+    specificRecipe: () =>  + '/api/recipes/want/' ,
   
     // 레시피 상세 보기
     detailRecipe: function(recipe_id: number) {

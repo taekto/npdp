@@ -131,7 +131,7 @@ export default {
 /* 모달 버튼 */
 .buttonGroup {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .soundToTextarea {

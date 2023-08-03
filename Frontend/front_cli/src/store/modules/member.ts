@@ -234,6 +234,7 @@ const member: Module<MemberState, RootState> = {
       console.log(credentials)
         axios({
           url: api.member.signup(),
+          // url: 'https://i9b202.p.ssafy.io/api/members/join',
           method: 'post',
           data: {
             credentials
