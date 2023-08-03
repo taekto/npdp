@@ -104,7 +104,7 @@ export default {
 /* 양념 입력 모달 */
 .buttonGroup {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .soundToTextarea {
