@@ -11,6 +11,7 @@
             <p>1231231234564</p>
             <p>1231231234564</p>
             <p>1231231234564</p>
+            <button @click="fetchRecipe">1234</button>
 
             <!-- 해시태그 -->
             <div id="hashTagkeyword">
@@ -28,6 +29,8 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
+
 export default {
     data() {
         return {
@@ -37,6 +40,7 @@ export default {
         }
     },
     methods: {
+        ...mapActions(['fetchRecipe']),
         goToSearchwithKeyword() {
             this.keyWord = ""
             const tempKeyword = this.searchKeyword
