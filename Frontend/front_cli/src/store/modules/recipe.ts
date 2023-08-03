@@ -389,11 +389,12 @@ const recipe: Module<RecipeState, RootState> = {
 
   actions: {
     // 레시피 조회
-    fetchRecipe ({commit, getters}) {
+    fetchRecipe ({commit}) {
+      console.log('get요청 보내기')
       axios ({
         url:api.recipe.fetchRecipe(),
         method: 'get',
-        headers: getters.authHeader,
+        // headers: getters.authHeader,
       })
         .then(res=> {
           console.log(res)
@@ -414,7 +415,7 @@ const recipe: Module<RecipeState, RootState> = {
         data:{
           content,
         },
-        headers: getters.authHeader,
+        // headers: getters.authHeader,
       })
         .then (res=> {
           console.log(res)
