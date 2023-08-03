@@ -420,6 +420,7 @@ const recipe: Module<RecipeState, RootState> = {
           commit('SET_RECIPE_SPECIFIC', res.data)
         })
         .catch(err => {
+          console.log('레시피 특정 조회 실패..')
           console.log(err.response)
         })
     },
