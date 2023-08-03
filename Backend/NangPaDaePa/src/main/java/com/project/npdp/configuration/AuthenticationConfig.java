@@ -41,7 +41,7 @@ public class AuthenticationConfig {
                 .cors().and()
                 .authorizeRequests()
                 // 해당 api 모든 요청 허가
-                .antMatchers("/api/members/login", "/api/members/join").permitAll()
+                .antMatchers("/api/members/localLogin", "/api/members/join").permitAll()
                 // 해당 api 모든 요청 불허
                 .antMatchers(HttpMethod.POST).authenticated()
                 .and()
