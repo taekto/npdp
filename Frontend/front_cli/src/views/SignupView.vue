@@ -60,13 +60,7 @@
             <p>{{credentials.gender}}</p>
           </div>
           <p>성별 : {{credentials.gender}}</p>
-          <p>1234567987564165</p>
-          <p>1234567987564165</p>
-          <p>1234567987564165</p>
-          <p>1234567987564165</p>
-          <p>1234567987564165</p>
-          <p>1234567987564165</p>
-          <p>1234567987564165</p>
+          <p>테스트 1</p>
       <button class="signup_btn" style="width: 100%;" @click="signup">Get started</button>
       <p>11:44 테스트</p>
       <!-- 소셜 로그인 -->
