@@ -1,22 +1,18 @@
 <template>
     <!-- 검색창 컴포넌트 -->
     <div>
-        <form @submit.prevent="goToSearchwithKeyword">
+        <form @submit.prevent="recipeSpecific(content)">
             <div class="input-group">
-                <input id="searchForm" class="form-control" type="text" v-model.trim="searchKeyword">
+                <input id="searchForm" class="form-control" type="text" v-model.trim="content">
                 <input id="submitButton" type="submit" value="검색">
             </div>
             <p>1231231234564</p>
-            <p>1231231234564</p>
-            <p>1231231234564</p>
-            <p>1231231234564</p>
-            <p>1231231234564</p>
-            <button @click="fetchRecipe">1234</button>
-
+            <button @click="fetchRecipe">레시피 전체 조회 버튼</button>
+3
             <!-- 해시태그 -->
             <div id="hashTagkeyword">
                 <router-link id="hash" :to="{
-                    name: 'searchKeyword',
+                    name: 'content',
                     params: {
                         keyword: tag
                     }
@@ -35,15 +31,15 @@ export default {
     data() {
         return {
             keyWord : "",
-            searchKeyword : "",
+            content : "",
             hashTag : ["김치", "돼지", "소", "닭", "된장", "빵"],
         }
     },
     methods: {
-        ...mapActions(['fetchRecipe']),
+        ...mapActions(['fetchRecipe','recipeSpecific']),
         goToSearchwithKeyword() {
             this.keyWord = ""
-            const tempKeyword = this.searchKeyword
+            const tempKeyword = this.content
             tempKeyword.toLowerCase()
             console.log(tempKeyword)
             if(tempKeyword == "" || tempKeyword == "null") {
@@ -53,14 +49,14 @@ export default {
             }
             else {
                 this.$router.push({
-                name: "searchKeyword",
+                name: "content",
                 params: { keyword : tempKeyword }
                 })
             }
 
             
-            this.keyWord = this.searchKeyword
-            this.searchKeyword = ""
+            this.keyWord = this.content
+            this.content = ""
         }
     }
     

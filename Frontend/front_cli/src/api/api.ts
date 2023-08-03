@@ -17,7 +17,7 @@ export default {
   // member_id or member_id
   member: {
     // 회원 가입
-    signup:() => "/" + MEMBER + 'join',
+    signup:() => 'api/member/join',
 
     // 회원 로컬 로그인 
     login: () => HOST + MEMBER + 'localLogin',
@@ -106,10 +106,10 @@ export default {
 
   recipe:{
     // 레시피 전체 조회
-    fetchRecipe: () => HOST + 'recipes',
+    fetchRecipe: () => 'api/recipes/',
   
     // 레시피 특정 조회
-    specificRecipe: () => HOST + RECIPES + 'want/' ,
+    specificRecipe: () => 'api/want/' ,
   
     // 레시피 상세 보기
     detailRecipe: function(recipe_id: number) {
