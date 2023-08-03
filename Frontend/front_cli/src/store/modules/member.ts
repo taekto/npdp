@@ -229,15 +229,15 @@ const member: Module<MemberState, RootState> = {
     },
 
     // 로컬 회원 가입
-    localSignup({ commit, dispatch }, credentials) {
+    localSignup({ commit, dispatch }, MemberJoinRequestDto) {
       // const CORSHEADERS = ({Access-Control-Allow-Origin: http://localhost:8080/})
-      console.log(credentials)
+      console.log(MemberJoinRequestDto)
         axios({
           url: api.member.signup(),
           // url: 'https://i9b202.p.ssafy.io/api/members/join',
           method: 'post',
           data: {
-            credentials
+            MemberJoinRequestDto
           },
           
         })
