@@ -59,7 +59,7 @@
             </div>
           </div>
       <button class="signup_btn" style="width: 100%;" @click="signup">Get started</button>
-
+      <p>11:44 테스트</p>
       <!-- 소셜 로그인 -->
       <div class="signup_sns">
           <a href="http://localhost:8080/signup" class="btn_sns btn-google btn-block">
