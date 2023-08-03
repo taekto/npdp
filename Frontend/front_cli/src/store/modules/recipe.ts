@@ -440,11 +440,11 @@ const recipe: Module<RecipeState, RootState> = {
     },
 
     // 레시피 상세 조회
-    detailRecipe ({commit, getters}, recipe_id) {
+    detailRecipe ({commit}, recipe_id) {
       axios({
         url: api.recipe.detailRecipe(recipe_id),
         method:'get',
-        headers: getters.authHeader,
+        // headers: getters.authHeader,
       })
         .then(res=> {
           commit('SET_RECIPE_DETAIL', res.data)
