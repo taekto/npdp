@@ -62,4 +62,5 @@ public class MemberService {
         Member member = memberRepository.findById(memberId).orElseThrow();
         return member;
     }
+
 }

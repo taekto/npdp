@@ -50,7 +50,7 @@ public class QMember extends EntityPathBase<Member> {
 
     public final ListPath<com.project.npdp.refregirator.entity.Refregirator, com.project.npdp.refregirator.entity.QRefregirator> refregiratorList = this.<com.project.npdp.refregirator.entity.Refregirator, com.project.npdp.refregirator.entity.QRefregirator>createList("refregiratorList", com.project.npdp.refregirator.entity.Refregirator.class, com.project.npdp.refregirator.entity.QRefregirator.class, PathInits.DIRECT2);
 
-    public final NumberPath<Long> role = createNumber("role", Long.class);
+    public final StringPath role = createString("role");
 
     public QMember(String variable) {
         super(Member.class, forVariable(variable));
