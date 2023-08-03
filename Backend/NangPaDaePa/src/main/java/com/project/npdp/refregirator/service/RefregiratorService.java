@@ -4,9 +4,12 @@ import com.project.npdp.food.entity.Ingredient;
 import com.project.npdp.food.entity.Seasoning;
 import com.project.npdp.food.repository.IngredientRepository;
 import com.project.npdp.food.repository.SeasoningRepository;
+import com.project.npdp.member.entity.Member;
+import com.project.npdp.member.repository.MemberRepository;
 import com.project.npdp.recipe.dto.response.RecipeResponseDto;
 import com.project.npdp.recipe.entity.Recipe;
 import com.project.npdp.refregirator.dto.request.IngredientFindRequestDto;
+import com.project.npdp.refregirator.dto.request.MemberIngredientSaveRequestDto;
 import com.project.npdp.refregirator.dto.request.RefregiratorModifyIngredientRequestDto;
 import com.project.npdp.refregirator.dto.request.SeasoningFindRequestDto;
 import com.project.npdp.refregirator.dto.response.IngredientFindResponseDto;
@@ -21,6 +24,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,6 +37,7 @@ public class RefregiratorService {
     private final MemberSeasoningRepository memberSeasoningRepository;
     private final IngredientRepository ingredientRepository;
     private final SeasoningRepository seasoningRepository;
+    private final MemberRepository memberRepository;
 
     // 재료삭제
     @Transactional
@@ -60,22 +66,23 @@ public class RefregiratorService {
     public List<SeasoningFindResponseDto> findSeasoningByKor(SeasoningFindRequestDto seasoningFindRequestDto) {
         List<Seasoning> all = seasoningRepository.findByKorContaining(seasoningFindRequestDto.getKeyword());
         List<SeasoningFindResponseDto> result = all.stream().map(seasoning -> SeasoningFindResponseDto.builder()
-                .seasoningId(seasoning.getId())
+                        .seasoningId(seasoning.getId())
                         .kor(seasoning.getKor())
                         .build())
                 .collect(Collectors.toList());
         return result;
     }
-    // 재료 음성 입력
 
-    // 양념 음성 입력
+    // 회원 재료 입력
+    public void memberSaveIngredient(Long memberId, MemberIngredientSaveRequestDto memberIngredientSaveRequestDto) {
 
-    // 회원 재료 조회
-//    public List<Refregirator> findMemberIngredient(Long memberId) {
-//        List<Ingredient> memberIngredient = refregiratorRepository.findMemberIngredient(memberId);
-//
-//
-//
-//    }
-    // 회원 양념 조회
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new NoSuchElementException("Member not found with id: "));
+        Ingredient ingredient = ingredientRepository.findById(memberIngredientSaveRequestDto.getIngredientId())
+                .orElseThrow(() -> new NoSuchElementException("Ingredient not found with id: "));
+        Refregirator result = memberIngredientSaveRequestDto.toEntity(memberIngredientSaveRequestDto, member, ingredient);
+        refregiratorRepository.save(result);
+
+    }
+
 }
