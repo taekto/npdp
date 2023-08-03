@@ -440,16 +440,19 @@ const recipe: Module<RecipeState, RootState> = {
     },
 
     // 레시피 상세 조회
-    detailRecipe ({commit, getters}, recipe_id) {
+    detailRecipe ({commit}, recipe_id) {
+      console.log('레시피 상세 조회 시작!')
       axios({
         url: api.recipe.detailRecipe(recipe_id),
         method:'get',
-        headers: getters.authHeader,
+        // headers: getters.authHeader,
       })
         .then(res=> {
+          console.log(res.data, '레시피 상세 조회 성공!')
           commit('SET_RECIPE_DETAIL', res.data)
         })
         .catch(err => {
+          console.log('레시피 상세 조회 실패....')
           console.log(err.response)
         })
     }
