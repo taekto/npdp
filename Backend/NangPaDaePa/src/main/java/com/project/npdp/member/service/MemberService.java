@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 //@Transactional
@@ -55,6 +56,15 @@ public class MemberService {
         System.out.println(tmp);
         return tmp;
     }
+
+    // 비밀번호 변경
+    public void modifyPw(Long memberId, String password){
+        Optional<Member> optionalMember = memberRepository.findById(memberId);
+        if(!optionalMember.isEmpty()){
+            Member member = optionalMember.get();
+        }
+    }
+
 
     // 회원 단건 조회
     @Transactional(readOnly = true)

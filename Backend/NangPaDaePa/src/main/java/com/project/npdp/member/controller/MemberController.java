@@ -16,6 +16,7 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    // 회원가입
     @PostMapping("/join")
     public ResponseEntity<?> join(@RequestBody MemberJoinRequestDto memberJoinRequestDto){
         memberService.join(memberJoinRequestDto);
@@ -28,6 +29,13 @@ public class MemberController {
     public ResponseEntity<String> login(String email, String password){
         return ResponseEntity.ok().body(memberService.login(email, password));
     }
+
+//    // 비밀번호 변경
+//    @PutMapping("/password/${memberId}")
+//    public ResponseEntity<?> modifyPw(@PathVariable Long memberId, String password){
+//        memberService.modifyPw(memberId, password);
+//        return ResponseEntity.status(HttpStatus.OK).build();
+//    }
 
 //    @PostMapping("/write")
 //    public ResponseEntity<String> writeSample(Authentication authentication){
