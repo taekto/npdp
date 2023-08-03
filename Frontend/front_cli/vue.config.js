@@ -3,8 +3,8 @@ module.exports = defineConfig({
   transpileDependencies: true,
   devServer: {
     proxy: {
-      '/api': {
-        target: 'https://i9b202.p.ssafy.io:8080',
+      '/member': {
+        target: 'https://i9b202.p.ssafy.io:8080/api',
         changeOrigin: true,
         withCredentials: true
       }
