@@ -36,6 +36,8 @@ public class MemberService {
         // 비밀번호 해시 암호화
         String hashedPw = SHA256Util.getSHA256(memberJoinRequestDto.getPassword());
 
+        System.out.println("hashedPw" + hashedPw);
+
         Member member = Member.builder()
                 .email(memberJoinRequestDto.getEmail())
                 .password(hashedPw)
