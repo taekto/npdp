@@ -1,6 +1,12 @@
 package com.project.npdp.recipe.dto.response;
 
+import com.project.npdp.member.entity.MemberRecipeLike;
+import com.project.npdp.recipe.entity.RecipeIngredient;
+import com.project.npdp.recipe.entity.RecipeSeasoning;
+import com.project.npdp.recipe.entity.RecipeSequence;
 import lombok.*;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -24,4 +30,10 @@ public class RecipeIdResponseDto {
     private Double salt;
 
     private String imgBig;
+
+    private List<RecipeIngredient> recipeIngredientList;
+
+    private List<RecipeSeasoning> recipeSeasoningList;
+
+    private List<RecipeSequence> recipeSequenceList;
 }
