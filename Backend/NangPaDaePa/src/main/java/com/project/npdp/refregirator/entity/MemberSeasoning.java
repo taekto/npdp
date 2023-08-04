@@ -5,6 +5,7 @@ import com.project.npdp.member.entity.Member;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -28,6 +29,10 @@ public class MemberSeasoning {
     private Seasoning seasoning;
 
     private Long storage;
+
+    private LocalDateTime startDate;
+
+    private LocalDateTime expiredDate;
     @Builder
     public MemberSeasoning(Member member, Seasoning seasoning, Long storage) {
         this.member = member;

@@ -6,6 +6,8 @@ import com.project.npdp.recipe.dto.response.RecipeResponseDto;
 import com.project.npdp.recipe.service.RecipeService;
 import com.project.npdp.refregirator.dto.request.*;
 import com.project.npdp.refregirator.dto.response.IngredientFindResponseDto;
+import com.project.npdp.refregirator.dto.response.MemberIngredientFindResponseDto;
+import com.project.npdp.refregirator.dto.response.MemberSeasoningFindResponseDto;
 import com.project.npdp.refregirator.dto.response.SeasoningFindResponseDto;
 import com.project.npdp.refregirator.entity.Refregirator;
 import com.project.npdp.refregirator.service.RefregiratorService;
@@ -63,7 +65,16 @@ public class RefregiratorController {
     //회원 재료 조회
     @GetMapping("/ingredient/{memberId}")
     public ResponseEntity<?> findMemberIngredient(@PathVariable("memberId") Long memberId) {
-        List<Refregirator> result = refregiratorService.findMemberIngredient(memberId);
+        List<MemberIngredientFindResponseDto> result = refregiratorService.findMemberIngredient(memberId);
+        return ResponseEntity.ok().body(result);
+    }
+
+
+
+    //회원 양념 조회
+    @GetMapping("/seasoning/{memberId}")
+    public ResponseEntity<?> findMemberSeasoning(@PathVariable("memberId") Long memberId) {
+        List<MemberSeasoningFindResponseDto> result = refregiratorService.findMemberSeasoning(memberId);
         return ResponseEntity.ok().body(result);
     }
 }

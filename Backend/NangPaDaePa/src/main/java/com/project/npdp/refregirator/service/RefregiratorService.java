@@ -11,6 +11,7 @@ import com.project.npdp.recipe.entity.Recipe;
 import com.project.npdp.refregirator.dto.request.*;
 import com.project.npdp.refregirator.dto.response.IngredientFindResponseDto;
 import com.project.npdp.refregirator.dto.response.MemberIngredientFindResponseDto;
+import com.project.npdp.refregirator.dto.response.MemberSeasoningFindResponseDto;
 import com.project.npdp.refregirator.dto.response.SeasoningFindResponseDto;
 import com.project.npdp.refregirator.entity.MemberSeasoning;
 import com.project.npdp.refregirator.entity.Refregirator;
@@ -98,9 +99,13 @@ public class RefregiratorService {
     }
 
     // 회원 재료 조회
-    public List<Refregirator> findMemberIngredient(Long memberId) {
-        List<Refregirator> memberRefregirator = refregiratorRepository.findMemberRefregirator(memberId);
+    public List<MemberIngredientFindResponseDto> findMemberIngredient(Long memberId) {
+        List<MemberIngredientFindResponseDto> memberRefregirator = refregiratorRepository.findMemberIngredient(memberId);
         return memberRefregirator;
     }
 
+    public List<MemberSeasoningFindResponseDto> findMemberSeasoning(Long memberId) {
+        List<MemberSeasoningFindResponseDto> memberSeasoning = memberSeasoningRepository.findMemberSeasoning(memberId);
+        return memberSeasoning;
+    }
 }

@@ -2,14 +2,20 @@ package com.project.npdp.refregirator.dto.response;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @AllArgsConstructor
 public class MemberSeasoningFindResponseDto {
 
-    private Long seasoningId;
+    private String kor;
 
-    private String name;
+    private Long storage;
+
+    private LocalDateTime startDate;
+
+    private LocalDateTime expiredDate;
 
 }
