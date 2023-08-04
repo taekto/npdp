@@ -29,7 +29,7 @@ public class MemberSeasoningRepositoryImpl implements MemberSeasoningRepositoryC
         QSeasoning seasoning = QSeasoning.seasoning;
 
         List<Tuple> results = queryFactory
-                .select(seasoning.kor, memberSeasoning.storage, memberSeasoning.startDate, memberSeasoning.expiredDate)
+                .select(memberSeasoning.id , seasoning.kor, memberSeasoning.storage, memberSeasoning.startDate, memberSeasoning.expiredDate)
                 .from(memberSeasoning)
                 .join(memberSeasoning.seasoning, seasoning)
                 .where(memberSeasoning.member.id.eq(memberId))
@@ -37,6 +37,7 @@ public class MemberSeasoningRepositoryImpl implements MemberSeasoningRepositoryC
 
         return results.stream()
                 .map(tuple -> new MemberSeasoningFindResponseDto(
+                        tuple.get(memberSeasoning.id),
                         tuple.get(seasoning.kor),
                         tuple.get(memberSeasoning.storage),
                         tuple.get(memberSeasoning.startDate),

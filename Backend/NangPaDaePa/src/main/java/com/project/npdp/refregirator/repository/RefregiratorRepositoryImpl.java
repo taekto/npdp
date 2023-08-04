@@ -30,7 +30,7 @@ public class RefregiratorRepositoryImpl implements RefregiratorRepositoryCustom 
         QIngredient ingredient = QIngredient.ingredient;
 
         List<Tuple> results = queryFactory
-                .select(ingredient.kor, refregirator.amount, refregirator.unit, refregirator.startDate, refregirator.expiredDate, refregirator.storage)
+                .select(refregirator.id,ingredient.kor, refregirator.amount, refregirator.unit, refregirator.startDate, refregirator.expiredDate, refregirator.storage)
                 .from(refregirator)
                 .join(refregirator.ingredient, ingredient)
                 .where(refregirator.member.id.eq(memberId))
@@ -38,6 +38,7 @@ public class RefregiratorRepositoryImpl implements RefregiratorRepositoryCustom 
 
         return results.stream()
                 .map(tuple -> new MemberIngredientFindResponseDto(
+                        tuple.get(refregirator.id),
                         tuple.get(ingredient.kor),
                         tuple.get(refregirator.amount),
                         tuple.get(refregirator.unit),
