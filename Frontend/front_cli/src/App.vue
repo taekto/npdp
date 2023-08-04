@@ -31,9 +31,6 @@
 
     <!-- 하단 설명 -->
     <footer>
-      <a href="#">Facebook</a> |
-      <a href="#">Twitter</a> |
-      <a href="#">Instagram</a>
       <p>@2023.panda. All rights reserved</p>
     </footer>
   </div>
@@ -79,7 +76,7 @@ nav a {
 }
 
 nav a.router-link-exact-active {
-  color: #42b983;
+  color: #FD7E14;
 }
 
 nav #pageLink {
@@ -124,7 +121,7 @@ nav #user {
 
 /* 하단 footer CSS */
 footer {
-  padding-top: 2rem;
+  padding-top: 3rem;
   padding-bottom: 2rem;
   background-color: #FD7E14;
   color: white;

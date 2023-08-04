@@ -33,6 +33,7 @@
 /* 상단 슬라이드 관련 CSS */
 .mainImage {
   background-color: #9d9d9d;
+  
 }
 
 /* 서비스 관련 CSS */
