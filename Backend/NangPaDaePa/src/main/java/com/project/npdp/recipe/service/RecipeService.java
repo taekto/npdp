@@ -52,6 +52,9 @@ public class RecipeService {
                 .fat(recipe.getFat())
                 .salt(recipe.getSalt())
                 .imgBig(recipe.getImgBig())
+                .recipeSeasoningList(recipe.getRecipeSeasoningList())
+                .recipeIngredientList(recipe.getRecipeIngredientList())
+                .recipeSequenceList(recipe.getRecipeSequenceList())
                 .build();
         return result;
     }
