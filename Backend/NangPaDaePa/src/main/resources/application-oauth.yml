@@ -17,7 +17,7 @@ spring:
           google:
             client-id: 600784308502-61a56tmk8jtiifg01jgh8dj6rpad2vu0.apps.googleusercontent.com
             client-secret: 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
-            
+
         provider:
           kakao:
             authorization-uri: https://kauth.kakao.com/oauth/authorize

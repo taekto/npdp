@@ -39,11 +39,11 @@ public class AuthenticationConfig {
                 // rest api에서 권한 필요한 요청위해 인증 정보 포함시켜 보내야 함
                 .csrf().disable()
                 .cors().and()
-                    .authorizeRequests()
-                    // 해당 api 모든 요청 허가
-                    .antMatchers("/api/members/localLogin", "/api/members/join", "/api/oauth/**").permitAll()
-                    // 해당 api 모든 요청 불허
-                    .antMatchers(HttpMethod.POST).authenticated()
+                .authorizeRequests()
+                // 해당 api 모든 요청 허가
+                .antMatchers("/api/members/localLogin", "/api/members/join", "/api/oauth/**").permitAll()
+                // 해당 api 모든 요청 불허
+                .antMatchers(HttpMethod.POST).authenticated()
                 .and()
                 // JWT 사용으로 session 사용 안함
                 .sessionManagement()

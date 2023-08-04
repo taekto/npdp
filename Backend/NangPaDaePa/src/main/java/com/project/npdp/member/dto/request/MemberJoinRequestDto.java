@@ -1,4 +1,4 @@
-package com.project.npdp.member.dto;
+package com.project.npdp.member.dto.request;
 
 import com.project.npdp.member.entity.Gender;
 import lombok.AllArgsConstructor;
