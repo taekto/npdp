@@ -1,8 +1,8 @@
 <template>
   <!-- 상단 광고 슬라이드 이미지(임시) -->
-  <img v-if="slide == 1" src="@/assets/123.jpg" alt="">
-  <img v-else-if="slide == 2" src="@/assets/312413.jpg" alt="">
-  <img v-else-if="slide == 3" src="@/assets/download.jpg" alt="">
+  <img v-if="slide == 1" src="@/assets/mainImage01.jpg" alt="">
+  <img v-else-if="slide == 2" src="@/assets/mainImage02.jpg" alt="">
+  <img v-else-if="slide == 3" src="@/assets/mainImage03.jpg" alt="">
 </template>
 
 <script>
