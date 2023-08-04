@@ -1,6 +1,5 @@
 package com.project.npdp.recipe.controller;
 
-import com.project.npdp.recipe.dto.response.RecipeIdResponseDto;
 import com.project.npdp.recipe.dto.response.RecipeResponseDto;
 import com.project.npdp.recipe.dto.response.RecipeWantResponseDto;
 import com.project.npdp.recipe.service.RecipeService;
@@ -18,10 +17,10 @@ public class RecipeController {
     private final RecipeService recipeService;
 
     // id로 Recipe 조회
-    @GetMapping("/{recipeId}")
-    public ResponseEntity<?> findRecipeById(@PathVariable("recipeId") Long id) {
-        RecipeIdResponseDto recipeById = recipeService.findRecipeById(id);
-        return ResponseEntity.ok().body(recipeById);
+    @GetMapping("{recipeId}")
+    public ResponseEntity<?> findRecipeById(@PathVariable("recipeId") Long recipeId) {
+
+        return ResponseEntity.ok().build();
     }
 
     // Recipe 전체 조회

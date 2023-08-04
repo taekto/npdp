@@ -16,8 +16,6 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.project.npdp.member.entity.QMember.member;
-import static com.project.npdp.refregirator.entity.QMemberSeasoning.memberSeasoning;
 
 @RequiredArgsConstructor
 public class MemberSeasoningRepositoryImpl implements MemberSeasoningRepositoryCustom{

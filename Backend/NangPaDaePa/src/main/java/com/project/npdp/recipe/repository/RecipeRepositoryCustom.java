@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface RecipeRepositoryCustom {
     public List<Recipe> findRecipeByContent(String content);
+
+
 }
