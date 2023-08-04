@@ -5,7 +5,6 @@
     <slide v-for="slide in 3" :key="slide">
       <SlideCardImageVue :slide = slide />
     </slide>
-
     <!-- 슬라이드 이동 버튼 -->
     <template #addons>
       <navigation />
@@ -34,5 +33,13 @@ export default {
 </script>
 
 <style>
-
+.carousel__pagination {
+  position: absolute;
+  display: flex;
+  align-content: center;
+  list-style: none;
+  line-height: 0;
+  top: 95%;
+  left: 50%;
+}
 </style>

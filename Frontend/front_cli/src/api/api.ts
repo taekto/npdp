@@ -109,7 +109,7 @@ export default {
   
     // 레시피 특정 조회
     specificRecipe: () => API + RECIPES + 'want' ,
-  
+
     // 레시피 상세 보기
     detailRecipe: function(recipe_id: number) {
       return API + RECIPES + recipe_id

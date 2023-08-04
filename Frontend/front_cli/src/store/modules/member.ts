@@ -14,7 +14,7 @@ interface MemberState {
   memberAllergy: MemberAllergy[];
   memberUtensil: MemberUtensil[];
   memberSeasoning: MemberSeasoning[];
-  currentMember: CurrentMember[];
+  currentMember: string | null;
 }
 
 // 회원
@@ -32,11 +32,7 @@ interface Member {
 }
 
 // 회원 현재 정보
-interface CurrentMember {
-  member_id: number
-  email: string
-  accessToken: string
-}
+
 
 // 회원 레시피 좋아요
 interface MemberRecipeLike {
@@ -90,7 +86,7 @@ const member: Module<MemberState, RootState> = {
     accessToken: null,
     // refreshToken: null,
     member: [],
-    currentMember:[],
+    currentMember: null,
     memberRecipeLike: [  
       { member_recipe_like_id: 1, member_id: 1, recipe_id: 1 },
       { member_recipe_like_id: 2, member_id: 1, recipe_id: 2 },
@@ -113,7 +109,6 @@ const member: Module<MemberState, RootState> = {
     member: state => state.member,
     // 사용x
     currentMember: state => state.currentMember,
-
     isLoggedIn: () => !!sessionStorage.getItem('accessToken'),
     authHeader: () => ({ Authorization: `Bearer ${sessionStorage.getItem('accessToken')}` }),
     memberRecipeLike: state => state.memberRecipeLike,
@@ -127,7 +122,7 @@ const member: Module<MemberState, RootState> = {
     // SET_ACCESS_TOKEN: (state, accessToken) => (state.accessToken = accessToken),
     // SET_REFRESH_TOKEN: (state, refreshToken) => (state.refreshToken = refreshToken),
     SET_MEMBER: (state, member) => (state.member = member),
-    SET_CURRENT_MEMBER: (state, currentMember) => (state.currentMember = currentMember),
+    SET_CURRENT_MEMBER: (state, email) => (state.currentMember = email),
     SET_MEMBER_RECIPE_LIKE: (state, memberRecipeLike) => (state.memberRecipeLike = memberRecipeLike),
     SET_MEMBER_RECIPE_LATEST: (state, memberRecipeLatest) => (state.memberRecipeLatest = memberRecipeLatest),
     SET_MEMBER_DISLIKE_INGREDIENT: (state, memberDislikeIngredient) => (state.memberDislikeIngredient = memberDislikeIngredient),
@@ -145,7 +140,8 @@ const member: Module<MemberState, RootState> = {
       sessionStorage.removeItem("accessToken")
     },
 
-    localLogin({ dispatch }, credentials) {
+    // 회원 로그인
+    localLogin({ dispatch, commit }, credentials) {
       console.log(credentials)
       axios({
         url: api.member.login(),
@@ -156,6 +152,7 @@ const member: Module<MemberState, RootState> = {
           console.log('로컬로그인 시작!')
           console.log(res)
           sessionStorage.setItem("accessToken", res.data.accessToken);
+          commit('SET_CURRENT_MEMBER', credentials.email)
           // commit('SET_CURRENT_MEMBER', res.data)
           dispatch('fetchMember', res.data.id)
           router.push({ name: 'main' })
@@ -170,7 +167,7 @@ const member: Module<MemberState, RootState> = {
     },
 
     // 로컬 회원 가입
-    localSignup({ commit }, credentials) {
+    localSignup(credentials) {
       console.log('회원가입 시작!')
         axios({
           url: api.member.signup(),
@@ -182,7 +179,6 @@ const member: Module<MemberState, RootState> = {
             console.log(res)
             // const token = res.data.token
             // dispatch('saveToken', token)
-            commit('SET_CURRENT_MEMBER', res.data)
             // dispatch('fetchMember', res.data.member_id)
             alert('회원가입이 완료되었습니다!')
             router.push({ name: 'main' })

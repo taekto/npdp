@@ -4,7 +4,7 @@
     <MainImageSlideVue class="mainImage" />
     <!-- 서비스 정보 들어갈 공간 -->
     <div class="explanation">
-      <h1>1114개의 레시피</h1>
+      <h1 class="recipe_heading">1114개의 레시피</h1>
     </div>
 
     <!-- 검색창 컴포넌트 -->
@@ -29,17 +29,18 @@
   import CategoryButton from '../components/mainPage/CategoryButton.vue'
 </script>
 
-<style scoped>
+<style>
 /* 상단 슬라이드 관련 CSS */
-.mainImage {
-  background-color: #9d9d9d;
+.recipe_heading {
+  font-family: 'Quicksand', sans-serif;
 }
 
-/* 서비스 관련 CSS */
 .explanation {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  padding: 20px;
   background-color: #FD7E14;
   color: white;
+}
+.carousel_pagination {
+  background-color: #FD7E14;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
     <!-- 검색창 컴포넌트 -->
     <div>
-        <form @submit.prevent="recipeSpecific(content)">
+        <form @submit.prevent="recipeSpecificSearch(content)">
             <div class="input-group">
                 <input id="searchForm" class="form-control" type="text" v-model.trim="content">
                 <input id="submitButton" type="submit" value="검색">
@@ -33,7 +33,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['recipeSpecific']),
+        ...mapActions(['recipeSpecificSearch']),
         goToSearchwithKeyword() {
             this.keyWord = ""
             const tempKeyword = this.word.content
@@ -66,6 +66,7 @@ export default {
     display: flex;
     justify-content: center;
 }
+
 #hash {
     margin: 1rem;
     background-color: #FD7E14;
@@ -82,6 +83,7 @@ export default {
     height: 2.5rem;
     margin: auto;
     margin-top: 3.5rem;
+    
 }
 
 #searchForm {
