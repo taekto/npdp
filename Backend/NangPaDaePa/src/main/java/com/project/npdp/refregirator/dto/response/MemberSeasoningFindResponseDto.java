@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class MemberSeasoningFindResponseDto {
 
+    private Long memberSeasoningId;
+
     private String kor;
 
     private Long storage;
