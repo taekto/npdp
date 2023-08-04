@@ -21,8 +21,8 @@
         <router-link to="/login">Login</router-link>
       </div>
       <div v-else id="user">
-        <router-link to="/mypage">MyPage</router-link>
-        <a @click="logout">Logout</a>
+        <router-link to="/mypage">MyPage</router-link> |
+        <a class="logout" @click="logout">Logout</a>
       </div>
     </nav>
 
@@ -162,6 +162,11 @@ footer {
     border-radius: .5rem;
     background-color: #f2f2f2;
     border: solid rgb(244, 244, 244);
+}
+
+.logout {
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 </style>
