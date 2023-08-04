@@ -4,7 +4,17 @@
     <MainImageSlideVue class="mainImage" />
     <!-- 서비스 정보 들어갈 공간 -->
     <div class="explanation">
-      <h1>1114개의 레시피</h1>
+      <div class="explanationBox">
+        <div>
+          <h3>1114+</h3>
+          <p>Recipes</p>
+        </div>
+        <div>
+          <h3>9836+</h3>
+          <p>Ingredients</p>
+        </div>
+      </div>
+      
     </div>
 
     <!-- 검색창 컴포넌트 -->
@@ -42,5 +52,13 @@
   padding-bottom: 1rem;
   background-color: #FD7E14;
   color: white;
+  
+}
+
+.explanationBox {
+  width: 35%;
+  display: flex;
+  justify-content: space-around;
+  margin: auto;
 }
 </style>
