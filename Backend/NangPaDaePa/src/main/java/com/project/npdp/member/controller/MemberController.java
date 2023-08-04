@@ -1,7 +1,6 @@
 package com.project.npdp.member.controller;
 
-import com.project.npdp.member.dto.request.MemberJoinRequestDto;
-import com.project.npdp.member.dto.request.MemberLoginRequestDto;
+import com.project.npdp.member.dto.request.*;
 import com.project.npdp.member.dto.response.MemberLoginResponseDto;
 import com.project.npdp.member.dto.response.MemberDetailResponseDto;
 import com.project.npdp.member.entity.Member;
@@ -43,9 +42,38 @@ public class MemberController {
     }
 
     // 회원 닉네임 변경
-    
+    @PostMapping("/nickname")
+    public ResponseEntity<?> modifyNickname(@RequestBody MemberNicknameRequestDto memberNicknameRequestDto){
+        try{
+            memberService.modifyNickname(memberNicknameRequestDto);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("닉네임 변경 실패");
+        }
+    }
 
-    // 회원 전화번호 변경
+    // 회원 성별 변경
+    @PostMapping("/gender")
+    public ResponseEntity<?> modifyGender(@RequestBody MemberGenderRequestDto memberGenderRequestDto){
+        try{
+            memberService.modifyGender(memberGenderRequestDto);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("성별 변경 실패");
+        }
+    }
+
+    // 회원 생일 변경
+    @PostMapping("/birth")
+    public ResponseEntity<?> modifyBirth(@RequestBody MemberBirthRequestDto memberBirthRequestDto){
+        try{
+            memberService.modifyBirth();
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("생일 변경 실패");
+        }
+    }
+
 
 //    @PostMapping("/write")
 //    public ResponseEntity<String> writeSample(Authentication authentication){

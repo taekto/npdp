@@ -1,7 +1,6 @@
 package com.project.npdp.member.service;
 
-import com.project.npdp.member.dto.request.MemberJoinRequestDto;
-import com.project.npdp.member.dto.request.MemberLoginRequestDto;
+import com.project.npdp.member.dto.request.*;
 import com.project.npdp.member.dto.response.MemberDetailResponseDto;
 import com.project.npdp.member.dto.response.MemberLoginResponseDto;
 import com.project.npdp.member.entity.Member;
@@ -93,5 +92,47 @@ public class MemberService {
                 .build();
 
         return result;
+    }
+    
+    // 닉네임 변경
+    public void modifyNickname(MemberNicknameRequestDto memberNicknameRequestDto){
+        Long id = memberNicknameRequestDto.getId();
+        String nickname = memberNicknameRequestDto.getNickname();
+
+        Member member = memberRepository.findById(id).orElse(null);
+        if(member != null){
+            member.modifyNickname(nickname);
+            memberRepository.save(member);
+        }else{
+            throw new IllegalArgumentException("사용자를 찾을 수 없습니다");
+        }
+    }
+    
+    // 성별 변경
+    public void modifyGender(MemberGenderRequestDto memberGenderRequestDto){
+        Long id = memberGenderRequestDto.getId();
+        String gender = memberGenderRequestDto.getGender();
+
+        Member member = memberRepository.findById(id).orElse(null);
+        if(member != null){
+            member.modifyGender(gender);
+            memberRepository.save(member);
+        }else{
+            throw new IllegalArgumentException("사용자를 찾을 수 없습니다");
+        }
+    }
+    
+    // 생일 변경
+    public void modifyBirth(MemberBirthRequestDto memberBirthRequestDto){
+        Long id = memberBirthRequestDto.getId();
+        String birth = memberBirthRequestDto.getBirth();
+
+        Member member = memberRepository.findById(id).orElse(null);
+        if(member != null){
+            member.modifyBirth(birth);
+            memberRepository.save(member);
+        }else{
+            throw new IllegalArgumentException("사용자를 찾을 수 없습니다");
+        }
     }
 }

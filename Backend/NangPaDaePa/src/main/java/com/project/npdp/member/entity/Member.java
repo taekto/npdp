@@ -81,4 +81,19 @@ public class Member {
         return this.email.equals(email) && this.password.equals(sha256Pw);
     }
 
+    // 닉네임변경
+    public void modifyNickname(String newNickname) {
+        this.nickname = newNickname;
+    }
+
+    // 성별변경
+    public void modifyGender(String newGender) {
+        this.gender = newGender;
+    }
+
+    // 생일변경
+    public void modifyBirth(String newBirth) {
+        this.birth = newBirth;
+    }
+
 }
