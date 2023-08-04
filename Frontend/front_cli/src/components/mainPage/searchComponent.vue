@@ -1,22 +1,22 @@
 <template>
     <!-- 검색창 컴포넌트 -->
     <div>
+<<<<<<< HEAD
         <form @submit.prevent="recipeSpecificSearch(content)">
+=======
+        <form @submit.prevent="recipeSpecific(content)" @keydown.enter="recipeSpecific(content)">
+>>>>>>> 409a58e886623d95589e61841785a6e26a3025c5
             <div class="input-group">
+                <!-- <input id="submitButton" type="submit" value="검색"> -->
+                <i class="bi bi-search" @click="recipeSpecific(content)"></i>
                 <input id="searchForm" class="form-control" type="text" v-model.trim="content">
-                <input id="submitButton" type="submit" value="검색">
             </div>
             <!-- 해시태그 -->
-            <!-- <div id="hashTagkeyword">
-                <router-link id="hash" :to="{
-                    name: 'content',
-                    params: {
-                        keyword: tag
-                    }
-                }" v-for="(tag, index) in hashTag" :key="index">
+            <div id="hashTagkeyword">
+                <div @click="recipeSpecific(tag)" id="hash" v-for="(tag, index) in hashTag" :key="index">
                     # {{ tag }}
-                </router-link>
-            </div> -->
+                </div>
+            </div>
         </form>
     </div>
 </template>
@@ -77,18 +77,30 @@ export default {
     text-decoration-line: none;
 }
 
+.bi-search {
+    width: 10%;
+    margin: auto;
+    cursor: pointer;
+}
+
 /* 검색창 */
 .input-group {
     width: 60%;
     height: 2.5rem;
     margin: auto;
     margin-top: 3.5rem;
+<<<<<<< HEAD
     
+=======
+    border: solid #FD7E14 1px;
+    border-radius: .5rem;
+>>>>>>> 409a58e886623d95589e61841785a6e26a3025c5
 }
 
 #searchForm {
-    border-radius: .5rem;
+    border: none;
     margin-right: 1rem;
+    
 }
 
 #submitButton {
@@ -106,4 +118,5 @@ export default {
     }
 }
 
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css");
 </style>

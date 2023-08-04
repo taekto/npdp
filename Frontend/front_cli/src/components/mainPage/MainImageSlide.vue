@@ -4,6 +4,7 @@
   :transition = "1000" :wrap-around="true">
     <slide v-for="slide in 3" :key="slide">
       <SlideCardImageVue :slide = slide />
+      
     </slide>
     <!-- 슬라이드 이동 버튼 -->
     <template #addons>

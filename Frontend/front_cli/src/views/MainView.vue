@@ -4,7 +4,21 @@
     <MainImageSlideVue class="mainImage" />
     <!-- 서비스 정보 들어갈 공간 -->
     <div class="explanation">
+<<<<<<< HEAD
       <h1 class="recipe_heading">1114개의 레시피</h1>
+=======
+      <div class="explanationBox">
+        <div>
+          <h3>1114+</h3>
+          <p>Recipes</p>
+        </div>
+        <div>
+          <h3>9836+</h3>
+          <p>Ingredients</p>
+        </div>
+      </div>
+      
+>>>>>>> 409a58e886623d95589e61841785a6e26a3025c5
     </div>
 
     <!-- 검색창 컴포넌트 -->
@@ -31,14 +45,28 @@
 
 <style>
 /* 상단 슬라이드 관련 CSS */
+<<<<<<< HEAD
 .recipe_heading {
   font-family: 'Quicksand', sans-serif;
+=======
+.mainImage {
+  background-color: #9d9d9d;
+  
+>>>>>>> 409a58e886623d95589e61841785a6e26a3025c5
 }
 
 .explanation {
   padding: 20px;
   background-color: #FD7E14;
   color: white;
+  
+}
+
+.explanationBox {
+  width: 35%;
+  display: flex;
+  justify-content: space-around;
+  margin: auto;
 }
 .carousel_pagination {
   background-color: #FD7E14;

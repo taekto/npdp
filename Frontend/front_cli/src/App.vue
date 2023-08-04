@@ -76,7 +76,11 @@ nav a {
 }
 
 nav a.router-link-exact-active {
+<<<<<<< HEAD
     color: #FD7E14;
+=======
+  color: #FD7E14;
+>>>>>>> 409a58e886623d95589e61841785a6e26a3025c5
 }
 
 nav #pageLink {
