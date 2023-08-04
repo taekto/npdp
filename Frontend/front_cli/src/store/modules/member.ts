@@ -1,5 +1,5 @@
 import { Module } from 'vuex';
-import { RootState } from '../index'; // Root Vuex Store에서 정의한 RootState 임포트
+import { RootState } from '../index'; 
 import router from '@/router';
 import api from '@/api/api';
 import axios from 'axios';
@@ -89,63 +89,7 @@ const member: Module<MemberState, RootState> = {
   state: {
     accessToken: null,
     // refreshToken: null,
-    member: [
-      {
-        // member_id: 1,
-        email: 'user1@example.com',
-        nickname: 'user1_nickname',
-        // password: 'user1_password',
-        // oauth: '',
-        // role: 1,
-        birth: '1990-01-01',
-        // gender: 'male',
-        // quit: false,
-      },
-      {
-        // member_id: 2,
-        email: 'user2@example.com',
-        nickname: 'user2_nickname',
-        birth: '1995-02-15',
-        // password: 'user2_password',
-        // oauth: '',
-        // role: 2,
-        // gender: 'female',
-        // quit: true,
-      },
-      {
-        // member_id: 3,
-        email: 'user3@example.com',
-        nickname: 'user3_nickname',
-        birth: '1985-07-22',
-        // password: 'user3_password',
-        // oauth: 'google',
-        // role: 1,
-        // gender: 'female',
-        // quit: false,
-      },
-      {
-        // member_id: 4,
-        email: 'user4@example.com',
-        nickname: 'user4_nickname',
-        // password: 'user4_password',
-        // oauth: 'facebook',
-        // role: 1,
-        birth: '1992-11-11',
-        // gender: 'male',
-        // quit: false,
-      },
-      {
-        // member_id: 5,
-        email: 'user5@example.com',
-        nickname: 'user5_nickname',
-        birth: '1998-04-30',
-        // password: 'user5_password',
-        // oauth: '',
-        // role: 2,
-        // gender: 'female',
-        // quit: true,
-      },
-    ],
+    member: [],
     currentMember:[],
     memberRecipeLike: [  
       { member_recipe_like_id: 1, member_id: 1, recipe_id: 1 },
@@ -165,9 +109,12 @@ const member: Module<MemberState, RootState> = {
   },
 
   getters: {
+    // 현재 회원 정보
     member: state => state.member,
+    // 사용x
     currentMember: state => state.currentMember,
-    isLoggedIn: state => !!state.accessToken,
+
+    isLoggedIn: () => !!sessionStorage.getItem('accessToken'),
     authHeader: () => ({ Authorization: `Bearer ${sessionStorage.getItem('accessToken')}` }),
     memberRecipeLike: state => state.memberRecipeLike,
     memberRecipeLatest: state => state.memberRecipeLatest,
@@ -177,7 +124,7 @@ const member: Module<MemberState, RootState> = {
     memberSeasoning: state => state.memberSeasoning
   },
   mutations: {
-    SET_ACCESS_TOKEN: (state, accessToken) => (state.accessToken = accessToken),
+    // SET_ACCESS_TOKEN: (state, accessToken) => (state.accessToken = accessToken),
     // SET_REFRESH_TOKEN: (state, refreshToken) => (state.refreshToken = refreshToken),
     SET_MEMBER: (state, member) => (state.member = member),
     SET_CURRENT_MEMBER: (state, currentMember) => (state.currentMember = currentMember),
@@ -192,15 +139,10 @@ const member: Module<MemberState, RootState> = {
     saveToken({ commit }, { accessToken}) {
       commit('SET_ACCESS_TOKEN', accessToken)
       localStorage.setItem('accessToken', accessToken)
-      // commit('SET_REFRESH_TOKEN', refreshToken)
-      // localStorage.setItem('refreshToken', refreshToken)
     },
 
-    removeToken({ commit }) {
-      commit('SET_ACCESS_TOKEN', null)
-      localStorage.removeItem('accessToken')
-      // commit('SET_REFRESH_TOKEN', null)
-      // localStorage.removeItem('refreshToken')
+    removeToken() {
+      sessionStorage.removeItem("accessToken")
     },
 
     localLogin({ dispatch }, credentials) {
@@ -214,6 +156,7 @@ const member: Module<MemberState, RootState> = {
           console.log('로컬로그인 시작!')
           console.log(res)
           sessionStorage.setItem("accessToken", res.data.accessToken);
+          // commit('SET_CURRENT_MEMBER', res.data)
           dispatch('fetchMember', res.data.id)
           router.push({ name: 'main' })
           setTimeout(() => {
@@ -228,14 +171,14 @@ const member: Module<MemberState, RootState> = {
 
     // 로컬 회원 가입
     localSignup({ commit }, credentials) {
-      console.log(credentials)
+      console.log('회원가입 시작!')
         axios({
           url: api.member.signup(),
           method: 'post',
           data: credentials,
         })
         .then(res => {
-          console.log('-----------------------------------------------')
+          console.log('회원가입 성공!')
             console.log(res)
             // const token = res.data.token
             // dispatch('saveToken', token)
@@ -245,17 +188,21 @@ const member: Module<MemberState, RootState> = {
             router.push({ name: 'main' })
           })
           .catch(err => {
+            ('회원가입 실패..')
             console.error(err.response.data)
             // commit('SET_AUTH_ERROR', err.response.data)
           })
       },
 
     // 회원 로그아웃
-    logout({  dispatch, commit }) {
+    logout({ dispatch, commit }) {
       dispatch('removeToken')
-      commit('SET_CUREENT_MEMBER', null)
+      commit('SET_MEMBER', null)
       alert('성공적으로 logout!')
-      router.push({ name: 'login' })
+      router.push({ name: 'main' })
+      setTimeout(() => {
+        router.go(0)
+      }, 500)
     },
 
     // 회원 정보 조회
@@ -264,14 +211,13 @@ const member: Module<MemberState, RootState> = {
         // 로그인 리턴값이 없으면 아무것도 안하고 종료
         return
       }
-      // 유저 정보를 요청하여 Vuex 상태에 저장
       axios({
         url: api.member.member(member_id),
         method: 'get',
       })
         .then(res => {     
           console.log(res.data) 
-          console.log('회원 정보 조회 (fetchMember)') 
+          console.log('회원 정보 조회 성공! (fetchMember)') 
           commit('SET_MEMBER', res.data);
         })
         .catch(err => {

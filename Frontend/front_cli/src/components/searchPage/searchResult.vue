@@ -8,15 +8,15 @@
         <!-- 키워드와 관련된 레시피들을 추천 -->
         <!-- 현재는 임시 값으로 이미지와 이름만 사용 -->
         <div
-        v-for="recipe_item in recipe"
+        v-for="recipe_item in recipeSpecific"
         :key="recipe_item.recipe_id"
         >
             <!-- 레시피 카드로 표현 -->
-            <div class="recommendCard" @click="goToDetailRecipe(recipe_item)">
-                <img src="@/assets/123.jpg" alt="">
+            <div class="recommendCard" @click="detailRecipe(recipe_item.recipeId)">
+                <img :src="recipe_item.imgBig" alt="">
                 <!-- <p>Recipe Name</p> -->
                 <!-- <img :src="recipe_item.img_small" alt=""> -->
-                <p>{{recipe_item.name}}</p>
+                <p class="recipeName">{{recipe_item.name}}</p>
                 
                 <button class="recipeButton">View More</button>
             </div>
@@ -25,21 +25,22 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 
 export default {
     name: 'SearchResult',
     computed: {
-        ...mapGetters(['recipe'])
+        ...mapGetters(['recipe', 'recipeSpecific'])
     },
 
     methods: {
+        ...mapActions(['detailRecipe']),
         // 상세 레시피로 보내주는 함수
         // 데이터 연결 후 변경 예정
         goToDetailRecipe(recipeItem) {
             this.$router.push({name: "recipe",  
                 params: { 
-                    recipe_id: recipeItem.recipe_id,
+                    recipe_id: recipeItem.recipeId,
                 },
                 query: {
                     recipeItem: JSON.stringify(recipeItem),
@@ -87,6 +88,7 @@ export default {
     width: 20rem;
     cursor: pointer;
     margin: 1rem;
+    font-weight: bold;
 }
 
 .recommendCard p {
@@ -96,7 +98,13 @@ export default {
 
 img {
     width: 90%;
+    height: 50%;
     margin-top: 1rem;
+}
+
+.recipeName {
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .recipeButton {

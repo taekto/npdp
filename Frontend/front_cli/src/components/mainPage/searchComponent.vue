@@ -1,14 +1,13 @@
 <template>
     <!-- 검색창 컴포넌트 -->
     <div>
-        <h1>서치?</h1>
         <form @submit.prevent="recipeSpecific(content)">
             <div class="input-group">
                 <input id="searchForm" class="form-control" type="text" v-model.trim="content">
                 <input id="submitButton" type="submit" value="검색">
             </div>
             <!-- 해시태그 -->
-            <div id="hashTagkeyword">
+            <!-- <div id="hashTagkeyword">
                 <router-link id="hash" :to="{
                     name: 'content',
                     params: {
@@ -17,19 +16,19 @@
                 }" v-for="(tag, index) in hashTag" :key="index">
                     # {{ tag }}
                 </router-link>
-            </div>
+            </div> -->
         </form>
     </div>
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
     data() {
         return {
+            content : "",    
             keyWord : "",
-            content : "",
             hashTag : ["김치", "돼지", "소", "닭", "된장", "빵"],
         }
     },
@@ -37,7 +36,7 @@ export default {
         ...mapActions(['recipeSpecific']),
         goToSearchwithKeyword() {
             this.keyWord = ""
-            const tempKeyword = this.content
+            const tempKeyword = this.word.content
             tempKeyword.toLowerCase()
             console.log(tempKeyword)
             if(tempKeyword == "" || tempKeyword == "null") {
