@@ -21,7 +21,6 @@ public class RecipeController {
     @GetMapping("/{recipeId}")
     public ResponseEntity<?> findRecipeById(@PathVariable("recipeId") Long id) {
         RecipeIdResponseDto recipeById = recipeService.findRecipeById(id);
-//        if (recipeById.) return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("레시피가 없습니다.");
         return ResponseEntity.ok().body(recipeById);
     }
 
