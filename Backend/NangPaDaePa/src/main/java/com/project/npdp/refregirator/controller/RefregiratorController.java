@@ -69,12 +69,25 @@ public class RefregiratorController {
         return ResponseEntity.ok().body(result);
     }
 
-
-
     //회원 양념 조회
     @GetMapping("/seasoning/{memberId}")
     public ResponseEntity<?> findMemberSeasoning(@PathVariable("memberId") Long memberId) {
         List<MemberSeasoningFindResponseDto> result = refregiratorService.findMemberSeasoning(memberId);
         return ResponseEntity.ok().body(result);
     }
+
+    //회원 재료 삭제
+    @DeleteMapping("/delete/ingredient")
+    public ResponseEntity<?> deleteMemberIngredient(@RequestBody MemberIngredientDeleteRequestDto memberIngredientDeleteRequestDto) {
+        refregiratorService.deleteMemberIngredient(memberIngredientDeleteRequestDto);
+        return ResponseEntity.ok().build();
+    }
+
+    //회원 양념 삭제
+    @DeleteMapping("/delete/seasoning")
+    public ResponseEntity<?> deleteMemberSeasoning(@RequestBody MemberSeasoningDeleteRequestDto memberSeasoningDeleteRequestDto) {
+        refregiratorService.deleteMemberSeasoning(memberSeasoningDeleteRequestDto);
+        return ResponseEntity.ok().build();
+    }
+    
 }

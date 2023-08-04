@@ -103,9 +103,20 @@ public class RefregiratorService {
         List<MemberIngredientFindResponseDto> memberRefregirator = refregiratorRepository.findMemberIngredient(memberId);
         return memberRefregirator;
     }
-
+    
+    // 회원 양념 조회
     public List<MemberSeasoningFindResponseDto> findMemberSeasoning(Long memberId) {
         List<MemberSeasoningFindResponseDto> memberSeasoning = memberSeasoningRepository.findMemberSeasoning(memberId);
         return memberSeasoning;
+    }
+
+    // 회원 재료 삭제
+    public void deleteMemberIngredient(MemberIngredientDeleteRequestDto memberIngredientDeleteRequestDto) {
+        refregiratorRepository.deleteById(memberIngredientDeleteRequestDto.getRefregiratorId());
+    }
+
+    // 회원 양념 삭제
+    public void deleteMemberSeasoning(MemberSeasoningDeleteRequestDto memberSeasoningDeleteRequestDto) {
+        memberSeasoningRepository.deleteById(memberSeasoningDeleteRequestDto.getMemberSeasoningId());
     }
 }
