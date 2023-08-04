@@ -411,7 +411,7 @@ const recipe: Module<RecipeState, RootState> = {
       console.log(content, '레시피 특정 조회 시작!')
       axios ({
         // url: api.recipe.specificRecipe(),
-        url: `https://i9b202.p.ssafy.io/search/api/recipes/want`,
+        url: `https://i9b202.p.ssafy.io/api/recipes/want`,
         method: 'get',
         params: {
           content: content 
