@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class MemberIngredientFindResponseDto {
 
+    private Long refregiratorId;
+
     private String kor;
 
     private double amount;
