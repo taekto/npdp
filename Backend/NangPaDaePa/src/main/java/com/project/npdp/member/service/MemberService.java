@@ -14,9 +14,11 @@ import com.project.npdp.utils.SHA256Util;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -228,6 +230,28 @@ public class MemberService {
             }
             // 기존 저장된 조리도구 모두 삭제한 후 새로운 조리도구 리스트로 대체
             memberUtensilRepository.saveAll(memberUtensilList);
+        }
+    }
+
+    // 회원 탈퇴
+    public void deleteMember(Long memberId){
+        Member member = memberRepository.findById(memberId).orElse(null);
+
+        if(member != null){
+            // 탈퇴일 설정
+            member.modifyQuit(LocalDateTime.now());
+            memberRepository.save(member);
+            // 회원 정보 삭제
+//            memberRepository.delete(member);
+            // 회원 알러지 정보 삭제
+            memberAllergyRepository.deleteAllByMember(member);
+            // 회원 조리도구 정보 삭제
+            memberUtensilRepository.deleteAllByMember(member);
+            // 회원 비선호재료 정보 삭제
+            memberDislikeRepository.deleteAllByMember(member);
+            // 회원
+        }else{
+            throw new IllegalArgumentException("사용자를 찾을 수 없습니다");
         }
     }
 }

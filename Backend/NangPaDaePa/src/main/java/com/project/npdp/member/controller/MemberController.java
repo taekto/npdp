@@ -7,6 +7,7 @@ import com.project.npdp.member.entity.Member;
 import com.project.npdp.member.entity.MemberUtensil;
 import com.project.npdp.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -107,7 +108,17 @@ public class MemberController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("조리도구 입력 실패");
         }
     }
-    
+
+    // 회원 탈퇴
+    @DeleteMapping("/{memberId}")
+    public ResponseEntity<?> deleteMember(@PathVariable Long memberId){
+        try{
+            memberService.deleteMember(memberId);
+            return new ResponseEntity<>("회원 탈퇴 성공", HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>("회원 탈퇴 오류", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 //    @PostMapping("/write")
 //    public ResponseEntity<String> writeSample(Authentication authentication){
