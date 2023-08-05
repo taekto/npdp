@@ -9,6 +9,7 @@ import lombok.*;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +40,9 @@ public class Member {
     private String birth;
 
     private String gender;
+
+    // 탈퇴 여부
+    private LocalDateTime quit;
 
     // member_utensil(회원보유장비) 연관관계
     @OneToMany(mappedBy = "member")
@@ -79,6 +83,32 @@ public class Member {
         String sha256Pw = SHA256Util.getSHA256(password);
 
         return this.email.equals(email) && this.password.equals(sha256Pw);
+    }
+
+    // 닉네임변경
+    public void modifyNickname(String newNickname) {
+        this.nickname = newNickname;
+    }
+
+    // 성별변경
+    public void modifyGender(String newGender) {
+        this.gender = newGender;
+    }
+
+    // 생일변경
+    public void modifyBirth(String newBirth) {
+        this.birth = newBirth;
+    }
+
+    public Member(){}
+
+    public Member(Long id){
+        this.id = id;
+    }
+
+    // 탈퇴여부 변경
+    public void modifyQuit(LocalDateTime quitDate){
+        this.quit = quitDate;
     }
 
 }

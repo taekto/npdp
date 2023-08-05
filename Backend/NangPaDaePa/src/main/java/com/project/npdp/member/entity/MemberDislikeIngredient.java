@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor
 @Entity
 @Getter
@@ -28,4 +28,11 @@ public class MemberDislikeIngredient {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+
+    // 비선호하는 재료
+    public MemberDislikeIngredient(Member member, Ingredient ingredient){
+        this.member = member;
+        this.ingredient = ingredient;
+    }
 }
