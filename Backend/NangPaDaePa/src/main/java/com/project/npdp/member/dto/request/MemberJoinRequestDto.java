@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class MemberJoinRequestDto {
 
-    private Long id;
+    private Long memberId;
     private String email;
     private String password;
     private String nickname;

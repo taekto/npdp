@@ -8,7 +8,7 @@ import lombok.*;
 @Builder
 public class MemberNicknameRequestDto {
 
-    private Long id;
+    private Long memberId;
 
     private String nickname;
 

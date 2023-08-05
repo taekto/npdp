@@ -2,14 +2,16 @@ package com.project.npdp.member.dto.request;
 
 import lombok.*;
 
+import java.util.List;
+
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Builder
 @Data
-public class MemberBirthRequestDto {
+@Builder
+public class MemberDislikeRequestDto {
 
     private Long memberId;
 
-    private String birth;
+    private List<Long> ingredientId;
 
 }

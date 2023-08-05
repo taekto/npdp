@@ -4,6 +4,7 @@ import com.project.npdp.member.dto.request.*;
 import com.project.npdp.member.dto.response.MemberLoginResponseDto;
 import com.project.npdp.member.dto.response.MemberDetailResponseDto;
 import com.project.npdp.member.entity.Member;
+import com.project.npdp.member.entity.MemberUtensil;
 import com.project.npdp.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -67,13 +68,46 @@ public class MemberController {
     @PostMapping("/birth")
     public ResponseEntity<?> modifyBirth(@RequestBody MemberBirthRequestDto memberBirthRequestDto){
         try{
-            memberService.modifyBirth();
+            memberService.modifyBirth(memberBirthRequestDto);
             return ResponseEntity.status(HttpStatus.OK).build();
         }catch (IllegalArgumentException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("생일 변경 실패");
         }
     }
 
+    // 회원 알러지 입력
+    @PostMapping("/memberAllergy")
+    public ResponseEntity<?> insertMemberAllergy(@RequestBody MemberAllergyRequestDto memberAllergyRequestDto){
+        try{
+            memberService.insertMemberAllergy(memberAllergyRequestDto);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("알러지 입력 실패");
+        }
+    }
+    
+    // 회원 비선호 재료 입력
+    @PostMapping("/dislikeIngredient")
+    public ResponseEntity<?> insertDislikeIngredient(@RequestBody MemberDislikeRequestDto memberDislikeRequestDto){
+        try{
+            memberService.insertDislikeIngredient(memberDislikeRequestDto);
+            return ResponseEntity.ok("비선호 재료가 저장되었습니다.");
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비선호 재료 입력 실패");
+        }
+    }
+
+    // 회원 조리도구 입력
+    @PostMapping("/memberUtensil")
+    public ResponseEntity<?> insertMemberUtensil(@RequestBody MemberUtensilRequestDto memberUtensilRequestDto){
+        try{
+            memberService.insertMemberUtensil(memberUtensilRequestDto);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("조리도구 입력 실패");
+        }
+    }
+    
 
 //    @PostMapping("/write")
 //    public ResponseEntity<String> writeSample(Authentication authentication){

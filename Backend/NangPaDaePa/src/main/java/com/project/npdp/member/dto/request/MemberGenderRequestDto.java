@@ -8,7 +8,7 @@ import lombok.*;
 @Data
 public class MemberGenderRequestDto {
 
-    private Long id;
+    private Long memberId;
 
     private String gender;
 
