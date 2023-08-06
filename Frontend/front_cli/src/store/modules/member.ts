@@ -3,6 +3,7 @@ import { RootState } from '../index';
 import router from '@/router';
 import api from '@/api/api';
 import axios from 'axios';
+import { AxiosError } from 'axios';
 
 interface MemberState {
   accessToken: string | null;
@@ -15,6 +16,7 @@ interface MemberState {
   memberUtensil: MemberUtensil[];
   memberSeasoning: MemberSeasoning[];
   currentMember: string | null;
+  eamilCode: string | null;
 }
 
 // 회원
@@ -102,11 +104,13 @@ const member: Module<MemberState, RootState> = {
     ],
     memberUtensil: [],
     memberSeasoning: [],
+    eamilCode: null,
   },
 
   getters: {
     // 현재 회원 정보
     member: state => state.member,
+    emailVerify: state => state.eamilCode,
     // 사용x
     currentMember: state => state.currentMember,
     isLoggedIn: () => !!sessionStorage.getItem('accessToken'),
@@ -129,6 +133,7 @@ const member: Module<MemberState, RootState> = {
     SET_MEMBER_ALLERGY: (state, memberAllergy) => (state.memberAllergy = memberAllergy),
     SET_MEMBER_UTENSIL: (state, memberUtensil) => (state.memberUtensil = memberUtensil),
     SET_MEMBER_SEASONING: (state, memberSeasoning) => (state.memberSeasoning = memberSeasoning),
+    SET_EMAIL_VERIFY: (state, emailCode) => (state.eamilCode = emailCode)
   },
   actions: {
     saveToken({ commit }, { accessToken}) {
@@ -141,55 +146,57 @@ const member: Module<MemberState, RootState> = {
     },
 
     // 회원 로그인
-    localLogin({ dispatch, commit }, credentials) {
-      console.log(credentials)
-      axios({
-        url: api.member.login(),
-        method: 'post',
-        data: credentials,
-      })
-        .then(res => {
-          console.log('로컬로그인 시작!')
-          console.log(res)
-          sessionStorage.setItem("accessToken", res.data.accessToken);
-          commit('SET_CURRENT_MEMBER', credentials.email)
-          // commit('SET_CURRENT_MEMBER', res.data)
-          dispatch('fetchMember', res.data.id)
-          router.push({ name: 'main' })
-          setTimeout(() => {
-            router.go(0)
-          }, 500)
-        })
-        .catch(err => {
-          console.log('로그인 실패..')
-          console.error(err.response.data)
-        })
+    async localLogin({ dispatch, commit }, credentials) {
+      try {
+        console.log(credentials);
+        const response = await axios.post(api.member.login(), credentials);
+        console.log('로컬로그인 시작!');
+        console.log(response.data);
+
+        const { accessToken, id } = response.data;
+        sessionStorage.setItem('accessToken', accessToken);
+        commit('SET_CURRENT_MEMBER', credentials.email);
+        await dispatch('fetchMember', id);
+        router.push({ name: 'main' });
+        // setTimeout(() => {
+        //   router.go(0);
+        // }, 500);
+      } catch (error) {
+        console.error('로컬 로그인 실패..', axios.isAxiosError(error) ? error.response?.data : error);
+      }
     },
 
     // 로컬 회원 가입
-    localSignup(credentials) {
-      console.log('회원가입 시작!')
-        axios({
-          url: api.member.signup(),
-          method: 'post',
-          data: credentials,
-        })
-        .then(res => {
-          console.log('회원가입 성공!')
-            console.log(res)
-            // const token = res.data.token
-            // dispatch('saveToken', token)
-            // dispatch('fetchMember', res.data.member_id)
-            alert('회원가입이 완료되었습니다!')
-            router.push({ name: 'main' })
-          })
-          .catch(err => {
-            ('회원가입 실패..')
-            console.error(err.response.data)
-            // commit('SET_AUTH_ERROR', err.response.data)
-          })
-      },
+    async localSignup(credentials) {
+      try {
+        console.log('회원가입 시작!');
+        const response = await axios.post(api.member.signup(), credentials);
+    
+        console.log('회원가입 성공!');
+        console.log(response.data);
+    
+        alert('회원가입이 완료되었습니다!');
+        router.push({ name: 'main' });
+      } catch (error) {
+        console.error('회원가입 실패..', axios.isAxiosError(error) ? error.response?.data : error);
+      }
+    },
 
+    // 회원 이메일 인증
+    async EmailVerify(email) {
+      try {
+        console.log('이메일 인증 시작!');
+        const response = await axios.post(api.member.emailVerify(), { email });
+        
+        console.log('이메일 인증 성공!');
+        console.log(response.data);
+    
+        alert('인증이 완료되었습니다!');
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    
     // 회원 로그아웃
     logout({ dispatch, commit }) {
       dispatch('removeToken')

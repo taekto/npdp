@@ -1,11 +1,7 @@
 <template>
     <!-- 검색창 컴포넌트 -->
     <div>
-<<<<<<< HEAD
-        <form @submit.prevent="recipeSpecificSearch(content)">
-=======
         <form @submit.prevent="recipeSpecific(content)" @keydown.enter="recipeSpecific(content)">
->>>>>>> 409a58e886623d95589e61841785a6e26a3025c5
             <div class="input-group">
                 <!-- <input id="submitButton" type="submit" value="검색"> -->
                 <i class="bi bi-search" @click="recipeSpecific(content)"></i>
@@ -73,7 +69,7 @@ export default {
     color: white;
     width: 5rem;
     padding: 0.6rem;
-    border-radius: .5rem;
+    border-radius: 2rem;
     text-decoration-line: none;
 }
 
@@ -89,12 +85,8 @@ export default {
     height: 2.5rem;
     margin: auto;
     margin-top: 3.5rem;
-<<<<<<< HEAD
-    
-=======
     border: solid #FD7E14 1px;
     border-radius: .5rem;
->>>>>>> 409a58e886623d95589e61841785a6e26a3025c5
 }
 
 #searchForm {
@@ -113,8 +105,8 @@ export default {
 @media screen and (max-width: 992px){
     .input-group {
         width: 80%;
-        margin: auto;
-        margin-top: 3.5rem;
+        /* margin: auto; */
+        /* margin-top: 3.5rem; */
     }
 }
 

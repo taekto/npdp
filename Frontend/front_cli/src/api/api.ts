@@ -21,6 +21,9 @@ export default {
     // 회원 로컬 로그인 
     login: () => API + MEMBER + 'localLogin',
 
+    // 회원 이메일 인증
+    emailVerify: () => API + 'mail/' + 'joinAuth',
+
     // 회원 소셜 로그인
     socialLogin: () => API + MEMBER + 'socialLogin',
 
