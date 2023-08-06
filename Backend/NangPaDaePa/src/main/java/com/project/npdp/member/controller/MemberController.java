@@ -36,6 +36,30 @@ public class MemberController {
         }
     }
 
+    // 비밀번호 확인
+//    @PostMapping("checkPassword")
+//    public ResponseEntity<?> checkPw(@RequestBody MemberPwRequestDto memberPwRequestDto){
+//        try {
+//            memberService.modifyPw(email, newPw);
+//            return ResponseEntity.status(HttpStatus.OK).build();
+//        }catch (IllegalArgumentException e){
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비밀번호 확인 실패");
+//        }
+//    }
+
+    // 단순 비밀번호 변경
+    @PutMapping("/UpdatePassword")
+    public ResponseEntity<?> modifyPw(@RequestBody MemberPwRequestDto memberPwRequestDto){
+        String email = memberPwRequestDto.getEmail();
+        String newPw = memberPwRequestDto.getNewPassword();
+        try {
+            memberService.modifyPw(email, newPw);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비밀번호 변경 실패");
+        }
+    }
+
     // 회원 상세조회
     @GetMapping("/{memberId}")
     public ResponseEntity<?> detail(@PathVariable("memberId") Long memberId){
