@@ -146,41 +146,55 @@ const member: Module<MemberState, RootState> = {
     },
 
     // 회원 로그인
-    async localLogin({ dispatch, commit }, credentials) {
-      try {
-        console.log(credentials);
-        const response = await axios.post(api.member.login(), credentials);
-        console.log('로컬로그인 시작!');
-        console.log(response.data);
-
-        const { accessToken, id } = response.data;
-        sessionStorage.setItem('accessToken', accessToken);
-        commit('SET_CURRENT_MEMBER', credentials.email);
-        await dispatch('fetchMember', id);
-        router.push({ name: 'main' });
-        // setTimeout(() => {
-        //   router.go(0);
-        // }, 500);
-      } catch (error) {
-        console.error('로컬 로그인 실패..', axios.isAxiosError(error) ? error.response?.data : error);
-      }
+    localLogin({ dispatch, commit }, credentials) {
+      console.log(credentials)
+      axios({
+        url: api.member.login(),
+        method: 'post',
+        data: credentials,
+      })
+        .then(res => {
+          console.log('로컬로그인 시작!')
+          console.log(res)
+          sessionStorage.setItem("accessToken", res.data.accessToken);
+          commit('SET_CURRENT_MEMBER', credentials.email)
+          // commit('SET_CURRENT_MEMBER', res.data)
+          dispatch('fetchMember', res.data.id)
+          router.push({ name: 'main' })
+          setTimeout(() => {
+            router.go(0)
+          }, 500)
+        })
+        .catch(err => {
+          console.log('로그인 실패..')
+          console.error(err.response.data)
+        })
     },
 
     // 로컬 회원 가입
-    async localSignup(credentials) {
-      try {
-        console.log('회원가입 시작!');
-        const response = await axios.post(api.member.signup(), credentials);
-    
-        console.log('회원가입 성공!');
-        console.log(response.data);
-    
-        alert('회원가입이 완료되었습니다!');
-        router.push({ name: 'main' });
-      } catch (error) {
-        console.error('회원가입 실패..', axios.isAxiosError(error) ? error.response?.data : error);
-      }
-    },
+    localSignup(credentials) {
+      console.log('회원가입 시작!')
+        axios({
+          url: api.member.signup(),
+          method: 'post',
+          data: credentials,
+        })
+        .then(res => {
+          console.log('회원가입 성공!')
+            console.log(res)
+            // const token = res.data.token
+            // dispatch('saveToken', token)
+            // dispatch('fetchMember', res.data.member_id)
+            alert('회원가입이 완료되었습니다!')
+            router.push({ name: 'main' })
+          })
+          .catch(err => {
+            ('회원가입 실패..')
+            console.error(err.response.data)
+            // commit('SET_AUTH_ERROR', err.response.data)
+          })
+      },
+
 
     // 회원 이메일 인증
     async EmailVerify(email) {
