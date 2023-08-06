@@ -9,7 +9,7 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @ToString
-public class GoogleTokenInfo {
+public class GoogleToken {
 
     @JsonProperty("access_token")
     private String accessToken;

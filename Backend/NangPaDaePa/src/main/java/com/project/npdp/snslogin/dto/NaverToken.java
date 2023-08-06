@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor
 @ToString
-public class NaverTokenInfo {
+public class NaverToken {
 
     @JsonProperty("access_token")
     private String accessToken;

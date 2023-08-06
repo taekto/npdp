@@ -2,8 +2,9 @@ package com.project.npdp.snslogin.controller;
 
 
 import com.project.npdp.member.entity.Member;
-import com.project.npdp.snslogin.dto.GoogleTokenInfo;
-import com.project.npdp.snslogin.dto.NaverTokenInfo;
+import com.project.npdp.snslogin.dto.GoogleToken;
+import com.project.npdp.snslogin.dto.KakaoToken;
+import com.project.npdp.snslogin.dto.NaverToken;
 import com.project.npdp.snslogin.service.GoogleLoginService;
 import com.project.npdp.snslogin.service.KakaoLoginService;
 import com.project.npdp.snslogin.service.NaverLoginService;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.UnsupportedEncodingException;
-import java.net.http.HttpResponse;
 
 @RestController
 @RequestMapping("/api/oauth")
@@ -43,9 +43,9 @@ public class SnsLoginController {
     @GetMapping("/kakao")
     public @ResponseBody Member kakaoCallback(String code){
 //         1. 인증 서버로부터 받은 CODE를 이용하여 액세스 토큰을 얻는다.
-        String accessToken = kakaoLoginService.getAccessToken(code);
+        KakaoToken kakaoToken = kakaoLoginService.getToken(code);
 //        2. 액세스 토큰을 이용하여 사용자 정보를 얻어온다.
-        Member memberInfo = kakaoLoginService.getMemberInfo(accessToken);
+        Member memberInfo = kakaoLoginService.getMemberInfo(kakaoToken);
 
         return memberInfo;
     }
@@ -53,7 +53,7 @@ public class SnsLoginController {
     @GetMapping("/kakao-login")
     public ResponseEntity<?> kakaoLogin() {
         try {
-            String authorizeUrl = kakaoLoginService.getKakaoAuthorizeUrl();
+            String authorizeUrl = kakaoLoginService.getAuthorizeUrl();
             return ResponseEntity.status(302).header("Location", authorizeUrl).build();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -65,11 +65,11 @@ public class SnsLoginController {
     @GetMapping("/google")
     public @ResponseBody String googleCallback(String code){
 //         1. 인증 서버로부터 받은 CODE를 이용하여 액세스 토큰을 얻는다.
-        GoogleTokenInfo googleTokenInfo = googleLoginService.getGoogleToken(code);
-        log.info(String.format("google-tokens: %s", googleTokenInfo.toString()));
+        GoogleToken googleToken = googleLoginService.getToken(code);
+        log.info(String.format("google-tokens: %s", googleToken.toString()));
 
 //        2. 액세스 토큰을 이용하여 사용자 정보를 얻어온다.
-        Member memberInfo = googleLoginService.getMemberInfo(googleTokenInfo);
+        Member memberInfo = googleLoginService.getMemberInfo(googleToken);
 
         return null;
     }
@@ -77,7 +77,7 @@ public class SnsLoginController {
     @GetMapping("/google-login")
     public ResponseEntity<?> googleLogin() {
         try {
-            String authorizeUrl = googleLoginService.getGoogleAuthorizeUrl();
+            String authorizeUrl = googleLoginService.getAuthorizeUrl();
             return ResponseEntity.status(302).header("Location", authorizeUrl).build();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -88,19 +88,19 @@ public class SnsLoginController {
     @GetMapping("/naver")
     public @ResponseBody String naverCallback(String code){
 //         1. 인증 서버로부터 받은 CODE를 이용하여 액세스 토큰을 얻는다.
-        NaverTokenInfo naverTokenInfo = naverLoginService.getNaverToken(code);
-        log.info(String.format("naver-tokens: %s", naverTokenInfo.toString()));
+        NaverToken naverToken = naverLoginService.getToken(code);
+        log.info(String.format("naver-tokens: %s", naverToken.toString()));
 
 //        2. 액세스 토큰을 이용하여 사용자 정보를 얻어온다.
-        Member memberInfo = naverLoginService.getMemberInfo(naverTokenInfo);
+        Member memberInfo = naverLoginService.getMemberInfo(naverToken);
 
-        return naverTokenInfo.toString();
+        return naverToken.toString();
     }
 
     @GetMapping("/naver-login")
     public ResponseEntity<?> naverLogin() {
         try {
-            String authorizeUrl = naverLoginService.getNaverAuthorizeUrl();
+            String authorizeUrl = naverLoginService.getAuthorizeUrl();
             return ResponseEntity.status(302).header("Location", authorizeUrl).build();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
