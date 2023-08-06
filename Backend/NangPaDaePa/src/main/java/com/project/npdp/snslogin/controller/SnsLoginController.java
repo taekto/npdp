@@ -50,13 +50,26 @@ public class SnsLoginController {
 //        2. 액세스 토큰을 이용하여 사용자 정보를 얻어온다.
         Member member = kakaoLoginService.getMemberInfo(kakaoToken);
 
-        String result = memberService.snsLogin(member);
-        if(result.equals("new")){
-            log.info("새롭게 생성되는 사용자!");
-            return ResponseEntity.ok().body(member);
-        }else{
-            log.info("이미 존재하는 사용자!");
-            return ResponseEntity.ok().body(memberService.snsLogin(member));
+//        String result = memberService.snsLogin(member);
+//        if(result.equals("new")){
+//            log.info("새롭게 생성되는 사용자!");
+//            return ResponseEntity.ok().body(member);
+//        }else{
+//            log.info("이미 존재하는 사용자!");
+//            return ResponseEntity.ok().body(memberService.snsLogin(member));
+//        }
+        try{
+            String result = memberService.snsLogin(member);
+            if (result.equals("new")) {
+                log.info("새롭게 생성되는 사용자!");
+                return ResponseEntity.status(HttpStatus.CREATED).body(member); // 201 Created + Member 객체 반환
+            } else {
+                log.info("이미 존재하는 사용자!");
+                return ResponseEntity.ok().body(memberService.snsLogin(member)); // 200 OK + 로그인 결과 반환
+            }
+        } catch (IllegalStateException e) {
+            log.error("에러 발생: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 회원입니다."); // 409 Conflict + 에러 메시지 반환
         }
     }
 
@@ -79,13 +92,26 @@ public class SnsLoginController {
 //        2. 액세스 토큰을 이용하여 사용자 정보를 얻어온다.
         Member member = googleLoginService.getMemberInfo(googleToken);
 
-        String result = memberService.snsLogin(member);
-        if(result.equals("new")){
-            log.info("새롭게 생성되는 사용자!");
-            return ResponseEntity.ok().body(member);
-        }else{
-            log.info("이미 존재하는 사용자!");
-            return ResponseEntity.ok().body(memberService.snsLogin(member));
+//        String result = memberService.snsLogin(member);
+//        if(result.equals("new")){
+//            log.info("새롭게 생성되는 사용자!");
+//            return ResponseEntity.ok().body(member);
+//        }else{
+//            log.info("이미 존재하는 사용자!");
+//            return ResponseEntity.ok().body(memberService.snsLogin(member));
+//        }
+        try{
+            String result = memberService.snsLogin(member);
+            if (result.equals("new")) {
+                log.info("새롭게 생성되는 사용자!");
+                return ResponseEntity.status(HttpStatus.CREATED).body(member); // 201 Created + Member 객체 반환
+            } else {
+                log.info("이미 존재하는 사용자!");
+                return ResponseEntity.ok().body(memberService.snsLogin(member)); // 200 OK + 로그인 결과 반환
+            }
+        } catch (IllegalStateException e) {
+            log.error("에러 발생: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 회원입니다."); // 409 Conflict + 에러 메시지 반환
         }
     }
 
@@ -107,13 +133,26 @@ public class SnsLoginController {
 //        2. 액세스 토큰을 이용하여 사용자 정보를 얻어온다.
         Member member = naverLoginService.getMemberInfo(naverToken);
 
-        String result = memberService.snsLogin(member);
-        if(result.equals("new")){
-            log.info("새롭게 생성되는 사용자!");
-            return ResponseEntity.ok().body(member);
-        }else{
-            log.info("이미 존재하는 사용자!");
-            return ResponseEntity.ok().body(memberService.snsLogin(member));
+//        String result = memberService.snsLogin(member);
+//        if(result.equals("new")){
+//            log.info("새롭게 생성되는 사용자!");
+//            return ResponseEntity.ok().body(member);
+//        }else{
+//            log.info("이미 존재하는 사용자!");
+//            return ResponseEntity.ok().body(memberService.snsLogin(member));
+//        }
+        try{
+            String result = memberService.snsLogin(member);
+            if (result.equals("new")) {
+                log.info("새롭게 생성되는 사용자!");
+                return ResponseEntity.status(HttpStatus.CREATED).body(member); // 201 Created + Member 객체 반환
+            } else {
+                log.info("이미 존재하는 사용자!");
+                return ResponseEntity.ok().body(memberService.snsLogin(member)); // 200 OK + 로그인 결과 반환
+            }
+        } catch (IllegalStateException e) {
+            log.error("에러 발생: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 회원입니다."); // 409 Conflict + 에러 메시지 반환
         }
     }
 
