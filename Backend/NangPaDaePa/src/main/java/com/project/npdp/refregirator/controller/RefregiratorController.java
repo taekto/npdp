@@ -25,15 +25,6 @@ public class RefregiratorController {
 
     private final RefregiratorService refregiratorService;
 
-    // 재료삭제
-    @DeleteMapping("/modify/ingredient/{memberId}")
-    public ResponseEntity<?> deleteRecipeById(@PathVariable("memberId") Long memberId, RefregiratorModifyIngredientRequestDto refregiratorModifyIngredientRequestDto) {
-        refregiratorService.deleteRecipeById(memberId, refregiratorModifyIngredientRequestDto);
-        return ResponseEntity.ok().body(ResponseEntity.ok());
-    }
-
-    // 양념삭제
-
     // 재료 텍스트 조회
     @GetMapping("/search/ingredient")
     public ResponseEntity<?> findIngredientByKor(@RequestBody IngredientFindRequestDto ingredientFindRequestDto) {
@@ -50,15 +41,15 @@ public class RefregiratorController {
 
     // 회원 재료 입력
     @PostMapping("/member/ingredient/{memberId}")
-    public ResponseEntity<?> memberSaveIngredient(@PathVariable("memberId") Long memberId, @RequestBody MemberIngredientSaveRequestDto memberIngredientSaveRequestDto) {
+    public ResponseEntity<?> memberSaveIngredient(@PathVariable("memberId") Long memberId, @RequestBody List<MemberIngredientSaveRequestDto> memberIngredientSaveRequestDto) {
         refregiratorService.memberSaveIngredient(memberId, memberIngredientSaveRequestDto);
         return ResponseEntity.ok().build();
     }
 
     // 회원 양념 입력
     @PostMapping("/member/seasoning/{memberId}")
-    public ResponseEntity<?> memberSaveIngredient(@PathVariable("memberId") Long memberId, @RequestBody MemberSeasoningSaveRequestDto memberSeasoningSaveRequestDto) {
-        refregiratorService.memberSaveIngredient(memberId, memberSeasoningSaveRequestDto);
+    public ResponseEntity<?> memberSaveSeasoning(@PathVariable("memberId") Long memberId, @RequestBody List<MemberSeasoningSaveRequestDto> memberSeasoningSaveRequestDto) {
+        refregiratorService.memberSaveSeasoning(memberId, memberSeasoningSaveRequestDto);
         return ResponseEntity.ok().build();
     }
 
@@ -76,17 +67,17 @@ public class RefregiratorController {
         return ResponseEntity.ok().body(result);
     }
 
-    //회원 재료 삭제
-    @DeleteMapping("/delete/ingredient")
-    public ResponseEntity<?> deleteMemberIngredient(@RequestBody MemberIngredientDeleteRequestDto memberIngredientDeleteRequestDto) {
-        refregiratorService.deleteMemberIngredient(memberIngredientDeleteRequestDto);
+    //회원 재료 수정 및 삭제
+    @PostMapping("/modify/ingredient")
+    public ResponseEntity<?> modifyMemberIngredient(@RequestBody List<MemberIngredientModifyRequestDto> memberIngredientModifyRequestDto) {
+        refregiratorService.modifyMemberIngredient(memberIngredientModifyRequestDto);
         return ResponseEntity.ok().build();
     }
 
-    //회원 양념 삭제
-    @DeleteMapping("/delete/seasoning")
-    public ResponseEntity<?> deleteMemberSeasoning(@RequestBody MemberSeasoningDeleteRequestDto memberSeasoningDeleteRequestDto) {
-        refregiratorService.deleteMemberSeasoning(memberSeasoningDeleteRequestDto);
+    //회원 양념 수정 및 삭제
+    @PostMapping("/modify/seasoning")
+    public ResponseEntity<?> modifyMemberSeasoning(@RequestBody List<MemberSeasoningModifyRequestDto> memberSeasoningModifyRequestDto) {
+        refregiratorService.modifyMemberSeasoning(memberSeasoningModifyRequestDto);
         return ResponseEntity.ok().build();
     }
     

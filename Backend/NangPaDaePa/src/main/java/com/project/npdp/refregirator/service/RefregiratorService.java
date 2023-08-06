@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -38,18 +39,6 @@ public class RefregiratorService {
     private final IngredientRepository ingredientRepository;
     private final SeasoningRepository seasoningRepository;
     private final MemberRepository memberRepository;
-
-    // 재료삭제
-    @Transactional
-    public void deleteRecipeById(Long memberId, RefregiratorModifyIngredientRequestDto refregiratorModifyIngredientRequestDto) {
-
-    }
-
-    // 양념삭제
-    @Transactional
-    public void deleteMemberSeasoningById(Long memberId) {
-
-    }
 
     // 재료 텍스트 조회
     @Transactional(readOnly = true)
@@ -76,26 +65,35 @@ public class RefregiratorService {
     }
 
     // 회원 재료 입력
-    public void memberSaveIngredient(Long memberId, MemberIngredientSaveRequestDto memberIngredientSaveRequestDto) {
+    public void memberSaveIngredient(Long memberId, List<MemberIngredientSaveRequestDto> memberIngredientSaveRequestDto) {
 
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NoSuchElementException("Member not found with id: "));
-        Ingredient ingredient = ingredientRepository.findById(memberIngredientSaveRequestDto.getIngredientId())
-                .orElseThrow(() -> new NoSuchElementException("Ingredient not found with id: "));
-        Refregirator result = memberIngredientSaveRequestDto.toEntity(memberIngredientSaveRequestDto, member, ingredient);
-        refregiratorRepository.save(result);
+        List<Refregirator> refregirators = new ArrayList<>();
+        for (MemberIngredientSaveRequestDto dto : memberIngredientSaveRequestDto) {
+            Ingredient ingredient = ingredientRepository.findById(dto.getIngredientId())
+                    .orElseThrow(() -> new NoSuchElementException("Ingredient not found with id: " + dto.getIngredientId()));
+            Refregirator result = dto.toEntity(dto, member, ingredient);
+            refregirators.add(result);
+        }
+
+        refregiratorRepository.saveAll(refregirators);
 
     }
     // 회원 양념 입력
-    public void memberSaveIngredient(Long memberId, MemberSeasoningSaveRequestDto memberSeasoningSaveRequestDto) {
-
+    public void memberSaveSeasoning(Long memberId, List<MemberSeasoningSaveRequestDto> memberSeasoningSaveRequestDtos) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new NoSuchElementException("Member not found with id: "));
-        Seasoning seasoning = seasoningRepository.findById(memberSeasoningSaveRequestDto.getSeasoningId())
-                .orElseThrow(() -> new NoSuchElementException("Ingredient not found with id: "));
-        MemberSeasoning result = memberSeasoningSaveRequestDto.toEntity(memberSeasoningSaveRequestDto, member, seasoning);
-        memberSeasoningRepository.save(result);
+                .orElseThrow(() -> new NoSuchElementException("Member not found with id: " + memberId));
 
+        List<MemberSeasoning> memberSeasonings = new ArrayList<>();
+        for (MemberSeasoningSaveRequestDto dto : memberSeasoningSaveRequestDtos) {
+            Seasoning seasoning = seasoningRepository.findById(dto.getSeasoningId())
+                    .orElseThrow(() -> new NoSuchElementException("Seasoning not found with id: " + dto.getSeasoningId()));
+            MemberSeasoning result = dto.toEntity(dto, member, seasoning);
+            memberSeasonings.add(result);
+        }
+
+        memberSeasoningRepository.saveAll(memberSeasonings);
     }
 
     // 회원 재료 조회
@@ -110,13 +108,37 @@ public class RefregiratorService {
         return memberSeasoning;
     }
 
-    // 회원 재료 삭제
-    public void deleteMemberIngredient(MemberIngredientDeleteRequestDto memberIngredientDeleteRequestDto) {
-        refregiratorRepository.deleteById(memberIngredientDeleteRequestDto.getRefregiratorId());
+    // 회원 재료 수정 및 삭제
+    public void modifyMemberIngredient(List<MemberIngredientModifyRequestDto> memberIngredientModifyRequestDto) {
+        for (MemberIngredientModifyRequestDto ingredientModifyRequestDto : memberIngredientModifyRequestDto) {
+            if (ingredientModifyRequestDto.isIsdelete()) {
+                refregiratorRepository.deleteById(ingredientModifyRequestDto.getRefregiratorId());
+            } else {
+                Long refregiratorId = ingredientModifyRequestDto.getRefregiratorId();
+                if (refregiratorRepository.existsById(refregiratorId)) {
+                    Refregirator refregirator = refregiratorRepository.findById(refregiratorId).orElseThrow();
+                    refregirator.updateValues(ingredientModifyRequestDto);
+                } else {
+                }
+            }
+        }
     }
 
-    // 회원 양념 삭제
-    public void deleteMemberSeasoning(MemberSeasoningDeleteRequestDto memberSeasoningDeleteRequestDto) {
-        memberSeasoningRepository.deleteById(memberSeasoningDeleteRequestDto.getMemberSeasoningId());
+
+    // 회원 양념 수정 및 삭제
+    public void modifyMemberSeasoning(List<MemberSeasoningModifyRequestDto> memberSeasoningModifyRequestDtos) {
+        for (MemberSeasoningModifyRequestDto memberSeasoningModifyRequestDto : memberSeasoningModifyRequestDtos) {
+            if (memberSeasoningModifyRequestDto.isIsdelete()) {
+                seasoningRepository.deleteById(memberSeasoningModifyRequestDto.getMemberSeasoningId());
+            } else {
+                Long seasoningId = memberSeasoningModifyRequestDto.getMemberSeasoningId();
+                if (seasoningRepository.existsById(seasoningId)) {
+                    MemberSeasoning memberSeasoning = memberSeasoningRepository.findById(seasoningId).orElseThrow();
+                    memberSeasoning.updateValues(memberSeasoningModifyRequestDto);
+                } else {
+                }
+            }
+        }
     }
+
 }
