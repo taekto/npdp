@@ -108,8 +108,6 @@ public class Member {
         this.birth = newBirth;
     }
 
-    public Member(){}
-
     public Member(Long id){
         this.id = id;
     }
