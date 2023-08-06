@@ -90,7 +90,6 @@ public class MemberService {
         return result;
     }
 
-
     // 회원id로 상세정보 조회
     @Transactional(readOnly = true)
     public MemberDetailResponseDto findMemberById(Long memberId){
@@ -105,6 +104,17 @@ public class MemberService {
                 .build();
 
         return result;
+    }
+
+    // 비밀번호 변경 (발급된 임시 비밀번호 또는 새로운 비밀번호)
+    public void modifyPw(String email, String newPw){
+        Member member = memberRepository.findByEmail(email);
+        if(member != null){
+            member.modifyPw(newPw);
+            memberRepository.save(member);
+        }else{
+            throw new IllegalArgumentException("사용자를 찾을 수 없습니다");
+        }
     }
     
     // 닉네임 변경
