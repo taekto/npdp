@@ -50,8 +50,8 @@ public class KakaoLoginService implements OAuthProviderService<KakaoToken> {
     @Override
     public KakaoToken getToken(String code) {
         RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
 
+        HttpHeaders headers = new HttpHeaders();
         headers.add("Accept", "application/json");
         headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
@@ -64,7 +64,12 @@ public class KakaoLoginService implements OAuthProviderService<KakaoToken> {
 
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(body, headers);
 
-        ResponseEntity<String> responseEntity = restTemplate.exchange(oAuthConfig.getKakaoTokenUrl(),HttpMethod.POST, requestEntity, String.class);
+        ResponseEntity<String> responseEntity = restTemplate.exchange(
+                oAuthConfig.getKakaoTokenUrl(),
+                HttpMethod.POST,
+                requestEntity,
+                String.class
+        );
         if (responseEntity.getStatusCode() == HttpStatus.OK) {
             ObjectMapper objectMapper = new ObjectMapper();
             try {
@@ -73,6 +78,8 @@ public class KakaoLoginService implements OAuthProviderService<KakaoToken> {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } else {
+            System.out.println("Kakao API returned an error: " + responseEntity.getBody());
         }
 
         return null;
@@ -80,6 +87,9 @@ public class KakaoLoginService implements OAuthProviderService<KakaoToken> {
 
     @Override
     public Member getMemberInfo(KakaoToken kakaoToken){
+        // RestTemplate을 이용하면 브라우저 없이 HTTP 요청을 처리할 수 있다.
+        RestTemplate restTemplate = new RestTemplate();
+
         // HttpHeader 생성
         HttpHeaders header = new HttpHeaders();
         header.add("Authorization", "Bearer " + kakaoToken.getAccessToken());
@@ -90,9 +100,6 @@ public class KakaoLoginService implements OAuthProviderService<KakaoToken> {
         HttpEntity<MultiValueMap<String, String>> requestEntity =
                 new HttpEntity<>(header);
 
-        // RestTemplate을 이용하면 브라우저 없이 HTTP 요청을 처리할 수 있다.
-        RestTemplate restTemplate = new RestTemplate();
-
         // HTTP 요청을 POST(GET) 방식으로 실행하기 -> 그러면 문자열로 응답이 들어온다.
         ResponseEntity<String> responseEntity = restTemplate.exchange(
                 oAuthConfig.getKakaoUserInfoUrl(),
@@ -102,11 +109,11 @@ public class KakaoLoginService implements OAuthProviderService<KakaoToken> {
         );
 
         // 카카오 인증 서버가 리턴한 사용자 정보
-        String userInfo = responseEntity.getBody();
+        String memberInfo = responseEntity.getBody();
 
         // JSON 데이터에서 추출한 정보를 바탕으로 Member 객체 설정
         Gson gsonObj = new Gson();
-        Map<?, ?> data = gsonObj.fromJson(userInfo, Map.class);
+        Map<?, ?> data = gsonObj.fromJson(memberInfo, Map.class);
 		Double id = (Double) (data.get("id"));
 
         String email = (String) ((Map<?, ?>) (data.get("kakao_account"))).get("email");

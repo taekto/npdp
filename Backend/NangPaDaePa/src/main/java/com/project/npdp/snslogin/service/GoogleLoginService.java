@@ -33,6 +33,7 @@ public class GoogleLoginService implements OAuthProviderService<GoogleToken>{
     public GoogleLoginService(OAuthConfig oAuthConfig) {
         this.oAuthConfig = oAuthConfig;
     }
+
     @Override
     public String getAuthorizeUrl() throws UnsupportedEncodingException {
         UriComponents uriComponents = UriComponentsBuilder
@@ -60,12 +61,12 @@ public class GoogleLoginService implements OAuthProviderService<GoogleToken>{
         body.add("code", code);
         body.add("client_secret", oAuthConfig.getGoogleClientSecret());
 
-        HttpEntity<MultiValueMap<String, String>> accessTokenRequest = new HttpEntity<>(body, headers);
+        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(body, headers);
 
         ResponseEntity<String> responseEntity = restTemplate.exchange(
                 oAuthConfig.getGoogleTokenUrl(),
                 HttpMethod.POST,
-                accessTokenRequest,
+                requestEntity,
                 String.class
         );
 
@@ -77,19 +78,23 @@ public class GoogleLoginService implements OAuthProviderService<GoogleToken>{
             }catch(IOException e){
                 e.printStackTrace();
             }
+        } else {
+            System.out.println("Google API returned an error: " + responseEntity.getBody());
         }
 
         return null;
     }
 
     public Member getMemberInfo(GoogleToken googleToken) {
-        HttpHeaders header = new HttpHeaders();
-        header.add("Authorization", "Bearer "+googleToken.getAccessToken());
-        // HttpHeader와 HttpBody를 하나의 오브젝트에 담기(body 정보는 생략 가능)
-        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(header);
-
         // RestTemplate을 이용하면 브라우저 없이 HTTP 요청을 처리할 수 있다.
         RestTemplate restTemplate = new RestTemplate();
+
+        // HttpHeader 생성
+        HttpHeaders header = new HttpHeaders();
+        header.add("Authorization", "Bearer "+googleToken.getAccessToken());
+
+        // HttpHeader와 HttpBody를 하나의 오브젝트에 담기(body 정보는 생략 가능)
+        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(header);
 
         // HTTP 요청을 POST(GET) 방식으로 실행하기 -> 그러면 문자열로 응답이 들어온다.
         ResponseEntity<String> responseEntity = restTemplate.exchange(
@@ -100,14 +105,14 @@ public class GoogleLoginService implements OAuthProviderService<GoogleToken>{
         );
 
         // 구글 인증 서버가 리턴한 사용자 정보
-        String memberRawInfo = responseEntity.getBody();
+        String memberInfo = responseEntity.getBody();
 
         // 사용자 정보를 문자열 -> HashMap
         Gson gson = new Gson();
         Type type = new TypeToken<Map<String, String>>() {}.getType();
-        Map<String, String> tokenMap = gson.fromJson(memberRawInfo, type);
-        log.info(String.format("memberRawInfo: %s", tokenMap));
-        log.info(String.format("email: %s", tokenMap.get("email")));
+        Map<String, String> tokenMap = gson.fromJson(memberInfo, type);
+//        log.info(String.format("memberRawInfo: %s", tokenMap));
+//        log.info(String.format("email: %s", tokenMap.get("email")));
 
         return null;
     }
