@@ -33,8 +33,17 @@ public class KakaoLoginService {
     @Value("${spring.security.oauth2.client.registration.kakao.client-secret}")
     private String kakaoClientSecret;
 
+    @Value("${spring.security.oauth2.client.registration.kakao.authorization-grant-type}")
+    private String kakaoGrantType;
+
+    @Value("${spring.security.oauth2.client.provider.kakao.token-uri}")
+    private String kakaoTokenUrl;
+
+    @Value("${spring.security.oauth2.client.provider.kakao.user-info-uri}")
+    private String kakaoUserInfoUrl;
+
+
     public String getAccessToken(String code) {
-        String kakaoTokenUrl = "https://kauth.kakao.com/oauth/token";
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
 
@@ -42,7 +51,7 @@ public class KakaoLoginService {
         headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
-        body.add("grant_type", "authorization_code");
+        body.add("grant_type", kakaoGrantType);
         body.add("client_id", kakaoClientId);
         body.add("redirect_uri", kakaoRedirectUri);
         body.add("code", code);
@@ -80,7 +89,7 @@ public class KakaoLoginService {
 
         // HTTP 요청을 POST(GET) 방식으로 실행하기 -> 그러면 문자열로 응답이 들어온다.
         ResponseEntity<String> responseEntity = restTemplate.exchange(
-                "https://kapi.kakao.com/v2/user/me",
+                kakaoUserInfoUrl,
                 HttpMethod.POST,
                 requestEntity,
                 String.class
@@ -89,7 +98,7 @@ public class KakaoLoginService {
         // 카카오 인증 서버가 리턴한 사용자 정보
         String userInfo = responseEntity.getBody();
 
-        // JSON 데이터에서 추출한 정보를 바탕으로 User 객체 설정
+        // JSON 데이터에서 추출한 정보를 바탕으로 Member 객체 설정
         Gson gsonObj = new Gson();
         Map<?, ?> data = gsonObj.fromJson(userInfo, Map.class);
 		Double id = (Double) (data.get("id"));
@@ -100,12 +109,6 @@ public class KakaoLoginService {
         String birthyear = (String) ((Map<?, ?>) (data.get("kakao_account"))).get("birthyear");
         String birthday = (String) ((Map<?, ?>) (data.get("kakao_account"))).get("birthday");
         String birth = String.format("%s%s", birthyear,birthday).replaceAll("(\\d{4})(\\d{2})(\\d{2})", "$1.$2.$3");
-
-//        log.info(String.format("nickname: %s", nickname));
-//        log.info(String.format("email: %s", email));
-//        log.info(String.format("gender: %s", gender));
-//        log.info(String.format("birthyear: %s", birthyear));
-//        log.info(String.format("birthday: %s", birthday));
 
         Member member;
         if(gender.equals("male")){

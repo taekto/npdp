@@ -9,14 +9,18 @@ spring:
         registration:
           kakao:
             client-id: ad3555fb105357956fe43e6541f0cd84
-            redirect_uri: http://i9B202.p.ssafy.io:8080/api/oauth/kakao
+            redirect-uri: http://i9B202.p.ssafy.io:8080/api/oauth/kakao
             client-authentication-method: POST
             client-secret: UJBGr0md8gtBzYDoe4CxjeeQi65pJE1G
             authorization-grant-type: authorization_code
             client-name: kakao
           google:
             client-id: 600784308502-61a56tmk8jtiifg01jgh8dj6rpad2vu0.apps.googleusercontent.com
+            redirect-uri: http://i9B202.p.ssafy.io:8080/api/oauth/google
+            client-authentication-method: POST
             client-secret: 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
+            authorization-grant-type: authorization_code
+            client-name: google
 
         provider:
           kakao:
@@ -24,3 +28,5 @@ spring:
             token-uri: https://kauth.kakao.com/oauth/token
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id
+          google:
+            token-uri: https://oauth2.googleapis.com/token
