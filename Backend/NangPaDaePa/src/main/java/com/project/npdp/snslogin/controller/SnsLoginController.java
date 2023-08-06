@@ -1,6 +1,7 @@
 package com.project.npdp.snslogin.controller;
 
 
+import com.project.npdp.member.dto.request.MemberJoinRequestDto;
 import com.project.npdp.member.entity.Member;
 import com.project.npdp.member.service.MemberService;
 import com.project.npdp.snslogin.dto.GoogleToken;
@@ -12,11 +13,9 @@ import com.project.npdp.snslogin.service.NaverLoginService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 
@@ -50,8 +49,15 @@ public class SnsLoginController {
         KakaoToken kakaoToken = kakaoLoginService.getToken(code);
 //        2. 액세스 토큰을 이용하여 사용자 정보를 얻어온다.
         Member member = kakaoLoginService.getMemberInfo(kakaoToken);
-        printMember(member);
-        return ResponseEntity.ok().body(memberService.snsLogin(member));
+
+        String result = memberService.snsLogin(member);
+        if(result.equals("new")){
+            log.info("새롭게 생성되는 사용자!");
+            return ResponseEntity.ok().body(member);
+        }else{
+            log.info("이미 존재하는 사용자!");
+            return ResponseEntity.ok().body(memberService.snsLogin(member));
+        }
     }
 
     @GetMapping("/kakao-login")
@@ -72,9 +78,15 @@ public class SnsLoginController {
         GoogleToken googleToken = googleLoginService.getToken(code);
 //        2. 액세스 토큰을 이용하여 사용자 정보를 얻어온다.
         Member member = googleLoginService.getMemberInfo(googleToken);
-        printMember(member);
 
-        return ResponseEntity.ok().body(memberService.snsLogin(member));
+        String result = memberService.snsLogin(member);
+        if(result.equals("new")){
+            log.info("새롭게 생성되는 사용자!");
+            return ResponseEntity.ok().body(member);
+        }else{
+            log.info("이미 존재하는 사용자!");
+            return ResponseEntity.ok().body(memberService.snsLogin(member));
+        }
     }
 
     @GetMapping("/google-login")
@@ -94,9 +106,15 @@ public class SnsLoginController {
         NaverToken naverToken = naverLoginService.getToken(code);
 //        2. 액세스 토큰을 이용하여 사용자 정보를 얻어온다.
         Member member = naverLoginService.getMemberInfo(naverToken);
-        printMember(member);
 
-        return ResponseEntity.ok().body(memberService.snsLogin(member));
+        String result = memberService.snsLogin(member);
+        if(result.equals("new")){
+            log.info("새롭게 생성되는 사용자!");
+            return ResponseEntity.ok().body(member);
+        }else{
+            log.info("이미 존재하는 사용자!");
+            return ResponseEntity.ok().body(memberService.snsLogin(member));
+        }
     }
 
     @GetMapping("/naver-login")
@@ -108,6 +126,12 @@ public class SnsLoginController {
             e.printStackTrace();
             return ResponseEntity.status(400).body("Failed to generate Naver login URL.");
         }
+    }
+
+    @PostMapping("/sns-join")
+    public ResponseEntity<?> join(@RequestBody MemberJoinRequestDto memberJoinRequestDto){
+        memberService.join(memberJoinRequestDto);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     public void printMember(Member member){

@@ -22,7 +22,6 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-
     // 로그인
     @PostMapping("/localLogin")
     public ResponseEntity<String> login(String email, String password){
