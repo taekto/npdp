@@ -13,8 +13,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Map;
 
 @Service
@@ -36,12 +40,25 @@ public class KakaoLoginService {
     @Value("${spring.security.oauth2.client.registration.kakao.authorization-grant-type}")
     private String kakaoGrantType;
 
+    @Value("${spring.security.oauth2.client.provider.kakao.authorization-uri}")
+    private String kakaoAuthorizationUrl;
+
     @Value("${spring.security.oauth2.client.provider.kakao.token-uri}")
     private String kakaoTokenUrl;
 
     @Value("${spring.security.oauth2.client.provider.kakao.user-info-uri}")
     private String kakaoUserInfoUrl;
 
+    public String getKakaoAuthorizeUrl() throws UnsupportedEncodingException {
+        UriComponents uriComponents = UriComponentsBuilder
+                .fromUriString(kakaoAuthorizationUrl)
+                .queryParam("response_type", "code")
+                .queryParam("client_id", kakaoClientId)
+                .queryParam("redirect_uri", URLEncoder.encode(kakaoRedirectUri, "UTF-8"))
+                .build();
+
+        return uriComponents.toString();
+    }
 
     public String getAccessToken(String code) {
         RestTemplate restTemplate = new RestTemplate();
@@ -118,4 +135,6 @@ public class KakaoLoginService {
         }
         return member;
     }
+
+
 }

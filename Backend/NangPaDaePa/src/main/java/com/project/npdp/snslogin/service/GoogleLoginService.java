@@ -15,9 +15,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.net.URLEncoder;
 import java.util.Map;
 
 @Service
@@ -38,14 +42,29 @@ public class GoogleLoginService {
     @Value("${spring.security.oauth2.client.registration.google.authorization-grant-type}")
     private String googleGrantType;
 
+    @Value("${spring.security.oauth2.client.provider.google.authorization-uri}")
+    private String googleAuthorizationUrl;
+
     @Value("${spring.security.oauth2.client.provider.google.token-uri}")
     private String googleTokenUrl;
 
     @Value("${spring.security.oauth2.client.provider.google.user-info-uri}")
     private String googleUserInfoUrl;
 
+    public String getGoogleAuthorizeUrl() throws UnsupportedEncodingException {
+        UriComponents uriComponents = UriComponentsBuilder
+                .fromUriString(googleAuthorizationUrl)
+                .queryParam("response_type", "code")
+                .queryParam("client_id", googleClientId)
+                .queryParam("redirect_uri", URLEncoder.encode(googleRedirectUri, "UTF-8"))
+                .queryParam("scope", "email profile")
+                .build();
+
+        return uriComponents.toString();
+    }
+
     public GoogleTokenInfo getGoogleToken(String code) {
-        log.info(String.format("google login code - %s", code));
+//        log.info(String.format("google login code - %s", code));
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -71,7 +90,7 @@ public class GoogleLoginService {
             ObjectMapper objectMapper = new ObjectMapper();
             try{
                 JsonNode jsonNode = objectMapper.readTree(responseEntity.getBody());
-                GoogleTokenInfo googleTokenInfo = new GoogleTokenInfo(jsonNode.get("access_token").asText(), jsonNode.get("id_token").asText());
+                GoogleTokenInfo googleTokenInfo = objectMapper.readValue(responseEntity.getBody(), GoogleTokenInfo.class);
                 return googleTokenInfo;
             }catch(IOException e){
                 e.printStackTrace();
@@ -110,4 +129,5 @@ public class GoogleLoginService {
 
         return null;
     }
+
 }

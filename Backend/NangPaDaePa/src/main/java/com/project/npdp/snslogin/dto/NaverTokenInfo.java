@@ -2,27 +2,25 @@ package com.project.npdp.snslogin.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Data
+@Getter
 @NoArgsConstructor
 @ToString
-public class GoogleTokenInfo {
+public class NaverTokenInfo {
 
     @JsonProperty("access_token")
     private String accessToken;
 
-    @JsonProperty("expires_in")
-    private int expiresIn;
-
-    @JsonProperty("scope")
-    private String scope;
+    @JsonProperty("refresh_token")
+    private String refreshToken;
 
     @JsonProperty("token_type")
     private String tokenType;
 
-    @JsonProperty("id_token")
-    private String idToken;
+    @JsonProperty("expires_in")
+    private String expiresIn;
+
 }
