@@ -17,7 +17,6 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Getter
-@Builder
 public class Member {
 
     @Id
@@ -34,7 +33,7 @@ public class Member {
     private String oauth;
 
 //    @Column(nullable = false, columnDefinition = "VARCHAR(10) DEFAULT 'USER'")
-    @Builder.Default
+//    @Builder.Default
     private String role = "USER";
 
     private String birth;
@@ -83,6 +82,15 @@ public class Member {
         String sha256Pw = SHA256Util.getSHA256(password);
 
         return this.email.equals(email) && this.password.equals(sha256Pw);
+    }
+
+    @Builder
+    public Member(String email, String password, String nickname, String gender, String birth){
+        this.email = email;
+        this.password = password;
+        this.nickname = nickname;
+        this.gender = gender;
+        this.birth = birth;
     }
 
     // 닉네임변경
