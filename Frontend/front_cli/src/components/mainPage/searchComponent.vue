@@ -1,7 +1,7 @@
 <template>
     <!-- 검색창 컴포넌트 -->
     <div>
-        <form @submit.prevent="recipeSpecific(content)" @keydown.enter="recipeSpecific(content)">
+        <form @submit.prevent="recipeSpecific(content)" @keydown.enter="recipeSpecificSearch(content)">
             <div class="input-group">
                 <!-- <input id="submitButton" type="submit" value="검색"> -->
                 <i class="bi bi-search" @click="recipeSpecific(content)"></i>

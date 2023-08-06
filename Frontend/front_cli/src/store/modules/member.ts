@@ -173,7 +173,7 @@ const member: Module<MemberState, RootState> = {
 
     // 로컬 회원 가입
     localSignup(credentials) {
-      console.log('회원가입 시작!')
+      console.log('회원가입 시작!', credentials)
         axios({
           url: api.member.signup(),
           method: 'post',
