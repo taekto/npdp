@@ -6,7 +6,6 @@ import javax.persistence.Entity;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Entity
 @Getter
 public class EmailMessage {
 
