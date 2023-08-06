@@ -1,12 +1,16 @@
 package com.project.npdp.snslogin.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.project.npdp.configuration.OAuthConfig;
 import com.project.npdp.member.entity.Member;
+import com.project.npdp.snslogin.dto.GoogleMember;
 import com.project.npdp.snslogin.dto.GoogleToken;
+import com.project.npdp.snslogin.dto.NaverMember;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -79,7 +83,7 @@ public class GoogleLoginService implements OAuthProviderService<GoogleToken>{
                 e.printStackTrace();
             }
         } else {
-            System.out.println("Google API returned an error: " + responseEntity.getBody());
+            log.error("Google API returned an error: " + responseEntity.getBody());
         }
 
         return null;
@@ -107,12 +111,17 @@ public class GoogleLoginService implements OAuthProviderService<GoogleToken>{
         // 구글 인증 서버가 리턴한 사용자 정보
         String memberInfo = responseEntity.getBody();
 
-        // 사용자 정보를 문자열 -> HashMap
-        Gson gson = new Gson();
-        Type type = new TypeToken<Map<String, String>>() {}.getType();
-        Map<String, String> tokenMap = gson.fromJson(memberInfo, type);
-//        log.info(String.format("memberRawInfo: %s", tokenMap));
-//        log.info(String.format("email: %s", tokenMap.get("email")));
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode responseNode = objectMapper.readTree(memberInfo);
+            GoogleMember googleMember = objectMapper.treeToValue(responseNode, GoogleMember.class);
+            googleMember.setPassword(oAuthConfig.getGooglePassword());
+            log.info("구글 인증 서버가 리턴한 사용자 정보: "+googleMember.toString());
+
+            return googleMember.toMember();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
 
         return null;
     }

@@ -1,11 +1,14 @@
 package com.project.npdp.snslogin.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.project.npdp.configuration.OAuthConfig;
 import com.project.npdp.member.entity.Member;
+import com.project.npdp.snslogin.dto.NaverMember;
 import com.project.npdp.snslogin.dto.NaverToken;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +83,7 @@ public class NaverLoginService implements OAuthProviderService<NaverToken>{
                 e.printStackTrace();
             }
         } else {
-            System.out.println("Naver API returned an error: " + responseEntity.getBody());
+           log.error("Naver API returned an error: " + responseEntity.getBody());
         }
 
         return null;
@@ -116,10 +119,19 @@ public class NaverLoginService implements OAuthProviderService<NaverToken>{
             JsonObject jsonObject = gson.fromJson(decodedInfo, JsonObject.class);
             JsonObject response = jsonObject.getAsJsonObject("response");
 
-            log.info("네이버 인증 서버가 리턴한 사용자 정보: " + memberInfo);
-            log.info("사용자 정보만 뽑아낸 것: " + response.toString());
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode responseNode = objectMapper.readTree(response.toString());
+            NaverMember naverMember = objectMapper.treeToValue(responseNode, NaverMember.class);
+            naverMember.setPassword(oAuthConfig.getNaverPassword());
 
+            log.info("네이버 인증 서버가 리턴한 사용자 정보: "+naverMember.toString());
+
+            return naverMember.toMember();
         } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
 

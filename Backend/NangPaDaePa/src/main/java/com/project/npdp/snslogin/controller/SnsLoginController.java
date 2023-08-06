@@ -46,7 +46,7 @@ public class SnsLoginController {
         KakaoToken kakaoToken = kakaoLoginService.getToken(code);
 //        2. 액세스 토큰을 이용하여 사용자 정보를 얻어온다.
         Member memberInfo = kakaoLoginService.getMemberInfo(kakaoToken);
-
+        printMember(memberInfo);
         return memberInfo;
     }
 
@@ -66,11 +66,9 @@ public class SnsLoginController {
     public @ResponseBody String googleCallback(String code){
 //         1. 인증 서버로부터 받은 CODE를 이용하여 액세스 토큰을 얻는다.
         GoogleToken googleToken = googleLoginService.getToken(code);
-        log.info(String.format("google-tokens: %s", googleToken.toString()));
-
 //        2. 액세스 토큰을 이용하여 사용자 정보를 얻어온다.
         Member memberInfo = googleLoginService.getMemberInfo(googleToken);
-
+        printMember(memberInfo);
         return null;
     }
 
@@ -89,11 +87,9 @@ public class SnsLoginController {
     public @ResponseBody String naverCallback(String code){
 //         1. 인증 서버로부터 받은 CODE를 이용하여 액세스 토큰을 얻는다.
         NaverToken naverToken = naverLoginService.getToken(code);
-        log.info(String.format("naver-tokens: %s", naverToken.toString()));
-
 //        2. 액세스 토큰을 이용하여 사용자 정보를 얻어온다.
         Member memberInfo = naverLoginService.getMemberInfo(naverToken);
-
+        printMember(memberInfo);
         return naverToken.toString();
     }
 
@@ -106,5 +102,17 @@ public class SnsLoginController {
             e.printStackTrace();
             return ResponseEntity.status(400).body("Failed to generate Naver login URL.");
         }
+    }
+
+    public void printMember(Member member){
+        log.info("Member 정보:");
+        log.info("ID: {}", member.getId());
+        log.info("Email: {}", member.getEmail());
+        log.info("Nickname: {}", member.getNickname());
+        log.info("Password: {}", member.getPassword());
+        log.info("Birth: {}", member.getBirth());
+        log.info("Gender: {}", member.getGender());
+        log.info("OAuth Type: {}", member.getOauth());
+        log.info("Role: {}", member.getRole());
     }
 }

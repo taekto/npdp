@@ -1,13 +1,17 @@
 package com.project.npdp.snslogin.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.project.npdp.configuration.OAuthConfig;
 import com.project.npdp.member.entity.Gender;
 import com.project.npdp.member.entity.Member;
 import com.project.npdp.member.entity.OAuthType;
+import com.project.npdp.snslogin.dto.KakaoMember;
 import com.project.npdp.snslogin.dto.KakaoToken;
+import com.project.npdp.snslogin.dto.NaverMember;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -79,7 +83,7 @@ public class KakaoLoginService implements OAuthProviderService<KakaoToken> {
                 e.printStackTrace();
             }
         } else {
-            System.out.println("Kakao API returned an error: " + responseEntity.getBody());
+            log.error("Kakao API returned an error: " + responseEntity.getBody());
         }
 
         return null;
@@ -110,26 +114,28 @@ public class KakaoLoginService implements OAuthProviderService<KakaoToken> {
 
         // 카카오 인증 서버가 리턴한 사용자 정보
         String memberInfo = responseEntity.getBody();
-
+        try {
         // JSON 데이터에서 추출한 정보를 바탕으로 Member 객체 설정
-        Gson gsonObj = new Gson();
-        Map<?, ?> data = gsonObj.fromJson(memberInfo, Map.class);
-		Double id = (Double) (data.get("id"));
+        Gson gson = new Gson();
+        JsonObject jsonObject = gson.fromJson(memberInfo, JsonObject.class);
+        JsonObject kakao_acoount = jsonObject.getAsJsonObject("kakao_account");
+        JsonObject profile = kakao_acoount.getAsJsonObject("profile");
 
-        String email = (String) ((Map<?, ?>) (data.get("kakao_account"))).get("email");
-        String nickname = (String) ((Map<?, ?>) (data.get("properties"))).get("nickname");
-        String gender = (String) ((Map<?, ?>) (data.get("kakao_account"))).get("gender");
-        String birthyear = (String) ((Map<?, ?>) (data.get("kakao_account"))).get("birthyear");
-        String birthday = (String) ((Map<?, ?>) (data.get("kakao_account"))).get("birthday");
-        String birth = String.format("%s%s", birthyear,birthday).replaceAll("(\\d{4})(\\d{2})(\\d{2})", "$1.$2.$3");
 
-        Member member;
-        if(gender.equals("male")){
-            member = Member.builder().email(email).nickname(nickname).password(oAuthConfig.getKakaoPassword()).oauth(OAuthType.KAKAO).birth(birth).gender(Gender.MALE).build();
-        }else{
-            member = Member.builder().email(email).nickname(nickname).password(oAuthConfig.getKakaoPassword()).oauth(OAuthType.KAKAO).birth(birth).gender(Gender.FEMALE).build();
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode responseNode = objectMapper.readTree(kakao_acoount.toString());
+        KakaoMember kakaoMember = objectMapper.treeToValue(responseNode, KakaoMember.class);
+        kakaoMember.setNickname(profile.get("nickname").getAsString());
+        kakaoMember.setPassword(oAuthConfig.getKakaoPassword());
+
+        log.info("카카오 인증 서버가 리턴한 사용자 정보: "+kakaoMember.toString());
+
+        return kakaoMember.toMember();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
         }
-        return member;
+
+        return null;
     }
 
 
