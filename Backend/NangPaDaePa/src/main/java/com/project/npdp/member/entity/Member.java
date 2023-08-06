@@ -93,6 +93,11 @@ public class Member {
         this.birth = birth;
     }
 
+    // 비밀번호 변경
+    public void modifyPw(String password){
+        this.password = password;
+    }
+
     // 닉네임변경
     public void modifyNickname(String newNickname) {
         this.nickname = newNickname;
