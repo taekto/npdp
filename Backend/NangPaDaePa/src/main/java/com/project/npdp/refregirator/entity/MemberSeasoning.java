@@ -2,6 +2,8 @@ package com.project.npdp.refregirator.entity;
 
 import com.project.npdp.food.entity.Seasoning;
 import com.project.npdp.member.entity.Member;
+import com.project.npdp.refregirator.dto.request.MemberIngredientModifyRequestDto;
+import com.project.npdp.refregirator.dto.request.MemberSeasoningModifyRequestDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -38,6 +40,12 @@ public class MemberSeasoning {
         this.member = member;
         this.seasoning = seasoning;
         this.storage = storage;
+    }
+
+    public void updateValues(MemberSeasoningModifyRequestDto dto) {
+        this.storage = dto.getStorage();
+        this.startDate = dto.getStartDate();
+        this.expiredDate = dto.getExpiredDate();
     }
 
 }
