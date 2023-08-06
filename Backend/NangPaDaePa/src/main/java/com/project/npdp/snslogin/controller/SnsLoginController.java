@@ -131,7 +131,8 @@ public class SnsLoginController {
     @PostMapping("/sns-join")
     public ResponseEntity<?> join(@RequestBody MemberJoinRequestDto memberJoinRequestDto){
         memberService.join(memberJoinRequestDto);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        String token = memberService.login(memberJoinRequestDto.getEmail(), memberJoinRequestDto.getPassword());
+        return ResponseEntity.ok().body(token);
     }
 
     public void printMember(Member member){
