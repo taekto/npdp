@@ -39,6 +39,7 @@ public class MemberService {
         memberRepository.save(member);
     }
 
+
     // 중복 가입 방지
     private void validateDuplicateJoin(MemberJoinRequestDto memberJoinRequestDto) {
         List<Member> findMembers = memberRepository.findByEmail(memberJoinRequestDto.getEmail());
@@ -54,6 +55,29 @@ public class MemberService {
         String tmp = JwtUtil.createJwt(email, secretKey, expiredMs);
         System.out.println(tmp);
         return tmp;
+    }
+
+    public String snsLogin(Member member){
+//         이메일 중복 여부 확인
+        List<Member> findMembers = memberRepository.findByEmail(member.getEmail());
+//        1. 이미 등록된 이메일인 경우
+        if(!findMembers.isEmpty()){
+//            -1. 같은 SNS 로그인인 경우: 해당 sns 로그인으로 바로 로그인
+            if(findMembers.get(0).getOauth() == member.getOauth()){
+                String tmp = this.login(member.getEmail(), member.getPassword());
+                return tmp;
+//            -2. 로컬 로그인이거나 다른 SNS 로그인인 경우: ERROR 발생
+            }else{
+                throw new IllegalStateException("이미 존재하는 회원입니다.");
+            }
+//        2. 없는 이메일인 경우
+        }else{
+//            -1. 새로운 회원으로 등록
+            memberRepository.save(member);
+//            -2. 해당 SNS 로그인으로 로그인
+            String tmp = this.login(member.getEmail(), member.getPassword());
+            return tmp;
+        }
     }
 
     // 회원id로 상세정보 조회
