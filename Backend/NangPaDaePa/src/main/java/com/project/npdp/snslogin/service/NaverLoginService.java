@@ -4,12 +4,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
+import com.project.npdp.configuration.OAuthConfig;
 import com.project.npdp.member.entity.Member;
-import com.project.npdp.snslogin.dto.GoogleTokenInfo;
-import com.project.npdp.snslogin.dto.NaverTokenInfo;
+import com.project.npdp.snslogin.dto.NaverToken;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -21,53 +20,36 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Type;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Map;
 
 @Service
 @Slf4j
-public class NaverLoginService {
+public class NaverLoginService implements OAuthProviderService<NaverToken>{
 
-    @Value("${spring.security.oauth2.default.password}")
-    private String naverPassword;
+    private OAuthConfig oAuthConfig;
 
-    @Value("${spring.security.oauth2.client.registration.naver.client-id}")
-    private String naverClientId;
+    @Autowired
+    public NaverLoginService(OAuthConfig oAuthConfig) {
+        this.oAuthConfig = oAuthConfig;
+    }
 
-    @Value("${spring.security.oauth2.client.registration.naver.redirect-uri}")
-    private String naverRedirectUri;
-
-    @Value("${spring.security.oauth2.client.registration.naver.client-secret}")
-    private String naverClientSecret;
-
-    @Value("${spring.security.oauth2.client.registration.naver.authorization-grant-type}")
-    private String naverGrantType;
-
-    @Value("${spring.security.oauth2.client.provider.naver.token-uri}")
-    private String naverTokenUrl;
-
-    @Value("${spring.security.oauth2.client.provider.naver.authorization-uri}")
-    private String naverAuthorizationUrl;
-
-    @Value("${spring.security.oauth2.client.provider.naver.user-info-uri}")
-    private String naverUserInfoUrl;
-
-    public String getNaverAuthorizeUrl() throws UnsupportedEncodingException {
+    @Override
+    public String getAuthorizeUrl() throws UnsupportedEncodingException {
         UriComponents uriComponents = UriComponentsBuilder
-                .fromUriString(naverAuthorizationUrl)
+                .fromUriString(oAuthConfig.getNaverAuthorizationUrl())
                 .queryParam("response_type", "code")
-                .queryParam("client_id", naverClientId)
-                .queryParam("redirect_uri", URLEncoder.encode(naverRedirectUri, "UTF-8"))
+                .queryParam("client_id", oAuthConfig.getNaverClientId())
+                .queryParam("redirect_uri", URLEncoder.encode(oAuthConfig.getNaverRedirectUri(), "UTF-8"))
                 .queryParam("state", URLEncoder.encode("1234", "UTF-8"))
                 .build();
 
         return uriComponents.toString();
     }
 
-    public NaverTokenInfo getNaverToken(String code) {
+    @Override
+    public NaverToken getToken(String code) {
         RestTemplate restTemplate = new RestTemplate();
         // Prepare headers for the HTTP request
         HttpHeaders headers = new HttpHeaders();
@@ -75,11 +57,11 @@ public class NaverLoginService {
 
         // Prepare request body
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
-        body.add("grant_type", naverGrantType);
-        body.add("client_id", naverClientId);
-        body.add("redirect_uri", naverRedirectUri);
+        body.add("grant_type", oAuthConfig.getNaverGrantType());
+        body.add("client_id", oAuthConfig.getNaverClientId());
+        body.add("redirect_uri", oAuthConfig.getNaverRedirectUri());
         body.add("code", code);
-        body.add("client_secret", naverClientSecret);
+        body.add("client_secret", oAuthConfig.getNaverClientSecret());
 
         // Create an HTTP entity with headers and body
         HttpEntity<MultiValueMap<String, String>> accessTokenRequest = new HttpEntity<>(body, headers);
@@ -87,7 +69,7 @@ public class NaverLoginService {
         try {
             // Make the POST request to obtain the access token
             ResponseEntity<String> responseEntity = restTemplate.exchange(
-                    naverTokenUrl,
+                    oAuthConfig.getNaverTokenUrl(),
                     HttpMethod.POST,
                     accessTokenRequest,
                     String.class
@@ -105,8 +87,8 @@ public class NaverLoginService {
 //                            jsonNode.get("token_type").asText(),
 //                            jsonNode.get("expires_in").asText()
 //                    );
-                    NaverTokenInfo naverTokenInfo = objectMapper.readValue(responseEntity.getBody(), NaverTokenInfo.class);
-                    return naverTokenInfo;
+                    NaverToken naverToken = objectMapper.readValue(responseEntity.getBody(), NaverToken.class);
+                    return naverToken;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -124,16 +106,17 @@ public class NaverLoginService {
         return null;
     }
 
-    public Member getMemberInfo(NaverTokenInfo naverTokenInfo) {
+    @Override
+    public Member getMemberInfo(NaverToken naverToken) {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", naverTokenInfo.getTokenType() + " " + naverTokenInfo.getAccessToken());
+        headers.add("Authorization", naverToken.getTokenType() + " " + naverToken.getAccessToken());
 
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(headers);
 
         ResponseEntity<String> responseEntity = restTemplate.exchange(
-                naverUserInfoUrl,
+                oAuthConfig.getNaverUserInfoUrl(),
                 HttpMethod.GET,
                 requestEntity,
                 String.class

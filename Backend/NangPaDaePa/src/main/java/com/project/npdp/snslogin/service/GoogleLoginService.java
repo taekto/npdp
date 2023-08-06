@@ -4,12 +4,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.project.npdp.member.entity.Gender;
+import com.project.npdp.configuration.OAuthConfig;
 import com.project.npdp.member.entity.Member;
-import com.project.npdp.member.entity.OAuthType;
-import com.project.npdp.snslogin.dto.GoogleTokenInfo;
+import com.project.npdp.snslogin.dto.GoogleToken;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -26,61 +25,45 @@ import java.util.Map;
 
 @Service
 @Slf4j
-public class GoogleLoginService {
-    @Value("${spring.security.oauth2.default.password}")
-    private String googlePassword;
+public class GoogleLoginService implements OAuthProviderService<GoogleToken>{
 
-    @Value("${spring.security.oauth2.client.registration.google.client-id}")
-    private String googleClientId;
+    private OAuthConfig oAuthConfig;
 
-    @Value("${spring.security.oauth2.client.registration.google.redirect-uri}")
-    private String googleRedirectUri;
-
-    @Value("${spring.security.oauth2.client.registration.google.client-secret}")
-    private String googleClientSecret;
-
-    @Value("${spring.security.oauth2.client.registration.google.authorization-grant-type}")
-    private String googleGrantType;
-
-    @Value("${spring.security.oauth2.client.provider.google.authorization-uri}")
-    private String googleAuthorizationUrl;
-
-    @Value("${spring.security.oauth2.client.provider.google.token-uri}")
-    private String googleTokenUrl;
-
-    @Value("${spring.security.oauth2.client.provider.google.user-info-uri}")
-    private String googleUserInfoUrl;
-
-    public String getGoogleAuthorizeUrl() throws UnsupportedEncodingException {
+    @Autowired
+    public GoogleLoginService(OAuthConfig oAuthConfig) {
+        this.oAuthConfig = oAuthConfig;
+    }
+    @Override
+    public String getAuthorizeUrl() throws UnsupportedEncodingException {
         UriComponents uriComponents = UriComponentsBuilder
-                .fromUriString(googleAuthorizationUrl)
+                .fromUriString(oAuthConfig.getGoogleAuthorizationUrl())
                 .queryParam("response_type", "code")
-                .queryParam("client_id", googleClientId)
-                .queryParam("redirect_uri", URLEncoder.encode(googleRedirectUri, "UTF-8"))
+                .queryParam("client_id", oAuthConfig.getGoogleClientId())
+                .queryParam("redirect_uri", URLEncoder.encode(oAuthConfig.getGoogleRedirectUri(), "UTF-8"))
                 .queryParam("scope", "email profile")
                 .build();
 
         return uriComponents.toString();
     }
 
-    public GoogleTokenInfo getGoogleToken(String code) {
-//        log.info(String.format("google login code - %s", code));
+    @Override
+    public GoogleToken getToken(String code) {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/x-www-form-urlencoded");
 
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
-        body.add("grant_type", googleGrantType);
-        body.add("client_id", googleClientId);
-        body.add("redirect_uri", googleRedirectUri);
+        body.add("grant_type", oAuthConfig.getGoogleGrantType());
+        body.add("client_id", oAuthConfig.getGoogleClientId());
+        body.add("redirect_uri", oAuthConfig.getGoogleRedirectUri());
         body.add("code", code);
-        body.add("client_secret", googleClientSecret);
+        body.add("client_secret", oAuthConfig.getGoogleClientSecret());
 
         HttpEntity<MultiValueMap<String, String>> accessTokenRequest = new HttpEntity<>(body, headers);
 
         ResponseEntity<String> responseEntity = restTemplate.exchange(
-                googleTokenUrl,
+                oAuthConfig.getGoogleTokenUrl(),
                 HttpMethod.POST,
                 accessTokenRequest,
                 String.class
@@ -89,9 +72,8 @@ public class GoogleLoginService {
         if(responseEntity.getStatusCode() == HttpStatus.OK){
             ObjectMapper objectMapper = new ObjectMapper();
             try{
-                JsonNode jsonNode = objectMapper.readTree(responseEntity.getBody());
-                GoogleTokenInfo googleTokenInfo = objectMapper.readValue(responseEntity.getBody(), GoogleTokenInfo.class);
-                return googleTokenInfo;
+                GoogleToken googleToken = objectMapper.readValue(responseEntity.getBody(), GoogleToken.class);
+                return googleToken;
             }catch(IOException e){
                 e.printStackTrace();
             }
@@ -100,9 +82,9 @@ public class GoogleLoginService {
         return null;
     }
 
-    public Member getMemberInfo(GoogleTokenInfo googleTokenInfo) {
+    public Member getMemberInfo(GoogleToken googleToken) {
         HttpHeaders header = new HttpHeaders();
-        header.add("Authorization", "Bearer "+googleTokenInfo.getAccessToken());
+        header.add("Authorization", "Bearer "+googleToken.getAccessToken());
         // HttpHeader와 HttpBody를 하나의 오브젝트에 담기(body 정보는 생략 가능)
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(header);
 
@@ -111,7 +93,7 @@ public class GoogleLoginService {
 
         // HTTP 요청을 POST(GET) 방식으로 실행하기 -> 그러면 문자열로 응답이 들어온다.
         ResponseEntity<String> responseEntity = restTemplate.exchange(
-                googleUserInfoUrl+googleTokenInfo.getIdToken(),
+                oAuthConfig.getGoogleUserInfoUrl()+googleToken.getIdToken(),
                 HttpMethod.GET,
                 requestEntity,
                 String.class
