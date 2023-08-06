@@ -6,11 +6,12 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @AllArgsConstructor
-public class RecipeSequenceDto {
+public class RecipeSequenceDetailDto {
 
     private Long sequence;
 
     private String description;
 
     private String img;
+
 }
