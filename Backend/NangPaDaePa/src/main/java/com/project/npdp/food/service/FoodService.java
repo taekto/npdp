@@ -26,12 +26,23 @@ public class FoodService {
         List<Ingredient> all = ingredientRepository.findAll();
         List<IngredientResponseDto> result = all.stream().map(r->IngredientResponseDto.builder()
                 .id(r.getId())
-                .name(r.getTitle())
+                .name(r.getKor())
                 .build())
                 .collect(Collectors.toList());
         return result;
     }
 
+    // 재료 이름으로 조회
+    @Transactional(readOnly = true)
+    public List<IngredientResponseDto> findIngredientByName(String name) {
+        List<Ingredient> foundIngredient = ingredientRepository.findByKorContaining(name);
+        List<IngredientResponseDto> result = foundIngredient.stream().map(r->IngredientResponseDto.builder()
+                        .id(r.getId())
+                        .name(r.getKor())
+                        .build())
+                .collect(Collectors.toList());
+        return result;
+    }
 
     // 전체 양념 조회
     @Transactional(readOnly = true)
@@ -39,13 +50,23 @@ public class FoodService {
         List<Seasoning> all = seasoningRepository.findAll();
         List<SeasoningResponseDto> result = all.stream().map(r-> SeasoningResponseDto.builder()
                 .id(r.getId())
-                .name(r.getName())
+                .name(r.getKor())
                 .build())
                 .collect(Collectors.toList());
         return result;
     }
 
-
+    // 양념 이름으로 조회
+    @Transactional(readOnly = true)
+    public List<SeasoningResponseDto> findSeasoningByName(String name) {
+        List<Seasoning> foundSeasoning = seasoningRepository.findByKorContaining(name);
+        List<SeasoningResponseDto> result = foundSeasoning.stream().map(r->SeasoningResponseDto.builder()
+                        .id(r.getId())
+                        .name(r.getKor())
+                        .build())
+                .collect(Collectors.toList());
+        return result;
+    }
 
 
 

@@ -8,9 +8,9 @@ spring:
       password: 1234
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://i9B202.p.ssafy.io/test?serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://i9B202.p.ssafy.io:2231/test?serverTimezone=UTC&characterEncoding=UTF-8
     username: npdp
-    password: ssafyI@b202_kbcccy_
+    password: ffc704cc-3c03-4b47-b239-2ffd84e593ff
 
   jpa:
     database: mysql
@@ -21,6 +21,20 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        default_batch_fetch_size: 1000
+
+  mail:
+    host: smtp.gmail.com    # SMTP 서버 호스트
+    port: 587               # SMTP 서버 포트
+    username: ${mail.username}    # SMTP 서버 아이디
+    password: ${mail.password}    # SMTP 서버 앱 패스워드
+    properties:
+      mail:
+        smtp:
+          auth: true      # 사용자 인증 시도 여부 (기본값: false)
+          timeout: 5000   # Socket Read Timeout 시간 (기본값: 무한대)
+          starttls:
+            enable: true  # StartTLS 활성화 여부 (기본값: false)
 
 
 logging:

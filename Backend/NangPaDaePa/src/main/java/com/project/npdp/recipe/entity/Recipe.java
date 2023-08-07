@@ -39,8 +39,6 @@ public class Recipe {
 
     private Double salt;
 
-    private String tag;
-
     private String imgSmall;
 
     private String imgBig;
