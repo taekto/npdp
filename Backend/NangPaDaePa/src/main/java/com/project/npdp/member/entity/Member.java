@@ -114,8 +114,8 @@ public class Member {
     }
 
     // 비밀번호 변경
-    public void modifyPw(String password){
-        this.password = password;
+    public void modifyPw(String newPassword){
+        this.password = newPassword;
     }
 
     // 닉네임변경
