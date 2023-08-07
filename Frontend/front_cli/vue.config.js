@@ -6,7 +6,10 @@ module.exports = defineConfig({
       '/api': {
         target: 'https://i9b202.p.ssafy.io:8080',
         changeOrigin: true,
-        withCredentials: true
+        withCredentials: true,
+        pathRewrite: {
+          '^/api': ''  // 프록시 경로 제거 (선택사항)
+        }
       }
     }
   }

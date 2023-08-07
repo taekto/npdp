@@ -91,19 +91,18 @@
               </label>
             </div>
           </div>
-          <p>성별 : {{credentials.gender}}</p>
       <button class="signup_btn" style="width: 100%;" @click="signup">Get started</button>
       
 
       </form>
       <!-- 소셜 로그인 -->
       <div class="signup_sns">
-          <button class="btn_sns btn-google btn-block" @click="socialLoginGoogle" style="width: 100%">
-          Google 계정으로 시작</button>
-          <button class="btn_sns btn-naver btn-block" @click="socialLoginNaver" style="width: 100%"><i class="fab fab-naver-alt"></i> 
-          네이버 계정으로 시작</button>
-          <button class="btn_sns btn-kakao btn-block" @click="socialLoginKakao" style="width: 100%">
-          KaKao 계정으로 시작</button>
+          <a href="https://i9b202.p.ssafy.io/api/oauth/google-login?redirect_uri=https://i9b202.p.ssafy.io/social" class="btn_sns btn-google btn-block" @click="socialLoginGoogle" style="width: 100%">
+          Google 계정으로 시작</a>
+          <a href="https://i9b202.p.ssafy.io/api/oauth/naver-login?redirect_uri=https://i9b202.p.ssafy.io/social" class="btn_sns btn-naver btn-block" @click="socialLoginNaver" style="width: 100%"><i class="fab fab-naver-alt"></i> 
+          네이버 계정으로 시작</a>
+          <a href="https://i9b202.p.ssafy.io/api/oauth/kakao-login?redirect_uri=https://i9b202.p.ssafy.io/social" class="btn_sns btn-kakao btn-block" @click="socialLoginKakao" style="width: 100%">
+          KaKao 계정으로 시작</a>
       </div>
     </div>
   </div>
@@ -112,7 +111,7 @@
 <script>
 
 import { mapActions } from 'vuex';
-import axios from "axios"
+// import axios from "axios"
 
 
 export default {
@@ -148,21 +147,6 @@ export default {
 
   // birthdate = new Date(); // birthdate 매개변수의 타입을 Date | null로 명시
   methods: {
-    changeSocialGoogle() {
-      this.socialType = 'Google'
-      console.log(this.socialType)
-      this.$router.push({name: 'social', query: {socialType: this.socialType}})
-    },
-    changeSocialNaver() {
-      this.socialType = 'Naver'
-      console.log(this.socialType)
-      this.$router.push({name: 'social', query: {socialType: this.socialType}})
-    },
-    changeSocialKakao() {
-      this.socialType = 'Kakao'
-      console.log(this.socialType)
-      this.$router.push({name: 'social', query: {socialType: this.socialType}})
-    },
 
     // 이메일 형식 검사
     checkEmail() {
@@ -218,33 +202,35 @@ export default {
 
     socialLoginGoogle() {
       this.socialType = 'Google'
-      axios ({
-        url: 'https://i9b202.p.ssafy.io/api/oauth/google-login',
-        methods: 'get',
-      })
-      .then (res => {
-        console.log(res)
-      })
-      .catch (err => {
-        console.log(err)
-      })
+      // axios ({
+      //   url: 'https://i9b202.p.ssafy.io/api/oauth/google-login',
+      //   methods: 'get',
+      //   redirect_uri : 'https://i9b202.p.ssafy.io/social',
+      // })
+      // .then (res => {
+      //   console.log(res)
+      //   sessionStorage.setItem('social', 1)
+      // })
+      // .catch (err => {
+      //   console.log(err)
+      // })
     },
     socialLoginNaver() {
       this.socialType = 'Naver'
-      axios ({
-        url: 'https://i9b202.p.ssafy.io/api/oauth/naver-login',
-        methods: 'get',
-      })
-      .then (res => {
-        console.log(res)
-      })
-      .catch (err => {
-        console.log(err)
-      })
+      // axios ({
+      //   url: '/api/oauth/naver-login',
+      //   methods: 'get',
+      // })
+      // .then (res => {
+      //   console.log(res)
+      //   sessionStorage.setItem('social', 1)
+      // })
+      // .catch (err => {
+      //   console.log(err)
+      // })
     },
     socialLoginKakao() {
       this.socialType = 'Kakao'
-      window.location.href = 'https://i9b202.p.ssafy.io/api/oauth/kakao-login'
       // axios ({
       //   url: 'https://i9b202.p.ssafy.io/api/oauth/kakao-login',
       //   method: 'get',
@@ -255,6 +241,15 @@ export default {
       // .catch(err => {
       //   console.log(err.response)
       // })
+      // axios.get('https://kauth.kakao.com/oauth/authorize', {
+      //                           params: {
+      //                               client_id: process.env.REACT_APP_REST_API_KEY,
+      //                               redirect_uri: 'http://localhost:8081/api/kakao/oauth',
+      //                               response_type: 'code',
+      //                               state: '/login',
+      //                           },
+      //                           withCredentials: false,
+      //                       });
     }
   }
 }

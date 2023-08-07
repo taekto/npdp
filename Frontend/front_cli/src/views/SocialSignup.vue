@@ -95,12 +95,12 @@
       <button class="signup_btn" style="width: 100%;" @click="signup">Get started</button>
       <!-- 소셜 로그인 -->
       <div class="signup_sns">
-          <button v-if="socialLoginType !== 'Google'" @click="changeSocialGoogle" href="http://localhost:8080/social" class="btn_sns btn-google btn-block" style="width: 100%">
-          Google 계정으로 시작</button>
-          <button v-if="socialLoginType !== 'Naver'" @click="changeSocialNaver" href="http://localhost:8080/social" class="btn_sns btn-naver btn-block" style="width: 100%"><i class="fab fab-naver-alt"></i> 
-          네이버 계정으로 시작</button>
-          <button v-if="socialLoginType !== 'Kakao'" @click="changeSocialKakao" href="http://localhost:8080/social" class="btn_sns btn-kakao btn-block" style="width: 100%">
-          KaKao 계정으로 시작</button>
+          <a href="https://i9b202.p.ssafy.io/api/oauth/google-login?redirect_uri=https://i9b202.p.ssafy.io/social" class="btn_sns btn-google btn-block" @click="socialLoginGoogle" style="width: 100%">
+          Google 계정으로 시작</a>
+          <a href="https://i9b202.p.ssafy.io/api/oauth/naver-login?redirect_uri=https://i9b202.p.ssafy.io/social" class="btn_sns btn-naver btn-block" @click="socialLoginNaver" style="width: 100%"><i class="fab fab-naver-alt"></i> 
+          네이버 계정으로 시작</a>
+          <a href="https://i9b202.p.ssafy.io/api/oauth/kakao-login?redirect_uri=https://i9b202.p.ssafy.io/social" class="btn_sns btn-kakao btn-block" @click="socialLoginKakao" style="width: 100%">
+          KaKao 계정으로 시작</a>
       </div>
 
       </form>
