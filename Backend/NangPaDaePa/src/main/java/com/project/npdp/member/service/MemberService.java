@@ -73,28 +73,39 @@ public class MemberService {
         }
     }
 
+    // 로그인
     public MemberLoginResponseDto login(MemberLoginRequestDto memberLoginRequestDto){
         String email = memberLoginRequestDto.getEmail();
         String password = memberLoginRequestDto.getPassword();
         // 이메일 및 비번 인증과정
-        Member findMemberByEmail = memberRepository.findByEmail(email);
-        if(findMemberByEmail == null || !findMemberByEmail.authenticate(email, password)){
-            log.info("첫번째에서 걸림");
+        Member member = memberRepository.findByEmail(email);
+        if(member == null || !member.authenticate(email, password)){
             return null;
         }
         // 토큰 생성
         String jwt = JwtUtil.createJwt(email, secretKey, expiredMs);
         // 토큰과 닉네임 반환
         MemberLoginResponseDto result = MemberLoginResponseDto.builder()
-                .id(findMemberByEmail.getId())
-                .nickname(findMemberByEmail.getNickname())
+                .id(member.getId())
+                .nickname(member.getNickname())
                 .accessToken(jwt)
                 .build();
 
         return result;
     }
 
+    // 비밀번호 확인
+    public void checkPw(MemberPwRequestDto memberPwRequestDto) {
+        String email = memberPwRequestDto.getEmail();
+        String password = memberPwRequestDto.getNewPassword();
 
+        Member member = memberRepository.findByEmail(email);
+        if (member == null || !member.authenticate(email, password)) {
+            throw new IllegalArgumentException("사용자를 찾을 수 없습니다");
+        }
+    }
+
+    // sns 로그인
     public MemberLoginResponseDto snsLogin(Member member){
 //         이메일 중복 여부 확인
         Member findMembers = memberRepository.findByEmail(member.getEmail());
