@@ -24,7 +24,6 @@ import java.io.UnsupportedEncodingException;
 @RestController
 @RequestMapping("/api/oauth")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
 @Slf4j
 public class SnsLoginController {
 
