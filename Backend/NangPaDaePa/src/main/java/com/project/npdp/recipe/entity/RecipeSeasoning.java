@@ -19,6 +19,12 @@ public class RecipeSeasoning {
     @Column(name = "recipe_seasoning_id")
     private Long id;
 
+    private Long amount;
+
+    private String unit;
+
+    private String etc;
+
     // recipe(레시피) 연관관계
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recipe_id")

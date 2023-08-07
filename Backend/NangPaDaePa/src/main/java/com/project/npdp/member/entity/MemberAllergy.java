@@ -1,6 +1,7 @@
 package com.project.npdp.member.entity;
 
 import com.project.npdp.domain.Allergy;
+import com.project.npdp.food.entity.Ingredient;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,5 +30,9 @@ public class MemberAllergy {
     @JoinColumn(name = "allergy_id")
     private Allergy allergy;
 
-    //
+    // 회원이 갖는 알러지
+    public MemberAllergy(Member member, Allergy allergy){
+        this.member = member;
+        this.allergy = allergy;
+    }
 }

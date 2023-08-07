@@ -40,10 +40,11 @@ public class AuthenticationConfig {
                 .csrf().disable()
                 .cors().and()
                 .authorizeRequests()
-                // 해당 api 모든 요청 허가 ("/members/login")
-                .antMatchers("/members/login").permitAll()
+                // 해당 api 모든 요청 허가
+//                .antMatchers("/api/members/localLogin", "/api/members/join", "/api/oauth/**").permitAll()
+                .antMatchers("/api/**").permitAll()
                 // 해당 api 모든 요청 불허
-                .antMatchers(HttpMethod.POST).authenticated()
+//                .antMatchers(HttpMethod.POST).authenticated()
                 .and()
                 // JWT 사용으로 session 사용 안함
                 .sessionManagement()

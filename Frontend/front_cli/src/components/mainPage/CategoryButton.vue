@@ -23,7 +23,11 @@
 
 <script>
 export default {
-
+  data() {
+    return {
+      selectCategory : "전체"
+    }
+  }
 }
 </script>
 

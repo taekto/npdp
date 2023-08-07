@@ -22,19 +22,19 @@ public class Seasoning {
     @Column(name = "seasoning_id")
     private Long id;
 
-    private String name;
+    private String code;
 
     private String kor;
 
     private String eng;
 
-    private String definition;
+    private String def;
 
     private Long level;
 
     private String upperClass;
 
-    private String supperUpperClass;
+    private String superUpperClass;
 
     private String etc;
 

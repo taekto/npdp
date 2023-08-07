@@ -71,31 +71,43 @@
               <p>성별 변경</p>
             </div>
             <div class="storageRadio">
-              <label class="radioButton">
-                <input type="radio" name="male" value="남자" v-model="credentials.gender" @click="changeClassification">남자
+              <label v-if="credentials.gender === 'none'" class="activeRadioButton">
+                <input type="radio" name="noGender" value="none" v-model="credentials.gender" @click="changeClassification">선택 안함
               </label>
-              <label class="radioButton">
-                <input type="radio" name="female" value="여자" v-model="credentials.gender" @click="changeClassification">여자
+              <label v-else class="radioButton">
+                <input type="radio" name="noGender" value="none" v-model="credentials.gender" @click="changeClassification">선택 안함
               </label>
-              <label class="radioButton">
-                <input type="radio" name="noGender" value="미선택" v-model="credentials.gender" @click="changeClassification">선택 안함
-              </label>            
+              <label v-if="credentials.gender === 'male'" class="activeRadioButton">
+                <input type="radio" name="male" value="male" v-model="credentials.gender" @click="changeClassification">남자
+              </label>
+              <label v-else class="radioButton">
+                <input type="radio" name="male" value="male" v-model="credentials.gender" @click="changeClassification">남자
+              </label>
+              <label v-if="credentials.gender === 'female'" class="activeRadioButton">
+                <input type="radio" name="female" value="female" v-model="credentials.gender" @click="changeClassification">여자
+              </label>
+              <label v-else class="radioButton">
+                <input type="radio" name="female" value="female" v-model="credentials.gender" @click="changeClassification">여자
+              </label>
             </div>
-            <p>{{credentials.gender}}</p>
           </div>
+<<<<<<< HEAD
           <p>성별 : {{credentials.gender}}</p>
+=======
+>>>>>>> c9f68e99d388b1ffb41ccd1925c8e7669e6de766
       <button class="signup_btn" style="width: 100%;" @click="signup">Get started</button>
-      <!-- 소셜 로그인 -->
-      <div class="signup_sns">
-          <a href="http://localhost:8080/signup" class="btn_sns btn-google btn-block">
-          Google 계정으로 시작</a>
-          <a href="http://localhost:8080/signup" class="btn_sns btn-naver btn-block"><i class="fab fab-naver-alt"></i> 
-          네이버 계정으로 시작</a>
-          <a href="http://localhost:8080/signup" class="btn_sns btn-kakao btn-block">
-          KaKao 계정으로 시작</a>
-      </div>
+      
 
       </form>
+      <!-- 소셜 로그인 -->
+      <div class="signup_sns">
+          <button class="btn_sns btn-google btn-block" @click="socialLoginGoogle" style="width: 100%">
+          Google 계정으로 시작</button>
+          <button class="btn_sns btn-naver btn-block" @click="socialLoginNaver" style="width: 100%"><i class="fab fab-naver-alt"></i> 
+          네이버 계정으로 시작</button>
+          <button class="btn_sns btn-kakao btn-block" @click="socialLoginKakao" style="width: 100%">
+          KaKao 계정으로 시작</button>
+      </div>
     </div>
   </div>
 </template>
@@ -103,18 +115,20 @@
 <script>
 
 import { mapActions } from 'vuex';
+import axios from "axios"
 
 
 export default {
 
   data() {
     return {
-       credentials: {
-        email: '',
-        password: '',
-        nickname: '',
-        gender: '',
-        birth: '',
+        socialType: '',
+        credentials: {
+          email: '',
+          password: '',
+          nickname: '',
+          gender: 'none',
+          birth: '',
       },
       // 이메일, 패스워드 검증
       valid: {
@@ -137,6 +151,22 @@ export default {
 
   // birthdate = new Date(); // birthdate 매개변수의 타입을 Date | null로 명시
   methods: {
+    changeSocialGoogle() {
+      this.socialType = 'Google'
+      console.log(this.socialType)
+      this.$router.push({name: 'social', query: {socialType: this.socialType}})
+    },
+    changeSocialNaver() {
+      this.socialType = 'Naver'
+      console.log(this.socialType)
+      this.$router.push({name: 'social', query: {socialType: this.socialType}})
+    },
+    changeSocialKakao() {
+      this.socialType = 'Kakao'
+      console.log(this.socialType)
+      this.$router.push({name: 'social', query: {socialType: this.socialType}})
+    },
+
     // 이메일 형식 검사
     checkEmail() {
       // 이메일 형식 검사
@@ -187,12 +217,64 @@ export default {
         }
       }
       this.credentials.birth = this.birthdate
+    },
+
+    socialLoginGoogle() {
+      this.socialType = 'Google'
+      axios ({
+        url: 'https://i9b202.p.ssafy.io/api/oauth/google-login',
+        methods: 'get',
+      })
+      .then (res => {
+        console.log(res)
+      })
+      .catch (err => {
+        console.log(err)
+      })
+    },
+    socialLoginNaver() {
+      this.socialType = 'Naver'
+      axios ({
+        url: 'https://i9b202.p.ssafy.io/api/oauth/naver-login',
+        methods: 'get',
+      })
+      .then (res => {
+        console.log(res)
+      })
+      .catch (err => {
+        console.log(err)
+      })
+    },
+    socialLoginKakao() {
+      this.socialType = 'Kakao'
+      window.location.href = 'https://i9b202.p.ssafy.io/api/oauth/kakao-login'
+      // axios ({
+      //   url: 'https://i9b202.p.ssafy.io/api/oauth/kakao-login',
+      //   method: 'get',
+      // })
+      // .then(res => {
+      //   console.log(res)
+      // })
+      // .catch(err => {
+      //   console.log(err.response)
+      // })
     }
   }
 }
 </script>
 
 <style scoped>
+.activeRadioButton {
+  border: solid #FD7E14;
+  background-color: #FD7E14;
+  color: white;
+  border-radius: .5rem;
+  padding: .5rem;
+  margin: .5rem;
+  width: 6rem;
+}
+
+
 .signup_card {
   display: flex;
   flex-direction: column;

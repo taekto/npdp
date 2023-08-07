@@ -1,6 +1,9 @@
 package com.project.npdp.recipe.service;
 
+import com.project.npdp.recipe.dto.response.RecipeDetailResponseDto;
+import com.project.npdp.recipe.dto.response.RecipeIngredientDetailDto;
 import com.project.npdp.recipe.dto.response.RecipeResponseDto;
+import com.project.npdp.recipe.dto.response.RecipeWantResponseDto;
 import com.project.npdp.recipe.entity.Recipe;
 import com.project.npdp.recipe.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +17,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class RecipeService {
 
     private final RecipeRepository recipeRepository;
@@ -35,18 +39,24 @@ public class RecipeService {
     }
 
     // 레시피id로 레시피 조회
-    @Transactional(readOnly = true)
-    public RecipeResponseDto findRecipeById(Long recipeId) {
-        Recipe recipe = recipeRepository.findById(recipeId)
-                .orElseThrow(() -> new IllegalArgumentException("레시피Id 조회불가"));
+    public RecipeDetailResponseDto findRecipeDetail(Long recipeId) {
+        RecipeDetailResponseDto recipeDetail = recipeRepository.findRecipeDetail(recipeId);
+        return recipeDetail;
+    }
 
-        RecipeResponseDto result = RecipeResponseDto.builder()
-                .recipeId(recipe.getId())
-                .name(recipe.getName())
-                .imgBig(recipe.getImgBig())
-                .imgSmall(recipe.getImgSmall())
-                .category(recipe.getCategory())
-                .build();
+    // 특정 레시피 검색
+    @Transactional(readOnly = true)
+    public List<RecipeWantResponseDto> findWantRecipe(String content) {
+        List<Recipe> wantRecipe = recipeRepository.findRecipeByContent(content);
+        List<RecipeWantResponseDto> result = wantRecipe.stream()
+                .map(recipe -> RecipeWantResponseDto.builder()
+                        .recipeId(recipe.getId())
+                        .name(recipe.getName())
+                        .imgBig(recipe.getImgBig())
+                        .build())
+                .collect(Collectors.toList());
+
         return result;
     }
+
 }
