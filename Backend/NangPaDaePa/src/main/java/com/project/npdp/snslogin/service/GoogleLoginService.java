@@ -57,6 +57,7 @@ public class GoogleLoginService implements OAuthProviderService<GoogleToken>{
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/x-www-form-urlencoded");
+        headers.add("Origin", "http://i9b202.p.ssafy.io/");
 
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", oAuthConfig.getGoogleGrantType());
