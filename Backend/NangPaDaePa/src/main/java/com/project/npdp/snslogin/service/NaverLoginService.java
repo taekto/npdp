@@ -57,6 +57,7 @@ public class NaverLoginService implements OAuthProviderService<NaverToken>{
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.add("Origin", "http://i9b202.p.ssafy.io/");
 
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", oAuthConfig.getNaverGrantType());
@@ -97,6 +98,7 @@ public class NaverLoginService implements OAuthProviderService<NaverToken>{
         // HttpHeader 생성
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", naverToken.getTokenType() + " " + naverToken.getAccessToken());
+        headers.add("Origin", "http://i9b202.p.ssafy.io/");
 
         // HttpHeader와 HttpBody를 하나의 오브젝트에 담기(body 정보는 생략 가능)
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(headers);

@@ -58,6 +58,7 @@ public class KakaoLoginService implements OAuthProviderService<KakaoToken> {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Accept", "application/json");
         headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+        headers.add("Origin", "http://i9b202.p.ssafy.io/");
 
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", oAuthConfig.getKakaoGrantType());
@@ -95,14 +96,15 @@ public class KakaoLoginService implements OAuthProviderService<KakaoToken> {
         RestTemplate restTemplate = new RestTemplate();
 
         // HttpHeader 생성
-        HttpHeaders header = new HttpHeaders();
-        header.add("Authorization", "Bearer " + kakaoToken.getAccessToken());
-        header.add("Content-type",
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + kakaoToken.getAccessToken());
+        headers.add("Content-type",
                 "application/x-www-form-urlencoded;charset=utf-8");
+        headers.add("Origin", "http://i9b202.p.ssafy.io/");
 
         // HttpHeader와 HttpBody를 하나의 오브젝트에 담기(body 정보는 생략 가능)
         HttpEntity<MultiValueMap<String, String>> requestEntity =
-                new HttpEntity<>(header);
+                new HttpEntity<>(headers);
 
         // HTTP 요청을 POST(GET) 방식으로 실행하기 -> 그러면 문자열로 응답이 들어온다.
         ResponseEntity<String> responseEntity = restTemplate.exchange(

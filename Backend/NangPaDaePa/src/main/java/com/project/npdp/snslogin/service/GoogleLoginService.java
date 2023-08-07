@@ -95,11 +95,12 @@ public class GoogleLoginService implements OAuthProviderService<GoogleToken>{
         RestTemplate restTemplate = new RestTemplate();
 
         // HttpHeader 생성
-        HttpHeaders header = new HttpHeaders();
-        header.add("Authorization", "Bearer "+googleToken.getAccessToken());
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer "+googleToken.getAccessToken());
+        headers.add("Origin", "http://i9b202.p.ssafy.io/");
 
         // HttpHeader와 HttpBody를 하나의 오브젝트에 담기(body 정보는 생략 가능)
-        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(header);
+        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(headers);
 
         // HTTP 요청을 POST(GET) 방식으로 실행하기 -> 그러면 문자열로 응답이 들어온다.
         ResponseEntity<String> responseEntity = restTemplate.exchange(
