@@ -11,9 +11,10 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("*") // 허용할 도메인 설정
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // 허용할 HTTP 메서드 설정
-                .allowedHeaders("*") // 허용할 HTTP 헤더 설정
-                .maxAge(3600); // 캐시 시간 설정 (옵션)
+                .allowedOrigins("https://i9b202.p.ssafy.io", "http://localhost:8080", "http://localhost:8081")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedHeaders("*")
+                .allowCredentials(true)
+                .maxAge(6000);
     }
 }
