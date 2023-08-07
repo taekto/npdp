@@ -217,7 +217,7 @@ export default {
     socialLoginGoogle() {
       this.socialType = 'Google'
       axios ({
-        url: '/api/oauth/google-login',
+        url: 'https://i9b202.p.ssafy.io/api/oauth/google-login',
         methods: 'get',
       })
       .then (res => {
@@ -229,6 +229,16 @@ export default {
     },
     socialLoginNaver() {
       this.socialType = 'Naver'
+      axios ({
+        url: 'https://i9b202.p.ssafy.io/api/oauth/naver-login',
+        methods: 'get',
+      })
+      .then (res => {
+        console.log(res)
+      })
+      .catch (err => {
+        console.log(err)
+      })
     },
     socialLoginKakao() {
       this.socialType = 'Kakao'
