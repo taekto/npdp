@@ -18,6 +18,7 @@ public class CorsConfig implements WebMvcConfigurer {
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 // 허용할 HTTP 헤더 설정
                 .allowedHeaders("*")
+                .allowCredentials(true)
                 // 1초단위로 정책 캐시
                 .maxAge(6000);
     }
