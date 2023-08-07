@@ -110,7 +110,7 @@
 <script>
 
 import { mapActions } from 'vuex';
-// import axios from "axios"
+import axios from "axios"
 
 
 export default {
@@ -216,6 +216,16 @@ export default {
 
     socialLoginGoogle() {
       this.socialType = 'Google'
+      axios ({
+        url: '/api/oauth/google-login',
+        methods: 'get',
+      })
+      .then (res => {
+        console.log(res)
+      })
+      .catch (err => {
+        console.log(err)
+      })
     },
     socialLoginNaver() {
       this.socialType = 'Naver'
