@@ -19,7 +19,9 @@ import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.print.DocFlavor;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,13 +106,19 @@ public class MemberService {
     }
 
     // 비밀번호 확인
-    public void checkPw(MemberPwRequestDto memberPwRequestDto) {
-        String email = memberPwRequestDto.getEmail();
-        String password = memberPwRequestDto.getNewPassword();
+    public void checkPw(MemberCheckPwRequestDto memberCheckPwRequestDto) {
+        String email = memberCheckPwRequestDto.getEmail();
+        String password = SHA256Util.getSHA256(memberCheckPwRequestDto.getPassword());
 
         Member member = memberRepository.findByEmail(email);
-        if (member == null || !member.authenticate(email, password)) {
+
+//        log.info("DB에 저장된 비번: " + member.getPassword());
+//        log.info("현재 들어온 비번 변환: " + password);
+
+        if (member == null) {
             throw new IllegalArgumentException("사용자를 찾을 수 없습니다");
+        }else if(!member.getPassword().equals(password)){
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다");
         }
     }
 
@@ -159,7 +167,8 @@ public class MemberService {
     public void modifyPw(String email, String newPw){
         Member member = memberRepository.findByEmail(email);
         if(member != null){
-            member.modifyPw(newPw);
+//            log.info("newPw: " + newPw);
+            member.modifyPw(SHA256Util.getSHA256(newPw));
             memberRepository.save(member);
         }else{
             throw new IllegalArgumentException("사용자를 찾을 수 없습니다");
@@ -184,6 +193,8 @@ public class MemberService {
     public void modifyGender(MemberGenderRequestDto memberGenderRequestDto){
         Long id = memberGenderRequestDto.getMemberId();
         String gender = memberGenderRequestDto.getGender();
+
+//        log.info("gender: " + gender);
 
         Gender newGender = Gender.MALE;
         if(gender.equals("여자")){
@@ -303,16 +314,23 @@ public class MemberService {
 
         if(member != null){
             // 탈퇴일 설정
-            member.modifyQuit(LocalDateTime.now());
+            LocalDateTime now = LocalDateTime.now();
+            // LocalDateTime -> 문자열
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String formattedDateTime = now.format(formatter);
+            // 문자열 -> LocalDateTime
+            LocalDateTime parsedDateTime = LocalDateTime.parse(formattedDateTime, formatter);
+
+            member.modifyQuit(parsedDateTime);
             memberRepository.save(member);
             // 회원 정보 삭제
 //            memberRepository.delete(member);
             // 회원 알러지 정보 삭제
-            memberAllergyRepository.deleteAllByMember(member);
-            // 회원 조리도구 정보 삭제
-            memberUtensilRepository.deleteAllByMember(member);
-            // 회원 비선호재료 정보 삭제
-            memberDislikeRepository.deleteAllByMember(member);
+//            memberAllergyRepository.deleteAllByMember(member);
+//            // 회원 조리도구 정보 삭제
+//            memberUtensilRepository.deleteAllByMember(member);
+//            // 회원 비선호재료 정보 삭제
+//            memberDislikeRepository.deleteAllByMember(member);
             // 회원
         }else{
             throw new IllegalArgumentException("사용자를 찾을 수 없습니다");
