@@ -101,8 +101,8 @@
           Google 계정으로 시작</button>
           <button class="btn_sns btn-naver btn-block" @click="socialLoginNaver" style="width: 100%"><i class="fab fab-naver-alt"></i> 
           네이버 계정으로 시작</button>
-          <button class="btn_sns btn-kakao btn-block" @click="socialLoginKakao" style="width: 100%">
-          KaKao 계정으로 시작</button>
+          <a href="https://i9b202.p.ssafy.io/api/oauth/kakao-login?redirect_uri=https://i9b202.p.ssafy.io/social" class="btn_sns btn-kakao btn-block" @click="socialLoginKakao" style="width: 100%">
+          KaKao 계정으로 시작</a>
       </div>
     </div>
   </div>
@@ -238,16 +238,25 @@ export default {
     },
     socialLoginKakao() {
       this.socialType = 'Kakao'
-      axios ({
-        url: 'https://i9b202.p.ssafy.io/api/oauth/kakao-login',
-        method: 'get',
-      })
-      .then(res => {
-        console.log(res)
-      })
-      .catch(err => {
-        console.log(err.response)
-      })
+      // axios ({
+      //   url: 'https://i9b202.p.ssafy.io/api/oauth/kakao-login',
+      //   method: 'get',
+      // })
+      // .then(res => {
+      //   console.log(res)
+      // })
+      // .catch(err => {
+      //   console.log(err.response)
+      // })
+      axios.get('https://kauth.kakao.com/oauth/authorize', {
+                                params: {
+                                    client_id: process.env.REACT_APP_REST_API_KEY,
+                                    redirect_uri: 'http://localhost:8081/api/kakao/oauth',
+                                    response_type: 'code',
+                                    state: '/login',
+                                },
+                                withCredentials: false,
+                            });
     }
   }
 }
