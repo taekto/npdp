@@ -1,4 +1,4 @@
-package com.project.npdp.refregirator.dto.response;
+package com.project.npdp.refregirator.dto.request;
 
 import lombok.*;
 
@@ -8,16 +8,22 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @AllArgsConstructor
-public class MemberSeasoningFindResponseDto {
+public class MemberIngredientModifyRequestDto {
 
-    private Long memberSeasoningId;
+    private Long memberId;
 
-    private String kor;
+    private Long refregiratorId;
 
     private Long storage;
+
+    private Double amount;
+
+    private String unit;
 
     private LocalDateTime startDate;
 
     private LocalDateTime expiredDate;
+
+    private boolean isdelete;
 
 }

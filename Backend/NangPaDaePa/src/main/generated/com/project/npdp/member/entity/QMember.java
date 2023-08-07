@@ -48,6 +48,8 @@ public class QMember extends EntityPathBase<Member> {
 
     public final StringPath password = createString("password");
 
+    public final DateTimePath<java.time.LocalDateTime> quit = createDateTime("quit", java.time.LocalDateTime.class);
+
     public final ListPath<com.project.npdp.refregirator.entity.Refregirator, com.project.npdp.refregirator.entity.QRefregirator> refregiratorList = this.<com.project.npdp.refregirator.entity.Refregirator, com.project.npdp.refregirator.entity.QRefregirator>createList("refregiratorList", com.project.npdp.refregirator.entity.Refregirator.class, com.project.npdp.refregirator.entity.QRefregirator.class, PathInits.DIRECT2);
 
     public final EnumPath<Role> role = createEnum("role", Role.class);

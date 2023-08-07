@@ -2,6 +2,8 @@ package com.project.npdp.snslogin.controller;
 
 
 import com.project.npdp.member.dto.request.MemberJoinRequestDto;
+import com.project.npdp.member.dto.request.MemberLoginRequestDto;
+import com.project.npdp.member.dto.response.MemberLoginResponseDto;
 import com.project.npdp.member.entity.Member;
 import com.project.npdp.member.service.MemberService;
 import com.project.npdp.snslogin.dto.GoogleToken;
@@ -59,8 +61,8 @@ public class SnsLoginController {
 //            return ResponseEntity.ok().body(memberService.snsLogin(member));
 //        }
         try{
-            String result = memberService.snsLogin(member);
-            if (result.equals("new")) {
+            MemberLoginResponseDto result = memberService.snsLogin(member);
+            if (result == null) {
                 log.info("새롭게 생성되는 사용자!");
                 return ResponseEntity.status(HttpStatus.CREATED).body(member); // 201 Created + Member 객체 반환
             } else {
@@ -101,8 +103,8 @@ public class SnsLoginController {
 //            return ResponseEntity.ok().body(memberService.snsLogin(member));
 //        }
         try{
-            String result = memberService.snsLogin(member);
-            if (result.equals("new")) {
+            MemberLoginResponseDto result = memberService.snsLogin(member);
+            if (result == null) {
                 log.info("새롭게 생성되는 사용자!");
                 return ResponseEntity.status(HttpStatus.CREATED).body(member); // 201 Created + Member 객체 반환
             } else {
@@ -142,8 +144,8 @@ public class SnsLoginController {
 //            return ResponseEntity.ok().body(memberService.snsLogin(member));
 //        }
         try{
-            String result = memberService.snsLogin(member);
-            if (result.equals("new")) {
+            MemberLoginResponseDto result = memberService.snsLogin(member);
+            if (result == null) {
                 log.info("새롭게 생성되는 사용자!");
                 return ResponseEntity.status(HttpStatus.CREATED).body(member); // 201 Created + Member 객체 반환
             } else {
@@ -166,14 +168,6 @@ public class SnsLoginController {
             return ResponseEntity.status(400).body("Failed to generate Naver login URL.");
         }
     }
-
-    @PostMapping("/sns-join")
-    public ResponseEntity<?> join(@RequestBody MemberJoinRequestDto memberJoinRequestDto){
-        memberService.join(memberJoinRequestDto);
-        String token = memberService.login(memberJoinRequestDto.getEmail(), memberJoinRequestDto.getPassword());
-        return ResponseEntity.ok().body(token);
-    }
-
     public void printMember(Member member){
         log.info("Member 정보:");
         log.info("ID: {}", member.getId());

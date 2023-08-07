@@ -27,10 +27,10 @@ public class NaverMember implements OAuthMember{
                 .email(email)
                 .nickname(nickname)
                 .password(password)
-                .birth(String.format("%s-%s", birthyear, birthday))
-                .gender(myGender)
                 .oauth(OAuthType.NAVER)
                 .role(Role.MEMBER)
+                .birth(String.format("%s-%s", birthyear, birthday))
+                .gender(myGender)
                 .build();
         return member;
     }

@@ -22,11 +22,15 @@ public class QMemberSeasoning extends EntityPathBase<MemberSeasoning> {
 
     public static final QMemberSeasoning memberSeasoning = new QMemberSeasoning("memberSeasoning");
 
+    public final DateTimePath<java.time.LocalDateTime> expiredDate = createDateTime("expiredDate", java.time.LocalDateTime.class);
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final com.project.npdp.member.entity.QMember member;
 
     public final com.project.npdp.food.entity.QSeasoning seasoning;
+
+    public final DateTimePath<java.time.LocalDateTime> startDate = createDateTime("startDate", java.time.LocalDateTime.class);
 
     public final NumberPath<Long> storage = createNumber("storage", Long.class);
 

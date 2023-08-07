@@ -22,11 +22,17 @@ public class QRecipeSeasoning extends EntityPathBase<RecipeSeasoning> {
 
     public static final QRecipeSeasoning recipeSeasoning = new QRecipeSeasoning("recipeSeasoning");
 
+    public final NumberPath<Long> amount = createNumber("amount", Long.class);
+
+    public final StringPath etc = createString("etc");
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final QRecipe recipe;
 
     public final com.project.npdp.food.entity.QSeasoning seasoning;
+
+    public final StringPath unit = createString("unit");
 
     public QRecipeSeasoning(String variable) {
         this(RecipeSeasoning.class, forVariable(variable), INITS);

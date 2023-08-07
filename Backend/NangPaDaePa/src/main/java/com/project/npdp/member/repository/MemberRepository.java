@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
     // 이메일로 회원 조희
-    List<Member> findByEmail(String email);
+    Member findByEmail(String email);
 
     Optional<Member> findById(Long id);
 
