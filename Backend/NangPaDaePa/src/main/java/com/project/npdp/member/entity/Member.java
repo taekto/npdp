@@ -43,7 +43,7 @@ public class Member {
     private String birth;
 
     @Enumerated(EnumType.STRING)
-    private Gender gender = Gender.MALE;
+    private Gender gender = Gender.NONE;
 
     // 탈퇴 여부
     private LocalDateTime quit;
