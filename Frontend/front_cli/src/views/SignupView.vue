@@ -110,7 +110,7 @@
 <script>
 
 import { mapActions } from 'vuex';
-import axios from "axios"
+// import axios from "axios"
 
 
 export default {
@@ -222,16 +222,17 @@ export default {
     },
     socialLoginKakao() {
       this.socialType = 'Kakao'
-      axios ({
-        url: 'https://i9b202.p.ssafy.io/api/oauth/kakao-login',
-        method: 'get',
-      })
-      .then(res => {
-        console.log(res)
-      })
-      .catch(err => {
-        console.log(err.response)
-      })
+      window.location.href = 'https://i9b202.p.ssafy.io/api/oauth/kakao-login'
+      // axios ({
+      //   url: 'https://i9b202.p.ssafy.io/api/oauth/kakao-login',
+      //   method: 'get',
+      // })
+      // .then(res => {
+      //   console.log(res)
+      // })
+      // .catch(err => {
+      //   console.log(err.response)
+      // })
     }
   }
 }
