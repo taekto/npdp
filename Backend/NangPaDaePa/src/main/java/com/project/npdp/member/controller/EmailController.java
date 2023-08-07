@@ -27,7 +27,7 @@ public class EmailController {
 
         EmailAuthResponseDto emailAuthResponseDto = new EmailAuthResponseDto(code);
 
-        // body로 인증번호 반환
+        // body로 인증코드 반환
         return ResponseEntity.ok(emailAuthResponseDto);
     }
 
