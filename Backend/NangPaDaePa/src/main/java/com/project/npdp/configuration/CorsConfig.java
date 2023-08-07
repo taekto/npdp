@@ -8,6 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class CorsConfig implements WebMvcConfigurer {
 
     // Interceptor 이용해 전역의 Cross Origin 처리
+    @Override
     public void addCorsMappings(CorsRegistry registry){
         // 해당 서버의 모든 URL 요청에 해당 Class가
         registry.addMapping("/**")
