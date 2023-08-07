@@ -24,21 +24,26 @@ public class Member {
     @Column(name = "member_id")
     private Long id;
 
+    @Column(nullable = false)
     private String email;
 
     private String nickname;
 
     private String password;
 
-    private String oauth;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private OAuthType oauth = OAuthType.LOCAL;
 
 //    @Column(nullable = false, columnDefinition = "VARCHAR(10) DEFAULT 'USER'")
-//    @Builder.Default
-    private String role = "USER";
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role = Role.MEMBER;
 
     private String birth;
 
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender = Gender.MALE;
 
     // 탈퇴 여부
     private LocalDateTime quit;
@@ -76,6 +81,10 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<MemberRecipeLatest> memberRecipeLatestList = new ArrayList<>();
 
+    public String getRoleKey(){
+        return this.role.getKey();
+    }
+
     // 로그인 검증
     public boolean authenticate(String email, String password){
 
@@ -84,13 +93,24 @@ public class Member {
         return this.email.equals(email) && this.password.equals(sha256Pw);
     }
 
+//    @Builder
+//    public Member(String email, String password, String nickname, Gender gender, String birth){
+//        this.email = email;
+//        this.password = password;
+//        this.nickname = nickname;
+//        this.gender = gender;
+//        this.birth = birth;
+//    }
+
     @Builder
-    public Member(String email, String password, String nickname, String gender, String birth){
+    public Member(String email, String nickname, String password, OAuthType oauth, Role role, String birth, Gender gender){
         this.email = email;
-        this.password = password;
         this.nickname = nickname;
-        this.gender = gender;
+        this.password = password;
+        this.oauth = oauth;
+        this.role = role;
         this.birth = birth;
+        this.gender = gender;
     }
 
     // 비밀번호 변경
@@ -104,7 +124,7 @@ public class Member {
     }
 
     // 성별변경
-    public void modifyGender(String newGender) {
+    public void modifyGender(Gender newGender) {
         this.gender = newGender;
     }
 
