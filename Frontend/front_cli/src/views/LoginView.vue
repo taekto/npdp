@@ -48,14 +48,14 @@
     <!-- 소셜 로그인 -->
       <div class="login_sns">
         <div class="login_sns_google">
-          <button class="btn_sns btn-google btn-block">
+          <button class="btn_sns btn-google btn-block" @click="socialLoginGoogle">
           Google 계정으로 로그인</button>
         </div>
         <div class="login_sns_naver">
-          <button class="btn_sns btn-naver btn-block"><i class="fab fab-naver-alt"></i> 네이버 계정으로 로그인</button>
+          <button class="btn_sns btn-naver btn-block" @click="socialLoginNaver"><i class="fab fab-naver-alt"></i> 네이버 계정으로 로그인</button>
         </div>
         <div class="login_sns_kakao">
-          <button class="btn_sns btn-kakao btn-block">
+          <button class="btn_sns btn-kakao btn-block" @click="socialLoginKakao">
           KaKao 계정으로 로그인</button>
         </div>
       </div>
@@ -83,7 +83,7 @@ export default {
 
   methods: {
     ...mapActions(["localLogin"]),
-    
+
     socialLoginGoogle() {
       this.socialType = 'Google'
       axios ({
