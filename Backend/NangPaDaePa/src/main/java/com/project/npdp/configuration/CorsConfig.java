@@ -9,12 +9,17 @@ public class CorsConfig implements WebMvcConfigurer {
 
     // Interceptor 이용해 전역의 Cross Origin 처리
     @Override
-    public void addCorsMappings(CorsRegistry registry) {
+    public void addCorsMappings(CorsRegistry registry){
+        // 해당 서버의 모든 URL 요청에 해당 Class가
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:8080", "https://i9b202.p.ssafy.io", "http://i9b202.p.ssafy.io") // 프론트엔드 애플리케이션의 도메인 설정
+                // 허용할 도메인 설정
+                .allowedOrigins("https://i9b202.p.ssafy.io", "http://localhost:8080", "http://localhost:8081", "http://localhost", "https://localhost")
+                // 허용할 HTTP 메서드 설정
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                // 허용할 HTTP 헤더 설정
                 .allowedHeaders("*")
                 .allowCredentials(true)
-                .maxAge(3600);
+                // 1초단위로 정책 캐시
+                .maxAge(6000);
     }
 }

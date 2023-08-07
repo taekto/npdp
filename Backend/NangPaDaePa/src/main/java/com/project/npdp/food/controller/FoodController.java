@@ -14,6 +14,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/foods")
+@CrossOrigin(origins = "*")
 public class FoodController {
 
     private final FoodService foodService;

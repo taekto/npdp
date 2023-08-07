@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/refregirator")
+@CrossOrigin(origins = "*")
 public class RefregiratorController {
 
     private final RefregiratorService refregiratorService;
