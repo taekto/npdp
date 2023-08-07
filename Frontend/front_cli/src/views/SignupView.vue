@@ -202,17 +202,23 @@ export default {
 
     socialLoginGoogle() {
       this.socialType = 'Google'
-      axios ({
-        url: 'https://i9b202.p.ssafy.io/api/oauth/google-login',
-        methods: 'get',
-        redirect_uri : 'https://i9b202.p.ssafy.io/social',
-      })
-      .then (res => {
-        console.log(res)
-        sessionStorage.setItem('social', 1)
-      })
-      .catch (err => {
-        console.log(err)
+      // axios ({
+      //   url: 'https://i9b202.p.ssafy.io/api/oauth/google-login',
+      //   methods: 'get',
+      //   redirect_uri : 'https://i9b202.p.ssafy.io/social',
+      // })
+      // .then (res => {
+      //   console.log(res)
+      //   sessionStorage.setItem('social', 1)
+      // })
+      // .catch (err => {
+      //   console.log(err)
+      // })
+      fetch('https://i9b202.p.ssafy.io/api/oauth/google-login', {
+        method: 'GET',
+        headers: {
+          'Origin': 'https://i9b202.p.ssafy.io' // 클라이언트 도메인
+        }
       })
     },
     socialLoginNaver() {
