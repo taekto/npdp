@@ -224,7 +224,7 @@ export default {
       this.socialType = 'Kakao'
       axios ({
         url: 'https://i9b202.p.ssafy.io/api/oauth/kakao-login',
-        metod: 'get',
+        method: 'get',
       })
       .then(res => {
         console.log(res)
