@@ -23,8 +23,6 @@
           style="width: 100%; height: 33.6px"
         />
       <button class="login_btn" style="width: 100%;">Sign In</button>
-      
-
     </form>
   </div>
   

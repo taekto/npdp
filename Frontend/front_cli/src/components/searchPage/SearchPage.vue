@@ -3,7 +3,7 @@
     <div>
         <!-- 검색창 컴포넌트 -->
         <div class="searchWindow">
-            <form @submit.prevent="recipeSpecific(searchKeyword)">
+            <form @submit.prevent="recipeSpecificSearch(searchKeyword)">
                 <!-- 검색창 -->
                 <div class="input-group">
                     <input id="searchForm" class="form-control" type="text" v-model.trim="searchKeyword">
@@ -57,7 +57,7 @@ export default {
     },
     methods: {
         // 키워드를 통해 검색하도록 하는 함수
-        ...mapActions(['recipeSpecific']),
+        ...mapActions(['recipeSpecificSearch']),
         goToSearchwithKeyword() {
             // 키워드를 통해 검색하는 과정
             this.keyWord = ""

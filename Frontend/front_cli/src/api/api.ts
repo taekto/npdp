@@ -21,6 +21,9 @@ export default {
     // 회원 로컬 로그인 
     login: () => API + MEMBER + 'localLogin',
 
+    // 회원 이메일 인증
+    emailVerify: () => API + 'mail/' + 'joinAuth',
+
     // 회원 소셜 로그인
     socialLogin: () => API + MEMBER + 'socialLogin',
 
@@ -109,7 +112,7 @@ export default {
   
     // 레시피 특정 조회
     specificRecipe: () => API + RECIPES + 'want' ,
-  
+
     // 레시피 상세 보기
     detailRecipe: function(recipe_id: number) {
       return API + RECIPES + recipe_id

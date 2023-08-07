@@ -6,7 +6,6 @@
       <SlideCardImageVue :slide = slide />
       
     </slide>
-
     <!-- 슬라이드 이동 버튼 -->
     <template #addons>
       <navigation />

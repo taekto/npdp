@@ -13,10 +13,8 @@
           <h3>9836+</h3>
           <p>Ingredients</p>
         </div>
-      </div>
-      
+      </div> 
     </div>
-
     <!-- 검색창 컴포넌트 -->
     <searchComponentVue />
 
@@ -39,17 +37,15 @@
   import CategoryButton from '../components/mainPage/CategoryButton.vue'
 </script>
 
-<style scoped>
+<style>
 /* 상단 슬라이드 관련 CSS */
 .mainImage {
   background-color: #9d9d9d;
   
 }
 
-/* 서비스 관련 CSS */
 .explanation {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  padding: 20px;
   background-color: #FD7E14;
   color: white;
   
@@ -60,5 +56,10 @@
   display: flex;
   justify-content: space-around;
   margin: auto;
+  
+}
+.carousel_pagination {
+  background-color: #FD7E14;
+  
 }
 </style>

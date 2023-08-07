@@ -15,27 +15,51 @@
             style="width: 100%; height: 33.6px"
             v-model="credentials.nickname" 
           />
-          <label for="email" class="input_label">Email</label>
+          
+          <label for="email" class="input_label" 
+          :class="{ 'title-danger': emailHasError }">
+          Email
+          </label>
+
           <input
             type="email"
             id="email"
             placeholder="Enter your Email"
-            class="input"
+            class="input-item"
+            :class="{ 'input-danger': emailHasError }"
             name="email"
             style="width: 100%; height: 33.6px" 
             v-model="credentials.email"
           />
+          <!-- 에러 메시지 표시 -->
+          <p v-show="valid.email" class="input-error">
+            이메일 주소가 올바르지 않습니다. 다시 확인해주세요!
+          </p>
+
+          
+
           <label for="password" class="input_label">Password</label>
           <input
             type="password"
             id="password"
             placeholder="Password"
-            class="input"
+            class="input-item"
+            :class="{ 'input-danger':passwordHasError }"
             name="password"
             style="width: 100%; height: 33.6px" 
             v-model="credentials.password"
           />
-          
+          <!-- 에러 메시지 표시 -->
+          <p v-show="valid.passord" class="input-error">
+            "숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!"
+          </p>
+          <p
+            v-show="valid.password"
+            class="input-error">
+             "8~16자리 숫자+영문자+특수문자 조합으로 입력해주세요!"
+          </p>
+
+
           <VDatePicker 
           v-model="credentials.birth"
           :max="new Date()"
@@ -93,11 +117,52 @@ export default {
         gender: '',
         birth: '',
       },
+      // 이메일, 패스워드 검증
+      valid: {
+        email: false,
+        password: false,
+      },
+      emailHasError: false,
+      passwordHasError: false,
     }
+  },
+  
+  watch: {
+    'credentials.email': function() {
+      this.checkEmail()
+    },
+    'credentials.password': function() {
+      this.checkPassword()
+    },
   },
 
   // birthdate = new Date(); // birthdate 매개변수의 타입을 Date | null로 명시
   methods: {
+    // 이메일 형식 검사
+    checkEmail() {
+      // 이메일 형식 검사
+      const validateEmail = /^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\.[A-Za-z0-9\\-]+/
+
+      if (!validateEmail.test(this.credentials.email) || !this.credentials.email) {
+        this.valid.email = true
+        this.emailHasError = true
+        return
+      } this.valid.email = false
+        this.emailHasError = false
+    },
+
+     checkPassword() {
+      // 비밀번호 형식 검사(영문, 숫자, 특수문자)
+      const validatePassword = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/
+      
+      if (!validatePassword.test(this.credentials.password) || !this.credentials.password) {
+        this.valid.password = true
+        this.passwordHasError = true
+        return
+      } this.valid.password = false
+        this.passwordHasError = false
+     },
+
     ...mapActions(["localSignup"]),
     
     whatDate(birthdate, delimiter = '-') {
@@ -246,5 +311,20 @@ export default {
     background-image: url(../assets/Kakao.png);
 }
 
+/* 이메일 패스워드 에러 */
+.input-error {  
+  display: flex; 
+  line-height: 16px;
+  font-size: 11px;
+  color: red;
+  align-content: left;
+}
 
+.title-danger {
+  color: red;
+}
+
+.input-danger {
+  border-bottom: 1px solid red !important;
+}
 </style>

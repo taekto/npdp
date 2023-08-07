@@ -3,6 +3,7 @@ import { RootState } from '../index';
 import router from '@/router';
 import api from '@/api/api';
 import axios from 'axios';
+import { AxiosError } from 'axios';
 
 interface MemberState {
   accessToken: string | null;
@@ -14,7 +15,8 @@ interface MemberState {
   memberAllergy: MemberAllergy[];
   memberUtensil: MemberUtensil[];
   memberSeasoning: MemberSeasoning[];
-  currentMember: CurrentMember[];
+  currentMember: string | null;
+  eamilCode: string | null;
 }
 
 // 회원
@@ -32,11 +34,7 @@ interface Member {
 }
 
 // 회원 현재 정보
-interface CurrentMember {
-  member_id: number
-  email: string
-  accessToken: string
-}
+
 
 // 회원 레시피 좋아요
 interface MemberRecipeLike {
@@ -90,7 +88,7 @@ const member: Module<MemberState, RootState> = {
     accessToken: null,
     // refreshToken: null,
     member: [],
-    currentMember:[],
+    currentMember: null,
     memberRecipeLike: [  
       { member_recipe_like_id: 1, member_id: 1, recipe_id: 1 },
       { member_recipe_like_id: 2, member_id: 1, recipe_id: 2 },
@@ -106,14 +104,15 @@ const member: Module<MemberState, RootState> = {
     ],
     memberUtensil: [],
     memberSeasoning: [],
+    eamilCode: null,
   },
 
   getters: {
     // 현재 회원 정보
     member: state => state.member,
+    emailVerify: state => state.eamilCode,
     // 사용x
     currentMember: state => state.currentMember,
-
     isLoggedIn: () => !!sessionStorage.getItem('accessToken'),
     authHeader: () => ({ Authorization: `Bearer ${sessionStorage.getItem('accessToken')}` }),
     memberRecipeLike: state => state.memberRecipeLike,
@@ -127,13 +126,14 @@ const member: Module<MemberState, RootState> = {
     // SET_ACCESS_TOKEN: (state, accessToken) => (state.accessToken = accessToken),
     // SET_REFRESH_TOKEN: (state, refreshToken) => (state.refreshToken = refreshToken),
     SET_MEMBER: (state, member) => (state.member = member),
-    SET_CURRENT_MEMBER: (state, currentMember) => (state.currentMember = currentMember),
+    SET_CURRENT_MEMBER: (state, email) => (state.currentMember = email),
     SET_MEMBER_RECIPE_LIKE: (state, memberRecipeLike) => (state.memberRecipeLike = memberRecipeLike),
     SET_MEMBER_RECIPE_LATEST: (state, memberRecipeLatest) => (state.memberRecipeLatest = memberRecipeLatest),
     SET_MEMBER_DISLIKE_INGREDIENT: (state, memberDislikeIngredient) => (state.memberDislikeIngredient = memberDislikeIngredient),
     SET_MEMBER_ALLERGY: (state, memberAllergy) => (state.memberAllergy = memberAllergy),
     SET_MEMBER_UTENSIL: (state, memberUtensil) => (state.memberUtensil = memberUtensil),
     SET_MEMBER_SEASONING: (state, memberSeasoning) => (state.memberSeasoning = memberSeasoning),
+    SET_EMAIL_VERIFY: (state, emailCode) => (state.eamilCode = emailCode)
   },
   actions: {
     saveToken({ commit }, { accessToken}) {
@@ -145,7 +145,8 @@ const member: Module<MemberState, RootState> = {
       sessionStorage.removeItem("accessToken")
     },
 
-    localLogin({ dispatch }, credentials) {
+    // 회원 로그인
+    localLogin({ dispatch, commit }, credentials) {
       console.log(credentials)
       axios({
         url: api.member.login(),
@@ -156,6 +157,7 @@ const member: Module<MemberState, RootState> = {
           console.log('로컬로그인 시작!')
           console.log(res)
           sessionStorage.setItem("accessToken", res.data.accessToken);
+          commit('SET_CURRENT_MEMBER', credentials.email)
           // commit('SET_CURRENT_MEMBER', res.data)
           dispatch('fetchMember', res.data.id)
           router.push({ name: 'main' })
@@ -171,7 +173,7 @@ const member: Module<MemberState, RootState> = {
 
     // 로컬 회원 가입
     localSignup({ commit }, credentials) {
-      console.log('회원가입 시작!')
+      console.log('회원가입 시작!', credentials)
         axios({
           url: api.member.signup(),
           method: 'post',
@@ -180,10 +182,6 @@ const member: Module<MemberState, RootState> = {
         .then(res => {
           console.log('회원가입 성공!')
             console.log(res)
-            // const token = res.data.token
-            // dispatch('saveToken', token)
-            commit('SET_CURRENT_MEMBER', res.data)
-            // dispatch('fetchMember', res.data.member_id)
             alert('회원가입이 완료되었습니다!')
             router.push({ name: 'main' })
           })
@@ -194,6 +192,22 @@ const member: Module<MemberState, RootState> = {
           })
       },
 
+
+    // 회원 이메일 인증
+    async EmailVerify(email) {
+      try {
+        console.log('이메일 인증 시작!');
+        const response = await axios.post(api.member.emailVerify(), { email });
+        
+        console.log('이메일 인증 성공!');
+        console.log(response.data);
+    
+        alert('인증이 완료되었습니다!');
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    
     // 회원 로그아웃
     logout({ dispatch, commit }) {
       dispatch('removeToken')
