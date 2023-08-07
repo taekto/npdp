@@ -31,12 +31,16 @@
           <!-- 재료 이름 검색 폼 -->
           <div class="modal-body inputComponent">
             <div>
-              <form @submit.prevent="goToSearchwithKeyword">
+              <form @submit.prevent="specificIngredient(this.ingredientName)">
                 <div class="input-group">
                     <input id="searchForm ingredientText" class="form-control" type="text" v-model.trim="ingredientName">
                     <input id="submitButton" type="submit" value="검색">
                 </div>
               </form>
+            </div>
+
+            <div class="tmpcontainer" v-for="item in searchIngredient" :key="item.id">
+              {{ item.name }}
             </div>
 
             <!-- 재료 입력 폼 -->
@@ -74,6 +78,9 @@
               </div>
               <button class="soundButton" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">음성입력</button>
               <button class="soundButton" @click="appendList">추가하기</button>
+            
+
+
             </div>
           </div>
 
@@ -87,6 +94,8 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
     name: 'IngredientText',
     data() {
@@ -102,7 +111,14 @@ export default {
         selectStorage : '냉장',
       }
   },
+  computed: {
+    ...mapGetters(['searchIngredient'])
+    
+  },
+  
   methods: {
+    ...mapActions(['specificIngredient']),
+
     chageUnitGae() {
       this.unit = '개'
     },

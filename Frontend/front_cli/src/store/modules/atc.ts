@@ -15,6 +15,7 @@ interface ATCState {
   calendar: Calendar [];
   utensil: Utensil [];
   refregirator : Refregirator [];
+  specificIngredient: SpecificIngredient[];
 }
 
 // 재료
@@ -101,6 +102,12 @@ interface Refregirator {
   expired_date: Date
 }
 
+// 특정 재료 조회
+interface SpecificIngredient{
+  ingredientId: number
+  name: String
+}
+
 const atc: Module<ATCState, RootState> = {
   state: {
     ingredient: [],
@@ -112,15 +119,18 @@ const atc: Module<ATCState, RootState> = {
     calendar: [],
     utensil: [],
     refregirator: [],
+    specificIngredient: [],
   },
   getters: {
     ingredient: state => state.ingredient,
     seasoning: state => state.seasoning,
+    searchIngredient: state => state.specificIngredient
     // ATC 게터 정의
   },
   mutations: {
     GET_INGREDIENT: (state, ingredient) => (state.ingredient = ingredient),
     // ATC 뮤테이션 정의
+    SET_SPECIFIC_INGREDIENT: (state, ingredient) => (state.ingredient = ingredient)
   },
   actions: {
     fetchIngredient({ commit, getters }) {
@@ -134,7 +144,21 @@ const atc: Module<ATCState, RootState> = {
         })
         .catch(err => console.log(err.response));
     },
-    // ATC 액션 정의
+    async specificIngredient({ commit }, name) {
+      try {
+        console.log('재료 조회 시작!', name);
+        const response = await axios.get('https://i9b202.p.ssafy.io/api/foods/ingredient/search', {
+          params: {
+            name: name,
+          },
+        });
+  
+        console.log('특정 재료 조회 성공!', response.data);
+        commit('SET_SPECIFIC_INGREDIENT', response.data);
+      } catch (error) {
+        console.error('특정 재료 조회 실패!', error);
+      }
+    },
   },
 };
 

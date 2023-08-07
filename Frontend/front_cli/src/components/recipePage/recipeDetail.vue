@@ -40,7 +40,6 @@ export default {
     },
     computed: {
       recipeItem() {
-        console.log('-----------------')
         console.log(this.$route.params.recipeItem)
         const recipeItem = this.$route.query.recipeItem;
         if (recipeItem) {
