@@ -147,21 +147,6 @@ export default {
 
   // birthdate = new Date(); // birthdate 매개변수의 타입을 Date | null로 명시
   methods: {
-    changeSocialGoogle() {
-      this.socialType = 'Google'
-      console.log(this.socialType)
-      this.$router.push({name: 'social', query: {socialType: this.socialType}})
-    },
-    changeSocialNaver() {
-      this.socialType = 'Naver'
-      console.log(this.socialType)
-      this.$router.push({name: 'social', query: {socialType: this.socialType}})
-    },
-    changeSocialKakao() {
-      this.socialType = 'Kakao'
-      console.log(this.socialType)
-      this.$router.push({name: 'social', query: {socialType: this.socialType}})
-    },
 
     // 이메일 형식 검사
     checkEmail() {
@@ -220,9 +205,11 @@ export default {
       axios ({
         url: 'https://i9b202.p.ssafy.io/api/oauth/google-login',
         methods: 'get',
+        redirect_uri : 'https://i9b202.p.ssafy.io/social',
       })
       .then (res => {
         console.log(res)
+        sessionStorage.setItem('social', 1)
       })
       .catch (err => {
         console.log(err)
@@ -236,6 +223,7 @@ export default {
       })
       .then (res => {
         console.log(res)
+        sessionStorage.setItem('social', 1)
       })
       .catch (err => {
         console.log(err)
@@ -243,17 +231,16 @@ export default {
     },
     socialLoginKakao() {
       this.socialType = 'Kakao'
-      window.location.href = 'https://i9b202.p.ssafy.io/api/oauth/kakao-login'
-      // axios ({
-      //   url: 'https://i9b202.p.ssafy.io/api/oauth/kakao-login',
-      //   method: 'get',
-      // })
-      // .then(res => {
-      //   console.log(res)
-      // })
-      // .catch(err => {
-      //   console.log(err.response)
-      // })
+      axios ({
+        url: 'https://i9b202.p.ssafy.io/api/oauth/kakao-login',
+        method: 'get',
+      })
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.log(err.response)
+      })
     }
   }
 }

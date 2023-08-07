@@ -42,36 +42,38 @@
         <span>Don’t have an account? <router-link to="/signup">Sign Up</router-link></span>
       </div>
       
-      <!-- 소셜 로그인 -->
-      <div class="login_sns">
-        <div class="login_sns_google">
-          <a href="http://localhost:8080/signup" class="btn_sns btn-google btn-block">
-          Google 계정으로 로그인</a>
-        </div>
-        <div class="login_sns_naver">
-          <a href="http://localhost:8080/signup" class="btn_sns btn-naver btn-block"><i class="fab fab-naver-alt"></i> 네이버 계정으로 로그인</a>
-        </div>
-        <div class="login_sns_kakao">
-          <a href="http://localhost:8080/signup" class="btn_sns btn-kakao btn-block">
-          KaKao 계정으로 로그인</a>
-        </div>
-      </div>
+      
 
     </form>
+    <!-- 소셜 로그인 -->
+      <div class="login_sns">
+        <div class="login_sns_google">
+          <button class="btn_sns btn-google btn-block">
+          Google 계정으로 로그인</button>
+        </div>
+        <div class="login_sns_naver">
+          <button class="btn_sns btn-naver btn-block"><i class="fab fab-naver-alt"></i> 네이버 계정으로 로그인</button>
+        </div>
+        <div class="login_sns_kakao">
+          <button class="btn_sns btn-kakao btn-block">
+          KaKao 계정으로 로그인</button>
+        </div>
+      </div>
   </div>
   
 </div>
 
 </template>
 
-<script lang="ts">
-
+<script>
+import axios from 'axios'
 import { mapActions } from 'vuex';
 
 export default {
   
   data() {
     return {
+      socialType: "",
       credentials: {
         email: '',
         password: '',
@@ -81,6 +83,49 @@ export default {
 
   methods: {
     ...mapActions(["localLogin"]),
+    
+    socialLoginGoogle() {
+      this.socialType = 'Google'
+      axios ({
+        url: 'https://i9b202.p.ssafy.io/api/oauth/google-login',
+        methods: 'get',
+        redirect_uri : 'https://i9b202.p.ssafy.io/social',
+      })
+      .then (res => {
+        console.log(res)
+        sessionStorage.setItem('social', 1)
+      })
+      .catch (err => {
+        console.log(err)
+      })
+    },
+    socialLoginNaver() {
+      this.socialType = 'Naver'
+      axios ({
+        url: 'https://i9b202.p.ssafy.io/api/oauth/naver-login',
+        methods: 'get',
+      })
+      .then (res => {
+        console.log(res)
+        sessionStorage.setItem('social', 1)
+      })
+      .catch (err => {
+        console.log(err)
+      })
+    },
+    socialLoginKakao() {
+      this.socialType = 'Kakao'
+      axios ({
+        url: 'https://i9b202.p.ssafy.io/api/oauth/kakao-login',
+        method: 'get',
+      })
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.log(err.response)
+      })
+    }
   },
   
   
