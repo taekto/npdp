@@ -50,6 +50,13 @@ public class MemberService {
         // 비밀번호 해시 암호화
         String hashedPw = SHA256Util.getSHA256(memberJoinRequestDto.getPassword());
 
+        // 성별 처리
+        String tmpGender = memberJoinRequestDto.getGender();
+        Gender gender = Gender.MALE;
+        if(gender.equals("여자")){
+            gender = Gender.FEMALE;
+        }
+
         System.out.println("hashedPw" + hashedPw);
 
         Member member = Member.builder()
@@ -58,7 +65,7 @@ public class MemberService {
                 .nickname(memberJoinRequestDto.getNickname())
                 .oauth(OAuthType.LOCAL)
                 .role(Role.MEMBER)
-                .gender(memberJoinRequestDto.getGender())
+                .gender(gender)
                 .birth(memberJoinRequestDto.getBirth())
                 .build();
         // 중복 가입 방지 확인 (이메일)
