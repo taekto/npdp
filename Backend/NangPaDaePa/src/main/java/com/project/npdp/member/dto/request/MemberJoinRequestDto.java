@@ -1,5 +1,6 @@
 package com.project.npdp.member.dto.request;
 
+import com.project.npdp.member.entity.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +16,7 @@ public class MemberJoinRequestDto {
     private String email;
     private String password;
     private String nickname;
-    private String gender;
+    private Gender gender;
     private String birth;
 
 }
