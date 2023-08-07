@@ -56,6 +56,8 @@ public class MemberService {
                 .email(memberJoinRequestDto.getEmail())
                 .password(hashedPw)
                 .nickname(memberJoinRequestDto.getNickname())
+                .oauth(OAuthType.LOCAL)
+                .role(Role.MEMBER)
                 .gender(memberJoinRequestDto.getGender())
                 .birth(memberJoinRequestDto.getBirth())
                 .build();
