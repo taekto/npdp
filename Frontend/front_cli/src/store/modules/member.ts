@@ -172,7 +172,7 @@ const member: Module<MemberState, RootState> = {
     },
 
     // 로컬 회원 가입
-    localSignup(credentials) {
+    localSignup({ commit }, credentials) {
       console.log('회원가입 시작!', credentials)
         axios({
           url: api.member.signup(),
@@ -182,9 +182,6 @@ const member: Module<MemberState, RootState> = {
         .then(res => {
           console.log('회원가입 성공!')
             console.log(res)
-            // const token = res.data.token
-            // dispatch('saveToken', token)
-            // dispatch('fetchMember', res.data.member_id)
             alert('회원가입이 완료되었습니다!')
             router.push({ name: 'main' })
           })
