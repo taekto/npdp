@@ -92,6 +92,9 @@
             </div>
           </div>
       <button class="signup_btn" style="width: 100%;" @click="signup">Get started</button>
+      
+
+      </form>
       <!-- 소셜 로그인 -->
       <div class="signup_sns">
           <button class="btn_sns btn-google btn-block" @click="socialLoginGoogle" style="width: 100%">
@@ -101,8 +104,6 @@
           <button class="btn_sns btn-kakao btn-block" @click="socialLoginKakao" style="width: 100%">
           KaKao 계정으로 시작</button>
       </div>
-
-      </form>
     </div>
   </div>
 </template>
