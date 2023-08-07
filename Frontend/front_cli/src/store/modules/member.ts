@@ -192,6 +192,7 @@ const member: Module<MemberState, RootState> = {
           })
       },
 
+      
 
     // 회원 이메일 인증
     async EmailVerify(email) {

@@ -13,7 +13,7 @@
             class="input"
             name="name"
             style="width: 100%; height: 33.6px"
-            v-model="credentials.nickname" 
+            v-model="credentials.nickname"
           />
           
           <label for="email" class="input_label" 
@@ -30,13 +30,13 @@
             name="email"
             style="width: 100%; height: 33.6px" 
             v-model="credentials.email"
+            readonly
           />
           <!-- 에러 메시지 표시 -->
           <p v-show="valid.email" class="input-error">
             이메일 주소가 올바르지 않습니다. 다시 확인해주세요!
           </p>
 
-          
 
           <label for="password" class="input_label">Password</label>
           <input
@@ -48,6 +48,7 @@
             name="password"
             style="width: 100%; height: 33.6px" 
             v-model="credentials.password"
+            readonly
           />
           <!-- 에러 메시지 표시 -->
           <p v-show="valid.passord" class="input-error">
@@ -94,11 +95,11 @@
       <button class="signup_btn" style="width: 100%;" @click="signup">Get started</button>
       <!-- 소셜 로그인 -->
       <div class="signup_sns">
-          <button class="btn_sns btn-google btn-block" @click="socialLoginGoogle" style="width: 100%">
+          <button v-if="socialLoginType !== 'Google'" @click="changeSocialGoogle" href="http://localhost:8080/social" class="btn_sns btn-google btn-block" style="width: 100%">
           Google 계정으로 시작</button>
-          <button class="btn_sns btn-naver btn-block" @click="socialLoginNaver" style="width: 100%"><i class="fab fab-naver-alt"></i> 
+          <button v-if="socialLoginType !== 'Naver'" @click="changeSocialNaver" href="http://localhost:8080/social" class="btn_sns btn-naver btn-block" style="width: 100%"><i class="fab fab-naver-alt"></i> 
           네이버 계정으로 시작</button>
-          <button class="btn_sns btn-kakao btn-block" @click="socialLoginKakao" style="width: 100%">
+          <button v-if="socialLoginType !== 'Kakao'" @click="changeSocialKakao" href="http://localhost:8080/social" class="btn_sns btn-kakao btn-block" style="width: 100%">
           KaKao 계정으로 시작</button>
       </div>
 
@@ -108,58 +109,53 @@
 </template>
 
 <script>
-
 import { mapActions } from 'vuex';
-import axios from "axios"
-
 
 export default {
-
-  data() {
-    return {
-        socialType: '',
+    name: "SocialLogin",
+    props: {
+      socialType : {
+        type: String,
+        default : ""
+      }
+    },
+    // computed: {
+    //   socialLoginType : this.$props.socialType,
+    // },
+    data() {
+      return {
+        socialLoginType: this.$route.query.socialType,
         credentials: {
-          email: '',
+          email: 'a184562@gmail.com',
           password: '',
           nickname: '',
-          gender: 'none',
+          gender: '',
           birth: '',
-      },
-      // 이메일, 패스워드 검증
-      valid: {
-        email: false,
-        password: false,
-      },
-      emailHasError: false,
-      passwordHasError: false,
-    }
+        },
+        // 이메일, 패스워드 검증
+        valid: {
+          email: false,
+          password: false,
+        },
+        emailHasError: false,
+        passwordHasError: false,
+      }
   },
-  
-  watch: {
-    'credentials.email': function() {
-      this.checkEmail()
-    },
-    'credentials.password': function() {
-      this.checkPassword()
-    },
-  },
-
-  // birthdate = new Date(); // birthdate 매개변수의 타입을 Date | null로 명시
   methods: {
     changeSocialGoogle() {
-      this.socialType = 'Google'
-      console.log(this.socialType)
-      this.$router.push({name: 'social', query: {socialType: this.socialType}})
+      this.socialLoginType = 'Google'
+      console.log(this.socialLoginType)
+      this.$router.push({name: 'social', query: {socialType: this.socialLoginType}})
     },
     changeSocialNaver() {
-      this.socialType = 'Naver'
-      console.log(this.socialType)
-      this.$router.push({name: 'social', query: {socialType: this.socialType}})
+      this.socialLoginType = 'Naver'
+      console.log(this.socialLoginType)
+      this.$router.push({name: 'social', query: {socialType: this.socialLoginType}})
     },
     changeSocialKakao() {
-      this.socialType = 'Kakao'
-      console.log(this.socialType)
-      this.$router.push({name: 'social', query: {socialType: this.socialType}})
+      this.socialLoginType = 'Kakao'
+      console.log(this.socialLoginType)
+      this.$router.push({name: 'social', query: {socialType: this.socialLoginType}})
     },
 
     // 이메일 형식 검사
@@ -212,43 +208,12 @@ export default {
         }
       }
       this.credentials.birth = this.birthdate
-    },
-
-    socialLoginGoogle() {
-      this.socialType = 'Google'
-    },
-    socialLoginNaver() {
-      this.socialType = 'Naver'
-    },
-    socialLoginKakao() {
-      this.socialType = 'Kakao'
-      axios ({
-        url: 'https://i9b202.p.ssafy.io/api/oauth/kakao-login',
-        metod: 'get',
-      })
-      .then(res => {
-        console.log(res)
-      })
-      .catch(err => {
-        console.log(err.response.data)
-      })
     }
   }
 }
 </script>
 
 <style scoped>
-.activeRadioButton {
-  border: solid #FD7E14;
-  background-color: #FD7E14;
-  color: white;
-  border-radius: .5rem;
-  padding: .5rem;
-  margin: .5rem;
-  width: 6rem;
-}
-
-
 .signup_card {
   display: flex;
   flex-direction: column;
