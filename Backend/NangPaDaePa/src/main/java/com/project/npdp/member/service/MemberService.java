@@ -78,14 +78,8 @@ public class MemberService {
         String email = memberLoginRequestDto.getEmail();
         String password = memberLoginRequestDto.getPassword();
         // 이메일 및 비번 인증과정
-<<<<<<< HEAD
         Member member = memberRepository.findByEmail(email);
         if(member == null || !member.authenticate(email, password)){
-=======
-        Member findMemberByEmail = memberRepository.findByEmail(email);
-        if(findMemberByEmail == null || !findMemberByEmail.authenticate(email, password)){
-            log.info("첫번째에서 걸림");
->>>>>>> 99132e1104e98121f77157f563c4605d8aa8193c
             return null;
         }
         // 토큰 생성
@@ -100,17 +94,18 @@ public class MemberService {
         return result;
     }
 
-<<<<<<< HEAD
     // 비밀번호 확인
-    public void checkPw(MemberPwRequestDto memberPwRequestDto){
+    public void checkPw(MemberPwRequestDto memberPwRequestDto) {
         String email = memberPwRequestDto.getEmail();
         String password = memberPwRequestDto.getNewPassword();
 
         Member member = memberRepository.findByEmail(email);
-        if(member == null || !member.authenticate(email, password)){
+        if (member == null || !member.authenticate(email, password)) {
             throw new IllegalArgumentException("사용자를 찾을 수 없습니다");
-=======
+        }
+    }
 
+    // sns 로그인
     public MemberLoginResponseDto snsLogin(Member member){
 //         이메일 중복 여부 확인
         Member findMembers = memberRepository.findByEmail(member.getEmail());
@@ -132,7 +127,6 @@ public class MemberService {
 //        2. 없는 이메일인 경우
         }else{
             return null;
->>>>>>> 99132e1104e98121f77157f563c4605d8aa8193c
         }
     }
 

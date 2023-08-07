@@ -38,7 +38,7 @@ public class MemberController {
     }
 
     // 비밀번호 확인
-    @PostMapping("checkPassword")
+    @PostMapping("/checkPassword")
     public ResponseEntity<?> checkPw(@RequestBody MemberPwRequestDto memberPwRequestDto){
         try {
             memberService.checkPw(memberPwRequestDto);
