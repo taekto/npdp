@@ -248,15 +248,15 @@ export default {
       // .catch(err => {
       //   console.log(err.response)
       // })
-      axios.get('https://kauth.kakao.com/oauth/authorize', {
-                                params: {
-                                    client_id: process.env.REACT_APP_REST_API_KEY,
-                                    redirect_uri: 'http://localhost:8081/api/kakao/oauth',
-                                    response_type: 'code',
-                                    state: '/login',
-                                },
-                                withCredentials: false,
-                            });
+      // axios.get('https://kauth.kakao.com/oauth/authorize', {
+      //                           params: {
+      //                               client_id: process.env.REACT_APP_REST_API_KEY,
+      //                               redirect_uri: 'http://localhost:8081/api/kakao/oauth',
+      //                               response_type: 'code',
+      //                               state: '/login',
+      //                           },
+      //                           withCredentials: false,
+      //                       });
     }
   }
 }
