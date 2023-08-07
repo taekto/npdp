@@ -25,25 +25,16 @@ public class EmailService {
     public String sendAuthMail(EmailMessage emailMessage, String type){
         String authCode = createAuthCode();
 
-        // JavaMail API를 사용해 이메일을 나타내는 객체
-        // MimeMessage는 JavaMail API에서 이메일을 나타내는 클래스
-        // 이 클래스를 사용해 이메일의 제목, 본문, 수신자, 발신자 등 설정 가능
-        // JavaMailSender는 Spring에서 이메일을 발송하기 위한 인터페이스
-        // createMimeMessage() 는 MimeMessage의 객체를 생성하는 메서드
+        // JavaMail API를 사용해 이메일 설정
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
         // 비밀번호 찾기(임시 비밀번호 발급)인 경우
         if(type.equals("password")) memberService.modifyPw(emailMessage.getTo(), authCode);
 
         try{
-            // MimeMessageHelper는 MimeMessage를 보다 편리하게 사용하기위한 도우미 클래스
-            // mimeMessage 객체와 인코딩 방식을 전달해 초기화 함
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
-            // setTo: 메일의 수신자 설정, getTo: 메일의 메시지를 전송할 수신자의 이메일 주소를 반환
             mimeMessageHelper.setTo(emailMessage.getTo());
-            // setSubject: 메일의 제목을 설정, getTitle: 메일의 제목을 반환
             mimeMessageHelper.setSubject(emailMessage.getTitle());
-            // setText: 메일의 본문을 설정, setContext: 메일의 본문을 동적으로 생성, true: HTML형식으로 설정된 본문
             mimeMessageHelper.setText(setContext(authCode, type), true);
             // 이메일을 실제로 전송
             javaMailSender.send(mimeMessage);
