@@ -17,6 +17,7 @@ interface MemberState {
   memberSeasoning: MemberSeasoning[];
   currentMember: string | null;
   eamilCode: string | null;
+  memberIngredient: MemberIngredient[];
 }
 
 // 회원
@@ -83,18 +84,32 @@ interface MemberSeasoning {
   storage: number
 }
 
+// 회원 재료 
+interface MemberIngredient {
+  refregiratorId: number
+  kor: string
+  amount: number
+  unit: any
+  storage: number
+  startDate: any
+  expiredDate: any
+}   
+
 const member: Module<MemberState, RootState> = {
   state: {
+    // 엑세스 토큰
     accessToken: null,
-    // refreshToken: null,
+    // 회원 정보 조회 하면 일로 들어감
     member: [],
+    // 로그인 시 입력한 이메일 저장
     currentMember: null,
+    // 좋아하는 레시피 저장 할 용도
     memberRecipeLike: [  
       { member_recipe_like_id: 1, member_id: 1, recipe_id: 1 },
       { member_recipe_like_id: 2, member_id: 1, recipe_id: 2 },
       { member_recipe_like_id: 3, member_id: 1, recipe_id: 3 },
     ],
-
+    // 
     memberRecipeLatest: [],
     memberDislikeIngredient: [],
     memberAllergy: [
@@ -105,6 +120,8 @@ const member: Module<MemberState, RootState> = {
     memberUtensil: [],
     memberSeasoning: [],
     eamilCode: null,
+    memberIngredient: [],
+    
   },
 
   getters: {
@@ -120,7 +137,8 @@ const member: Module<MemberState, RootState> = {
     memberDislikeIngredient: state => state.memberDislikeIngredient,
     memberAllergy: state => state.memberAllergy,
     memberUtensil: state => state.memberUtensil,
-    memberSeasoning: state => state.memberSeasoning
+    memberSeasoning: state => state.memberSeasoning,
+    memberIngredient: state => state.memberIngredient,
   },
   mutations: {
     // SET_ACCESS_TOKEN: (state, accessToken) => (state.accessToken = accessToken),
@@ -133,7 +151,8 @@ const member: Module<MemberState, RootState> = {
     SET_MEMBER_ALLERGY: (state, memberAllergy) => (state.memberAllergy = memberAllergy),
     SET_MEMBER_UTENSIL: (state, memberUtensil) => (state.memberUtensil = memberUtensil),
     SET_MEMBER_SEASONING: (state, memberSeasoning) => (state.memberSeasoning = memberSeasoning),
-    SET_EMAIL_VERIFY: (state, emailCode) => (state.eamilCode = emailCode)
+    SET_EMAIL_VERIFY: (state, emailCode) => (state.eamilCode = emailCode),
+    SET_MEMBER_INGREDIENT: ( state, ingredient ) => (state.memberIngredient = ingredient),
   },
   actions: {
     saveToken({ commit }, { accessToken}) {
@@ -175,7 +194,7 @@ const member: Module<MemberState, RootState> = {
     localSignup({ commit }, credentials) {
       console.log('회원가입 시작!', credentials)
         axios({
-          url: api.member.signup(),
+          url: 'https://i9b202.p.ssafy.io/api/members/join',
           method: 'post',
           data: credentials,
         })
@@ -259,9 +278,38 @@ const member: Module<MemberState, RootState> = {
     },
 
 
+    // 회원 재료 입력
+    ingredientInput({dispatch}, {memberId, ingredientInputData}) {
+      console.log('재료입력 시작!', ingredientInputData)
+      axios({
+        url:`api/refregirator/member/seasoning/${memberId}`,
+        method: 'post',
+        data: ingredientInputData,
+      })
+        .then(() => {
+          console.log('회원 재료 입력 성공!')
+          dispatch('fetchMemberIngredient')
+        })
+    },
+
+    // 회원 재료 조회
+    fetchMemberIngredient({commit}, memberId) {
+      console.log('재료 조회 시작!')
+      axios({
+        url:`api/refrigerator/ingredient/${memberId}`,
+        method: 'get',
+      })
+        .then(res => {
+          console.log('조회 성공!', res.data)
+          commit('SET_MEMBER_INGREDIENT', res.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+
     // 회원 최근 본 레시피
     // memberRecipeLatest (생성, 조회, 수정, 삭제)
-
     createMemberRecipeLatest({ commit, getters }, {member_id, recipe_id, date}) {
       axios({
         url: api.member.memberRecipeLatest(member_id),

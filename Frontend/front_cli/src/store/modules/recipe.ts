@@ -160,7 +160,8 @@ const recipe: Module<RecipeState, RootState> = {
         method: 'get',
         params: {
           content: content 
-        }
+        },
+        
       })
       .then (res=> {
         console.log('레시피 특정 조회 성공!')
@@ -181,11 +182,12 @@ const recipe: Module<RecipeState, RootState> = {
 
     // 레시피 상세 조회
     detailRecipe ({commit}, recipe_id) {
-      console.log('레시피 상세 조회 시작!')
+      console.log('레시피 상세 조회 시작!', recipe_id)
       axios({
         // url: api.recipe.detailRecipe(recipe_id),
         url: `https://i9b202.p.ssafy.io/api/recipes/${recipe_id}`,
         method:'get',
+
         // headers: getters.authHeader,
       })
         .then(res=> {
