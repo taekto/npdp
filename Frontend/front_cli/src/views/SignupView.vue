@@ -222,9 +222,10 @@ export default {
       })
     },
     socialLoginNaver() {
+
       this.socialType = 'Naver'
       axios ({
-        url: 'https://i9b202.p.ssafy.io/api/oauth/naver-login',
+        url: '/api/oauth/naver-login',
         methods: 'get',
       })
       .then (res => {
