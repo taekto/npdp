@@ -5,6 +5,7 @@ import com.project.npdp.member.dto.response.MemberLoginResponseDto;
 import com.project.npdp.member.dto.response.MemberDetailResponseDto;
 import com.project.npdp.member.entity.Member;
 import com.project.npdp.member.entity.MemberUtensil;
+import com.project.npdp.member.entity.Role;
 import com.project.npdp.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.crossstore.ChangeSetPersister;

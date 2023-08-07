@@ -13,6 +13,7 @@ import com.project.npdp.utils.JwtUtil;
 import com.project.npdp.utils.SHA256Util;
 import lombok.RequiredArgsConstructor;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ import java.util.List;
 //@Transactional
 @RequiredArgsConstructor
 //@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Slf4j
 public class MemberService {
 
     private final MemberRepository memberRepository;
@@ -62,6 +64,7 @@ public class MemberService {
         memberRepository.save(member);
     }
 
+
     // 중복 가입 방지
     private void validateDuplicateJoin(MemberJoinRequestDto memberJoinRequestDto) {
         Member findMembers = memberRepository.findByEmail(memberJoinRequestDto.getEmail());
@@ -76,6 +79,7 @@ public class MemberService {
         // 이메일 및 비번 인증과정
         Member findMemberByEmail = memberRepository.findByEmail(email);
         if(findMemberByEmail == null || !findMemberByEmail.authenticate(email, password)){
+            log.info("첫번째에서 걸림");
             return null;
         }
         // 토큰 생성
@@ -88,6 +92,31 @@ public class MemberService {
                 .build();
 
         return result;
+    }
+
+
+    public MemberLoginResponseDto snsLogin(Member member){
+//         이메일 중복 여부 확인
+        Member findMembers = memberRepository.findByEmail(member.getEmail());
+        log.info("db에 있는 snsLogin의 타입: "+findMembers.getOauth());
+        log.info("현재 로그인 시도한 snsLogin의 타입: "+member.getOauth());
+//        1. 이미 등록된 이메일인 경우
+        if(findMembers != null){
+//            -1. 같은 SNS 로그인인 경우: 해당 sns 로그인으로 바로 로그인
+            if(findMembers.getOauth().equals(member.getOauth())){
+                log.info("같은 sns로그인입니다.!!!!!!!!!!!!!!");
+                log.info("memberemail: "+member.getEmail());
+                log.info("memberpwd: "+member.getPassword());
+                log.info("결과: "+this.login(new MemberLoginRequestDto(member.getEmail(), member.getPassword())));
+                return this.login(new MemberLoginRequestDto(member.getEmail(), member.getPassword()));
+//            -2. 로컬 로그인이거나 다른 SNS 로그인인 경우: ERROR 발생
+            }else{
+                throw new IllegalStateException("이미 존재하는 회원입니다.");
+            }
+//        2. 없는 이메일인 경우
+        }else{
+            return null;
+        }
     }
 
     // 회원id로 상세정보 조회
@@ -136,9 +165,14 @@ public class MemberService {
         Long id = memberGenderRequestDto.getMemberId();
         String gender = memberGenderRequestDto.getGender();
 
+        Gender newGender = Gender.MALE;
+        if(gender.equals("여자")){
+            newGender = Gender.FEMALE;
+        }
+
         Member member = memberRepository.findById(id).orElse(null);
         if(member != null){
-            member.modifyGender(gender);
+            member.modifyGender(newGender);
             memberRepository.save(member);
         }else{
             throw new IllegalArgumentException("사용자를 찾을 수 없습니다");

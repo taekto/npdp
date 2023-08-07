@@ -1,5 +1,6 @@
 package com.project.npdp.member.dto.response;
 
+import com.project.npdp.member.entity.Gender;
 import lombok.*;
 
 @Data
@@ -12,7 +13,7 @@ public class MemberDetailResponseDto {
 
     private String nickname;
 
-    private String gender;
+    private Gender gender;
 
     private String birth;
 
