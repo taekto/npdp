@@ -25,7 +25,7 @@ public class EmailService {
     public String sendAuthMail(EmailMessage emailMessage, String type){
         String authCode = createAuthCode();
 
-        // JavaMail API를 사용해 이메일 설정
+        // JavaMail API를 사용해 이메일의 속성 결정
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
         // 비밀번호 찾기(임시 비밀번호 발급)인 경우
@@ -36,7 +36,7 @@ public class EmailService {
             mimeMessageHelper.setTo(emailMessage.getTo());
             mimeMessageHelper.setSubject(emailMessage.getTitle());
             mimeMessageHelper.setText(setContext(authCode, type), true);
-            // 이메일을 실제로 전송
+            // 이메일 전송
             javaMailSender.send(mimeMessage);
 
             // 이메일에 포함될 인증 코드 반환 -> 이메일 전송 후 다른 작업에 사용 가능
@@ -65,12 +65,10 @@ public class EmailService {
     }
 
     // thymeleaf(템플릿 엔진 사용해 동적으로 HTML 컨텐츠 생성) 통한 html 적용
-    // code: 템플릿에 삽입될 변수 값, type: 어떤 템플릿 사용할 지
     public String setContext(String code, String type){
         Context cxt = new Context();
         cxt.setVariable("code", code);
-        // type에 해당하는 thymeleaf 템플릿을 context와 함께 처리해 동적으로 생성된 HTML 컨텐츠 반환
-        // type은 사용할 템플릿의 파일명
+        // email 타입의 thymeleaf 템플릿을 동적으로 생성된 HTML 컨텐츠 반환
         return springTemplateEngine.process(type, cxt);
     }
 }

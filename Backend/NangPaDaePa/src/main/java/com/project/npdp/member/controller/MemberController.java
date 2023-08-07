@@ -5,8 +5,10 @@ import com.project.npdp.member.dto.response.MemberLoginResponseDto;
 import com.project.npdp.member.dto.response.MemberDetailResponseDto;
 import com.project.npdp.member.entity.Member;
 import com.project.npdp.member.entity.MemberUtensil;
+import com.project.npdp.member.entity.Role;
 import com.project.npdp.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/members")
 @RequiredArgsConstructor
+@Slf4j
 public class MemberController {
 
     private final MemberService memberService;
@@ -37,21 +40,22 @@ public class MemberController {
     }
 
     // 비밀번호 확인
-//    @PostMapping("checkPassword")
-//    public ResponseEntity<?> checkPw(@RequestBody MemberPwRequestDto memberPwRequestDto){
-//        try {
-//            memberService.modifyPw(email, newPw);
-//            return ResponseEntity.status(HttpStatus.OK).build();
-//        }catch (IllegalArgumentException e){
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비밀번호 확인 실패");
-//        }
-//    }
+    @PostMapping("/checkPassword")
+    public ResponseEntity<?> checkPw(@RequestBody MemberCheckPwRequestDto memberCheckPwRequestDto){
+        System.out.println("memberPwRequestDto.password: " + memberCheckPwRequestDto.getPassword());
+        try {
+            memberService.checkPw(memberCheckPwRequestDto);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비밀번호 확인 실패");
+        }
+    }
 
     // 단순 비밀번호 변경
-    @PutMapping("/UpdatePassword")
-    public ResponseEntity<?> modifyPw(@RequestBody MemberPwRequestDto memberPwRequestDto){
-        String email = memberPwRequestDto.getEmail();
-        String newPw = memberPwRequestDto.getNewPassword();
+    @PutMapping("/updatePassword")
+    public ResponseEntity<?> modifyPw(@RequestBody MemberModifyPwRequestDto memberModifyPwRequestDto){
+        String email = memberModifyPwRequestDto.getEmail();
+        String newPw = memberModifyPwRequestDto.getNewPassword();
         try {
             memberService.modifyPw(email, newPw);
             return ResponseEntity.status(HttpStatus.OK).build();
@@ -68,7 +72,7 @@ public class MemberController {
     }
 
     // 회원 닉네임 변경
-    @PostMapping("/nickname")
+    @PutMapping("/nickname")
     public ResponseEntity<?> modifyNickname(@RequestBody MemberNicknameRequestDto memberNicknameRequestDto){
         try{
             memberService.modifyNickname(memberNicknameRequestDto);
@@ -79,7 +83,7 @@ public class MemberController {
     }
 
     // 회원 성별 변경
-    @PostMapping("/gender")
+    @PutMapping("/gender")
     public ResponseEntity<?> modifyGender(@RequestBody MemberGenderRequestDto memberGenderRequestDto){
         try{
             memberService.modifyGender(memberGenderRequestDto);
@@ -90,7 +94,7 @@ public class MemberController {
     }
 
     // 회원 생일 변경
-    @PostMapping("/birth")
+    @PutMapping("/birth")
     public ResponseEntity<?> modifyBirth(@RequestBody MemberBirthRequestDto memberBirthRequestDto){
         try{
             memberService.modifyBirth(memberBirthRequestDto);

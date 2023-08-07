@@ -6,6 +6,7 @@ spring:
     user:
       name: user@gmail.com
       password: 1234
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://i9B202.p.ssafy.io:2231/test?serverTimezone=UTC&characterEncoding=UTF-8
@@ -38,8 +39,11 @@ spring:
           starttls:
             enable: true  # StartTLS 활성화 여부 (기본값: false)
 
+  profiles:
+    active: oauth
 
 logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
+    com.project.npdp.snslogin: DEBUG
