@@ -91,10 +91,7 @@
               </label>
             </div>
           </div>
-<<<<<<< HEAD
           <p>성별 : {{credentials.gender}}</p>
-=======
->>>>>>> c9f68e99d388b1ffb41ccd1925c8e7669e6de766
       <button class="signup_btn" style="width: 100%;" @click="signup">Get started</button>
       
 

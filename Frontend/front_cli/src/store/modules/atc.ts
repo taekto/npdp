@@ -15,7 +15,8 @@ interface ATCState {
   calendar: Calendar [];
   utensil: Utensil [];
   refregirator : Refregirator [];
-  specificIngredient: SpecificIngredient[];
+  searchData: SearchData[];
+  appendList: AppendList[];
 }
 
 // 재료
@@ -103,9 +104,14 @@ interface Refregirator {
 }
 
 // 특정 재료 조회
-interface SpecificIngredient{
+interface SearchData{
   ingredientId: number
   name: String
+}
+
+// 추가 재료 목록
+interface AppendList{
+  ingredientId: number
 }
 
 const atc: Module<ATCState, RootState> = {
@@ -119,18 +125,20 @@ const atc: Module<ATCState, RootState> = {
     calendar: [],
     utensil: [],
     refregirator: [],
-    specificIngredient: [],
+    searchData: [],
+    appendList:[],
   },
   getters: {
     ingredient: state => state.ingredient,
     seasoning: state => state.seasoning,
-    searchIngredient: state => state.specificIngredient
+    searchData: state => state.searchData
     // ATC 게터 정의
   },
   mutations: {
     GET_INGREDIENT: (state, ingredient) => (state.ingredient = ingredient),
     // ATC 뮤테이션 정의
-    SET_SPECIFIC_INGREDIENT: (state, ingredient) => (state.ingredient = ingredient)
+    SET_SEARCH_DATA: (state, data) => (state.searchData = data),
+    SET_APPEND_LIST: (state, item) => (state.appendList.push(item)),
   },
   actions: {
     fetchIngredient({ commit, getters }) {
@@ -144,7 +152,7 @@ const atc: Module<ATCState, RootState> = {
         })
         .catch(err => console.log(err.response));
     },
-    async specificIngredient({ commit }, name) {
+    async specificIngredient({ commit, getters }, name) {
       try {
         console.log('재료 조회 시작!', name);
         const response = await axios.get('https://i9b202.p.ssafy.io/api/foods/ingredient/search', {
@@ -154,11 +162,23 @@ const atc: Module<ATCState, RootState> = {
         });
   
         console.log('특정 재료 조회 성공!', response.data);
-        commit('SET_SPECIFIC_INGREDIENT', response.data);
+        commit('SET_SEARCH_DATA', response.data);
+        
       } catch (error) {
         console.error('특정 재료 조회 실패!', error);
       }
     },
+
+    // 재료 추가
+    appendIngredient({commit}, item) {
+      console.log(item,'추가!')
+      commit('SET_APPEND_LIST', item)
+    },
+
+    // 재료 삭제(저장 버튼 누르기 전)
+    removeIngredient({commit}, item) {
+      // 로직 추가!
+    }
   },
 };
 

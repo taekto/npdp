@@ -37,11 +37,13 @@
                     <input id="submitButton" type="submit" value="검색">
                 </div>
               </form>
+            <div class="search_results_container" v-if="searchData.length > 0">
+              <ul>
+                <li v-for="result in searchData" :key="result.id" @click="append">{{ result.name }}</li>
+              </ul>
             </div>
+          </div>
 
-            <div class="tmpcontainer" v-for="item in searchIngredient" :key="item.id">
-              {{ item.name }}
-            </div>
 
             <!-- 재료 입력 폼 -->
             <div>
@@ -112,13 +114,12 @@ export default {
       }
   },
   computed: {
-    ...mapGetters(['searchIngredient'])
+    ...mapGetters(['searchData'])
     
   },
-  
   methods: {
     ...mapActions(['specificIngredient']),
-
+    
     chageUnitGae() {
       this.unit = '개'
     },
@@ -205,9 +206,9 @@ export default {
         }
         this.ingredientList = arrayRemove(this.ingredientList, ingredient)
       },
+    },
+  }
 
-}
-}
 </script>
 
 <style scoped>
@@ -307,5 +308,18 @@ export default {
   padding: 0.5rem;
   font-size: 1.25rem;
   font-weight: bold;
+}
+
+/* 검색 결과 스타일 */
+.search_results_container{
+  text-align: left;
+  max-width: 100%;
+  max-height: 150px;
+  overflow-y: auto; 
+}
+
+.search_results_container ul{
+  margin-top: 0.5rem;
+  margin-bottom: 0.2rem;
 }
 </style>
