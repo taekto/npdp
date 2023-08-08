@@ -12,7 +12,7 @@
           <div class="modal-body">
             <ul class="ListShow">
               <li class="ingredientList row" v-for="(ingredient, index) in ingredientList" :key="index">
-                <p class="col-1">{{ingredient.name}}</p>
+                <p class="col-1">{{ingredient.ingredientName}}</p>
                 <div class="amount col-2 row">
                   <button class="amountButton col-3" @click="plusAmount(ingredient)">+</button>
                   <p class="col-6">{{ingredient.amount}}{{ingredient.unit}}</p>
@@ -20,7 +20,7 @@
                 </div>
                 <p class="col-3">보관시작일 : {{ingredient.startDate}}</p>
                 <p class="col-3">
-                  유통기한 : {{ingredient.endDate}}
+                  유통기한 : {{ingredient.expiredDate}}
                 </p>
                 <p class="col-2">보관방식 : {{ingredient.storage}}</p>
                 <button class="col-1" @click="deleteIngredient(ingredient)">제거</button>
@@ -31,15 +31,17 @@
           <!-- 재료 이름 검색 폼 -->
           <div class="modal-body inputComponent">
             <div>
-              <form @submit.prevent="specificIngredient(this.ingredientName)">
+              <form @submit.prevent="specificSearch({ type: 'ingredient', name: this.ingredientName })">
                 <div class="input-group">
                     <input id="searchForm ingredientText" class="form-control" type="text" v-model.trim="ingredientName">
                     <input id="submitButton" type="submit" value="검색">
                 </div>
               </form>
-            <div class="search_results_container" v-if="searchData.length > 0">
+            <div class="search_results_container" v-if="ingredientSearchData.length > 0">
               <ul>
-                <li v-for="result in searchData" :key="result.id" @click="append">{{ result.name }}</li>
+                <li v-for="result in ingredientSearchData" :key="result.id" @click="selectedItem(result)">
+                  {{ result.name }}
+                </li>
               </ul>
             </div>
           </div>
@@ -48,7 +50,8 @@
             <!-- 재료 입력 폼 -->
             <div>
               <div>
-                <form @submit.prevent="goToSearchwithKeyword">
+                <form @submit.prevent="addIngredient">
+                  <p v-if="ingredientName">선택한 재료: {{ ingredientName }}</p>
                   <div class="input-group">
                       <button class="amountButton" @click="addAmount">+</button>
                       <input id="searchForm" class="form-control" type="number" v-model.trim="amount">
@@ -58,9 +61,9 @@
                           {{unit}}
                         </button>
                         <ul class="dropdown-menu">
-                          <li><button class="dropdown-item" type="button" @click="chageUnitGae">개</button></li>
-                          <li><button class="dropdown-item" type="button" @click="chageUnitGram">g</button></li>
-                          <li><button class="dropdown-item" type="button" @click="chageUnitMari">마리</button></li>
+                          <li><button class="dropdown-item" type="button" @click="chageUnit('개')">개</button></li>
+                          <li><button class="dropdown-item" type="button" @click="chageUnit('g')">g</button></li>
+                          <li><button class="dropdown-item" type="button" @click="chageUnit('마리')">마리</button></li>
                           <li class="inputServing">직접기입 : <input class="dropdown-item" type="text" v-model="unit"></li>
                         </ul>
                       </div>
@@ -69,13 +72,13 @@
               </div>
               <div>
                 <label class="radioButton">
-                  <input type="radio" name="classification" value="냉장" v-model="selectStorage" @click="changeStorage">냉장
+                  <input type="radio" name="classification" value="냉장" @click="selectStorage(0)">냉장
                 </label>
                 <label class="radioButton">
-                  <input type="radio" name="classification" value="냉동" v-model="selectStorage" @click="changeStorage">냉동
+                  <input type="radio" name="classification" value="냉동" @click="selectStorage(1)">냉동
                 </label>
                 <label class="radioButton">
-                  <input type="radio" name="classification" value="실온" v-model="selectStorage" @click="changeStorage">실온
+                  <input type="radio" name="classification" value="실온" @click="selectStorage(2)">실온
                 </label>
               </div>
               <button class="soundButton" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">음성입력</button>
@@ -88,7 +91,7 @@
 
           <!-- 재료 리스트 저장 -->
           <div class="modal-footer">
-            <button class="soundButton" @click="pushIngredientData">저장하기</button>
+            <button class="soundButton" @click="memberIngredient({ memberId: memberId, MemberIngredientSaveRequestDto: throwList })">저장하기</button>
           </div>
         </div>
       </div>
@@ -102,32 +105,49 @@ export default {
     name: 'IngredientText',
     data() {
       return {
-        ingredientList : [{name : "감자", amount: 2, unit: "개",  startDate : '2023-07-27', endDate: '', storage: '냉장'}, 
-        {name : "김치", amount: 2, unit: "포기",  startDate : '2023-07-27', endDate: '', storage: '냉장'},
-        {name : "계란", amount: 2, unit: "개",  startDate : '2023-07-27', endDate: '', storage: '냉장'},
-        {name : "돼지고기", amount: 600, unit: "g",  startDate : '2023-07-27', endDate: '', storage: '냉장'},
-        {name : "소고기", amount: 1200, unit: "g",  startDate : '2023-07-27', endDate: '', storage: '냉장'},],
+        ingredientList: [],
+        throwList:[],
+        ingredientId: null,
+        storage: null,
+        printStorage:'',
+        amount: null,
+        unit: '',
+        startDate: '',
+        expiredDate: '2023-08-08',
         ingredientName: '',
-        amount : 0,
-        unit : '개',
-        selectStorage : '냉장',
+        memberId: null,
       }
   },
   computed: {
-    ...mapGetters(['searchData'])
+    ...mapGetters(['ingredientSearchData'])
     
   },
   methods: {
-    ...mapActions(['specificIngredient']),
-    
-    chageUnitGae() {
-      this.unit = '개'
+    ...mapActions(['specificSearch','memberIngredient']),
+
+    selectedItem(result) {
+      console.log(result)
+      this.ingredientName = result.name;
+      this.ingredientId = result.id;
     },
-    chageUnitGram() {
-      this.unit = 'g'
+
+    selectStorage(storage) {
+      this.storage = storage
+        switch (storage) {
+          case 0:
+          this.printStorage = "냉장";
+            break;
+          case 1:
+            this.printStorage = "냉동";
+            break;
+          case 2:
+          this.printStorage = "실온";
+          break;
+        }
     },
-    chageUnitMari() {
-      this.unit = '마리'
+
+    chageUnit(unit) {
+      this.unit = unit
     },
     appendList() {
       let today = new Date();   
@@ -155,12 +175,9 @@ export default {
         }
       }
 
-      this.ingredientList.push({name: this.ingredientName, amount : this.amount, unit: this.unit, startDate : todayDate, endDate: '', storage: this.selectStorage})
-
-      this.ingredientName = ''
-      this.amount = 0
-      this.unit = '개'
-      this.selectStorage = '냉장'
+      this.ingredientList.push({ingredientName:this.ingredientName, ingredientId: this.ingredientId, amount: this.amount, unit: this.unit, startDate : todayDate, expiredDate: this.expiredDate, storage: this.printStorage})
+      this.throwList.push({ingredientId: this.ingredientId, amount: this.amount, unit: this.unit, startDate : todayDate, expiredDate: this.expiredDate, storage: this.storage})
+      console.log(this.throwList)
     },
     pushIngredientData() {
       console.log(this.ingredientList)
@@ -205,7 +222,12 @@ export default {
           })
         }
         this.ingredientList = arrayRemove(this.ingredientList, ingredient)
+        this.throwList = arrayRemove(this.throwList, { ingredientId: ingredient.ingredientId });
       },
+    },
+    created() {
+    // 컴포넌트가 생성될 때 sessionStorage에서 memberId 값을 가져옵니다.
+      this.memberId = sessionStorage.getItem('memberId');
     },
   }
 
@@ -322,4 +344,5 @@ export default {
   margin-top: 0.5rem;
   margin-bottom: 0.2rem;
 }
+
 </style>
