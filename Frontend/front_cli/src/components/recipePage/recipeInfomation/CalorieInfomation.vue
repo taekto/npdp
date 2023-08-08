@@ -38,13 +38,25 @@ export default {
     },
     data() {
         return {
-            calorie : [{name: "calorie", value: this.recipeDetail.calorie},
-            {name: 'carbohydrate'},
-            ]
+            calorie : []
         }
+    },
+    mounted() {
+        this.setCalorie()
     },
     computed: {
       ...mapGetters(['recipeDetail'])
     },
+    methods: {
+        setCalorie() {
+            this.calorie = [{name: "칼로리", value: this.recipeDetail.calorie},
+            {name: '탄수화물', value: this.recipeDetail.carbohydrate},
+            {name: '단백질', value: this.recipeDetail.protein},
+            {name: '지방', value: this.recipeDetail.fat},
+            {name: '염분', value: this.recipeDetail.salt},
+            {name: '중량', value: this.recipeDetail.weight},
+            ]
+        }
+    }
 }
 </script>

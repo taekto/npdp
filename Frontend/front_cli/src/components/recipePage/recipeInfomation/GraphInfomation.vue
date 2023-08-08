@@ -16,14 +16,16 @@ export default {
     components: { Doughnut, },
     data() {
         return {
-            similarity : 75,
+            
             data : {
                 labels: ['Differ', 'Similarity', ],
                 datasets: [
                 {
                     backgroundColor: ['#EEEEEE', '#FD7E14'],
                     // 유사도를 통해 그래프 값을 변경
-                    data: [100-this.similarity, this.similarity]
+                    // 유사도 입력 받은 후 수정
+                    // data: [100-this.similarity, this.similarity]
+                    data: [25, 75]
                 }
                 ]
             },

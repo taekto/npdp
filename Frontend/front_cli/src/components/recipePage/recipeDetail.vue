@@ -1,7 +1,6 @@
 <template>
   <!-- 레시피 상세 페이지 -->
   <div class="recipeDetail">
-    <p>{{recipeDetail}}</p>
     <!-- 레시피 이름 -->
     <div class="recipeName">
       <!-- <h2 class="recipeTitle">레시피이름 : {{recipe_data.name}}</h2> -->
@@ -12,7 +11,7 @@
 
     <div class="recipeInfomation">
       <!-- 레시피 이미지 -->
-      <img class="recipeImage" src='@/assets/123.jpg'>
+      <img class="recipeImage" :src='recipeDetail.imgBig'>
       
       <!-- 레시피 정보 -->
       <RecipeInfomation />
@@ -21,9 +20,9 @@
     <!-- 레시피 순서 -->
     <div class="recipeOrder">
       <h2 class="orderTitle">레시피 순서</h2>
-      <div class="orderLine" v-for="(order, index) in 5" :key="index">
-        <p class="orderExplain">{{index+1}} : {{lorem}}</p>
-        <img class="orderImage" src='@/assets/123.jpg'>
+      <div class="orderLine" v-for="(order, index) in recipeDetail.recipeSequences" :key="index">
+        <p class="orderExplain">{{order.description}}</p>
+        <img class="orderImage" :src='order.img'>
       </div>
     </div>
     

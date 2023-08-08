@@ -62,13 +62,12 @@ export default {
     computed: {
       ...mapGetters(['recipeDetail'])
     },
+    mounted() {
+      this.chageServingOne()
+    },
     data() {
       return {
-        ingredients: this.$props.recipe.ingredients,
-        similarity : this.$props.recipe.similarity,
-        method: this.$props.recipe.method,
-        calorie : this.$props.recipe.calorie,
-        serving : this.recipeDetail.dish,
+        serving : 1,
       }
     },
     methods: {
@@ -84,9 +83,9 @@ export default {
       chageServingFour() {
         this.serving = this.recipeDetail.dish * 4
       },
-      goToIngredient() {
-        console.log('ingredient')
-      }
+      // goToIngredient() {
+      //   console.log('ingredient')
+      // }
     }
 }
 </script>

@@ -86,12 +86,12 @@ interface RecipeDetail {
   fat: number
   salt: number
   img: string
-  // recipe_id: number
+  recipe_id: number
   // tag: string
-  // img_small: string
-  // img_big: string
-  // category: string
-  // dish: number
+  img_small: string
+  img_big: string
+  category: string
+  dish: number
 }
 
 // 레시피 맞춤 추천

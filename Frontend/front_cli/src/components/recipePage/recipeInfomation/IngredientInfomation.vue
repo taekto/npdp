@@ -26,10 +26,15 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
+
 export default {
     name: 'IngredientInfomation',
     props: {
       serving : Number
+    },
+    computed: {
+      ...mapGetters(['recipeDetail'])
     }
 }
 </script>
