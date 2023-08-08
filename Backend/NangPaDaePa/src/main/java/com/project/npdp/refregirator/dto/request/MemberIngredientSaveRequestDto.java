@@ -1,5 +1,6 @@
 package com.project.npdp.refregirator.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.project.npdp.food.entity.Ingredient;
 import com.project.npdp.member.entity.Member;
 import com.project.npdp.refregirator.entity.Refregirator;
@@ -21,8 +22,10 @@ public class MemberIngredientSaveRequestDto {
 
     private String unit;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDateTime startDate;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDateTime expiredDate;
 
     public Refregirator toEntity(MemberIngredientSaveRequestDto memberIngredientSaveRequestDto, Member member, Ingredient ingredient) {
