@@ -84,6 +84,7 @@ export default defineComponent({
 }
 
 .menuTitle {
+  font-family: 'KimjungchulGothic-Bold';
     margin-left: 2rem;
 }
 

@@ -56,7 +56,7 @@ export default {
   padding: 2.5rem 0rem 2.5rem 0rem;
   background-color: #EEEEEE;
   margin-top: 1.5rem;
-  margin-bottom: 2.5rem; 
+  /* margin-bottom: 2.5rem;  */
   font-family: 'Quicksand', sans-serif; /* Quicksand 글꼴을 사용 */
 }
 
@@ -67,13 +67,18 @@ export default {
   gap: 3rem; 
   
 }
+.cate_cont a{
+  font-family: 'LINESeedKR-Bd';
+  text-decoration-line: none;
+  color: black;
+}
+
 .cate_cont span {
   display: flex;
   flex-direction: column;
   margin-top: 0.5rem; /* 이미지와의 간격 조정 */
   font-size: 1.1rem;
   text-decoration: none !important;
-  
 }
 
 .cate_cont img {
