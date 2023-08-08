@@ -175,7 +175,8 @@ const member: Module<MemberState, RootState> = {
         .then(res => {
           console.log('로컬로그인 시작!')
           console.log(res)
-          sessionStorage.setItem("accessToken", res.data.accessToken);
+          sessionStorage.setItem("accessToken", res.data.accessToken)
+          sessionStorage.setItem("memberId", res.data.id)
           commit('SET_CURRENT_MEMBER', credentials.email)
           // commit('SET_CURRENT_MEMBER', res.data)
           dispatch('fetchMember', res.data.id)
@@ -260,7 +261,7 @@ const member: Module<MemberState, RootState> = {
         })
     },
 
-    // 회원 레시피 좋아요
+    // 회원 레시피 좋아요\
     memberLikeRecipe ({ commit, getters}, {member_id, recipe_id}) {
       axios ({
         url: api.member.memberRecipeLike(member_id),

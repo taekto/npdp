@@ -5,6 +5,7 @@ module.exports = defineConfig({
   : '/',
   transpileDependencies: true,
   devServer: {
+    historyApiFallback: true,
     proxy: {
       '/api': {
         target: 'https://i9b202.p.ssafy.io:8080',

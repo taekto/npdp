@@ -12,10 +12,10 @@
           <div class="modal-body">
             <ul class="ListShow">
               <li class="ingredientList row" v-for="(seasoning, index) in seasoningList" :key="index">
-                <p class="col-2">{{seasoning.name}}</p>
+                <p class="col-2">{{seasoning.seasoningName}}</p>
                 <p class="col-4">보관시작일 : {{seasoning.startDate}}</p>
                 <p class="col-3">
-                  유통기한 : {{seasoning.endDate}}
+                  유통기한 : {{seasoning.expiredDate}}
                 </p>
                 <p class="col-2">보관방식 : {{seasoning.storage}}</p>
                 <button class="col-1" @click="deleteSeasoning(seasoning)">제거</button>
@@ -26,25 +26,33 @@
           <!-- 양념 이름 검색 -->
           <div class="modal-body inputComponent">
             <div>
-              <form @submit.prevent="goToSearchwithKeyword">
+              <form @submit.prevent="specificSearch({ type: 'seasoning', name: this.seasoningName })">
                 <div class="input-group">
-                    <input id="searchForm ingredientText" class="form-control" type="text" v-model.trim="ingredientName">
+                    <input id="searchForm ingredientText" class="form-control" type="text" v-model.trim="seasoningName">
                     <input id="submitButton" type="submit" value="검색">
                 </div>
               </form>
+            <div class="search_results_container" v-if="seasoningSearchData.length > 0">
+              <ul>
+                <li v-for="result in seasoningSearchData" :key="result.id" @click="selectedItem(result)">
+                  {{ result.name }}
+                </li>
+              </ul>
+            </div>
             </div>
 
             <!-- 보관 방법 라디오 버튼 -->
             <div>
               <div>
-                <label class="radioButton">
-                  <input type="radio" name="classification" value="냉장" v-model="selectStorage" @click="changeStorage">냉장
+                  <p v-if="seasoningName">선택한 재료: {{ seasoningName }}</p>
+               <label class="radioButton">
+                  <input type="radio" name="classification" value="냉장" @click="selectSeasoningStorage(0)">냉장
                 </label>
                 <label class="radioButton">
-                  <input type="radio" name="classification" value="냉동" v-model="selectStorage" @click="changeStorage">냉동
+                  <input type="radio" name="classification" value="냉동" @click="selectSeasoningStorage(1)">냉동
                 </label>
                 <label class="radioButton">
-                  <input type="radio" name="classification" value="실온" v-model="selectStorage" @click="changeStorage">실온
+                  <input type="radio" name="classification" value="실온" @click="selectSeasoningStorage(2)">실온
                 </label>
               </div>
               <button class="soundButton" data-bs-target="#seasoningModalToggle2" data-bs-toggle="modal">음성입력</button>
@@ -62,45 +70,72 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
 export default {
     name: 'SeasoningText',
     data() {
       return {
-        seasoningList : [{name : "고춧가루", startDate : '2023-07-27', endDate: '', storage: '냉장'}, 
-        {name : "간장",  startDate : '2023-07-27', endDate: '', storage: '냉장'},
-        {name : "고추장",  startDate : '2023-07-27', endDate: '', storage: '냉장'},
-        {name : "된장",  startDate : '2023-07-27', endDate: '', storage: '냉장'},],
+        seasoningList: [],
+        throwList:[],
+        seasoningId: null,
+        storage: null,
+        amount: null,
+        unit: '',
+        startDate: '',
+        expiredDate: '2023-08-08',
         seasoningName: '',
-        selectStorage : '냉장',
+        memberId: null,
+        selected:null,
       }
   },
+  computed: {
+    ...mapGetters(['seasoningSearchData'])
+    
+  },
   methods: {
+    ...mapActions(['specificSearch']),
+    selectedItem(result) {
+      console.log(result)
+      this.seasoningName = result.name;
+      this.seasoningId = result.id;
+    },
+
     appendList() {
       let today = new Date();   
 
       let year = today.getFullYear(); // 년도
       let month = today.getMonth() + 1;  // 월
       let date = today.getDate();  // 날짜
-
-      this.seasoningList.push({name: this.seasoningName, startDate : `${year}-${month}-${date}`, endDate: '', storage: this.selectStorage})
-
-      this.seasoningName = ''
-      this.selectStorage = '냉장'
+    
+      this.seasoningList.push({seasoningName:this.seasoningName, seasoningId: this.seasoningId, amount: this.amount, unit: this.unit, startDate : `${year}-${month}-${date}`, expiredDate: this.expiredDate, storage: this.storage})
+      this.throwList.push({seasoningId: this.seasoningId, amount: this.amount, unit: this.unit, startDate : `${year}-${month}-${date}`, expiredDate: this.expiredDate, storage: this.storage})
+      console.log(this.throwList)
     },
+
     pushSeasoningData() {
       console.log(this.seasoningList)
       this.seasoningList = []
     },
-    deleteSeasoning(seasoning) {
-            const arrayRemove = (arr, value) => {
-                return arr.filter((ele) => {
-                    return ele != value
-                })
-            }
-            this.seasoningList = arrayRemove(this.seasoningList, seasoning)
-        }
 
-}
+    selectSeasoningStorage(storage) {
+      this.storage = storage
+    },
+    
+    deleteSeasoning(seasoning) {
+      const arrayRemove = (arr, value) => {
+        return arr.filter((ele) => {
+          return ele != value
+        })
+          }
+          this.seasoningList = arrayRemove(this.seasoningList, seasoning)
+    }
+    
+  },
+
+  created() {
+    // 컴포넌트가 생성될 때 sessionStorage에서 memberId 값을 가져옵니다.
+      this.memberId = sessionStorage.getItem('memberId');
+  },
 }
 </script>
 
