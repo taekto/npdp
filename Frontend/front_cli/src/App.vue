@@ -10,19 +10,21 @@
 
       <!-- 기본 메뉴(메인, 검색, 설명) -->
       <div id="pageLink">
-        <router-link to="/">Main</router-link> |
-        <router-link to="/search">Search</router-link> |
-        <router-link to="/about">About Us</router-link>
+        <router-link to="/" class="nav_page_link">Main</router-link> |
+        <router-link to="/search" class="nav_page_link ">Search</router-link> |
+        <router-link to="/about" class="nav_page_link">About Us</router-link>
       </div>
 
       <!-- 유저 관련 메뉴 -->
-      <div v-if="!isLoggedIn" id="user">
-        <router-link to="/signup">Signup</router-link> | 
-        <router-link to="/login">Login</router-link>
-      </div>
-      <div v-else id="user">
-        <router-link to="/mypage">MyPage</router-link> |
-        <a class="logout" @click="logout">Logout</a>
+      <div>
+        <div v-if="!isLoggedIn" id="user">
+          <router-link to="/signup" class="nav_user_link">Signup</router-link>
+          <router-link to="/login" class="nav_user_link">Login</router-link>
+        </div>
+        <div v-else id="user">
+          <router-link to="/mypage" class="nav_user_link">MyPage</router-link>
+          <a class="logout nav_user_link" @click="logout">Logout</a>
+        </div>
       </div>
     </nav>
 
@@ -31,7 +33,10 @@
 
     <!-- 하단 설명 -->
     <footer>
-      <p>@2023.panda. All rights reserved</p>
+      <!-- <p>@2023.panda. All rights reserved</p> -->
+      <router-link to="#" class="footer_text">이용약관</router-link>
+      <router-link to="#" class="footer_text">개인정보 처리방침</router-link>
+      <router-link to="#" class="footer_text">문의</router-link>
     </footer>
   </div>
 </template>
@@ -66,7 +71,8 @@ nav {
   padding: 25px;
   padding-top: 1.5rem;
   display: flex;
-  justify-content: flex-start;
+  /* justify-content: flex-start; */
+  justify-content: space-between;
   border-bottom: solid #e8e6e6;
 }
 
@@ -79,10 +85,37 @@ nav a.router-link-exact-active {
   color: #FD7E14;
 }
 
+#pageLink {
+  font-family: 'LINESeedKR-Bd';
+}
+
 nav #pageLink {
   margin-top: auto;
   margin-bottom: auto;
   margin-left: 2rem;
+  justify-content: center;
+}
+
+.nav_page_link {
+  text-decoration-line: none;
+  margin: 0 20px;
+  font-size: 18px;
+
+}
+
+.nav_user_link {
+  font-family: 'LINESeedKR-Bd';
+  text-decoration-line: none;
+  margin: 0 10px;
+  padding: 10px;
+  border: 1px solid #fd7e14;
+  border-radius: 5px;
+  color: #fd7e14;
+}
+
+.nav_user_link:hover {
+  background-color: #fd7e14;
+  color: #f2f2f2;
 }
 
 nav #title {
@@ -101,6 +134,7 @@ nav #title {
 }
 
 #brand {
+  font-family: 'LINESeedKR-Bd';
   margin-top: auto;
   margin-bottom: auto;
   font-size: 20px;
@@ -162,8 +196,20 @@ footer {
 }
 
 .logout {
+  font-family: 'LINESeedKR-Bd';
   cursor: pointer;
   text-decoration: underline;
+}
+
+.footer_text {
+  text-decoration: none;
+  font-size: 14px;
+  color: #f2f2f2;
+}
+.footer_text+.footer_text::before {
+  margin: 0 25px;
+  content: " | ";
+  color: #f2f2f2;
 }
 
 </style>

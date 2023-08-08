@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import VCalendar from 'v-calendar';
 import 'v-calendar/style.css';
 import axios from 'axios'
+import "@/assets/font.css"
 
 axios.defaults.withCredentials = true
 
