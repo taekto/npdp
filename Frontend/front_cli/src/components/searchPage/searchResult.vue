@@ -12,7 +12,7 @@
         :key="recipe_item.recipe_id"
         >
             <!-- 레시피 카드로 표현 -->
-            <div class="recommendCard" @click="detailRecipe(recipe_item.recipeId)">
+            <div class="recommendCard" @click="goToDetailRecipe(recipe_item.recipeId)">
                 <img :src="recipe_item.imgBig" alt="">
                 <!-- <p>Recipe Name</p> -->
                 <!-- <img :src="recipe_item.img_small" alt=""> -->
@@ -37,13 +37,11 @@ export default {
         ...mapActions(['detailRecipe']),
         // 상세 레시피로 보내주는 함수
         // 데이터 연결 후 변경 예정
-        goToDetailRecipe(recipeItem) {
+        goToDetailRecipe(recipe_id) {
+            this.detailRecipe(recipe_id)
             this.$router.push({name: "recipe",  
                 params: { 
-                    recipe: recipeItem
-                },
-                query: {
-                    recipeItem: JSON.stringify(recipeItem),
+                    recipe_id: recipe_id
                 },
             })
         },

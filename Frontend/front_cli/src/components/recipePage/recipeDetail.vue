@@ -1,7 +1,7 @@
 <template>
   <!-- 레시피 상세 페이지 -->
   <div class="recipeDetail">
-
+    <p>{{recipeDetails}}</p>
     <!-- 레시피 이름 -->
     <div class="recipeName">
       <!-- <h2 class="recipeTitle">레시피이름 : {{recipe_data.name}}</h2> -->
@@ -32,12 +32,15 @@
 
 <script>
 import RecipeInfomation from '../recipePage/recipeInfomation/recipeInfomation.vue'
+import {mapGetters} from 'vuex'
+
 
 export default {
     name: 'RecipeDetail',
     components: {
       RecipeInfomation,
     },
+    
     computed: {
       recipeItem() {
         console.log(this.$route.params.recipeItem)
@@ -47,6 +50,7 @@ export default {
         }
         return null;
       },
+      ...mapGetters(['recipeDetails'])
     },
 
     // 현재는 더미 데이터를 만들어서 확인
