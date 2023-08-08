@@ -22,10 +22,8 @@ public class MemberIngredientSaveRequestDto {
 
     private String unit;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDateTime startDate;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDateTime expiredDate;
 
     public Refregirator toEntity(MemberIngredientSaveRequestDto memberIngredientSaveRequestDto, Member member, Ingredient ingredient) {
