@@ -97,7 +97,7 @@
       </form>
       <!-- 소셜 로그인 -->
       <div class="signup_sns">
-          <a href="https://i9b202.p.ssafy.io/api/oauth/google-login?redirect_uri=http://i9B202.p.ssafy.io:8080/api/oauth/google" class="btn_sns btn-google btn-block" @click="socialLoginGoogle" style="width: 100%">
+          <a href="https://i9b202.p.ssafy.io/api/oauth/google-login?redirect_uri=https://i9b202.p.ssafy.io" class="btn_sns btn-google btn-block" @click="socialLoginGoogle" style="width: 100%">
           Google 계정으로 시작</a>
           <a href="https://i9b202.p.ssafy.io/api/oauth/naver-login?redirect_uri=https://i9b202.p.ssafy.io/social" class="btn_sns btn-naver btn-block" @click="socialLoginNaver" style="width: 100%"><i class="fab fab-naver-alt"></i> 
           네이버 계정으로 시작</a>
