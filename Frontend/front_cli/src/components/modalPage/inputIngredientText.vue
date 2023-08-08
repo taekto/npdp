@@ -91,7 +91,7 @@
 
           <!-- 재료 리스트 저장 -->
           <div class="modal-footer">
-            <button class="soundButton" @click="memberIngredient({ memberId: memberId, MemberIngredientSaveRequestDto: throwList })">저장하기</button>
+            <button class="soundButton" @click="saveMaterial({type: 'ingredient', memberId: this.memberId, sendData: throwList })">저장하기</button>
           </div>
         </div>
       </div>
@@ -113,7 +113,7 @@ export default {
         amount: null,
         unit: '',
         startDate: '',
-        expiredDate: '2023-08-08',
+        expiredDate: '',
         ingredientName: '',
         memberId: null,
       }
@@ -123,7 +123,7 @@ export default {
     
   },
   methods: {
-    ...mapActions(['specificSearch','memberIngredient']),
+    ...mapActions(['specificSearch','saveMaterial']),
 
     selectedItem(result) {
       console.log(result)
@@ -174,9 +174,8 @@ export default {
           todayDate = `${year}-${month}-${date}`
         }
       }
-
       this.ingredientList.push({ingredientName:this.ingredientName, ingredientId: this.ingredientId, amount: this.amount, unit: this.unit, startDate : todayDate, expiredDate: this.expiredDate, storage: this.printStorage})
-      this.throwList.push({ingredientId: this.ingredientId, amount: this.amount, unit: this.unit, startDate : todayDate, expiredDate: this.expiredDate, storage: this.storage})
+      this.throwList.push({ingredientId: this.ingredientId, amount: this.amount, unit: this.unit, startDate : today, expiredDate: this.expiredDate, storage: this.storage})
       console.log(this.throwList)
     },
     pushIngredientData() {
@@ -216,13 +215,20 @@ export default {
       }
     },
     deleteIngredient(ingredient) {
-        const arrayRemove = (arr, value) => {
-          return arr.filter((ele) => {
-            return ele != value
-          })
-        }
-        this.ingredientList = arrayRemove(this.ingredientList, ingredient)
-        this.throwList = arrayRemove(this.throwList, { ingredientId: ingredient.ingredientId });
+      const arrayRemove = (arr, value) => {
+        return arr.filter((ele) => {
+            // 객체 또는 배열 비교를 위해 JSON.stringify 사용
+          return JSON.stringify(ele) !== JSON.stringify(value);
+        });
+      };
+
+        // ingredientList에서 ingredient 제거
+      this.ingredientList = arrayRemove(this.ingredientList, ingredient);
+
+      // throwList에서 ingredientId가 일치하는 객체 제거
+      this.throwList = this.throwList.filter((ele) => {
+        return ele.ingredientId !== ingredient.ingredientId;
+      });
       },
     },
     created() {

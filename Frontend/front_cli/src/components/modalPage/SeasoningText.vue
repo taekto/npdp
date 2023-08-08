@@ -32,13 +32,19 @@
                     <input id="submitButton" type="submit" value="검색">
                 </div>
               </form>
-            <div class="search_results_container" v-if="seasoningSearchData.length > 0">
-              <ul>
-                <li v-for="result in seasoningSearchData" :key="result.id" @click="selectedItem(result)">
-                  {{ result.name }}
-                </li>
-              </ul>
-            </div>
+ <div v-if="seasoningSearchData.length > 0">
+      <ul>
+        <li v-for="result in seasoningSearchData" :key="result.id" @click="selectedItem(result)">
+          {{ result.name }}
+        </li>
+      </ul>
+    </div>
+    <div v-else-if="isLoading">
+      검색 중...
+    </div>
+    <div v-else>
+      {{ name }} 데이터가 없습니다.
+    </div>
             </div>
 
             <!-- 보관 방법 라디오 버튼 -->
@@ -62,7 +68,7 @@
 
           <!-- 현재 입력된 리스트 저장 -->
           <div class="modal-footer">
-            <button class="soundButton" @click="pushSeasoningData">저장하기</button>
+            <button class="soundButton" @click="saveMaterial({ type: 'seasoning', memberId: memberId, sendData: throwList })">저장하기</button>
           </div>
         </div>
       </div>
@@ -75,7 +81,7 @@ export default {
     name: 'SeasoningText',
     data() {
       return {
-        seasoningList: [],
+        seasoningList: [],  
         throwList:[],
         seasoningId: null,
         storage: null,
@@ -86,6 +92,7 @@ export default {
         seasoningName: '',
         memberId: null,
         selected:null,
+        isLoading: false,
       }
   },
   computed: {
@@ -93,7 +100,7 @@ export default {
     
   },
   methods: {
-    ...mapActions(['specificSearch']),
+    ...mapActions(['specificSearch','saveMaterial']),
     selectedItem(result) {
       console.log(result)
       this.seasoningName = result.name;
@@ -108,7 +115,7 @@ export default {
       let date = today.getDate();  // 날짜
     
       this.seasoningList.push({seasoningName:this.seasoningName, seasoningId: this.seasoningId, amount: this.amount, unit: this.unit, startDate : `${year}-${month}-${date}`, expiredDate: this.expiredDate, storage: this.storage})
-      this.throwList.push({seasoningId: this.seasoningId, amount: this.amount, unit: this.unit, startDate : `${year}-${month}-${date}`, expiredDate: this.expiredDate, storage: this.storage})
+      this.throwList.push({seasoningId: this.seasoningId, storage: this.storage})
       console.log(this.throwList)
     },
 
@@ -124,13 +131,16 @@ export default {
     deleteSeasoning(seasoning) {
       const arrayRemove = (arr, value) => {
         return arr.filter((ele) => {
-          return ele != value
-        })
-          }
-          this.seasoningList = arrayRemove(this.seasoningList, seasoning)
-    }
-    
-  },
+            // 객체 또는 배열 비교를 위해 JSON.stringify 사용
+          return JSON.stringify(ele) !== JSON.stringify(value);
+        });
+      };
+      this.seasoningList = arrayRemove(this.seasoningList, seasoning);
+      this.throwList = this.throwList.filter((ele) => {
+        return ele.seasoningId !== seasoning.seasoningId;
+      });
+      },
+    },
 
   created() {
     // 컴포넌트가 생성될 때 sessionStorage에서 memberId 값을 가져옵니다.
@@ -238,4 +248,12 @@ export default {
   font-size: 1.25rem;
   font-weight: bold;
 }
+
+.search_results_container{
+  text-align: left;
+  max-width: 100%;
+  max-height: 150px;
+  overflow-y: auto; 
+}
+
 </style>

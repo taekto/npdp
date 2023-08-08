@@ -175,14 +175,13 @@ const atc: Module<ATCState, RootState> = {
         .catch(err => console.log(err.response));
     },
 
-    // 양념/ 재료/ 전체 조회
+    // 양념 / 재료 / 전체 조회
     async specificSearch({ commit }, { type, name }) {
       try {
         console.log(type === 'seasoning' ? '양념 조회 시작!' : '재료 조회 시작!', name);
         const apiUrl = type === 'seasoning' ?
           'https://i9b202.p.ssafy.io/api/foods/seasoning/search' :
           'https://i9b202.p.ssafy.io/api/foods/ingredient/search';
-        
         const response = await axios.get(apiUrl, {
           params: {
             name : name,
@@ -194,17 +193,22 @@ const atc: Module<ATCState, RootState> = {
         console.log(type === 'seasoning' ? '양념 조회 실패..' : '재료 조회 실패..', error);
       }
     },
+    
 
-    async memberIngredient({ dispatch }, {memberId, MemberIngredientSaveRequestDto}) {
+    async saveMaterial({ dispatch }, {type, memberId, sendData}) {
       try {
-        console.log('재료 저장 시작!', MemberIngredientSaveRequestDto);
-        console.log(JSON.stringify(MemberIngredientSaveRequestDto, null, 2));
-        const response = await axios.post(`https://i9b202.p.ssafy.io/api/refregirator/member/ingredient/${memberId}`, MemberIngredientSaveRequestDto);
+        console.log(type === 'seasoning' ? '양념 저장 시작!': '재료 저장 시작!', sendData);
+        const apiUrl = type === 'seasoning' ?
+          `https://i9b202.p.ssafy.io/api/refregirator/member/seasoning/${memberId}`:
+          `https://i9b202.p.ssafy.io/api/refregirator/member/ingredient/${memberId}`; 
+        console.log(JSON.stringify(sendData, null, 2));
+        
+        const response = await axios.post(apiUrl, sendData);
   
-        console.log('재료 입력 성공!', response.data);
+        console.log(type === 'seasoning' ? '양념 저장 성공!' : '재료 저장 성공!', response.data);
         dispatch('fetchIngredient');
       } catch (error) {
-        console.error('저장 실패!', error);
+        console.log(type === 'seasoning' ? '양념 저장 실패..' : '재료 저장 실패..', error);
       }
     },
   }
