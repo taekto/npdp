@@ -45,7 +45,7 @@ public class GoogleLoginService implements OAuthProviderService<GoogleToken>{
                 .queryParam("response_type", "code")
                 .queryParam("client_id", oAuthConfig.getGoogleClientId())
                 .queryParam("redirect_uri", URLEncoder.encode(oAuthConfig.getGoogleRedirectUri(), "UTF-8"))
-                .queryParam("scope", "email profile")
+                .queryParam("scope", oAuthConfig.getGoogleScope())
                 .build();
 
         return uriComponents.toString();

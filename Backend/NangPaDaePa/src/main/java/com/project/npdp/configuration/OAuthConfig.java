@@ -22,6 +22,9 @@ public class OAuthConfig {
     @Value("${spring.security.oauth2.client.registration.google.authorization-grant-type}")
     private String googleGrantType;
 
+    @Value("${spring.security.oauth2.client.registration.google.scope}")
+    private String googleScope;
+
     @Value("${spring.security.oauth2.client.provider.google.authorization-uri}")
     private String googleAuthorizationUrl;
 
