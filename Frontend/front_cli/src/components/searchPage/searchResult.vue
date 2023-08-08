@@ -39,11 +39,13 @@ export default {
         // 데이터 연결 후 변경 예정
         goToDetailRecipe(recipe_id) {
             this.detailRecipe(recipe_id)
-            this.$router.push({name: "recipe",  
-                params: { 
-                    recipe_id: recipe_id
-                },
-            })
+            setTimeout(() => {
+                this.$router.push({name: "recipe",  
+                    params: { 
+                        recipe_id: recipe_id
+                    },
+                })
+            }, 50) 
         },
 
     // 내려오면 api 호출하여 아래에 더 추가, total값 최대이면 호출 안함
