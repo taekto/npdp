@@ -15,7 +15,7 @@ spring:
           google:
             client-id: 600784308502-61a56tmk8jtiifg01jgh8dj6rpad2vu0.apps.googleusercontent.com
 #            redirect-uri: http://i9B202.p.ssafy.io:8080/api/oauth/google
-            redirect-uri: https://i9B202.p.ssafy.io/social
+            redirect-uri: https://i9B202.p.ssafy.io
             client-authentication-method: POST
             client-secret: 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
             authorization-grant-type: authorization_code
