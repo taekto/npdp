@@ -1,11 +1,11 @@
 <template>
   <!-- 레시피 상세 페이지 -->
   <div class="recipeDetail">
-    <p>{{recipeDetails}}</p>
+    <p>{{recipeDetail}}</p>
     <!-- 레시피 이름 -->
     <div class="recipeName">
       <!-- <h2 class="recipeTitle">레시피이름 : {{recipe_data.name}}</h2> -->
-      <h2 class="recipeTitle">레시피이름 : {{recipeItem.name}}</h2>
+      <h2 class="recipeTitle">레시피이름 : {{recipeDetail.name}}</h2>
       <button v-if="liked" class="likeButton" @click="changeLike">Like</button>
       <button v-else class="dislikeButton" @click="changeLike">Dislike</button>
     </div>
@@ -15,7 +15,7 @@
       <img class="recipeImage" src='@/assets/123.jpg'>
       
       <!-- 레시피 정보 -->
-      <RecipeInfomation :recipe=recipe />
+      <RecipeInfomation />
     </div>
 
     <!-- 레시피 순서 -->
@@ -50,7 +50,7 @@ export default {
         }
         return null;
       },
-      ...mapGetters(['recipeDetails'])
+      ...mapGetters(['recipeDetail'])
     },
 
     // 현재는 더미 데이터를 만들어서 확인

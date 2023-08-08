@@ -11,10 +11,10 @@
         </div>
         <div class="oneLine">
             <div class="ingredientName">
-                <p>{{method.name}}</p>
+                <p>{{recipeDetail.way}}</p>
             </div>
             <div class="ingredientAmount">
-                <p>{{method.value}}</p>
+                <p>{{recipeDetail.way}}</p>
             </div>
         </div>
         <div class="oneLine" v-for="(calorieInfo, index) in calorie" :key="index">
@@ -29,12 +29,22 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
+
 export default {
     name: "CalorieInformation",
     props: {
-        method: Text,
-        calorie: Array,
         serving: Number,
-    }
+    },
+    data() {
+        return {
+            calorie : [{name: "calorie", value: this.recipeDetail.calorie},
+            {name: 'carbohydrate'},
+            ]
+        }
+    },
+    computed: {
+      ...mapGetters(['recipeDetail'])
+    },
 }
 </script>

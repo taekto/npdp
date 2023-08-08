@@ -13,7 +13,7 @@
     </div>
 
     <!-- 재료 정보 -->
-    <div class="oneLine" v-for="(ingredient, index) in ingredients" :key="index">
+    <div class="oneLine" v-for="(ingredient, index) in recipeDetail.recipeIngredients" :key="index">
       <div class="ingredientName">
       <p>{{ingredient.name}}</p>
       </div>
@@ -29,8 +29,7 @@
 export default {
     name: 'IngredientInfomation',
     props: {
-        ingredients: Array,
-        serving: Number,
+      serving : Number
     }
 }
 </script>
