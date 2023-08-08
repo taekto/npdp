@@ -11,7 +11,7 @@
         </div>
         <div class="oneLine">
             <div class="ingredientName">
-                <p>{{recipeDetail.way}}</p>
+                <p>{{way}}</p>
             </div>
             <div class="ingredientAmount">
                 <p>{{recipeDetail.way}}</p>
@@ -38,14 +38,16 @@ export default {
     },
     data() {
         return {
-            calorie : []
+            calorie : [],
+            way : ''
         }
     },
     mounted() {
+        this.setWay()
         this.setCalorie()
     },
     computed: {
-      ...mapGetters(['recipeDetail'])
+      ...mapGetters(['recipeDetail', 'recipeWay'])
     },
     methods: {
         setCalorie() {
@@ -56,6 +58,13 @@ export default {
             {name: '염분', value: this.recipeDetail.salt},
             {name: '중량', value: this.recipeDetail.weight},
             ]
+        },
+        setWay() {
+            for (let recipeWay_data of this.recipeWay) {
+                if(recipeWay_data.recipe_way_id === this.recipeDetail.way) {
+                    this.way = recipeWay_data.recipe_way_name
+                }
+            }
         }
     }
 }

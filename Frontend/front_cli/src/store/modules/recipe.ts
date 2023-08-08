@@ -14,6 +14,7 @@ interface RecipeState {
   recipeSpecific: RecipeSpecific[];
   recipeDetail: RecipeDetail[];
   recipeRecommend: RecipeRecommend[];
+  recipeWay: RecipeWay[];
 }
 
 // 레시피
@@ -105,6 +106,11 @@ interface RecipeRecommend {
   taste: Array<{
     ingredientId: number; 
   }>;
+}
+
+interface RecipeWay {
+  recipe_way_id : number,
+  recipe_way_name: string,
 }
 
 
@@ -199,12 +205,19 @@ const recipe: Module<RecipeState, RootState> = {
     recipeIngredient: [],
     recipeDetail: [],
     recipeRecommend: [],
+    recipeWay: [{recipe_way_id : 1, recipe_way_name : '굽기'},
+    {recipe_way_id : 2, recipe_way_name : '끓이기'},
+    {recipe_way_id : 3, recipe_way_name : '볶기'},
+    {recipe_way_id : 4, recipe_way_name : '찌기'},
+    {recipe_way_id : 5, recipe_way_name : '튀기기'},
+    {recipe_way_id : 6, recipe_way_name : '기타'},],
   },
 
   getters: {
     recipe: state => state.recipe,
     recipeSpecific: state => state.recipeSpecific,
     recipeDetail: state => state.recipeDetail,
+    recipeWay: state => state.recipeWay,
   },
 
   mutations: {

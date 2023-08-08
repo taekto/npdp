@@ -45,7 +45,7 @@ export default {
                         recipe_id: recipe_id
                     },
                 })
-            }, 100) 
+            }, 200) 
         },
 
     // 내려오면 api 호출하여 아래에 더 추가, total값 최대이면 호출 안함

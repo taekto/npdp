@@ -11,7 +11,10 @@
 
     <div class="recipeInfomation">
       <!-- 레시피 이미지 -->
-      <img class="recipeImage" :src='recipeDetail.imgBig'>
+      <div class="recipeImage">
+        <img class="recipeImg" :src='recipeDetail.imgBig'>
+      </div>
+      
       
       <!-- 레시피 정보 -->
       <RecipeInfomation />
@@ -120,9 +123,17 @@ export default {
 /* 레시피 이미지 */
 .recipeImage {
     width: 45%;
+    height: 30rem;
     border-radius: .5rem;
     border: solid rgb(205, 205, 205) 1.5px;
 }
+
+.recipeImg {
+  width: 100%;
+  height: 100%;
+  border-radius: .5rem;
+}
+
 
 /* 레시피 순서 */
 .recipeOrder {
