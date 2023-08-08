@@ -22,7 +22,7 @@
                 <p>{{calorieInfo.name}}</p>
             </div>
             <div class="ingredientAmount">
-                <p>{{calorieInfo.value*serving}}</p>
+                <p>{{(calorieInfo.value*serving).toFixed(1)}}</p>
             </div>
         </div>
         </div>
