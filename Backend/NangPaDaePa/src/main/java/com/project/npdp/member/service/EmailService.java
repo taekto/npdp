@@ -32,7 +32,6 @@ public class EmailService {
         if(type.equals("password")) memberService.modifyPw(emailMessage.getTo(), authCode);
 
         try{
-            // mimeMessage 객체와 인코딩 방식을 전달해 초기화 함
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
             mimeMessageHelper.setTo(emailMessage.getTo());
             mimeMessageHelper.setSubject(emailMessage.getTitle());
