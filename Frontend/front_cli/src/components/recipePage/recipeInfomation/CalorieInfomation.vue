@@ -11,10 +11,10 @@
         </div>
         <div class="oneLine">
             <div class="ingredientName">
-                <p>{{way}}</p>
+                <p>조리방법</p>
             </div>
             <div class="ingredientAmount">
-                <p>{{recipeDetail.way}}</p>
+                <p>{{way}}</p>
             </div>
         </div>
         <div class="oneLine" v-for="(calorieInfo, index) in calorie" :key="index">
