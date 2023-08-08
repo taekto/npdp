@@ -44,8 +44,6 @@ public class RefregiratorController {
     // 회원 재료 입력
     @PostMapping("/member/ingredient/{memberId}")
     public ResponseEntity<?> memberSaveIngredient(@PathVariable("memberId") Long memberId, @RequestBody List<MemberIngredientSaveRequestDto> memberIngredientSaveRequestDto) {
-        log.info("MemberIngredientSaveRequestDto = {}", memberIngredientSaveRequestDto.get(0).toString());
-        log.info("MemberIngredientSaveRequestDto = {}", memberIngredientSaveRequestDto.get(1).toString());
 
         refregiratorService.memberSaveIngredient(memberId, memberIngredientSaveRequestDto);
         return ResponseEntity.ok().build();
