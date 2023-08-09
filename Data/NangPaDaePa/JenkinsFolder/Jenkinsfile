@@ -55,15 +55,6 @@ pipeline {
             }
         }
 
-        stage('Collect Static Files') {
-            steps {
-                script {
-                    sh "pwd"
-                    sh "ls"
-                    // sh "docker run --rm -v ${pwd()}/Data:/app ${IMAGE_NAME} python manage.py collectstatic --noinput"
-                }
-            }
-        }
         stage('Deploy') {
             steps {
                 sh "docker run -d --name ${CONTAINER_NAME} -p 8000:8000 ${IMAGE_NAME}"
