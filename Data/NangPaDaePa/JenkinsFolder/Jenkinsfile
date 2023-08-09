@@ -50,14 +50,6 @@ pipeline {
                     }
                 }
             }
-            post {
-                success {
-                    sh 'echo "Docker delete Success"'
-                }
-                failure {
-                    sh 'echo "Docker delete Fail"'
-                }
-            }
         }
         stage('Deploy') {
             steps {
