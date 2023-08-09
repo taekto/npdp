@@ -84,8 +84,19 @@ export default {
       })
       .then (res => {
         console.log(res.data)
+        sessionStorage.setItem("accessToken", res.data.accessToken)
+        sessionStorage.setItem("memberId", res.data.id)
         sessionStorage.setItem('social', 1)
-        window.location.href = res.data
+        if(res.status === 200) {
+          this.$router.push({
+            name: 'main',
+          })
+        }
+        else if (res.status === 201) {
+          this.$router.push({
+            name: 'social',
+          })
+        }
       })
       .catch (err => {
         console.log(err)
@@ -99,8 +110,22 @@ export default {
       })
       .then (res => {
         console.log(res.data)
+        sessionStorage.setItem("accessToken", res.data.accessToken)
+        sessionStorage.setItem("memberId", res.data.id)
         sessionStorage.setItem('social', 1)
-        window.location.href = res.data
+        if(res.status === 200) {
+          this.$router.push({
+            name: 'main',
+          })
+        }
+        else if (res.status === 201) {
+          this.$router.push({
+            name: 'social',
+            params: {
+              member_id : res.data.member_id,
+            }
+          })
+        }
       })
       .catch (err => {
         console.log(err)
@@ -114,8 +139,19 @@ export default {
       })
       .then(res => {
         console.log(res.data)
+        sessionStorage.setItem("accessToken", res.data.accessToken)
+        sessionStorage.setItem("memberId", res.data.id)
         sessionStorage.setItem('social', 1)
-        window.location.href = res.data
+        if(res.status === 200) {
+          this.$router.push({
+            name: 'main',
+          })
+        }
+        else if (res.status === 201) {
+          this.$router.push({
+            name: 'social',
+          })
+        }
       })
       .catch(err => {
         console.log(err.response)

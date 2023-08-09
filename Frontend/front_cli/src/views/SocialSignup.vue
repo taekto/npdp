@@ -109,7 +109,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
     name: "SocialLogin",
@@ -119,12 +119,17 @@ export default {
         default : ""
       }
     },
-    // computed: {
-    //   socialLoginType : this.$props.socialType,
-    // },
+    computed: {
+      ...mapGetters(['member'])
+    },
+    mounted() {
+      this.fetchMember(parseInt(sessionStorage.getItem('memberId')))
+      .then(this.setUserInfo())
+      
+    },
     data() {
       return {
-        socialLoginType: this.$route.query.socialType,
+        // socialLoginType: this.$route.query.socialType,
         credentials: {
           email: 'a184562@gmail.com',
           password: '',
@@ -142,6 +147,11 @@ export default {
       }
   },
   methods: {
+    setUserInfo() {
+      this.email = this.member.email
+      this.birth = this.member.birth
+      this.gender = this.member.gender
+    },
     changeSocialGoogle() {
       this.socialLoginType = 'Google'
       console.log(this.socialLoginType)
@@ -183,7 +193,7 @@ export default {
         this.passwordHasError = false
      },
 
-    ...mapActions(["localSignup"]),
+    ...mapActions(["localSignup", "fetchMember"]),
     
     whatDate(birthdate, delimiter = '-') {
     // if (!birthdate) return ''; // 날짜가 선택되지 않은 경우 빈 문자열 반환

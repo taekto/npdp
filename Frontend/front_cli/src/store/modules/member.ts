@@ -30,7 +30,7 @@ interface Member {
     // oauth: string
     // refresh_token: string
     // role: number
-    // gender: string
+    gender: string
     // quit: boolean
 }
 
