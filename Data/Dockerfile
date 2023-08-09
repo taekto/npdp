@@ -8,6 +8,8 @@ COPY . /app
 WORKDIR /app
 
 # 가상 환경 활성화 및 필요한 패키지 설치
+RUN ls
+
 RUN . myvenv/bin/activate && \
     pip install --no-cache-dir -r requirements.txt
     
