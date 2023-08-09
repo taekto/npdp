@@ -123,8 +123,8 @@ public class MemberService {
     public MemberLoginResponseDto snsLogin(Member member){
 //         이메일 중복 여부 확인
         Member findMembers = memberRepository.findByEmail(member.getEmail());
-        log.info("db에 있는 snsLogin의 타입: "+findMembers.getOauth());
-        log.info("현재 로그인 시도한 snsLogin의 타입: "+member.getOauth());
+//        log.info("db에 있는 snsLogin의 타입: "+findMembers.getOauth());
+//        log.info("현재 로그인 시도한 snsLogin의 타입: "+member.getOauth());
 //        1. 이미 등록된 이메일인 경우
         if(findMembers != null){
 //            -1. 같은 SNS 로그인인 경우: 해당 sns 로그인으로 바로 로그인
