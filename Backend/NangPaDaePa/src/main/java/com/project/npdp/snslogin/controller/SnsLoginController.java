@@ -80,7 +80,8 @@ public class SnsLoginController {
     public ResponseEntity<?> kakaoLogin() {
         try {
             String authorizeUrl = kakaoLoginService.getAuthorizeUrl();
-            return ResponseEntity.status(302).header("Location", authorizeUrl).build();
+//            return ResponseEntity.status(302).header("Location", authorizeUrl).build();
+            return ResponseEntity.status(302).body(authorizeUrl);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             return ResponseEntity.status(400).body("Failed to generate Kakao login URL.");
@@ -123,7 +124,8 @@ public class SnsLoginController {
     public ResponseEntity<?> googleLogin() {
         try {
             String authorizeUrl = googleLoginService.getAuthorizeUrl();
-            return ResponseEntity.status(302).header("Location", authorizeUrl).build();
+//            return ResponseEntity.status(302).header("Location", authorizeUrl).build();
+            return ResponseEntity.status(302).body(authorizeUrl);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             return ResponseEntity.status(400).body("Failed to generate Google login URL.");
@@ -164,7 +166,8 @@ public class SnsLoginController {
     public ResponseEntity<?> naverLogin() {
         try {
             String authorizeUrl = naverLoginService.getAuthorizeUrl();
-            return ResponseEntity.status(302).header("Location", authorizeUrl).build();
+//            return ResponseEntity.status(302).header("Location", authorizeUrl).build();
+            return ResponseEntity.status(302).body(authorizeUrl);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             return ResponseEntity.status(400).body("Failed to generate Naver login URL.");
