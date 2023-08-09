@@ -24,17 +24,44 @@ pipeline {
                         sh 'ls'
                         sh 'echo "Hello from the changed directory"'
                         // de
-                        sh "docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} -f Dockerfile ."
+                        sh "docker build -t ${IMAGE_NAME} -f Dockerfile ."
                         
                         sh "docker images"
                     }
                 }
             }
         }
-
+        stage('Docker Delete') {
+            steps {
+                script {
+                    try{
+                        sh 'echo "Docker Delete Start"'
+                        // 컨테이너 존재 시 삭제
+                        sh "docker stop ${CONTAINER_NAME}"
+                        sh "docker rm -f ${CONTAINER_NAME}"
+                    }catch (Exception e){
+                        echo "Docker container ${CONTAINER_NAME} does not exist. skip"
+                    }
+                    try{
+                        // 이미지 존재 시 삭제
+                        sh "docker image rm ${IMAGE_NAME}"
+                    }catch (Exception e){
+                        echo "Docker image ${IMAGE_NAME} does not exist. skip"
+                    }
+                }
+            }
+            post {
+                success {
+                    sh 'echo "Docker delete Success"'
+                }
+                failure {
+                    sh 'echo "Docker delete Fail"'
+                }
+            }
+        }
         stage('Deploy') {
             steps {
-                sh "docker run -d --name ${CONTAINER_NAME} -p 8000:8000 ${IMAGE_NAME}:${BUILD_NUMBER}"
+                sh "docker run -d --name ${CONTAINER_NAME} -p 8000:8000 ${IMAGE_NAME}"
                 sh "docker ps"
             }
         }
