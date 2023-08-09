@@ -1,9 +1,11 @@
 package com.project.npdp.member.controller;
 
 import com.project.npdp.member.dto.request.*;
+import com.project.npdp.member.dto.response.MemberAllergyResponseDto;
 import com.project.npdp.member.dto.response.MemberLoginResponseDto;
 import com.project.npdp.member.dto.response.MemberDetailResponseDto;
 import com.project.npdp.member.entity.Member;
+import com.project.npdp.member.entity.MemberAllergy;
 import com.project.npdp.member.entity.MemberUtensil;
 import com.project.npdp.member.entity.Role;
 import com.project.npdp.member.service.MemberService;
@@ -13,6 +15,8 @@ import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/members")
@@ -67,8 +71,9 @@ public class MemberController {
     // 회원 상세조회
     @GetMapping("/{memberId}")
     public ResponseEntity<?> detail(@PathVariable("memberId") Long memberId){
-        MemberDetailResponseDto memberDetail = memberService.findMemberById(memberId);
-        return ResponseEntity.ok().body(ResponseEntity.ok().body(memberDetail));
+//        MemberDetailResponseDto memberDetail = memberService.findMemberById(memberId);
+//        return ResponseEntity.ok().body(ResponseEntity.ok().body(memberDetail));
+        return ResponseEntity.ok(memberService.findMemberById(memberId));
     }
 
     // 회원 닉네임 변경
@@ -104,6 +109,17 @@ public class MemberController {
         }
     }
 
+    // 회원 정보 전체 수정
+    @PutMapping("/modifyAll")
+    public ResponseEntity<?> modifyMemberInfo(@RequestBody MemberModifyAllRequestDto memberModifyAllRequestDto){
+        try {
+            memberService.modifyAll(memberModifyAllRequestDto);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원 수정 실패");
+        }
+    }
+
     // 회원 알러지 입력
     @PostMapping("/memberAllergy")
     public ResponseEntity<?> insertMemberAllergy(@RequestBody MemberAllergyRequestDto memberAllergyRequestDto){
@@ -112,6 +128,16 @@ public class MemberController {
             return ResponseEntity.status(HttpStatus.OK).build();
         }catch (IllegalArgumentException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("알러지 입력 실패");
+        }
+    }
+
+    // 회원 알러지 조회
+    @GetMapping("/memberAllergy/{memberId}")
+    public ResponseEntity<?> getMemberAllergy(@PathVariable Long memberId){
+        try{
+            return ResponseEntity.ok(memberService.getMemberAllergy(memberId));
+        }catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("알러지 조회 실패");
         }
     }
     
@@ -125,6 +151,16 @@ public class MemberController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비선호 재료 입력 실패");
         }
     }
+    
+    // 회원 비선호 재료 조회
+    @GetMapping("/dislikeIngredient/{memberId}")
+    public ResponseEntity<?> getDislikeIngredient(@PathVariable Long memberId){
+        try{
+            return ResponseEntity.ok(memberService.getDislikeIngredient(memberId));
+        }catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비선호 재료 조회 실패");
+        }
+    }
 
     // 회원 조리도구 입력
     @PostMapping("/memberUtensil")
@@ -134,6 +170,16 @@ public class MemberController {
             return ResponseEntity.status(HttpStatus.OK).build();
         }catch (IllegalArgumentException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("조리도구 입력 실패");
+        }
+    }
+
+    // 회원 조리도구 조회
+    @GetMapping("/memberUtensil/{memberId}")
+    public ResponseEntity<?> getMemberUtensil(@PathVariable Long memberId){
+        try{
+            return ResponseEntity.ok(memberService.getMemberUtensil(memberId));
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("조리도구 조회 실패");
         }
     }
 
