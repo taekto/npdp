@@ -58,7 +58,8 @@ public class KakaoLoginService implements OAuthProviderService<KakaoToken> {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Accept", "application/json");
         headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-        headers.add("Origin", "http://i9b202.p.ssafy.io/");
+//        headers.add("Origin", "http://i9b202.p.ssafy.io/");
+        headers.add("Access-Control-Allow-Origin", "https://i9b202.p.ssafy.io");
 
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", oAuthConfig.getKakaoGrantType());

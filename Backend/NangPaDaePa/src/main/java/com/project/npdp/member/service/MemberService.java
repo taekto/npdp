@@ -54,10 +54,7 @@ public class MemberService {
 
         // 성별 처리
         String tmpGender = memberJoinRequestDto.getGender();
-        Gender gender = Gender.MALE;
-        if(gender.equals("여자")){
-            gender = Gender.FEMALE;
-        }
+        Gender gender = this.stringToGender(tmpGender);
 
         System.out.println("hashedPw" + hashedPw);
 
@@ -126,8 +123,8 @@ public class MemberService {
     public MemberLoginResponseDto snsLogin(Member member){
 //         이메일 중복 여부 확인
         Member findMembers = memberRepository.findByEmail(member.getEmail());
-        log.info("db에 있는 snsLogin의 타입: "+findMembers.getOauth());
-        log.info("현재 로그인 시도한 snsLogin의 타입: "+member.getOauth());
+//        log.info("db에 있는 snsLogin의 타입: "+findMembers.getOauth());
+//        log.info("현재 로그인 시도한 snsLogin의 타입: "+member.getOauth());
 //        1. 이미 등록된 이메일인 경우
         if(findMembers != null){
 //            -1. 같은 SNS 로그인인 경우: 해당 sns 로그인으로 바로 로그인
@@ -334,6 +331,28 @@ public class MemberService {
             // 회원
         }else{
             throw new IllegalArgumentException("사용자를 찾을 수 없습니다");
+        }
+    }
+
+    public MemberLoginResponseDto snsJoin(Member member) {
+        String gender = this.genderToString(member.getGender());
+        this.join(MemberJoinRequestDto.builder().email(member.getEmail()).password(member.getPassword()).nickname(member.getNickname()).gender(gender).birth(member.getBirth()).build());
+        return this.snsLogin(member);
+    }
+
+    public Gender stringToGender(String raw){
+        Gender gender = Gender.MALE;
+        if(gender.equals("여자")){
+            gender = Gender.FEMALE;
+        }
+        return gender;
+    }
+
+    public String genderToString(Gender gender){
+        if(gender == Gender.FEMALE){
+            return "여자";
+        }else{
+            return "남자";
         }
     }
 }

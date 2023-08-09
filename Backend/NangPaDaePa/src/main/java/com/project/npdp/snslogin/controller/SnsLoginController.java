@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.UnsupportedEncodingException;
-
+@CrossOrigin(origins = "https://i9b202.p.ssafy.io")
 @RestController
 @RequestMapping("/api/oauth")
 @RequiredArgsConstructor
@@ -48,8 +48,11 @@ public class SnsLoginController {
     // 카카오 서버로부터 받은 CODE 정보
     @GetMapping("/kakao")
     public @ResponseBody ResponseEntity<?> kakaoCallback(String code){
+        log.info("kakao서버로부터 받음 code: "+code);
 //         1. 인증 서버로부터 받은 CODE를 이용하여 액세스 토큰을 얻는다.
         KakaoToken kakaoToken = kakaoLoginService.getToken(code);
+
+        log.info("kakao access token: "+kakaoToken);
 //        2. 액세스 토큰을 이용하여 사용자 정보를 얻어온다.
         Member member = kakaoLoginService.getMemberInfo(kakaoToken);
 
@@ -65,10 +68,11 @@ public class SnsLoginController {
             MemberLoginResponseDto result = memberService.snsLogin(member);
             if (result == null) {
                 log.info("새롭게 생성되는 사용자!");
-                return ResponseEntity.status(HttpStatus.CREATED).body(member); // 201 Created + Member 객체 반환
+                MemberLoginResponseDto user = memberService.snsJoin(member);
+                return ResponseEntity.status(HttpStatus.CREATED).body(user); // 201 Created + Member 객체 반환
             } else {
                 log.info("이미 존재하는 사용자!");
-                return ResponseEntity.ok().body(memberService.snsLogin(member)); // 200 OK + 로그인 결과 반환
+                return ResponseEntity.ok().body(result); // 200 OK + 로그인 결과 반환
             }
         } catch (IllegalStateException e) {
             log.error("에러 발생: {}", e.getMessage());
@@ -78,9 +82,11 @@ public class SnsLoginController {
 
     @GetMapping("/kakao-login")
     public ResponseEntity<?> kakaoLogin() {
+        log.info("kakao-login");
         try {
             String authorizeUrl = kakaoLoginService.getAuthorizeUrl();
-            return ResponseEntity.status(302).header("Location", authorizeUrl).build();
+            return ResponseEntity.status(302).header("Access-Control-Allow-Origin", "https://i9b202.p.ssafy.io").header("Location", authorizeUrl).build();
+//            return ResponseEntity.status(200).body(authorizeUrl);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             return ResponseEntity.status(400).body("Failed to generate Kakao login URL.");
@@ -90,11 +96,16 @@ public class SnsLoginController {
     // 구글 서버로부터 받은 CODE 정보
     @GetMapping("/google")
     public @ResponseBody ResponseEntity<?> googleCallback(String code){
+        log.info("구글 서버로부터 받은 code: "+code);
 //         1. 인증 서버로부터 받은 CODE를 이용하여 액세스 토큰을 얻는다.
         GoogleToken googleToken = googleLoginService.getToken(code);
+
+        log.info("구글 서버로부터 받은 accessToken: "+googleToken);
 //        2. 액세스 토큰을 이용하여 사용자 정보를 얻어온다.
         Member member = googleLoginService.getMemberInfo(googleToken);
 
+        log.info("사용자 정보: ");
+        printMember(member);
 //        String result = memberService.snsLogin(member);
 //        if(result.equals("new")){
 //            log.info("새롭게 생성되는 사용자!");
@@ -103,14 +114,29 @@ public class SnsLoginController {
 //            log.info("이미 존재하는 사용자!");
 //            return ResponseEntity.ok().body(memberService.snsLogin(member));
 //        }
+//        try{
+//            MemberLoginResponseDto result = memberService.snsLogin(member);
+//            log.info("google 로그인한 결과: "+result);
+//            if (result == null) {
+//                log.info("새롭게 생성되는 사용자!");
+//                return ResponseEntity.status(HttpStatus.CREATED).body(member); // 201 Created + Member 객체 반환
+//            } else {
+//                log.info("이미 존재하는 사용자!");
+//                return ResponseEntity.ok().body(memberService.snsLogin(member)); // 200 OK + 로그인 결과 반환
+//            }
+//        } catch (IllegalStateException e) {
+//            log.error("에러 발생: {}", e.getMessage());
+//            return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 회원입니다."); // 409 Conflict + 에러 메시지 반환
+//        }
         try{
             MemberLoginResponseDto result = memberService.snsLogin(member);
             if (result == null) {
                 log.info("새롭게 생성되는 사용자!");
-                return ResponseEntity.status(HttpStatus.CREATED).body(member); // 201 Created + Member 객체 반환
+                MemberLoginResponseDto user = memberService.snsJoin(member);
+                return ResponseEntity.status(HttpStatus.CREATED).body(user); // 201 Created + Member 객체 반환
             } else {
                 log.info("이미 존재하는 사용자!");
-                return ResponseEntity.ok().body(memberService.snsLogin(member)); // 200 OK + 로그인 결과 반환
+                return ResponseEntity.ok().body(result); // 200 OK + 로그인 결과 반환
             }
         } catch (IllegalStateException e) {
             log.error("에러 발생: {}", e.getMessage());
@@ -120,9 +146,11 @@ public class SnsLoginController {
 
     @GetMapping("/google-login")
     public ResponseEntity<?> googleLogin() {
+        log.info("google-login");
         try {
             String authorizeUrl = googleLoginService.getAuthorizeUrl();
-            return ResponseEntity.status(302).header("Location", authorizeUrl).build();
+            return ResponseEntity.status(302).header("Access-Control-Allow-Origin", "https://i9b202.p.ssafy.io").header("Location", authorizeUrl).build();
+//            return ResponseEntity.status(200).body(authorizeUrl);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             return ResponseEntity.status(400).body("Failed to generate Google login URL.");
@@ -131,11 +159,14 @@ public class SnsLoginController {
 
     @GetMapping("/naver")
     public @ResponseBody ResponseEntity<?> naverCallback(String code){
+        log.info("네이버로 부터 받은 code: "+code);
 //         1. 인증 서버로부터 받은 CODE를 이용하여 액세스 토큰을 얻는다.
         NaverToken naverToken = naverLoginService.getToken(code);
+        log.info("네이버로부터 받은 액세스 토큰: "+naverToken);
 //        2. 액세스 토큰을 이용하여 사용자 정보를 얻어온다.
         Member member = naverLoginService.getMemberInfo(naverToken);
-
+        log.info("사용자 정보");
+        printMember(member);
 //        String result = memberService.snsLogin(member);
 //        if(result.equals("new")){
 //            log.info("새롭게 생성되는 사용자!");
@@ -144,14 +175,28 @@ public class SnsLoginController {
 //            log.info("이미 존재하는 사용자!");
 //            return ResponseEntity.ok().body(memberService.snsLogin(member));
 //        }
+//        try{
+//            MemberLoginResponseDto result = memberService.snsLogin(member);
+//            if (result == null) {
+//                log.info("새롭게 생성되는 사용자!");
+//                return ResponseEntity.status(HttpStatus.CREATED).body(member); // 201 Created + Member 객체 반환
+//            } else {
+//                log.info("이미 존재하는 사용자!");
+//                return ResponseEntity.ok().body(memberService.snsLogin(member)); // 200 OK + 로그인 결과 반환
+//            }
+//        } catch (IllegalStateException e) {
+//            log.error("에러 발생: {}", e.getMessage());
+//            return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 회원입니다."); // 409 Conflict + 에러 메시지 반환
+//        }
         try{
             MemberLoginResponseDto result = memberService.snsLogin(member);
             if (result == null) {
                 log.info("새롭게 생성되는 사용자!");
-                return ResponseEntity.status(HttpStatus.CREATED).body(member); // 201 Created + Member 객체 반환
+                MemberLoginResponseDto user = memberService.snsJoin(member);
+                return ResponseEntity.status(HttpStatus.CREATED).body(user); // 201 Created + Member 객체 반환
             } else {
                 log.info("이미 존재하는 사용자!");
-                return ResponseEntity.ok().body(memberService.snsLogin(member)); // 200 OK + 로그인 결과 반환
+                return ResponseEntity.ok().body(result); // 200 OK + 로그인 결과 반환
             }
         } catch (IllegalStateException e) {
             log.error("에러 발생: {}", e.getMessage());
@@ -161,9 +206,11 @@ public class SnsLoginController {
 
     @GetMapping("/naver-login")
     public ResponseEntity<?> naverLogin() {
+        log.info("naver-login");
         try {
             String authorizeUrl = naverLoginService.getAuthorizeUrl();
-            return ResponseEntity.status(302).header("Location", authorizeUrl).build();
+            return ResponseEntity.status(302).header("Access-Control-Allow-Origin", "https://i9b202.p.ssafy.io").header("Location", authorizeUrl).build();
+//            return ResponseEntity.status(200).body(authorizeUrl);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             return ResponseEntity.status(400).body("Failed to generate Naver login URL.");
