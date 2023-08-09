@@ -3,26 +3,24 @@
 <div class="login_container">
   <div class="login_card">
     <form class="login_form" id="login_form" @submit.prevent="localLogin(credentials)">
-      <h1 class="form_title">Log in to your account</h1>
-        <label for="email" class="input_label">Email</label>
+      <h1 class="form_title">로그인</h1>
+        <label for="email" class="input_label">이메일</label>
         <input
           type="email"
           id="email"
-          placeholder="Enter your Email"
+          placeholder="이메일을 입력하세요"
           class="input"
           name="email"
-          v-model="credentials.email"
-          style="width: 100%; height: 33.6px"  
+          v-model="credentials.email" 
         />
-        <label for="password" class="input_label">Password</label>
+        <label for="password" class="input_label">비밀번호</label>
         <input
           type="password"
           id="password"
-          placeholder="Password"
+          placeholder="비밀번호를 입력하세요"
           class="input"
           name="password"
           v-model="credentials.password"
-          style="width: 100%; height: 33.6px"
         />
         <div class="login_form_remember">
           <!-- <input
@@ -31,18 +29,17 @@
             v-model="rememberMe"
           /> -->
           <!-- <label for="remember_me">Remember me</label> -->
-          <div class="forgot_password">
-            <router-link to="/signup">Forgot password</router-link>
-          </div>
         </div>
-      <button class="login_btn" style="width: 100%;">Log In</button>
-      
+      <button class="login_btn" style="width: 100%;">로그인</button>
+      <div class="login_btn_bottom">
+        <div class="forgot_password">
+          <router-link to="/signup">비밀번호 찾기</router-link>
+        </div>
       <!-- 회원가입 페이지 router -->
-      <div class="login_signup">
-        <span>Don’t have an account? <router-link to="/signup">Sign Up</router-link></span>
+        <div class="login_signup">
+          <router-link to="/signup">회원가입</router-link>
+        </div>
       </div>
-      
-      
 
     </form>
     <!-- 소셜 로그인 -->
@@ -136,6 +133,9 @@ export default {
 <style scoped>
 
 /* 로그인 */
+.login_form {
+  width: 40%;
+}
 .login_card {
   display: flex;
   flex-direction: column;
@@ -146,13 +146,26 @@ export default {
 }
 
 .form_title {
+  font-family: 'KimjungchulGothic-Bold';
   text-align: center;
-  margin-bottom: 15px;
+  margin-top: 70px;
+  margin-bottom: 70px;
 }
 
 .input_label {
+  font-family: 'LINESeedKR-Bd';
+  font-size: 18px;
   display: flex;
   padding: 15px 0px 5px 0px;
+}
+
+.input_label ~ input {
+  font-family: 'LINESeedKR-Rg';
+  width: 100%;
+  height: 3rem;
+  border-radius: 3px;
+  border: 1px solid black;
+  padding: .5rem
 }
 
 .login_form_remember {
@@ -166,34 +179,63 @@ export default {
   margin-left: 5px;
 }
 
-.forgot_password {
+/* .forgot_password {
   margin-left: auto; 
-}
+} */
 
 .forgot_password > a {
+  font-family: 'LINESeedKR-Rg';
   color: #FD7E14;
+  text-decoration: none;
 }
 
 .login_btn {
-  margin-top: 25px;
+  /* margin-top: 25px;
   font-size: 14px;
   border: none; 
   background-color: #FD7E14; 
   color: #FFFFFF;
   padding: 7.5px;
   cursor: pointer; 
-  border-radius: 4px; 
+  border-radius: 4px;  */
+
+  height: 3rem;
+  font-family: 'LINESeedKR-Rg';
+  margin-top: 30px;
+  margin-bottom: 5px;
+  font-size: 20px;
+  border: none; 
+  background-color: #FD7E14; 
+  color: #FFFFFF;
+  padding: .5rem;
+  cursor: pointer; 
+  border-radius: 4px;
 }
+
+.login_btn_bottom {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
 span > a {
   color: #FD7E14;
 }
 
-.login_signup {
-  margin: 40px 0px 60px 0px;
-  text-align: center;
+.login_signup > a{
+  /* margin: 40px 0px 60px 0px; */
+  /* text-align: center; */
+  font-family: 'LINESeedKR-Rg';
+  text-decoration-line: none;
+  color: #FD7E14;
 }
 
 /* 소셜 로그인 */
+.login_sns {
+  width: 40%;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
 .btn_sns {
     font-weight: normal;
     text-align: center;
@@ -202,16 +244,20 @@ span > a {
     cursor: pointer;
     background-image: none;
     border: 1px solid transparent;
-    padding: 6px 12px;
+    margin-left: auto;
+    margin-right: auto;
+    /* padding: 6px 12px; */
+    padding: .5rem .5rem;
     font-size: 14px;
-    line-height: 1.42857143;
+    /* line-height: 1.42857143; */
     border-radius: 4px;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
     text-decoration: none;
-    margin: 25px 0px 25px 0px;
+    /* margin: 1rem 0; */
+    margin-bottom: 1rem;
 }
 
 .btn-google {
@@ -224,7 +270,11 @@ span > a {
     background-repeat: no-repeat;
     display: block;
     position: relative;
-    font-family: Sans-Serif !important;
+    /* font-family: Sans-Serif !important; */
+    font-family: 'LINESeedKR-Rg';
+    font-size: .9rem;
+    height: 3rem;
+    width: 90%;
     min-width: 280px;
 }
 
@@ -240,6 +290,10 @@ span > a {
     background-repeat: no-repeat;
     display: block;
     position: relative;
+    font-family: 'LINESeedKR-Rg';
+    font-size: .9rem;
+    height: 3rem;
+    width: 90%;
     min-width: 280px;
 }
 
@@ -252,8 +306,12 @@ span > a {
     background-repeat: no-repeat;
     display: block;
     position: relative;
-    font-family: Sans-Serif !important;
+    /* font-family: Sans-Serif !important; */
+    width: 90%;
+    height: 3rem;
     min-width: 280px;
+    font-family: 'LINESeedKR-Rg';
+    font-size: .9rem;
     background-image: url(../assets/Kakao.png);
 }
 
