@@ -17,10 +17,11 @@
               <p>닉네임 변경</p>
             </div>
             <div>
-              <form @submit.prevent="confirmPassword">
+              <form class="edit_form" @submit.prevent="memberUpdate(memberId, nickname)" >
                 <div class="input-group">
-                  <input id="searchForm" class="form-control" type="text" v-model.trim="nickName">
+                  <input id="searchForm" class="form-control" type="text" v-model.trim="nickname">
                 </div>
+                <button class="btn_update">수정</button>
               </form>
             </div>
           </div>
@@ -31,10 +32,11 @@
               <p>이메일 변경</p>
             </div>
             <div>
-              <form @submit.prevent="confirmPassword">
+              <form class="edit_form">
                 <div class="input-group">
-                  <input id="searchForm" class="form-control" type="email" v-model.trim="email">
+                  <input id="searchForm" class="form-control" type="email" v-model.trim="email" readonly>
                 </div>
+                <button class="btn_update">수정</button>
               </form>
             </div>
           </div>
@@ -45,10 +47,11 @@
               <p>비밀번호 변경</p>
             </div>
             <div>
-              <form @submit.prevent="confirmPassword">
+              <form class="edit_form" @submit.prevent="confirmPassword">
                 <div class="input-group">
                     <input id="searchForm" class="form-control" type="password" v-model.trim="password">
                 </div>
+                <button class="btn_update">수정</button>
               </form>
             </div>
           </div>
@@ -57,13 +60,13 @@
           <div class="birthAndgender">
 
             <!-- 생일 변경 -->
-            <div class="birthDate">
+            <div class="birthDate" >
               <div class="editCategoryTitle">
                 <p>생일 변경</p>
               </div>
               <VDatePicker v-model="birthDate" :max-date="new Date()" @click="whatDate(birthDate)"/>
               <div>
-                <input id="searchForm" class="birthInput" type="date" v-model.trim="birthDate">
+                <input id="searchForm" class="birthInput" type="date" v-model.trim="birth">
               </div>
             </div>
 
@@ -95,6 +98,7 @@
 
 <script>
 import CategoryComponent from './categoryComponent.vue'
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
     name: "UserInfoEditPage",
@@ -104,20 +108,30 @@ export default {
     // 임시 데이터
     data() {
       return {
-        nickName : "임시 닉네임",
-        email : "temp123@ssafy.com",
-        password : "",
-        birthDate : "",
-        gender : "남자",
-        user_data : {nickname : this.nickName, email : this.email, password : this.password, birthDate : this.birthDate, gender : this.gender}
+          nickname:'',
+          email : "",
+          birthDate : "",
+          password : "",
+          gender : "",
+          memberId: null,
       }
     },
+    computed: {
+      ...mapGetters(['member'])
+    },
+
     methods: {
-      changeUserData() {
-        this.user_data = {nickname : this.nickName, email : this.email, password : this.password, birthDate : this.birthDate, gender : this.gender}
-        console.log(this.user_data)
-        alert("저장되었습니다.")
+      ...mapActions(['fetchMember','memberUpdate']),
+       
+      async loadData() {
+        this.memberId = parseInt(sessionStorage.getItem('memberId'));
+        await this.fetchMember(this.memberId);
+        
+        this.nickname = this.member.nickname;
+        this.email = this.member.email;
+        this.birthDate = this.member.birth;
       },
+
       whatDate(birthDate, delimiter = '-') {
         const year = birthDate.getFullYear()
         const month = birthDate.getMonth() + 1
@@ -132,7 +146,10 @@ export default {
         }
         
       }
-    }
+    },
+    created(){
+      this.loadData();
+    },
 }
 </script>
 
@@ -199,6 +216,13 @@ export default {
   margin-bottom: 5rem;
 }
 
+.btn_update {
+  border-radius: .5rem;
+}
+
+.edit_form {
+  display: flex;
+}
 
 
 </style>

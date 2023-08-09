@@ -171,11 +171,12 @@ const atc: Module<ATCState, RootState> = {
       })
         .then(res => {
           commit('GET_INGREDIENT', res.data);
+          console.log('불러오기 성공!', res.data)
         })
         .catch(err => console.log(err.response));
     },
 
-    // 양념 / 재료 / 전체 조회
+    // 양념 / 재료 조회
     async specificSearch({ commit }, { type, name }) {
       try {
         console.log(type === 'seasoning' ? '양념 조회 시작!' : '재료 조회 시작!', name);
@@ -195,22 +196,7 @@ const atc: Module<ATCState, RootState> = {
     },
     
 
-    async saveMaterial({ dispatch }, {type, memberId, sendData}) {
-      try {
-        console.log(type === 'seasoning' ? '양념 저장 시작!': '재료 저장 시작!', sendData);
-        const apiUrl = type === 'seasoning' ?
-          `https://i9b202.p.ssafy.io/api/refregirator/member/seasoning/${memberId}`:
-          `https://i9b202.p.ssafy.io/api/refregirator/member/ingredient/${memberId}`; 
-        console.log(JSON.stringify(sendData, null, 2));
-        
-        const response = await axios.post(apiUrl, sendData);
-  
-        console.log(type === 'seasoning' ? '양념 저장 성공!' : '재료 저장 성공!', response.data);
-        dispatch('fetchIngredient');
-      } catch (error) {
-        console.log(type === 'seasoning' ? '양념 저장 실패..' : '재료 저장 실패..', error);
-      }
-    },
+
   }
 };
 
