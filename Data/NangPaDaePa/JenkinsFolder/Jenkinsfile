@@ -14,23 +14,7 @@ pipeline {
             }
         }
 
-        stage('Build') {
-            steps {
-                script {
-                    // 현재 디렉토리의 파일 및 디렉토리 목록 출력
-                    sh 'ls'
-                    dir('Data') {
-                        // 변경된 디렉토리에서 명령어 실행
-                        sh 'ls'
-                        sh 'echo "Hello from the changed directory"'
-                        // de
-                        sh "docker build -t ${IMAGE_NAME} -f Dockerfile ."
-                        
-                        sh "docker images"
-                    }
-                }
-            }
-        }
+
         stage('Docker Delete') {
             steps {
                 script {
@@ -47,6 +31,23 @@ pipeline {
                         sh "docker image rm ${IMAGE_NAME}"
                     }catch (Exception e){
                         echo "Docker image ${IMAGE_NAME} does not exist. skip"
+                    }
+                }
+            }
+        }
+        stage('Build') {
+            steps {
+                script {
+                    // 현재 디렉토리의 파일 및 디렉토리 목록 출력
+                    sh 'ls'
+                    dir('Data') {
+                        // 변경된 디렉토리에서 명령어 실행
+                        sh 'ls'
+                        sh 'echo "Hello from the changed directory"'
+                        // de
+                        sh "docker build -t ${IMAGE_NAME} -f Dockerfile ."
+                        
+                        sh "docker images"
                     }
                 }
             }
