@@ -17,6 +17,8 @@ pipeline {
         stage('Build') {
             steps {
                 script {
+                    // 현재 디렉토리의 파일 및 디렉토리 목록 출력
+                    sh 'ls'
                     def dockerImage = docker.build("${IMAGE_NAME}:${BUILD_NUMBER}", "-f Dockerfile .")
                 }
             }
