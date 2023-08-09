@@ -35,6 +35,8 @@ pipeline {
                 }
             }
         }
+
+
         stage('Build') {
             steps {
                 script {
@@ -49,6 +51,14 @@ pipeline {
                         
                         sh "docker images"
                     }
+                }
+            }
+        }
+
+        stage('Collect Static Files') {
+            steps {
+                script {
+                    sh "docker run --rm -v ${pwd()}/Data:/app ${IMAGE_NAME} python manage.py collectstatic --noinput"
                 }
             }
         }
