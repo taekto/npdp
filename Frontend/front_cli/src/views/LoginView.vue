@@ -134,7 +134,7 @@ export default {
 
 /* 로그인 */
 .login_form {
-  width: 40%;
+  width: 30%;
 }
 .login_card {
   display: flex;
@@ -232,7 +232,7 @@ span > a {
 
 /* 소셜 로그인 */
 .login_sns {
-  width: 40%;
+  width: 30%;
   margin-top: 3rem;
   margin-bottom: 3rem;
 }
