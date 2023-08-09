@@ -85,7 +85,8 @@ export default {
       .then (res => {
         console.log(res.data)
         sessionStorage.setItem('social', 1)
-        window.location.href = res.data
+        const url = res.data
+        Response.Redirect(url, true);
       })
       .catch (err => {
         console.log(err)
@@ -100,7 +101,8 @@ export default {
       .then (res => {
         console.log(res.data)
         sessionStorage.setItem('social', 1)
-        window.location.href = res.data
+        const url = res.data
+        Response.Redirect(url, true);
       })
       .catch (err => {
         console.log(err)
@@ -115,7 +117,8 @@ export default {
       .then(res => {
         console.log(res.data)
         sessionStorage.setItem('social', 1)
-        window.location.href = res.data
+        const url = res.data
+        Response.Redirect(url, true);
       })
       .catch(err => {
         console.log(err.response)
