@@ -54,10 +54,7 @@ public class MemberService {
 
         // 성별 처리
         String tmpGender = memberJoinRequestDto.getGender();
-        Gender gender = Gender.MALE;
-        if(gender.equals("여자")){
-            gender = Gender.FEMALE;
-        }
+        Gender gender = this.stringToGender(tmpGender);
 
         System.out.println("hashedPw" + hashedPw);
 
@@ -334,6 +331,28 @@ public class MemberService {
             // 회원
         }else{
             throw new IllegalArgumentException("사용자를 찾을 수 없습니다");
+        }
+    }
+
+    public MemberLoginResponseDto snsJoin(Member member) {
+        String gender = this.genderToString(member.getGender());
+        this.join(MemberJoinRequestDto.builder().email(member.getEmail()).password(member.getPassword()).nickname(member.getNickname()).gender(gender).birth(member.getBirth()).build());
+        return this.snsLogin(member);
+    }
+
+    public Gender stringToGender(String raw){
+        Gender gender = Gender.MALE;
+        if(gender.equals("여자")){
+            gender = Gender.FEMALE;
+        }
+        return gender;
+    }
+
+    public String genderToString(Gender gender){
+        if(gender == Gender.FEMALE){
+            return "여자";
+        }else{
+            return "남자";
         }
     }
 }
