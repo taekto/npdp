@@ -8,7 +8,7 @@ COPY . /app
 WORKDIR /app
 
 # 가상 환경 활성화
-RUN source myvenv/Scripts/activate
+RUN myvenv/Scripts/activate.bat
 
 # 디렉토리 변경
 WORKDIR /NangPaDaePa
