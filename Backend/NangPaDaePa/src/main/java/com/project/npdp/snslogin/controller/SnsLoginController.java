@@ -48,8 +48,11 @@ public class SnsLoginController {
     // 카카오 서버로부터 받은 CODE 정보
     @GetMapping("/kakao")
     public @ResponseBody ResponseEntity<?> kakaoCallback(String code){
+        log.info("kakao서버로부터 받음 code: "+code);
 //         1. 인증 서버로부터 받은 CODE를 이용하여 액세스 토큰을 얻는다.
         KakaoToken kakaoToken = kakaoLoginService.getToken(code);
+
+        log.info("kakao access token: "+kakaoToken);
 //        2. 액세스 토큰을 이용하여 사용자 정보를 얻어온다.
         Member member = kakaoLoginService.getMemberInfo(kakaoToken);
 
@@ -93,11 +96,16 @@ public class SnsLoginController {
     // 구글 서버로부터 받은 CODE 정보
     @GetMapping("/google")
     public @ResponseBody ResponseEntity<?> googleCallback(String code){
+        log.info("구글 서버로부터 받은 code: "+code);
 //         1. 인증 서버로부터 받은 CODE를 이용하여 액세스 토큰을 얻는다.
         GoogleToken googleToken = googleLoginService.getToken(code);
+
+        log.info("구글 서버로부터 받은 accessToken: "+googleToken);
 //        2. 액세스 토큰을 이용하여 사용자 정보를 얻어온다.
         Member member = googleLoginService.getMemberInfo(googleToken);
 
+        log.info("사용자 정보: ");
+        printMember(member);
 //        String result = memberService.snsLogin(member);
 //        if(result.equals("new")){
 //            log.info("새롭게 생성되는 사용자!");
@@ -151,11 +159,14 @@ public class SnsLoginController {
 
     @GetMapping("/naver")
     public @ResponseBody ResponseEntity<?> naverCallback(String code){
+        log.info("네이버로 부터 받은 code: "+code);
 //         1. 인증 서버로부터 받은 CODE를 이용하여 액세스 토큰을 얻는다.
         NaverToken naverToken = naverLoginService.getToken(code);
+        log.info("네이버로부터 받은 액세스 토큰: "+naverToken);
 //        2. 액세스 토큰을 이용하여 사용자 정보를 얻어온다.
         Member member = naverLoginService.getMemberInfo(naverToken);
-
+        log.info("사용자 정보");
+        printMember(member);
 //        String result = memberService.snsLogin(member);
 //        if(result.equals("new")){
 //            log.info("새롭게 생성되는 사용자!");
