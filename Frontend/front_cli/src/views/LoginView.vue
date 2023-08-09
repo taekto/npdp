@@ -46,16 +46,10 @@
       <div class="signup_sns">
           <button class="btn_sns btn-google btn-block" @click="socialLoginGoogle" style="width: 100%">
           Google 계정으로 시작</button>
-          <a href="https://i9b202.p.ssafy.io/api/oauth/google-login?redirect_uri=https://i9b202.p.ssafy.io" class="btn_sns btn-google btn-block" @click="socialLoginGoogle" style="width: 100%">
-          Google 계정으로 시작</a>
           <button class="btn_sns btn-naver btn-block" @click="socialLoginNaver" style="width: 100%"><i class="fab fab-naver-alt"></i> 
           네이버 계정으로 시작</button>
-          <a href="https://i9b202.p.ssafy.io/api/oauth/naver-login?redirect_uri=https://i9b202.p.ssafy.io" class="btn_sns btn-naver btn-block" @click="socialLoginNaver" style="width: 100%"><i class="fab fab-naver-alt"></i> 
-          네이버 계정으로 시작</a>
           <button  class="btn_sns btn-kakao btn-block" @click="socialLoginKakao" style="width: 100%">
           KaKao 계정으로 시작</button>
-          <a href="https://i9b202.p.ssafy.io/api/oauth/kakao-login?redirect_uri=https://i9b202.p.ssafy.io" class="btn_sns btn-kakao btn-block" @click="socialLoginKakao" style="width: 100%">
-          KaKao 계정으로 시작</a>
       </div>
   </div>
   
@@ -89,8 +83,9 @@ export default {
         methods: 'get',
       })
       .then (res => {
-        console.log(res)
+        console.log(res.data)
         sessionStorage.setItem('social', 1)
+        window.location.href = res.data
       })
       .catch (err => {
         console.log(err)
@@ -103,8 +98,9 @@ export default {
         methods: 'get',
       })
       .then (res => {
-        console.log(res)
+        console.log(res.data)
         sessionStorage.setItem('social', 1)
+        window.location.href = res.data
       })
       .catch (err => {
         console.log(err)
@@ -117,8 +113,9 @@ export default {
         method: 'get',
       })
       .then(res => {
-        console.log(res)
+        console.log(res.data)
         sessionStorage.setItem('social', 1)
+        window.location.href = res.data
       })
       .catch(err => {
         console.log(err.response)
