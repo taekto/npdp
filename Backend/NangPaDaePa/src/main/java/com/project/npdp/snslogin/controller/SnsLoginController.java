@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.UnsupportedEncodingException;
-
+@CrossOrigin(origins = "https://i9b202.p.ssafy.io")
 @RestController
 @RequestMapping("/api/oauth")
 @RequiredArgsConstructor
