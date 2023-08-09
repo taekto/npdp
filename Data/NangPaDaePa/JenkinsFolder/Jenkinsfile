@@ -1,0 +1,41 @@
+pipeline {
+    agent any
+    
+    environment {
+        CONTAINER_NAME = "my-django-app"
+        IMAGE_NAME = "my-django-image"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                //Jenkins의 SCM (소스 코드 관리) 플러그인을 사용하여 Git 저장소로부터 소스 코드를 가져오는 역할
+                checkout scm
+            }
+        }
+
+        stage('Build') {
+            steps {
+                script {
+                    def dockerImage = docker.build("${IMAGE_NAME}:${BUILD_NUMBER}", "-f Dockerfile .")
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh "docker run -d --name ${CONTAINER_NAME} -p 8000:8000 ${IMAGE_NAME}:${BUILD_NUMBER}"
+            }
+        }
+    }
+
+    post {
+        always {
+            script {
+                sh "docker stop ${CONTAINER_NAME} || true"
+                sh "docker rm ${CONTAINER_NAME} || true"
+                sh "docker rmi ${IMAGE_NAME}:${BUILD_NUMBER} || true"
+            }
+        }
+    }
+}
