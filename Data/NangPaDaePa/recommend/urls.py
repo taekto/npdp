@@ -1,9 +1,9 @@
-from django.conf.urls import url
-from rest_framework.urlpatterns import format_suffix_patterns  
+from django.urls import include, path
+from rest_framework.urlpatterns import format_suffix_patterns
 from recommend import views
 
 urlpatterns = [
-    url(r'^$', views.test),
+    path('', views.index),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
