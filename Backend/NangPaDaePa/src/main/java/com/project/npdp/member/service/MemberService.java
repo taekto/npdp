@@ -5,8 +5,7 @@ import com.project.npdp.domain.Utensil;
 import com.project.npdp.food.entity.Ingredient;
 import com.project.npdp.food.repository.IngredientRepository;
 import com.project.npdp.member.dto.request.*;
-import com.project.npdp.member.dto.response.MemberDetailResponseDto;
-import com.project.npdp.member.dto.response.MemberLoginResponseDto;
+import com.project.npdp.member.dto.response.*;
 import com.project.npdp.member.entity.*;
 import com.project.npdp.member.repository.*;
 import com.project.npdp.utils.JwtUtil;
@@ -39,6 +38,9 @@ public class MemberService {
     private final IngredientRepository ingredientRepository;
     private final AllergyRepository allergyRepository;
     private final UtensilRepository utensilRepository;
+    private final MemberAllergyRepositoryCustom memberAllergyRepositoryCustom;
+    private final MemberDislikeRepositoryCustom memberDislikeRepositoryCustom;
+    private final MemberUtensilRepositoryCustom memberUtensilRepositoryCustom;
 
     @Value("${jwt.secret}")
     private String secretKey;
@@ -220,7 +222,29 @@ public class MemberService {
             throw new IllegalArgumentException("사용자를 찾을 수 없습니다");
         }
     }
-    
+
+    public void modifyAll(MemberModifyAllRequestDto memberModifyAllRequestDto){
+        Long id = memberModifyAllRequestDto.getMemberId();
+        String password = memberModifyAllRequestDto.getPassword();
+        String nickname = memberModifyAllRequestDto.getNickname();
+        String birth = memberModifyAllRequestDto.getBirth();
+        Gender gender = memberModifyAllRequestDto.getGender();
+
+        Member member = memberRepository.findById(id).orElse(null);
+        if(member != null){
+            // null 값이 아닌 값들만 수정 (비밀번호 제외했음)
+            if(password!=null) member.modifyPw(password);
+            if(nickname!=null) member.modifyNickname(nickname);
+            if(birth!=null) member.modifyBirth(birth);
+            if(gender!=null && gender.equals("여성")) member.modifyGender(Gender.FEMALE);
+            else if (gender!=null && gender.equals("남성")) member.modifyGender(Gender.MALE);
+
+            memberRepository.save(member);
+        }else{
+            throw new IllegalArgumentException("사용자를 찾을 수 없습니다");
+        }
+    }
+
     // 회원 알러지 입력
     public void insertMemberAllergy(MemberAllergyRequestDto memberAllergyRequestDto){
         Long memberId = memberAllergyRequestDto.getMemberId();
@@ -247,6 +271,22 @@ public class MemberService {
             // 기존 저장된 알러지 모두 삭제한 후 새로운 알러지 리스트로 대체
             memberAllergyRepository.saveAll(memberAllergyList);
         }
+    }
+
+    // 회원 알러지 정보 조회
+    public List<MemberAllergyResponseDto> getMemberAllergy(Long memberId){
+        List<MemberAllergy> memberAllergies = memberAllergyRepositoryCustom.selectMemberAllergy(memberId);
+
+        List<MemberAllergyResponseDto> memberAllergyResponseDto = new ArrayList<>();
+        for(MemberAllergy memberAllergy : memberAllergies){
+            MemberAllergyResponseDto memberAllergyResponse = MemberAllergyResponseDto.builder()
+                    .memberId(memberAllergy.getMember().getId())
+                    .allergyName(memberAllergy.getAllergy().getName())
+                    .build();
+
+            memberAllergyResponseDto.add(memberAllergyResponse);
+        }
+        return memberAllergyResponseDto;
     }
     
     // 회원 비선호 재료 입력
@@ -276,6 +316,21 @@ public class MemberService {
             memberDislikeRepository.saveAll(memberDislikeIngredientList);
         }
     }
+
+    // 비선호 재료 정보 조회
+    public List<MemberDislikeIngredientResponseDto> getDislikeIngredient(Long memberId){
+        List<MemberDislikeIngredient> memberDislikeIngredients = memberDislikeRepositoryCustom.selectDislikeIngredient(memberId);
+
+        List<MemberDislikeIngredientResponseDto> memberDislikeIngredientResponseDtos = new ArrayList<>();
+        for(MemberDislikeIngredient memberDislike : memberDislikeIngredients){
+            MemberDislikeIngredientResponseDto memberDislikeIngredientResponseDto = MemberDislikeIngredientResponseDto.builder()
+                    .memberId(memberDislike.getMember().getId())
+                    .ingredientName(memberDislike.getIngredient().getKor())
+                    .build();
+            memberDislikeIngredientResponseDtos.add(memberDislikeIngredientResponseDto);
+        }
+        return memberDislikeIngredientResponseDtos;
+    }
     
     // 회원 조리도구 입력
     public void insertMemberUtensil(MemberUtensilRequestDto memberUtensilRequestDto){
@@ -303,6 +358,22 @@ public class MemberService {
             // 기존 저장된 조리도구 모두 삭제한 후 새로운 조리도구 리스트로 대체
             memberUtensilRepository.saveAll(memberUtensilList);
         }
+    }
+
+    // 회원 조리도구 정보 조회
+    public List<MemberUtensilResponseDto> getMemberUtensil(Long memberId){
+        List<MemberUtensil> memberUtensils = memberUtensilRepositoryCustom.selectMemberUtensil(memberId);
+
+        List<MemberUtensilResponseDto> memberUtensilResponseDtos = new ArrayList<>();
+        for(MemberUtensil memberUtensil : memberUtensils){
+            MemberUtensilResponseDto memberUtensilResponseDto = MemberUtensilResponseDto.builder()
+                    .memberId(memberUtensil.getMember().getId())
+                    .utensilName(memberUtensil.getUtensil().getName())
+                    .build();
+
+            memberUtensilResponseDtos.add(memberUtensilResponseDto);
+        }
+        return memberUtensilResponseDtos;
     }
 
     // 회원 탈퇴
