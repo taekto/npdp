@@ -85,8 +85,7 @@ export default {
       .then (res => {
         console.log(res.data)
         sessionStorage.setItem('social', 1)
-        // const url = res.data
-        Response.Redirect('https://i9b202.p.ssafy.io', true);
+        window.location.href = res.data
       })
       .catch (err => {
         console.log(err)
@@ -101,8 +100,7 @@ export default {
       .then (res => {
         console.log(res.data)
         sessionStorage.setItem('social', 1)
-        // const url = res.data
-        Response.Redirect('https://i9b202.p.ssafy.io', true);
+        window.location.href = res.data
       })
       .catch (err => {
         console.log(err)
@@ -117,8 +115,7 @@ export default {
       .then(res => {
         console.log(res.data)
         sessionStorage.setItem('social', 1)
-        // const url = res.data
-        Response.Redirect('https://i9b202.p.ssafy.io', true);
+        window.location.href = res.data
       })
       .catch(err => {
         console.log(err.response)
