@@ -260,6 +260,8 @@ const recipe: Module<RecipeState, RootState> = {
       .then (res=> {
         console.log('레시피 특정 조회 성공!')
         console.log(res)
+        console.log(res.status)
+        console.log(res.data)
         commit('SET_RECIPE_SPECIFIC', res.data)
         
         router.push({

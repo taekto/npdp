@@ -84,6 +84,7 @@ export default {
       })
       .then (res => {
         console.log(res.data)
+        console.log(res.status)
         sessionStorage.setItem("accessToken", res.data.accessToken)
         sessionStorage.setItem("memberId", res.data.id)
         sessionStorage.setItem('social', 1)
@@ -110,6 +111,7 @@ export default {
       })
       .then (res => {
         console.log(res.data)
+        console.log(res.status)
         sessionStorage.setItem("accessToken", res.data.accessToken)
         sessionStorage.setItem("memberId", res.data.id)
         sessionStorage.setItem('social', 1)
@@ -139,6 +141,7 @@ export default {
       })
       .then(res => {
         console.log(res.data)
+        console.log(res.status)
         sessionStorage.setItem("accessToken", res.data.accessToken)
         sessionStorage.setItem("memberId", res.data.id)
         sessionStorage.setItem('social', 1)
