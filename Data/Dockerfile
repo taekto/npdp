@@ -7,9 +7,14 @@ COPY . /app
 # 작업 디렉토리 설정
 WORKDIR /app
 
-# 가상 환경 활성화 및 필요한 패키지 설치
-RUN . myvenv/bin/activate && \
-    pip install --no-cache-dir -r NangPaDaePa/requirements.txt
+# 가상 환경 활성화
+RUN source myvenv/Scripts/activate
+
+# 디렉토리 변경
+WORKDIR /NangPaDaePa
+
+# 필요한 패키지 설치
+RUN  pip install --no-cache-dir -r requirements.txt
     
 # 컨테이너 실행 명령어 설정
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
