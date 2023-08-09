@@ -105,6 +105,7 @@ public class SnsLoginController {
 //        }
         try{
             MemberLoginResponseDto result = memberService.snsLogin(member);
+            log.info("google 로그인한 결과: "+result);
             if (result == null) {
                 log.info("새롭게 생성되는 사용자!");
                 return ResponseEntity.status(HttpStatus.CREATED).body(member); // 201 Created + Member 객체 반환
