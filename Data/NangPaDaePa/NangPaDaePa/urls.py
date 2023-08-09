@@ -21,5 +21,5 @@ from recommend import views as recommend_view
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
-    path(r'^recommend', include('recommend.urls'))
+    path('data/recommend/', include('recommend.urls'))
 ]
