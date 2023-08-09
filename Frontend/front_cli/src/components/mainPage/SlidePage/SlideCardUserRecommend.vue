@@ -3,7 +3,6 @@
     <div class="recommendCard" @click="goToDetailRecipe(recipe)">
         <img class="recommendCard_img" src='@/assets/123.jpg'>
         <p>{{ recipe.name }}</p>
-        <button class="recipeButton">View More</button>
     </div>
 </template>
 
@@ -30,25 +29,40 @@ export default {
 
 <style scoped>
 /* 유저기반 레시피 추천카드 */
-.recommendCard {
+/* .recommendCard {
     border-radius: .5rem;
-    /* box-shadow: 2px 2px 2px 2px; */
     height: 22rem;
     width: 20rem;
     cursor: pointer;
-    /* margin: 1rem; */
     border: 1px solid #454342;
     padding: .1rem;
     margin: .3rem;
+} */
+
+.recommendCard {
+    border-radius: .5rem;
+    border: solid rgb(190, 190, 190) 1px;
+    height: 22rem;
+    width: 20rem;
+    cursor: pointer;
+    margin: 1rem;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.recommendCard:hover{
+    transform: scale(1.05);
 }
 
 .recommendCard p {
     /* font-family: 'LINESeedKR-Bd';
     margin-top: 2rem 2rem 0;
     font-size: 2.5rem; */
+    margin: auto;
     font-family: 'LINESeedKR-Bd';
     margin-top: 2rem;
-    font-size: 1.5rem;
+    font-size: 2rem;
+    word-break: keep-all;
 }
 
 img {

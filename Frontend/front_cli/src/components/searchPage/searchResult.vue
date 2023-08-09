@@ -128,11 +128,8 @@ img {
 }
 
 .recipeName {
-    /* width: 80%; */
     margin: auto;
     word-break: keep-all;
-    /* white-space: wrap; */
-    /* overflow: hidden; */
     margin-top: 2rem;
     font-size: 2rem;
     font-family: 'LINESeedKR-Bd';
