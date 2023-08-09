@@ -17,7 +17,7 @@ WORKDIR /app/NangPaDaePa
 RUN  pip install --no-cache-dir -r requirements.txt
     
 # 컨테이너 실행 명령어 설정
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["python", "manage.py", "runserver", "127.0.0.1:8000"]
 
 # 컨테이너가 외부와 통신할 수 있도록 8000번 포트 노출
 EXPOSE 8000
