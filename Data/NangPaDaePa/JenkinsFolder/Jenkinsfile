@@ -24,7 +24,9 @@ pipeline {
                         sh 'ls'
                         sh 'echo "Hello from the changed directory"'
                         // de
-                        sh 'docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} -f Dockerfile .'
+                        sh "docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} -f Dockerfile ."
+                        
+                        sh "docker images"
                     }
                 }
             }
@@ -33,6 +35,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh "docker run -d --name ${CONTAINER_NAME} -p 8000:8000 ${IMAGE_NAME}:${BUILD_NUMBER}"
+                sh "docker ps"
             }
         }
     }
