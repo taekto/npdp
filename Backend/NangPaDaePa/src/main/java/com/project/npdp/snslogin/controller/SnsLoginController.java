@@ -79,6 +79,7 @@ public class SnsLoginController {
 
     @GetMapping("/kakao-login")
     public ResponseEntity<?> kakaoLogin() {
+        log.info("kakao-login");
         try {
             String authorizeUrl = kakaoLoginService.getAuthorizeUrl();
             return ResponseEntity.status(302).header("Access-Control-Allow-Origin", "https://i9b202.p.ssafy.io").header("Location", authorizeUrl).build();
@@ -137,6 +138,7 @@ public class SnsLoginController {
 
     @GetMapping("/google-login")
     public ResponseEntity<?> googleLogin() {
+        log.info("google-login");
         try {
             String authorizeUrl = googleLoginService.getAuthorizeUrl();
             return ResponseEntity.status(302).header("Access-Control-Allow-Origin", "https://i9b202.p.ssafy.io").header("Location", authorizeUrl).build();
@@ -193,6 +195,7 @@ public class SnsLoginController {
 
     @GetMapping("/naver-login")
     public ResponseEntity<?> naverLogin() {
+        log.info("naver-login");
         try {
             String authorizeUrl = naverLoginService.getAuthorizeUrl();
             return ResponseEntity.status(302).header("Access-Control-Allow-Origin", "https://i9b202.p.ssafy.io").header("Location", authorizeUrl).build();
