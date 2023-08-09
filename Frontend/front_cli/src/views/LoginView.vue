@@ -44,12 +44,12 @@
     </form>
     <!-- 소셜 로그인 -->
       <div class="signup_sns">
-          <a href="https://i9b202.p.ssafy.io/api/oauth/google-login" class="btn_sns btn-google btn-block" @click="socialLoginGoogle" style="width: 100%">
-          Google 계정으로 시작</a>
-          <a href="https://i9b202.p.ssafy.io/api/oauth/naver-login" class="btn_sns btn-naver btn-block" @click="socialLoginNaver" style="width: 100%"><i class="fab fab-naver-alt"></i> 
-          네이버 계정으로 시작</a>
-          <a href="https://i9b202.p.ssafy.io/api/oauth/kakao-login" class="btn_sns btn-kakao btn-block" @click="socialLoginKakao" style="width: 100%">
-          KaKao 계정으로 시작</a>
+          <button class="btn_sns btn-google btn-block" @click="socialLoginGoogle" style="width: 100%">
+          Google 계정으로 시작</button>
+          <button class="btn_sns btn-naver btn-block" @click="socialLoginNaver" style="width: 100%"><i class="fab fab-naver-alt"></i> 
+          네이버 계정으로 시작</button>
+          <button  class="btn_sns btn-kakao btn-block" @click="socialLoginKakao" style="width: 100%">
+          KaKao 계정으로 시작</button>
       </div>
   </div>
   
@@ -81,7 +81,6 @@ export default {
       axios ({
         url: 'https://i9b202.p.ssafy.io/api/oauth/google-login',
         methods: 'get',
-        redirect_uri : 'https://i9b202.p.ssafy.io/social',
       })
       .then (res => {
         console.log(res)
@@ -113,6 +112,7 @@ export default {
       })
       .then(res => {
         console.log(res)
+        sessionStorage.setItem('social', 1)
       })
       .catch(err => {
         console.log(err.response)
