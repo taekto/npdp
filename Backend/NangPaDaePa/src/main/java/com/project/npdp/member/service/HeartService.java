@@ -5,11 +5,13 @@ import com.project.npdp.member.entity.Member;
 import com.project.npdp.member.entity.MemberRecipeLike;
 import com.project.npdp.member.repository.MemberRecipeLikeRepository;
 import com.project.npdp.member.repository.MemberRepository;
+import com.project.npdp.recipe.dto.response.RecipeResponseDto;
 import com.project.npdp.recipe.entity.Recipe;
 import com.project.npdp.recipe.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,7 +23,7 @@ public class HeartService {
     private final RecipeRepository recipeRepository;
 
     // 좋아요 누르기
-    public void MemberRecipeHeartInsert(MemberLikeRequestDto memberLikeRequestDto) {
+    public void memberRecipeHeartInsert(MemberLikeRequestDto memberLikeRequestDto) {
 
         Member member = memberRepository.findById(memberLikeRequestDto.getMemberId()).orElseThrow();
         Recipe recipe = recipeRepository.findById(memberLikeRequestDto.getRecipeId()).orElseThrow();
@@ -32,7 +34,7 @@ public class HeartService {
     }
     
     // 좋아요 삭제
-    public void MemberRecipeHeartDelete(MemberLikeRequestDto memberLikeRequestDto) {
+    public void memberRecipeHeartDelete(MemberLikeRequestDto memberLikeRequestDto) {
 
         MemberRecipeLike result = memberRecipeLikeRepository.findMemberRecipeLikeByMemberIdAndRecipeId(memberLikeRequestDto.getMemberId(), memberLikeRequestDto.getRecipeId()).orElseThrow();
         
@@ -41,6 +43,10 @@ public class HeartService {
     }
 
     // 회원이 좋아요 한 레시피 조회
-    
+    public List<RecipeResponseDto> findMemberRecipeHeartById(Long memberId) {
+        List<RecipeResponseDto> result = memberRecipeLikeRepository.findMemberRecipeHeartById(memberId);
+        return result;
+    }
+
 
 }

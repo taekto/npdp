@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface MemberRecipeLikeRepository extends JpaRepository<MemberRecipeLike, Long> {
+public interface MemberRecipeLikeRepository extends JpaRepository<MemberRecipeLike, Long>, MemberRecipeLikeRepositoryCustom {
 
     Optional<MemberRecipeLike> findMemberRecipeLikeByMemberIdAndRecipeId(Long memberId, Long RecipeId);
 
