@@ -170,6 +170,16 @@ footer {
     width: 6rem;
 }
 
+.radioButton2 {
+  border: solid #FD7E14;
+  background-color: #FD7E14;
+  color: white;
+  border-radius: .5rem;
+  padding: .5rem;
+  margin: .5rem;
+  width: 6rem;
+}
+
 [type="radio"] {
     appearance: none;
 }

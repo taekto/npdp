@@ -261,6 +261,7 @@ const recipe: Module<RecipeState, RootState> = {
         console.log('레시피 특정 조회 성공!')
         console.log(res)
         commit('SET_RECIPE_SPECIFIC', res.data)
+        
         router.push({
           name: 'searchKeyword',
           params: {
@@ -287,6 +288,14 @@ const recipe: Module<RecipeState, RootState> = {
         .then(res=> {
           console.log(res.data, '레시피 상세 조회 성공!')
           commit('SET_RECIPE_DETAIL', res.data)
+
+          setTimeout(() => {
+                router.push({name: "recipe",  
+                    params: { 
+                        recipe_id: recipe_id
+                    },
+                })
+            }, 500) 
         })
         .catch(err => {
           console.log('레시피 상세 조회 실패....')
