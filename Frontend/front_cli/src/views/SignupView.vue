@@ -254,7 +254,7 @@ export default {
 <style scoped>
 
 .signup_form {
-  width: 40%;
+  width: 30%;
 }
 .signup_form input {
   font-family: 'LINESeedKR-Rg';

@@ -19,7 +19,7 @@
       <div>
         <div v-if="!isLoggedIn" id="user">
           <router-link to="/signup" class="nav_user_link">Signup</router-link>
-          <router-link to="/login" class="nav_user_link">Login</router-link>
+          <router-link to="/login" class="nav_user_link login">Login</router-link>
         </div>
         <div v-else id="user">
           <router-link to="/mypage" class="nav_user_link">MyPage</router-link>
@@ -116,6 +116,15 @@ nav #pageLink {
 .nav_user_link:hover {
   background-color: #fd7e14;
   color: #f2f2f2;
+}
+
+.nav_user_link.login {
+  background-color: #fd7e14;
+  color: #f2f2f2;
+}
+.nav_user_link.login:hover {
+  background-color: white;
+  color: #fd7e14;
 }
 
 nav #title {
