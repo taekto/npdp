@@ -5,13 +5,13 @@ FROM python:3.11.4
 COPY . /app
 
 # 작업 디렉토리 설정
-WORKDIR /app
+# WORKDIR /app
 
 # 가상 환경 활성화
-RUN myvenv/Scripts/activate.bat
+RUN /app/myvenv/Scripts/activate.bat
 
 # 디렉토리 변경
-WORKDIR /NangPaDaePa
+WORKDIR /app/NangPaDaePa
 
 # 필요한 패키지 설치
 RUN  pip install --no-cache-dir -r requirements.txt
