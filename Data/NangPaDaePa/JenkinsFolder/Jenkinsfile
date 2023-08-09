@@ -23,7 +23,8 @@ pipeline {
                         // 변경된 디렉토리에서 명령어 실행
                         sh 'ls'
                         sh 'echo "Hello from the changed directory"'
-                        def dockerImage = docker.build("${IMAGE_NAME}:${BUILD_NUMBER}", "-f Dockerfile .")
+                        // de
+                        sh 'docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} -f Dockerfile .'
                     }
                 }
             }
