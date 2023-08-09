@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
+
 // 기능 페이지
 import MainView from '../views/MainView.vue'
 import SearchPage from "../components/searchPage/SearchPage.vue"
@@ -25,7 +26,9 @@ import AdminIngredientPage from '../components/adminPage/ingredientPage.vue'
 import AdminSeasoningPage from '../components/adminPage/seasoningPage.vue'
 
 
-const routes = [
+const router = createRouter({
+  history: createWebHistory(),
+  routes: [
   {
     // 메인페이지
     path: '/',
@@ -53,7 +56,7 @@ const routes = [
   {
     // 상세 레시피 페이지
     // 후에 데이터 연결 후 recipe_id 연결해줘야 함
-    path: '/recipe/:name',
+    path: '/recipe/:recipe_id',
     name: 'recipe',
     component: RecipeDetail,
   },
@@ -148,13 +151,9 @@ const routes = [
         name: 'admin/seasoning',
         component: AdminSeasoningPage,
       },
-    ],
-  },
-]
+    ]
+  }]
+  })
 
-const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes
-})
 
 export default router

@@ -1,29 +1,31 @@
 <template>
   <!-- 레시피 상세 페이지 -->
   <div class="recipeDetail">
-
     <!-- 레시피 이름 -->
     <div class="recipeName">
       <!-- <h2 class="recipeTitle">레시피이름 : {{recipe_data.name}}</h2> -->
-      <h2 class="recipeTitle">레시피이름 : {{recipeItem.name}}</h2>
+      <h2 class="recipeTitle">레시피이름 : {{recipeDetail.name}}</h2>
       <button v-if="liked" class="likeButton" @click="changeLike">Like</button>
       <button v-else class="dislikeButton" @click="changeLike">Dislike</button>
     </div>
 
     <div class="recipeInfomation">
       <!-- 레시피 이미지 -->
-      <img class="recipeImage" src='@/assets/123.jpg'>
+      <div class="recipeImage">
+        <img class="recipeImg" :src='recipeDetail.imgBig'>
+      </div>
+      
       
       <!-- 레시피 정보 -->
-      <RecipeInfomation :recipe=recipe />
+      <RecipeInfomation />
     </div>
 
     <!-- 레시피 순서 -->
     <div class="recipeOrder">
       <h2 class="orderTitle">레시피 순서</h2>
-      <div class="orderLine" v-for="(order, index) in 5" :key="index">
-        <p class="orderExplain">{{index+1}} : {{lorem}}</p>
-        <img class="orderImage" src='@/assets/123.jpg'>
+      <div class="orderLine" v-for="(order, index) in recipeDetail.recipeSequences" :key="index">
+        <p class="orderExplain">{{order.description}}</p>
+        <img class="orderImage" :src='order.img'>
       </div>
     </div>
     
@@ -32,12 +34,15 @@
 
 <script>
 import RecipeInfomation from '../recipePage/recipeInfomation/recipeInfomation.vue'
+import {mapGetters} from 'vuex'
+
 
 export default {
     name: 'RecipeDetail',
     components: {
       RecipeInfomation,
     },
+    
     computed: {
       recipeItem() {
         console.log(this.$route.params.recipeItem)
@@ -47,6 +52,7 @@ export default {
         }
         return null;
       },
+      ...mapGetters(['recipeDetail'])
     },
 
     // 현재는 더미 데이터를 만들어서 확인
@@ -117,9 +123,17 @@ export default {
 /* 레시피 이미지 */
 .recipeImage {
     width: 45%;
+    height: 30rem;
     border-radius: .5rem;
     border: solid rgb(205, 205, 205) 1.5px;
 }
+
+.recipeImg {
+  width: 100%;
+  height: 100%;
+  border-radius: .5rem;
+}
+
 
 /* 레시피 순서 */
 .recipeOrder {

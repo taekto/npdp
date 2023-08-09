@@ -1,21 +1,20 @@
 <template>
   <!-- 레시피 정보(재료, 영양소, 유사도 등) -->
   <div>
-    <p>{{recipe}}</p>
     <!-- 레시피 정보 윗줄(재료 & 그래프) -->
     <div class="InfomationLine">
       <!-- 재료 정보 -->
-      <IngredientInfomation class="infoBox" :ingredients=ingredients :serving=serving />
+      <IngredientInfomation class="infoBox" :serving='serving' />
       
       <!-- 유사도 그래프 -->
-      <GraphInfomation class="infoBox" :similarity=similarity />
+      <GraphInfomation class="infoBox" />
     </div>
   
     
     <!-- 레시피 정보 아랫줄(영양소 & 재료 관리 버튼) -->
     <div class="InfomationLine">
       <!-- 영양소 정보 -->
-      <CalorieInformation class="infoBox" :method=method :calorie=calorie :serving=serving />
+      <CalorieInformation class="infoBox" :serving='serving' />
       
       <!-- 각종 버튼(인분 조절, 재료 입력, 양념 입력) -->
       <div class="infoBox">
@@ -49,6 +48,7 @@ import GraphInfomation from './GraphInfomation.vue'
 import CalorieInformation from './CalorieInfomation.vue'
 import IngredientModal from '../../modalPage/IngredientModal'
 import SeasoningModal from '../../modalPage/SeasoningModal'
+import {mapGetters} from 'vuex'
 
 export default {
     name : 'RecipeInfomation',
@@ -59,34 +59,33 @@ export default {
       IngredientModal,
       SeasoningModal,
     },
-    props: {
-      recipe: Object,
+    computed: {
+      ...mapGetters(['recipeDetail'])
+    },
+    mounted() {
+      this.chageServingOne()
     },
     data() {
       return {
-        ingredients: this.$props.recipe.ingredients,
-        similarity : this.$props.recipe.similarity,
-        method: this.$props.recipe.method,
-        calorie : this.$props.recipe.calorie,
         serving : 1,
       }
     },
     methods: {
       chageServingOne() {
-        this.serving = 1
+        this.serving = this.recipeDetail.dish * 1
       },
       chageServingTwo() {
-        this.serving = 2
+        this.serving = this.recipeDetail.dish * 2
       },
       chageServingThree() {
-        this.serving = 3
+        this.serving = this.recipeDetail.dish * 3
       },
       chageServingFour() {
-        this.serving = 4
+        this.serving = this.recipeDetail.dish * 4
       },
-      goToIngredient() {
-        console.log('ingredient')
-      }
+      // goToIngredient() {
+      //   console.log('ingredient')
+      // }
     }
 }
 </script>

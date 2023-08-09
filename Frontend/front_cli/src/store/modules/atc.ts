@@ -15,8 +15,10 @@ interface ATCState {
   calendar: Calendar [];
   utensil: Utensil [];
   refregirator : Refregirator [];
-  searchData: SearchData[];
+  seasoningSearchData: SeasoningSearchData[];
+  ingredientSearchData: IngredientSearchData[];
   appendList: AppendList[];
+  memberIngredient: MemberIngredient[];
 }
 
 // 재료
@@ -31,6 +33,7 @@ interface Ingredient {
   superUpperClass: string
   etc: string
 }
+
 
 // 재료 동의어
 interface IngredientSymnonym {
@@ -104,14 +107,29 @@ interface Refregirator {
 }
 
 // 특정 재료 조회
-interface SearchData{
-  ingredientId: number
-  name: String
+interface IngredientSearchData {
+  ingredientId: number;
+  name: string;
+}
+
+interface SeasoningSearchData {
+  seasoningId: number;
+  name: string;
 }
 
 // 추가 재료 목록
 interface AppendList{
   ingredientId: number
+}
+
+// 회원 재료 입력 
+interface MemberIngredient {
+  ingredientId: number
+  storage: number
+  amount: number
+  unit: String
+  startDate: Date
+  expiredDate: Boolean
 }
 
 const atc: Module<ATCState, RootState> = {
@@ -125,19 +143,23 @@ const atc: Module<ATCState, RootState> = {
     calendar: [],
     utensil: [],
     refregirator: [],
-    searchData: [],
+    ingredientSearchData: [],
+    seasoningSearchData: [],
     appendList:[],
+    memberIngredient:[],
   },
   getters: {
     ingredient: state => state.ingredient,
     seasoning: state => state.seasoning,
-    searchData: state => state.searchData
+    ingredientSearchData: state => state.ingredientSearchData,
+    seasoningSearchData: state=> state.seasoningSearchData,
     // ATC 게터 정의
   },
   mutations: {
     GET_INGREDIENT: (state, ingredient) => (state.ingredient = ingredient),
     // ATC 뮤테이션 정의
-    SET_SEARCH_DATA: (state, data) => (state.searchData = data),
+    SET_INGREDIENT_SEARCH_DATA: (state, data) => (state.ingredientSearchData = data),
+    SET_SEASONING_SEARCH_DATA: (state, data) => (state.seasoningSearchData = data),
     SET_APPEND_LIST: (state, item) => (state.appendList.push(item)),
   },
   actions: {
@@ -152,34 +174,44 @@ const atc: Module<ATCState, RootState> = {
         })
         .catch(err => console.log(err.response));
     },
-    async specificIngredient({ commit, getters }, name) {
+
+    // 양념 / 재료 / 전체 조회
+    async specificSearch({ commit }, { type, name }) {
       try {
-        console.log('재료 조회 시작!', name);
-        const response = await axios.get('https://i9b202.p.ssafy.io/api/foods/ingredient/search', {
+        console.log(type === 'seasoning' ? '양념 조회 시작!' : '재료 조회 시작!', name);
+        const apiUrl = type === 'seasoning' ?
+          'https://i9b202.p.ssafy.io/api/foods/seasoning/search' :
+          'https://i9b202.p.ssafy.io/api/foods/ingredient/search';
+        const response = await axios.get(apiUrl, {
           params: {
-            name: name,
+            name : name,
           },
         });
-  
-        console.log('특정 재료 조회 성공!', response.data);
-        commit('SET_SEARCH_DATA', response.data);
-        
+        console.log(type === 'seasoning' ? '양념 조회 성공!' : '재료 조회 성공!', response.data);
+        commit(type === 'seasoning' ? 'SET_SEASONING_SEARCH_DATA' : 'SET_INGREDIENT_SEARCH_DATA', response.data);
       } catch (error) {
-        console.error('특정 재료 조회 실패!', error);
+        console.log(type === 'seasoning' ? '양념 조회 실패..' : '재료 조회 실패..', error);
       }
     },
+    
 
-    // 재료 추가
-    appendIngredient({commit}, item) {
-      console.log(item,'추가!')
-      commit('SET_APPEND_LIST', item)
+    async saveMaterial({ dispatch }, {type, memberId, sendData}) {
+      try {
+        console.log(type === 'seasoning' ? '양념 저장 시작!': '재료 저장 시작!', sendData);
+        const apiUrl = type === 'seasoning' ?
+          `https://i9b202.p.ssafy.io/api/refregirator/member/seasoning/${memberId}`:
+          `https://i9b202.p.ssafy.io/api/refregirator/member/ingredient/${memberId}`; 
+        console.log(JSON.stringify(sendData, null, 2));
+        
+        const response = await axios.post(apiUrl, sendData);
+  
+        console.log(type === 'seasoning' ? '양념 저장 성공!' : '재료 저장 성공!', response.data);
+        dispatch('fetchIngredient');
+      } catch (error) {
+        console.log(type === 'seasoning' ? '양념 저장 실패..' : '재료 저장 실패..', error);
+      }
     },
-
-    // 재료 삭제(저장 버튼 누르기 전)
-    removeIngredient({commit}, item) {
-      // 로직 추가!
-    }
-  },
+  }
 };
 
 export default atc;

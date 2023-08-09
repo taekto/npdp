@@ -153,6 +153,8 @@ const member: Module<MemberState, RootState> = {
     SET_MEMBER_SEASONING: (state, memberSeasoning) => (state.memberSeasoning = memberSeasoning),
     SET_EMAIL_VERIFY: (state, emailCode) => (state.eamilCode = emailCode),
     SET_MEMBER_INGREDIENT: ( state, ingredient ) => (state.memberIngredient = ingredient),
+
+
   },
   actions: {
     saveToken({ commit }, { accessToken}) {
@@ -175,7 +177,8 @@ const member: Module<MemberState, RootState> = {
         .then(res => {
           console.log('로컬로그인 시작!')
           console.log(res)
-          sessionStorage.setItem("accessToken", res.data.accessToken);
+          sessionStorage.setItem("accessToken", res.data.accessToken)
+          sessionStorage.setItem("memberId", res.data.id)
           commit('SET_CURRENT_MEMBER', credentials.email)
           // commit('SET_CURRENT_MEMBER', res.data)
           dispatch('fetchMember', res.data.id)
@@ -260,7 +263,7 @@ const member: Module<MemberState, RootState> = {
         })
     },
 
-    // 회원 레시피 좋아요
+    // 회원 레시피 좋아요\
     memberLikeRecipe ({ commit, getters}, {member_id, recipe_id}) {
       axios ({
         url: api.member.memberRecipeLike(member_id),
@@ -294,19 +297,20 @@ const member: Module<MemberState, RootState> = {
     },
 
     // 회원 재료 조회
-    fetchMemberIngredient({commit}, memberId) {
-      console.log('재료 조회 시작!')
-      axios({
-        url:`api/refrigerator/ingredient/${memberId}`,
-        method: 'get',
-      })
-        .then(res => {
-          console.log('조회 성공!', res.data)
-          commit('SET_MEMBER_INGREDIENT', res.data)
-        })
-        .catch(err => {
-          console.log(err)
-        })
+    async fetchMemberMaterial({commit}, {type, memberId}) {
+      try {
+        console.log(type === 'ingredient' ? '재료 get 시작!' : '양념 get 시작!', memberId);
+        const apiUrl = type === 'ingredient' ?
+          `https://i9b202.p.ssafy.io/api/refrigerator/ingredient/${memberId}` :
+          `https://i9b202.p.ssafy.io/api/refrigerator/seasoning/${memberId}`;
+
+        const response = await axios.get(apiUrl)
+
+        console.log(type === 'ingredient' ? '재료 get 성공!' : '양념 get성공!', response.data);
+        commit(type === 'ingredient' ? 'SET_MEMBER_INGREDIENT' : 'SET_MEMBER_SEASONING', response.data);
+      } catch (error) {
+        console.log(type === 'ingredient' ? '재료 get 실패..' : '양념 get 실패..', error);
+      }
     },
 
     // 회원 최근 본 레시피

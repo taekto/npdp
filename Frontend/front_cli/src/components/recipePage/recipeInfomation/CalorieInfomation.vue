@@ -11,10 +11,10 @@
         </div>
         <div class="oneLine">
             <div class="ingredientName">
-                <p>{{method.name}}</p>
+                <p>조리방법</p>
             </div>
             <div class="ingredientAmount">
-                <p>{{method.value}}</p>
+                <p>{{way}}</p>
             </div>
         </div>
         <div class="oneLine" v-for="(calorieInfo, index) in calorie" :key="index">
@@ -22,19 +22,50 @@
                 <p>{{calorieInfo.name}}</p>
             </div>
             <div class="ingredientAmount">
-                <p>{{calorieInfo.value*serving}}</p>
+                <p>{{(calorieInfo.value*serving).toFixed(1)}}</p>
             </div>
         </div>
         </div>
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
+
 export default {
     name: "CalorieInformation",
     props: {
-        method: Text,
-        calorie: Array,
         serving: Number,
+    },
+    data() {
+        return {
+            calorie : [],
+            way : ''
+        }
+    },
+    mounted() {
+        this.setWay()
+        this.setCalorie()
+    },
+    computed: {
+      ...mapGetters(['recipeDetail', 'recipeWay'])
+    },
+    methods: {
+        setCalorie() {
+            this.calorie = [{name: "칼로리", value: this.recipeDetail.calorie},
+            {name: '탄수화물', value: this.recipeDetail.carbohydrate},
+            {name: '단백질', value: this.recipeDetail.protein},
+            {name: '지방', value: this.recipeDetail.fat},
+            {name: '염분', value: this.recipeDetail.salt},
+            {name: '중량', value: this.recipeDetail.weight},
+            ]
+        },
+        setWay() {
+            for (let recipeWay_data of this.recipeWay) {
+                if(recipeWay_data.recipe_way_id === this.recipeDetail.way) {
+                    this.way = recipeWay_data.recipe_way_name
+                }
+            }
+        }
     }
 }
 </script>

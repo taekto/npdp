@@ -93,12 +93,13 @@ export default {
     },
     computed: {
         ...mapGetters(['ingredients', 'seasonings']),
-        ...mapActions(['plusAmount', 'minusAmount'])
+        ...mapActions(['plusAmount', 'minusAmount', 'fetchMemberMaterial'])
     },
     // 임시 더미 데이터
     data() {
         return {
             storageType : '냉장',
+            memberId:null,
         }
     },
     methods: {
@@ -136,7 +137,11 @@ export default {
             }
             this.seasonings = arrayRemove(this.seasonings, seasoning)
         }
-    }
+    },
+    created() {
+        this.memberId = sessionStorage.getItem('memberId');
+        this.fetchMemberMaterial({type:'ingredient', memberId:this.memberId})
+    },
 }
 </script>
 
