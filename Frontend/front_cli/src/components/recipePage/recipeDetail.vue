@@ -4,9 +4,11 @@
     <!-- 레시피 이름 -->
     <div class="recipeName">
       <!-- <h2 class="recipeTitle">레시피이름 : {{recipe_data.name}}</h2> -->
-      <h2 class="recipeTitle">레시피이름 : {{recipeDetail.name}}</h2>
-      <button v-if="liked" class="likeButton" @click="changeLike">Like</button>
-      <button v-else class="dislikeButton" @click="changeLike">Dislike</button>
+      <p class="recipeTitle">{{recipeDetail.name}}</p>
+      <div>
+        <button v-if="liked" class="likeButton" @click="changeLike">Like</button>
+        <button v-else class="dislikeButton" @click="changeLike">Dislike</button>
+      </div>
     </div>
 
     <div class="recipeInfomation">
@@ -88,21 +90,26 @@ export default {
     margin-bottom: 2rem;
     text-align: start;
     display: flex;
+    font-family: 'LINESeedKR-Bd';
+    justify-content: space-between;
 }
 
 .recipeTitle {
-    font-weight: bold;
+    /* font-weight: bold; */
     margin-right: 2rem;
+    font-size: 2.5rem;
 }
 
 /* 좋아요 버튼 구분 */
 .likeButton {
     border-radius: .5rem;
     background-color: #FD7E14;
-    border: none;
+    border: solid #FD7E14;
     color: white;
     padding-left: 1rem;
     padding-right: 1rem;
+    height: 3rem;
+    width: 6rem;
 }
 
 .dislikeButton {
@@ -112,6 +119,8 @@ export default {
     background-color: white;
     padding-left: 1rem;
     padding-right: 1rem;
+    height: 3rem;
+    width: 6rem;
 }
 
 /* 레시피 이미지 & 레시피 정보 */
@@ -138,6 +147,9 @@ export default {
 /* 레시피 순서 */
 .recipeOrder {
     margin-top: 3rem;
+    font-family: 'LINESeedKR-Bd';
+    font-size: 1.25rem;
+    word-break: keep-all;
 }
 /* 레시피 순서 타이틀 */
 .orderTitle {
@@ -159,6 +171,8 @@ export default {
 .orderExplain {
     width: 45%;
     margin: 2rem;
+    padding: 1rem;
+    border: solid black;
 }
 
 /* 순서 관련 이미지 */

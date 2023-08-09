@@ -19,7 +19,7 @@
       <div>
         <div v-if="!isLoggedIn" id="user">
           <router-link to="/signup" class="nav_user_link">Signup</router-link>
-          <router-link to="/login" class="nav_user_link">Login</router-link>
+          <router-link to="/login" class="nav_user_link login">Login</router-link>
         </div>
         <div v-else id="user">
           <router-link to="/mypage" class="nav_user_link">MyPage</router-link>
@@ -118,6 +118,15 @@ nav #pageLink {
   color: #f2f2f2;
 }
 
+.nav_user_link.login {
+  background-color: #fd7e14;
+  color: #f2f2f2;
+}
+.nav_user_link.login:hover {
+  background-color: white;
+  color: #fd7e14;
+}
+
 nav #title {
   display: flex;
   justify-content: left;
@@ -168,6 +177,16 @@ footer {
     padding: .5rem;
     margin: .5rem;
     width: 6rem;
+}
+
+.radioButton2 {
+  border: solid #FD7E14;
+  background-color: #FD7E14;
+  color: white;
+  border-radius: .5rem;
+  padding: .5rem;
+  margin: .5rem;
+  width: 6rem;
 }
 
 [type="radio"] {

@@ -69,6 +69,8 @@ export default defineComponent({
 </script>
 
 <style scoped>
+
+
 /* 유저 추천 슬라이드 */
 .firstLine {
   padding-top: 1rem;
