@@ -58,6 +58,9 @@ pipeline {
         stage('Collect Static Files') {
             steps {
                 script {
+                    sh "pwd"
+                    sh "ls"
+                    sh "tree"
                     sh "docker run --rm -v ${pwd()}/Data:/app ${IMAGE_NAME} python manage.py collectstatic --noinput"
                 }
             }
