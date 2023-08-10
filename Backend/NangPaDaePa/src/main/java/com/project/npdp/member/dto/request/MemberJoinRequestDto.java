@@ -1,5 +1,6 @@
 package com.project.npdp.member.dto.request;
 
+import com.project.npdp.member.entity.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

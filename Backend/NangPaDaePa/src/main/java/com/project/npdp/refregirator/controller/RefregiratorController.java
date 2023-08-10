@@ -12,6 +12,7 @@ import com.project.npdp.refregirator.dto.response.SeasoningFindResponseDto;
 import com.project.npdp.refregirator.entity.Refregirator;
 import com.project.npdp.refregirator.service.RefregiratorService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/refregirator")
+@Slf4j
 public class RefregiratorController {
 
     private final RefregiratorService refregiratorService;
@@ -42,6 +44,7 @@ public class RefregiratorController {
     // 회원 재료 입력
     @PostMapping("/member/ingredient/{memberId}")
     public ResponseEntity<?> memberSaveIngredient(@PathVariable("memberId") Long memberId, @RequestBody List<MemberIngredientSaveRequestDto> memberIngredientSaveRequestDto) {
+
         refregiratorService.memberSaveIngredient(memberId, memberIngredientSaveRequestDto);
         return ResponseEntity.ok().build();
     }

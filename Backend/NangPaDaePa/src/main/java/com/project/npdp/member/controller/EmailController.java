@@ -6,10 +6,7 @@ import com.project.npdp.member.entity.EmailMessage;
 import com.project.npdp.member.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,14 +20,14 @@ public class EmailController {
     public ResponseEntity<?> sendJoinAuth(@RequestBody EmailAuthRequestDto emailAuthRequestDto){
         EmailMessage emailMessage = EmailMessage.builder()
                 .to(emailAuthRequestDto.getEmail())
-                .title("[냉파대파] 이메일 인증을 위한 인증 코드 발송")
+                .title("[냉파대파] 이메일 인증을 위한 인증 코드")
                 .build();
 
         String code = emailService.sendAuthMail(emailMessage, "email");
 
         EmailAuthResponseDto emailAuthResponseDto = new EmailAuthResponseDto(code);
 
-        // body로 인증번호 반환
+        // body로 인증코드 반환
         return ResponseEntity.ok(emailAuthResponseDto);
     }
 
