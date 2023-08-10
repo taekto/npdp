@@ -43,7 +43,7 @@
                 <div class="refrigeratorCategory">
                     <p class="categoryTitle">{{printStorage}} 재료</p>
                     <ul class="ListShow">
-                        <li class= "row" v-for="ingredientItem in displayedIngredientItems" :key="ingredientItem.id">
+                        <li class= "row" v-for="(ingredientItem, index) in displayedIngredientItems" :key="index">
                             <div class="ingredientList">
                                 <p class="col-1 ingredientName">{{ingredientItem.kor}}</p>
                                 <div class="amount col-2 row">
@@ -62,7 +62,9 @@
                     </ul>
                     <div class="pagination">
                         <button @click="goToPage(ingredientPage - 1)" :disabled="ingredientPage === 1">이전</button>
-                        <button v-for="pageNumber in ingredientTotalPages" :key="pageNumber" @click="goToPage(pageNumber)">
+                        <button v-for="pageNumber in ingredientTotalPages" :key="pageNumber" 
+                        @click="goToPage(pageNumber)" 
+                        :disabled="ingredientPage === pageNumber">
                             {{ pageNumber }}
                         </button>
                         <button @click="goToPage(ingredientPage + 1)" :disabled="ingredientPage === totalPages">다음</button>
