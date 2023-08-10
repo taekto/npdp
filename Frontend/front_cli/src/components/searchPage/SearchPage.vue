@@ -9,23 +9,14 @@
                     <input id="searchForm" class="form-control" type="text" v-model.trim="searchKeyword">
                     <input id="submitButton" type="submit" value="검색">
                 </div>
-
-                <!-- 해시태그 -->
-                <!-- <div id="hashTagkeyword"> -->
-                    <!-- <router-link id="hash" :to="{
-                        name: 'searchKeyword',
-                        params: {
-                            keyword: tag
-                        }
-                    }" v-for="(tag, index) in hashTag" :key="index">
+                <div id="hashTagkeyword">
+                    <div @click="recipeSpecificSearch(tag)" id="hash" v-for="(tag, index) in hashTag" :key="index">
                         # {{ tag }}
-                    </router-link> -->
-                    <!-- <div @click="recipeSpecific(tag)" id="hash" v-for="(tag, index) in hashTag" :key="index">
-                        # {{ tag }}
-                    </div> -->
-                <!-- </div> -->
+                    </div>
+                </div>
             </form>
         </div>
+        
 
         <!-- 상세 검색 컴포넌트 -->
         <DetailSearch class="detailSearch" />

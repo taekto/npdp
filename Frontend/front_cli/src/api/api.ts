@@ -1,6 +1,6 @@
 import member from "../store/modules/member";
 
-const API = 'api/';
+const API = 'https://i9b202.p.ssafy.io/api/';
 
 const MEMBER = 'members/';
 const ALLERGY = 'allergy/';

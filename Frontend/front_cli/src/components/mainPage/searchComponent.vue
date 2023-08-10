@@ -1,15 +1,15 @@
 <template>
     <!-- 검색창 컴포넌트 -->
     <div>
-        <form @submit.prevent="recipeSpecific(content)" @keydown.enter="recipeSpecificSearch(content)">
+        <form @submit.prevent="recipeSpecificSearch(content)">
             <div class="input-group">
                 <!-- <input id="submitButton" type="submit" value="검색"> -->
-                <i class="bi bi-search" @click="recipeSpecific(content)"></i>
-                <input id="searchForm" class="form-control" type="text" v-model.trim="content">
+                <i class="bi bi-search" @click="recipeSpecificSearch(content)"></i>
+                <input id="searchForm" class="form-control" type="text" v-model.trim="content" placeholder="검색어를 입력해주세요.">
             </div>
             <!-- 해시태그 -->
             <div id="hashTagkeyword">
-                <div @click="recipeSpecific(tag)" id="hash" v-for="(tag, index) in hashTag" :key="index">
+                <div @click="recipeSpecificSearch(tag)" id="hash" v-for="(tag, index) in hashTag" :key="index">
                     # {{ tag }}
                 </div>
             </div>
@@ -64,13 +64,21 @@ export default {
 }
 
 #hash {
+    font-family: 'LINESeedKR-Rg';
     margin: 1rem;
     background-color: #FD7E14;
-    color: white;
+    color: #ffffff;
     width: 5rem;
-    padding: 0.6rem;
+    padding: 0.5rem;
+    border: 1px solid #fd7e14;
     border-radius: 2rem;
     text-decoration-line: none;
+}
+
+#hash:hover {
+    border: 1px solid #fd7e14;
+    background-color: #ffffff;
+    color: #fd7e14;
 }
 
 .bi-search {
@@ -82,11 +90,11 @@ export default {
 /* 검색창 */
 .input-group {
     width: 60%;
-    height: 2.5rem;
+    height: 3.5rem;
     margin: auto;
     margin-top: 3.5rem;
     border: solid #FD7E14 1px;
-    border-radius: .5rem;
+    border-radius: .3rem;
 }
 
 #searchForm {

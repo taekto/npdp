@@ -1,29 +1,33 @@
 <template>
   <!-- 레시피 상세 페이지 -->
   <div class="recipeDetail">
-
     <!-- 레시피 이름 -->
     <div class="recipeName">
       <!-- <h2 class="recipeTitle">레시피이름 : {{recipe_data.name}}</h2> -->
-      <h2 class="recipeTitle">레시피이름 : {{recipeItem.name}}</h2>
-      <button v-if="liked" class="likeButton" @click="changeLike">Like</button>
-      <button v-else class="dislikeButton" @click="changeLike">Dislike</button>
+      <p class="recipeTitle">{{recipeDetail.name}}</p>
+      <div>
+        <button v-if="liked" class="likeButton" @click="changeLike">Like</button>
+        <button v-else class="dislikeButton" @click="changeLike">Dislike</button>
+      </div>
     </div>
 
     <div class="recipeInfomation">
       <!-- 레시피 이미지 -->
-      <img class="recipeImage" src='@/assets/123.jpg'>
+      <div class="recipeImage">
+        <img class="recipeImg" :src='recipeDetail.imgBig'>
+      </div>
+      
       
       <!-- 레시피 정보 -->
-      <RecipeInfomation :recipe=recipe />
+      <RecipeInfomation />
     </div>
 
     <!-- 레시피 순서 -->
     <div class="recipeOrder">
       <h2 class="orderTitle">레시피 순서</h2>
-      <div class="orderLine" v-for="(order, index) in 5" :key="index">
-        <p class="orderExplain">{{index+1}} : {{lorem}}</p>
-        <img class="orderImage" src='@/assets/123.jpg'>
+      <div class="orderLine" v-for="(order, index) in recipeDetail.recipeSequences" :key="index">
+        <p class="orderExplain">{{order.description}}</p>
+        <img class="orderImage" :src='order.img'>
       </div>
     </div>
     
@@ -32,15 +36,17 @@
 
 <script>
 import RecipeInfomation from '../recipePage/recipeInfomation/recipeInfomation.vue'
+import {mapGetters} from 'vuex'
+
 
 export default {
     name: 'RecipeDetail',
     components: {
       RecipeInfomation,
     },
+    
     computed: {
       recipeItem() {
-        console.log('-----------------')
         console.log(this.$route.params.recipeItem)
         const recipeItem = this.$route.query.recipeItem;
         if (recipeItem) {
@@ -48,6 +54,7 @@ export default {
         }
         return null;
       },
+      ...mapGetters(['recipeDetail'])
     },
 
     // 현재는 더미 데이터를 만들어서 확인
@@ -83,21 +90,26 @@ export default {
     margin-bottom: 2rem;
     text-align: start;
     display: flex;
+    font-family: 'LINESeedKR-Bd';
+    justify-content: space-between;
 }
 
 .recipeTitle {
-    font-weight: bold;
+    /* font-weight: bold; */
     margin-right: 2rem;
+    font-size: 2.5rem;
 }
 
 /* 좋아요 버튼 구분 */
 .likeButton {
     border-radius: .5rem;
     background-color: #FD7E14;
-    border: none;
+    border: solid #FD7E14;
     color: white;
     padding-left: 1rem;
     padding-right: 1rem;
+    height: 3rem;
+    width: 6rem;
 }
 
 .dislikeButton {
@@ -107,6 +119,8 @@ export default {
     background-color: white;
     padding-left: 1rem;
     padding-right: 1rem;
+    height: 3rem;
+    width: 6rem;
 }
 
 /* 레시피 이미지 & 레시피 정보 */
@@ -118,13 +132,24 @@ export default {
 /* 레시피 이미지 */
 .recipeImage {
     width: 45%;
+    height: 30rem;
     border-radius: .5rem;
     border: solid rgb(205, 205, 205) 1.5px;
 }
 
+.recipeImg {
+  width: 100%;
+  height: 100%;
+  border-radius: .5rem;
+}
+
+
 /* 레시피 순서 */
 .recipeOrder {
     margin-top: 3rem;
+    font-family: 'LINESeedKR-Bd';
+    font-size: 1.25rem;
+    word-break: keep-all;
 }
 /* 레시피 순서 타이틀 */
 .orderTitle {
@@ -146,6 +171,8 @@ export default {
 .orderExplain {
     width: 45%;
     margin: 2rem;
+    padding: 1rem;
+    border: solid black;
 }
 
 /* 순서 관련 이미지 */

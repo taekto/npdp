@@ -1,11 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
+
 // 기능 페이지
 import MainView from '../views/MainView.vue'
 import SearchPage from "../components/searchPage/SearchPage.vue"
 import SearchKeyword from "../components/searchPage/SearchKeyword.vue"
 import SingupView from  '../views/SignupView.vue'
 import LoginView from  '../views/LoginView.vue'
+import SocialSignup from '../views/SocialSignup.vue'
 import AboutView from '../views/AboutView.vue'
 import RecipeDetail from '../components/recipePage/recipeDetail.vue'
 import MyPage from '../views/MyPage.vue'
@@ -24,7 +26,9 @@ import AdminIngredientPage from '../components/adminPage/ingredientPage.vue'
 import AdminSeasoningPage from '../components/adminPage/seasoningPage.vue'
 
 
-const routes = [
+const router = createRouter({
+  history: createWebHistory(),
+  routes: [
   {
     // 메인페이지
     path: '/',
@@ -52,7 +56,7 @@ const routes = [
   {
     // 상세 레시피 페이지
     // 후에 데이터 연결 후 recipe_id 연결해줘야 함
-    path: '/recipe/:name',
+    path: '/recipe/:recipe_id',
     name: 'recipe',
     component: RecipeDetail,
   },
@@ -67,6 +71,12 @@ const routes = [
     path: '/login',
     name: 'login',
     component: LoginView
+  },
+  {
+    path: '/social',
+    name: 'social',
+    component: SocialSignup,
+    props: true
   },
   {
     // 마이페이지(비밀번호 확인)
@@ -141,13 +151,9 @@ const routes = [
         name: 'admin/seasoning',
         component: AdminSeasoningPage,
       },
-    ],
-  },
-]
+    ]
+  }]
+  })
 
-const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes
-})
 
 export default router
