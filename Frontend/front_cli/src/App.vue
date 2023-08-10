@@ -177,7 +177,8 @@ footer {
     border-radius: .5rem;
     padding: .3rem .2rem;
     margin: .5rem;
-    width: 5rem;
+    width: 6rem;
+    font-size: 1.25rem;
 }
 
 .radioButton2 {
@@ -188,7 +189,8 @@ footer {
   border-radius: .5rem;
   padding: .3rem .2rem;
   margin: .5rem;
-  width: 5rem;
+  width: 6rem;
+  font-size: 1.25rem;
 }
 
 [type="radio"] {
@@ -217,6 +219,7 @@ footer {
     border-radius: .5rem;
     background-color: #f2f2f2;
     border: solid rgb(244, 244, 244);
+    font-family: 'LINESeedKR-Bd';
 }
 
 .logout {

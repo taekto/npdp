@@ -10,13 +10,22 @@
             <div class="buttonGroup">
                 <!-- 보관 방법 변경 버튼 -->
                 <div class="storageRadio">
-                    <label class="radioButton">
+                    <label v-if="storage === 0" class="radioButton2">
                         <input type="radio" name="coldStorage" value="냉장" @click="selectStorage(0)">냉장
                     </label>
-                    <label class="radioButton">
+                    <label v-else class="radioButton">
+                        <input type="radio" name="coldStorage" value="냉장" @click="selectStorage(0)">냉장
+                    </label>
+                    <label v-if="storage === 1" class="radioButton2">
                         <input type="radio" name="frozenStorage" value="냉동" @click="selectStorage(1)">냉동
                     </label>
-                    <label class="radioButton">
+                    <label v-else class="radioButton">
+                        <input type="radio" name="frozenStorage" value="냉동" @click="selectStorage(1)">냉동
+                    </label>
+                    <label v-if="storage === 2" class="radioButton2">
+                        <input type="radio" name="rtStorage" value="실온" @click="selectStorage(2)">실온
+                    </label>            
+                    <label v-else class="radioButton">
                         <input type="radio" name="rtStorage" value="실온" @click="selectStorage(2)">실온
                     </label>            
                 </div>
@@ -31,7 +40,7 @@
             <!-- 현재 보관 중인 재료 & 양념 보여주는 컴포넌트(냉장, 냉동, 실온) -->
             <div>
                 <!-- 재료 -->
-                <div class="refrigeratorCategory" v-if="memberIngredient.length > 0">
+                <div class="refrigeratorCategory">
                     <p class="categoryTitle">{{printStorage}} 재료</p>
                     <ul class="ListShow">
                         <li class= "row" v-for="ingredientItem in memberIngredient" :key="ingredientItem.id">
@@ -54,7 +63,7 @@
                 </div>
 
                 <!-- 양념 -->
-                <div class="member_seasoning_container" v-if="memberSeasoning.length > 0">
+                <div class="member_seasoning_container">
                     <p class="categoryTitle">{{printStorage}} 양념</p>
                     <ul class="ListShow">
                         <li class= "row" v-for="seasoningItem in memberSeasoning" :key="seasoningItem.memberSeasoningId">
@@ -107,6 +116,9 @@ export default {
           startDate: null,
           expiredDate:  null,
           isdelete : false,
+          itemsPerPage: 5,
+          ingredientPage: 1,
+          seasoningPage: 1,
         }
     },
     methods: {
@@ -150,6 +162,40 @@ export default {
             }
             this.ingredients = arrayRemove(this.ingredients, tmpingredient)
         },
+        ingredientTotalPages() {
+            let count = 0
+            for (let ingredient of this.memberIngredient) {
+                if(this.storage === ingredient.storage) {
+                    count ++ 
+                }
+            }
+            return Math.ceil(count / this.itemsPerPage)
+        },
+        seasoningtTotalPages() {
+            let count = 0
+            for (let seasoning of this.memberSeasoning) {
+                if(this.storage === seasoning.storage) {
+                    count ++ 
+                }
+            }
+            return Math.ceil(count / this.itemsPerPage)
+        },
+        displayedIngredientItems() {
+            const startIndex = (this.ingredientPage - 1) * this.itemsPerPage
+            const endIndex = startIndex + this.itemsPerPage
+            const displayedItems = this.memberIngredient.filter(ingredient => {
+                return ingredient.storage === this.storage
+            }).slice(startIndex, endIndex)
+            return displayedItems
+        },
+        displayedSeasoningItems() {
+            const startIndex = (this.seasoningPage - 1) * this.itemsPerPage
+            const endIndex = startIndex + this.itemsPerPage
+            const displayedItems = this.memberSeasoning.filter(seasoning => {
+                return seasoning.storage === this.storage
+            }).slice(startIndex, endIndex)
+            return displayedItems
+        },
     },
     created() {
         this.memberId = parseInt(sessionStorage.getItem('memberId'))
@@ -164,6 +210,7 @@ export default {
     display: flex;
     justify-content: space-between;
     width: 90%;
+    font-family: 'LINESeedKR-Bd';
 }
 
 .modalButtons {
@@ -183,6 +230,8 @@ export default {
 .ingredientName {
 font-weight: bold;
 }
+
+
 
 .ingredientList {
     display: flex;
@@ -226,7 +275,7 @@ font-weight: bold;
 
 .storageRadio {
     display: flex;
-    margin-top: 3rem;
+    /* margin-top: 3rem; */
     margin-left: 7.5rem;
 }
 

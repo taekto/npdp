@@ -36,6 +36,7 @@ export default {
   padding: 0.5rem;
   font-size: 1.25rem;
   font-weight: bold;
+  font-family: 'LINESeedKR-Bd';
 }
 
 .amountButton {

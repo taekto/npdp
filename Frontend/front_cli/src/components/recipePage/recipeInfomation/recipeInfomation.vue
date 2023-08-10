@@ -102,6 +102,7 @@ export default {
     display: flex;
     justify-content: space-around;
     height: 1.5rem;
+    font-family: 'LINESeedKR-Bd';
 }
 .ingredientName {
     justify-content: center;
@@ -114,7 +115,7 @@ export default {
 }
 /* 상단 설명 */
 .menu {
-    font-size: 17.5px;
+    font-size: 20px;
     font-weight: bold;
     margin-bottom: 1rem;
 }
@@ -142,6 +143,7 @@ export default {
     font-size: 1.25rem;
     font-weight: bold;
     text-align: end;    
+    font-family: 'LINESeedKR-Bd';
 }
 
 .inputServing {
