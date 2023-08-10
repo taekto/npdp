@@ -17,6 +17,7 @@ interface MemberState {
   memberSeasoning: MemberSeasoning[];
   currentMember: string | null;
   eamilCode: string | null;
+  memberIngredient: MemberIngredient[];
 }
 
 // 회원
@@ -29,7 +30,7 @@ interface Member {
     // oauth: string
     // refresh_token: string
     // role: number
-    // gender: string
+    gender: string
     // quit: boolean
 }
 
@@ -83,18 +84,54 @@ interface MemberSeasoning {
   storage: number
 }
 
+// 회원 재료 
+interface MemberIngredient {
+  refregiratorId: number
+  kor: string
+  amount: number
+  unit: any
+  storage: number
+  startDate: any
+  expiredDate: any
+}   
+
+// 회원 재료 삭제
+interface IngredientDeleteData {
+  memberId: number
+  refregiratorId: number
+  storage: number
+  amount: number
+  unit: String
+  startDate: Date
+  expiredDate:  Date
+  isdelete : boolean
+}
+
+// 회원 양념 삭제
+interface SeasoningDeleteData {
+  memberId: number;
+  memberSeasoningId: number;
+  storage: number;
+  startDate: Date;
+  expiredDate: Date;
+  isdelete: boolean;
+}
+
 const member: Module<MemberState, RootState> = {
   state: {
+    // 엑세스 토큰
     accessToken: null,
-    // refreshToken: null,
+    // 회원 정보 조회 하면 일로 들어감
     member: [],
+    // 로그인 시 입력한 이메일 저장
     currentMember: null,
+    // 좋아하는 레시피 저장 할 용도
     memberRecipeLike: [  
       { member_recipe_like_id: 1, member_id: 1, recipe_id: 1 },
       { member_recipe_like_id: 2, member_id: 1, recipe_id: 2 },
       { member_recipe_like_id: 3, member_id: 1, recipe_id: 3 },
     ],
-
+    // 
     memberRecipeLatest: [],
     memberDislikeIngredient: [],
     memberAllergy: [
@@ -105,6 +142,8 @@ const member: Module<MemberState, RootState> = {
     memberUtensil: [],
     memberSeasoning: [],
     eamilCode: null,
+    memberIngredient: [],
+    
   },
 
   getters: {
@@ -120,7 +159,8 @@ const member: Module<MemberState, RootState> = {
     memberDislikeIngredient: state => state.memberDislikeIngredient,
     memberAllergy: state => state.memberAllergy,
     memberUtensil: state => state.memberUtensil,
-    memberSeasoning: state => state.memberSeasoning
+    memberSeasoning: state => state.memberSeasoning,
+    memberIngredient: state => state.memberIngredient,
   },
   mutations: {
     // SET_ACCESS_TOKEN: (state, accessToken) => (state.accessToken = accessToken),
@@ -133,7 +173,10 @@ const member: Module<MemberState, RootState> = {
     SET_MEMBER_ALLERGY: (state, memberAllergy) => (state.memberAllergy = memberAllergy),
     SET_MEMBER_UTENSIL: (state, memberUtensil) => (state.memberUtensil = memberUtensil),
     SET_MEMBER_SEASONING: (state, memberSeasoning) => (state.memberSeasoning = memberSeasoning),
-    SET_EMAIL_VERIFY: (state, emailCode) => (state.eamilCode = emailCode)
+    SET_EMAIL_VERIFY: (state, emailCode) => (state.eamilCode = emailCode),
+    SET_MEMBER_INGREDIENT: ( state, ingredient ) => (state.memberIngredient = ingredient),
+
+
   },
   actions: {
     saveToken({ commit }, { accessToken}) {
@@ -156,7 +199,8 @@ const member: Module<MemberState, RootState> = {
         .then(res => {
           console.log('로컬로그인 시작!')
           console.log(res)
-          sessionStorage.setItem("accessToken", res.data.accessToken);
+          sessionStorage.setItem("accessToken", res.data.accessToken)
+          sessionStorage.setItem("memberId", res.data.id)
           commit('SET_CURRENT_MEMBER', credentials.email)
           // commit('SET_CURRENT_MEMBER', res.data)
           dispatch('fetchMember', res.data.id)
@@ -175,7 +219,7 @@ const member: Module<MemberState, RootState> = {
     localSignup({ commit }, credentials) {
       console.log('회원가입 시작!', credentials)
         axios({
-          url: api.member.signup(),
+          url: 'https://i9b202.p.ssafy.io/api/members/join',
           method: 'post',
           data: credentials,
         })
@@ -192,6 +236,7 @@ const member: Module<MemberState, RootState> = {
           })
       },
 
+      
 
     // 회원 이메일 인증
     async EmailVerify(email) {
@@ -220,24 +265,19 @@ const member: Module<MemberState, RootState> = {
     },
 
     // 회원 정보 조회
-    fetchMember({ commit, getters}, member_id) {
-      if (!getters.currentMember) {
-        // 로그인 리턴값이 없으면 아무것도 안하고 종료
-        return
-      }
+    fetchMember({ commit, getters}, memberId) {
+      console.log('회원 정보 조회 시작!dasda', memberId)
       axios({
-        url: api.member.member(member_id),
+        url: `https://i9b202.p.ssafy.io/api/members/${memberId}`,
         method: 'get',
       })
         .then(res => {     
-          console.log(res.data) 
-          console.log('회원 정보 조회 성공! (fetchMember)') 
+          console.log('회원 정보 조회 성공!', res.data) 
           commit('SET_MEMBER', res.data);
         })
         .catch(err => {
-          console.log(err.response)
-          router.push({ name: 'login' })
-        })
+          console.log('회원 정보 조회 실패...', err)
+        });
     },
 
     // 회원 레시피 좋아요
@@ -258,316 +298,94 @@ const member: Module<MemberState, RootState> = {
         })
     },
 
-
-    // 회원 최근 본 레시피
-    // memberRecipeLatest (생성, 조회, 수정, 삭제)
-
-    createMemberRecipeLatest({ commit, getters }, {member_id, recipe_id, date}) {
-      axios({
-        url: api.member.memberRecipeLatest(member_id),
-        method: 'post',
-        data: {
-          recipe_id,
-          date,
-        },
-        headers: getters.authHeader,
-      })
-        .then(res => {
-          const latestRecipes: MemberRecipeLatest[] = getters.memberRecipeLatest
-          const existingIndex = latestRecipes.findIndex((item: MemberRecipeLatest) => item.recipe_id === res.data.recipe_id)
-          
-          if (existingIndex !== -1) {
-            // 이미 해당 레시피가 최근 본 레시피 목록에 존재하는 경우, 해당 레시피를 삭제
-            latestRecipes.splice(existingIndex, 1)
-          } else if (latestRecipes.length >= 20) {
-            // 최근 본 레시피 목록이 꽉 찬 경우 가장 오래된 레시피를 삭제
-            latestRecipes.pop()
-          }
+    // 회원 재료 조회 양념/ 재료/ 전체
+    async fetchMemberMaterial({ commit }, { type, memberId }) {
+      try {
+        if (type === 'all' || type === 'seasoning') {
+          const seasoningApiUrl = `https://i9b202.p.ssafy.io/api/refregirator/seasoning/${memberId}`
+          const seasoningResponse = await axios.get(seasoningApiUrl)
+          console.log('양념 get 성공!', seasoningResponse.data)
+          commit('SET_MEMBER_SEASONING', seasoningResponse.data)
+        }
     
-          // 새로운 레시피를 맨 앞에 추가
-          latestRecipes.unshift(res.data)
-          commit('SET_MEMBER_RECIPE_LATEST', latestRecipes)
-        })
-        .catch(err => {
-          console.log(err.response)
-        })
-    },
-    
-    // 조회
-    fetchMemberRecipeLatest({ commit, getters }, member_id) {
-      axios({
-        url: api.member.memberRecipeLatest(member_id),
-        method: 'get',
-        headers: getters.authHeader,
-      })
-        .then(res => {
-          commit('SET_MEMBER_RECIPE_LATEST', res.data)
-        })
-        .catch(err => {
-          console.log(err.response)
-        })
-    },
-
-
-    // 유저 비선호 재료 생성/ 조회/ 수정
-    createMemberDislikeIngredient({ commit, getters }, { member_id, ingredient_id }) {
-      axios({
-        url: api.member.memberDislikeIngredient(member_id),
-        method: 'post',
-        data: {
-          ingredient_id,
-        },
-        headers: getters.authHeader,
-      })
-        .then(res => {
-          commit('SET_MEMBER_DISLIKE_INGREDIENT', res.data)
-        })
-        .catch(err => {
-          console.log(err.response)
-        })
-    },
-
-    fetchMemberDislikeIngredient({ commit, getters }, { member_id }) {
-      axios({
-        url: api.member.memberDislikeIngredient(member_id),
-        method: 'get',
-        headers: getters.authHeader,
-      })
-        .then(res => {
-          commit('SET_MEMBER_DISLIKE_INGREDIENT', res.data)
-        })
-        .catch(err => {
-          console.log(err.response)
-        })
-    },
-    
-    updateMemeberDislikeIngredient({ commit, getters  }, { member_id, ingredient_id }) {
-      axios({
-        url: api.member.memberDislikeIngredient(member_id),
-        method: 'PUT',
-        data: {
-          ingredient_id,
-        },
-        headers: getters.authHeader,
-      })
-        .then(res => {
-          commit('SET_MEMBER_DISLIKE_INGREDIENT', res.data)
-        })
-        .catch(err => {
-          console.log(err.response)
-        })
-    },
-
-    deleteMemberDislikeIngredient({ commit, getters }, { member_id }) {
-      if(confirm('정말 초기화 하시겠습니까?')) {
-        axios({
-          url: api.member.memberDislikeIngredient(member_id),
-          method: 'delete',
-          headers: getters.authHeader,
-        })
-          .then(() => {
-            commit('SET_MEMBER_DISLIKE_INGREDIENT', {})
-          })
-          .catch(err => {
-            console.log(err.response)
-          })
+        if (type === 'all' || type === 'ingredient') {
+          const ingredientApiUrl = `https://i9b202.p.ssafy.io/api/refregirator/ingredient/${memberId}`
+          const ingredientResponse = await axios.get(ingredientApiUrl)
+          console.log('재료 get 성공!', ingredientResponse.data)
+          commit('SET_MEMBER_INGREDIENT', ingredientResponse.data)
+        }
+      } catch (error) {
+        console.log('데이터 조회 실패..', error)
       }
     },
+
+    // 회원 재료/양념/ 저장
+    async saveMaterial({ dispatch }, {type, memberId, sendData}) {
+      try {
+        console.log(type === 'seasoning' ? '양념 저장 시작!': '재료 저장 시작!', sendData)
+        const apiUrl = type === 'seasoning' ?
+          `https://i9b202.p.ssafy.io/api/refregirator/member/seasoning/${memberId}`:
+          `https://i9b202.p.ssafy.io/api/refregirator/member/ingredient/${memberId}` 
+        console.log(JSON.stringify(sendData, null, 2))
         
-    // memberAllergy (생성, 조회, 수정, 삭제)
-    createMemberAllergy({ commit, getters }, {member_id, allergy_id}) {
-      axios({
-        url: api.member.memberAllergy(member_id),
-        method: 'post',
-        data: {
-          allergy_id,
-        },
-        headers: getters.authHeader,
-      })
-        .then(res => {
-          commit('SET_MEMBER_ALLERGY', res.data)
-        })
-        .catch(err => {
-          console.log(err.response)
-        })
+        const response = await axios.post(apiUrl, sendData)
+  
+        console.log(type === 'seasoning' ? '양념 저장 성공!' : '재료 저장 성공!', response.data)
+        dispatch('fetchIngredient')
+      } catch (error) {
+        console.log(type === 'seasoning' ? '양념 저장 실패..' : '재료 저장 실패..', error)
+      }
     },
 
-    fetchMemberAllergy({ commit, getters }, member_id) {
-      axios({
-        url: api.member.memberAllergy(member_id),
-        method: 'get',
-        headers: getters.authHeader,
-      })
-        .then(res => {
-          commit('SET_MEMBER_ALLERGY', res.data)
-        })
-        .catch(err => {
-          console.log(err.response)
-        })
+    // 회원 재료/양념 삭제
+    async deleteMaterial({ dispatch }, { type, memberId, deleteItem }: { type: string, memberId: number, deleteItem: IngredientDeleteData | SeasoningDeleteData }) {
+      try {
+        let deleteData
+        
+        if (type === 'ingredient') {
+          console.log('재료 삭제 시작!')
+          const ingredientDeleteData = deleteItem as IngredientDeleteData
+          deleteData = [{
+            memberId: memberId,
+            refregiratorId: ingredientDeleteData.refregiratorId,
+            storage: ingredientDeleteData.storage,
+            amount: ingredientDeleteData.amount,
+            unit: ingredientDeleteData.unit,
+            startDate: ingredientDeleteData.startDate,
+            expiredDate: ingredientDeleteData.expiredDate,
+            isdelete: true 
+          }]
+          
+          console.log('재료 삭제 데이터:', JSON.stringify(deleteData, null, 2))
+        } else if (type === 'seasoning') {
+          console.log('양념 삭제 시작!')
+          const seasoningDeleteData = deleteItem as SeasoningDeleteData
+          deleteData = [{
+            memberId: memberId,
+            memberSeasoningId: seasoningDeleteData.memberSeasoningId,
+            storage: seasoningDeleteData.storage,
+            startDate: seasoningDeleteData.startDate,
+            expiredDate: seasoningDeleteData.expiredDate,
+            isdelete: true 
+          }]
+          console.log('양념 삭제 데이터:', JSON.stringify(deleteData, null, 2))
+        }
+        
+        const apiUrl = type === 'seasoning' ?
+        'https://i9b202.p.ssafy.io/api/refregirator/modify/seasoning':
+        'https://i9b202.p.ssafy.io/api/refregirator/modify/ingredient';
+    
+        await axios.post(apiUrl, deleteData);
+
+        await dispatch('fetchMemberMaterial', { type: 'all', memberId: memberId });
+
+        console.log(type === 'seasoning' ? '양념 삭제 성공!' : '재료 삭제 성공!');
+      } catch (err) {
+        console.log(type === 'seasoning' ? '양념 삭제 실패..' : '재료 삭제 실패..', err);
+      }
     },
 
-    updateMemberAllergy({ commit, getters }, {member_id, allergy_id}) {
-      axios({
-        url: api.member.memberAllergy(member_id),
-        method: 'put',
-        data:  {
-          allergy_id,
-        },
-        headers: getters.authHeader,
-      })
-        .then(res => {
-          commit('SET_MEMBER_ALLERGY', res.data)
-        })
-        .catch(err => {
-          console.log(err.response)
-        })
-    },
 
-    // 삭제
-    deleteMemberAllergy({ commit, getters }, member_id) {
-      axios({
-        url: api.member.memberAllergy(member_id),
-        method: 'delete',
-        headers: getters.authHeader,
-      })
-        .then(() => {
-          commit('SET_MEMBER_ALLERGY', {})
-        })
-        .catch(err => {
-          console.log(err.response)
-        })
-    },
-    // memberUtensil (생성, 조회, 수정, 삭제)
-    createMemberUtensil({ commit, getters }, {member_id, utensil_id}) {
-      axios({
-        url: api.member.memberUtensil(member_id),
-        method: 'post',
-        data: {
-          utensil_id,
-        },
-        headers: getters.authHeader,
-      })
-        .then(res => {
-          commit('SET_MEMBER_UTENSIL', res.data)
-        })
-        .catch(err => {
-          console.log(err.response)
-        })
-    },
-    
-    // 조회
-    fetchMemberUtensil({ commit, getters }, member_id) {
-      axios({
-        url: api.member.memberUtensil(member_id),
-        method: 'get',
-        headers: getters.authHeader,
-      })
-        .then(res => {
-          commit('SET_MEMBER_UTENSIL', res.data)
-        })
-        .catch(err => {
-          console.log(err.response)
-        })
-    },
-    
-    // 수정 (특정 보유 장비 정보 업데이트)
-    updateMemberUtensil({ commit, getters }, {member_id, utensil_id}) {
-      axios({
-        url: api.member.memberUtensil(member_id),
-        method: 'put',
-        data: {
-          utensil_id
-        },
-        headers: getters.authHeader,
-      })
-        .then(res => {
-          commit('SET_MEMBER_UTENSIL', res.data)
-        })
-        .catch(err => {
-          console.log(err.response)
-        })
-    },
-    
-    // 삭제
-    deleteMemberUtensil({ commit, getters }, {member_id}) {
-      axios({
-        url: api.member.memberUtensil(member_id),
-        method: 'delete',
-        headers: getters.authHeader,
-      })
-        .then(() => {
-          commit('SET_MEMBER_UTENSIL', {})
-        })
-        .catch(err => {
-          console.log(err.response)
-        })
-    },
-
-    // memberSeasoning (생성, 조회, 수정, 삭제)
-    createMemberSeasoning({ commit, getters }, {member_id, seasoning_id}) {
-      axios({
-        url: api.member.memberTextSeasoning(member_id),
-        method: 'post',
-        data: {
-          seasoning_id,
-        },
-        headers: getters.authHeader,
-      })
-        .then(res => {
-          commit('SET_MEMBER_SEASONING', res.data)
-        })
-        .catch(err => {
-          console.log(err.response)
-        })
-    },
-    
-    // 회원 양념 조회
-    fetchMemberSeasoning({ commit, getters }, member_id) {
-      axios({
-        url: api.member.fetchMemberSeasoning(member_id),
-        method: 'get',
-        headers: getters.authHeader,
-      })
-        .then(res => {
-          commit('SET_MEMBER_SEASONING', res.data)
-        })
-        .catch(err => {
-          console.log(err.response)
-        })
-    },
-    
-    // 회원 양념 수정
-    updateMemberSeasoning({ commit, getters }, {member_id, seasoning_id}) {
-      axios({
-        url: api.member.fetchMemberSeasoning(member_id),
-        method: 'put',
-        data: {
-          seasoning_id,
-        },
-        headers: getters.authHeader,
-      })
-        .then(res => {
-          commit('SET_MEMBER_SEASONING', res.data)
-        })
-        .catch(err => {
-          console.log(err.response)
-        })
-    },
-    
-    // 회원 양념 삭제
-    deleteMemberSeasoning({ commit, getters }, member_id) {
-      axios({
-        url: api.member.deleteMemberSeasoning(member_id),
-        method: 'delete',
-        headers: getters.authHeader,
-      })
-        .then(() => {
-          commit('SET_MEMBER_SEASONING', {})
-        })
-        .catch(err => {
-          console.log(err.response)
-        })
-    },
   },
 }
 

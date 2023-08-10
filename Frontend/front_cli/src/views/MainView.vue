@@ -3,7 +3,7 @@
     <!-- 상단 광고 or 정보가 들어갈 슬라이드(캐러셀) -->
     <MainImageSlideVue class="mainImage" />
     <!-- 서비스 정보 들어갈 공간 -->
-    <div class="explanation">
+    <!-- <div class="explanation">
       <div class="explanationBox">
         <div>
           <h3>1114+</h3>
@@ -14,7 +14,7 @@
           <p>Ingredients</p>
         </div>
       </div> 
-    </div>
+    </div> -->
     <!-- 검색창 컴포넌트 -->
     <searchComponentVue />
 
@@ -44,7 +44,7 @@
   
 }
 
-.explanation {
+/* .explanation {
   padding: 20px;
   background-color: #FD7E14;
   color: white;
@@ -57,7 +57,7 @@
   justify-content: space-around;
   margin: auto;
   
-}
+} */
 .carousel_pagination {
   background-color: #FD7E14;
   

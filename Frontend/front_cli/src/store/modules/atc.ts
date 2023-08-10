@@ -15,6 +15,10 @@ interface ATCState {
   calendar: Calendar [];
   utensil: Utensil [];
   refregirator : Refregirator [];
+  seasoningSearchData: SeasoningSearchData[];
+  ingredientSearchData: IngredientSearchData[];
+  appendList: AppendList[];
+  memberIngredient: MemberIngredient[];
 }
 
 // 재료
@@ -29,6 +33,7 @@ interface Ingredient {
   superUpperClass: string
   etc: string
 }
+
 
 // 재료 동의어
 interface IngredientSymnonym {
@@ -101,6 +106,32 @@ interface Refregirator {
   expired_date: Date
 }
 
+// 특정 재료 조회
+interface IngredientSearchData {
+  ingredientId: number;
+  name: string;
+}
+
+interface SeasoningSearchData {
+  seasoningId: number;
+  name: string;
+}
+
+// 추가 재료 목록
+interface AppendList{
+  ingredientId: number
+}
+
+// 회원 재료 입력 
+interface MemberIngredient {
+  ingredientId: number
+  storage: number
+  amount: number
+  unit: String
+  startDate: Date
+  expiredDate: Boolean
+}
+
 const atc: Module<ATCState, RootState> = {
   state: {
     ingredient: [],
@@ -112,15 +143,24 @@ const atc: Module<ATCState, RootState> = {
     calendar: [],
     utensil: [],
     refregirator: [],
+    ingredientSearchData: [],
+    seasoningSearchData: [],
+    appendList:[],
+    memberIngredient:[],
   },
   getters: {
     ingredient: state => state.ingredient,
     seasoning: state => state.seasoning,
+    ingredientSearchData: state => state.ingredientSearchData,
+    seasoningSearchData: state=> state.seasoningSearchData,
     // ATC 게터 정의
   },
   mutations: {
     GET_INGREDIENT: (state, ingredient) => (state.ingredient = ingredient),
     // ATC 뮤테이션 정의
+    SET_INGREDIENT_SEARCH_DATA: (state, data) => (state.ingredientSearchData = data),
+    SET_SEASONING_SEARCH_DATA: (state, data) => (state.seasoningSearchData = data),
+    SET_APPEND_LIST: (state, item) => (state.appendList.push(item)),
   },
   actions: {
     fetchIngredient({ commit, getters }) {
@@ -131,11 +171,33 @@ const atc: Module<ATCState, RootState> = {
       })
         .then(res => {
           commit('GET_INGREDIENT', res.data);
+          console.log('불러오기 성공!', res.data)
         })
         .catch(err => console.log(err.response));
     },
-    // ATC 액션 정의
-  },
+
+    // 양념 / 재료 조회
+    async specificSearch({ commit }, { type, name }) {
+      try {
+        console.log(type === 'seasoning' ? '양념 조회 시작!' : '재료 조회 시작!', name);
+        const apiUrl = type === 'seasoning' ?
+          'https://i9b202.p.ssafy.io/api/foods/seasoning/search' :
+          'https://i9b202.p.ssafy.io/api/foods/ingredient/search';
+        const response = await axios.get(apiUrl, {
+          params: {
+            name : name,
+          },
+        });
+        console.log(type === 'seasoning' ? '양념 조회 성공!' : '재료 조회 성공!', response.data);
+        commit(type === 'seasoning' ? 'SET_SEASONING_SEARCH_DATA' : 'SET_INGREDIENT_SEARCH_DATA', response.data);
+      } catch (error) {
+        console.log(type === 'seasoning' ? '양념 조회 실패..' : '재료 조회 실패..', error);
+      }
+    },
+    
+
+
+  }
 };
 
 export default atc;

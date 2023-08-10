@@ -1,27 +1,24 @@
 <template>
-    <!-- 검색 결과가 띄워질 컴포넌트 -->
-    <ul
-        ref="notification-list"
-        class="list"
-        @scroll="handleNotificationListScroll"
-    >
-        <!-- 키워드와 관련된 레시피들을 추천 -->
-        <!-- 현재는 임시 값으로 이미지와 이름만 사용 -->
-        <div
-        v-for="recipe_item in recipeSpecific"
-        :key="recipe_item.recipe_id"
-        >
-            <!-- 레시피 카드로 표현 -->
-            <div class="recommendCard" @click="detailRecipe(recipe_item.name)">
-                <img :src="recipe_item.imgBig" alt="">
-                <!-- <p>Recipe Name</p> -->
-                <!-- <img :src="recipe_item.img_small" alt=""> -->
-                <p class="recipeName">{{recipe_item.name}}</p>
-                
-                <button class="recipeButton">View More</button>
+    <div>
+        <div class="list">
+            <div v-for="(recipe_item, index) in displayedItems" :key="index">
+                <div class="recommendCard" @click="detailRecipe(recipe_item.recipeId)">
+                    <img :src="recipe_item.imgBig" alt="">
+                    <p class="recipeName">{{recipe_item.name}}</p>
+                </div>
             </div>
         </div>
-    </ul>
+        
+        
+        <div class="pagination">
+            <button @click="goToPage(page - 1)" :disabled="page === 1">Previous</button>
+            <button v-for="pageNumber in totalPages" :key="pageNumber" @click="goToPage(pageNumber)">
+                {{ pageNumber }}
+            </button>
+            <button @click="goToPage(page + 1)" :disabled="page === totalPages">Next</button>
+        </div>
+    </div>
+    
 </template>
 
 <script>
@@ -29,23 +26,45 @@ import {mapGetters, mapActions} from 'vuex'
 
 export default {
     name: 'SearchResult',
+    data() {
+        return {
+            itemsPerPage: 15,
+            page: 1
+        }
+    },
     computed: {
-        ...mapGetters(['recipe', 'recipeSpecific'])
+        ...mapGetters(['recipe', 'recipeSpecific']),
+        totalPages() {
+            return Math.ceil(this.recipeSpecific.length / this.itemsPerPage)
+        },
+        displayedItems() {
+            const startIndex = (this.page - 1) * this.itemsPerPage
+            const endIndex = startIndex + this.itemsPerPage
+            return this.recipeSpecific.slice(startIndex, endIndex)
+        },
     },
 
     methods: {
+        
         ...mapActions(['detailRecipe']),
+
+        goToPage(pageNumber) {
+            if (pageNumber >= 1 && pageNumber <= this.totalPages) {
+                this.page = pageNumber;
+            }
+        },
+
         // 상세 레시피로 보내주는 함수
         // 데이터 연결 후 변경 예정
-        goToDetailRecipe(recipeItem) {
-            this.$router.push({name: "recipe",  
-                params: { 
-                    recipe: recipeItem
-                },
-                query: {
-                    recipeItem: JSON.stringify(recipeItem),
-                },
-            })
+        goToDetailRecipe(recipe_id) {
+            this.detailRecipe(recipe_id)
+            setTimeout(() => {
+                this.$router.push({name: "recipe",  
+                    params: { 
+                        recipe_id: recipe_id
+                    },
+                })
+            }, 500) 
         },
 
     // 내려오면 api 호출하여 아래에 더 추가, total값 최대이면 호출 안함
@@ -70,7 +89,7 @@ export default {
 <style scoped>
 /* 검색 결과 인피니티 스크롤 */
 .list {
-    height: calc(100vh - 70px);
+    /* height: calc(100vh - 70px); */
     overflow: auto;
     display: flex;
     flex-wrap: wrap;
@@ -79,6 +98,10 @@ export default {
     margin-bottom: 5rem;
     justify-content: center;
 }
+
+/* .list::-webkit-scrollbar {
+    display: none;
+} */
 
 /* 검색 결과 레시피 카드 */
 .recommendCard {
@@ -89,25 +112,31 @@ export default {
     cursor: pointer;
     margin: 1rem;
     font-weight: bold;
+    transition: 0.3s;
 }
 
-.recommendCard p {
-    margin-top: 2rem;
-    font-size: 2.5rem;
+.recommendCard:hover{
+    transform: scale(1.05);
 }
 
 img {
     width: 90%;
     height: 50%;
     margin-top: 1rem;
+    border-radius: .5rem;
+    box-shadow: 2px 2px .5px .5px;
 }
 
 .recipeName {
-    white-space: nowrap;
-    overflow: hidden;
+    margin: auto;
+    word-break: keep-all;
+    margin-top: 2rem;
+    font-size: 2rem;
+    font-family: 'LINESeedKR-Bd';
 }
 
 .recipeButton {
+    margin-top: 1rem;
     background-color: #FD7E14;
     color: white;
     border: none;
@@ -140,5 +169,15 @@ img {
         margin-bottom: 5rem;
         justify-content: center;
     }
+}
+
+.pagination {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.pagination button {
+  margin: 0 5px;
 }
 </style>
