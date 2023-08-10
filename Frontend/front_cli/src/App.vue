@@ -172,20 +172,22 @@ footer {
 
 /* 라디오 버튼 공통 */
 .radioButton {
-    border: solid #FD7E14;
+  font-family: 'LINESeedKR-Rg';
+    border: 1.6px solid #FD7E14;
     border-radius: .5rem;
-    padding: .5rem;
+    padding: .3rem .2rem;
     margin: .5rem;
     width: 6rem;
     font-size: 1.25rem;
 }
 
 .radioButton2 {
+  font-family: 'LINESeedKR-Rg';
   border: solid #FD7E14;
   background-color: #FD7E14;
   color: white;
   border-radius: .5rem;
-  padding: .5rem;
+  padding: .3rem .2rem;
   margin: .5rem;
   width: 6rem;
   font-size: 1.25rem;
@@ -202,14 +204,17 @@ footer {
     margin: auto;
     margin-top: 3.5rem;
     margin-bottom: 5rem;
+    min-width: 530px;
 }
 
 #searchForm {
+    height: 3rem;
     border-radius: .5rem;
     margin-right: 1rem;
 }
 
 #submitButton {
+  font-family: 'LINESeedKR-Rg';
     width: 5rem;
     border-radius: .5rem;
     background-color: #f2f2f2;
