@@ -27,7 +27,7 @@ public class EmailService {
     public String sendAuthMail(EmailMessage emailMessage, String type){
         String authCode = createAuthCode();
 
-        // redis에 이메일과 인증코드 저장 (5분)
+        // redis에 이메일과 인증코드 저장 (임시 5분)
         // 만약 이전에 저장된 값 있으면 삭제
         if(redisUtil.existData(emailMessage.getTo())){
             redisUtil.deleteData(emailMessage.getTo());
