@@ -11,11 +11,11 @@
         
         
         <div class="pagination">
-            <button @click="goToPage(page - 1)" :disabled="page === 1">Previous</button>
+            <button @click="goToPage(page - 1)" :disabled="page === 1">이전</button>
             <button v-for="pageNumber in totalPages" :key="pageNumber" @click="goToPage(pageNumber)">
                 {{ pageNumber }}
             </button>
-            <button @click="goToPage(page + 1)" :disabled="page === totalPages">Next</button>
+            <button @click="goToPage(page + 1)" :disabled="page === totalPages">다음</button>
         </div>
     </div>
     
@@ -107,10 +107,13 @@ export default {
 
 /* 검색 결과 레시피 카드 */
 .recommendCard {
-    border-radius: .5rem;
-    box-shadow: 2px 2px 2px 2px;
-    height: 25rem;
-    width: 20rem;
+    border-radius: .1rem;
+    border: 1px solid rgb(207, 205, 205);
+    /* box-shadow: 0 4px 4px -4px black; */
+    box-shadow: 0 0 0 1px hsla(212,7%,43%,.32);
+    /* border: 1px solid #857f7b; */
+    height: 23rem;
+    width: 18rem;
     cursor: pointer;
     margin: 1rem;
     font-weight: bold;
@@ -122,17 +125,17 @@ export default {
 }
 
 img {
-    width: 90%;
+    width: 100%;
     height: 50%;
-    margin-top: 1rem;
-    border-radius: .5rem;
-    box-shadow: 2px 2px .5px .5px;
+    /* margin-top: 1rem; */
+    border-radius: .1rem;
+    /* box-shadow: 2px 2px .5px .5px; */
 }
 
 .recipeName {
     margin: auto;
     word-break: keep-all;
-    margin-top: 2rem;
+    margin: 3rem 2rem;
     font-size: 2rem;
     font-family: 'LINESeedKR-Bd';
 }
@@ -149,12 +152,22 @@ img {
 
 @media screen and (max-width: 992px) {
   .recommendCard {
-    border-radius: .5rem;
+    /* border-radius: .5rem;
     box-shadow: 2px 2px 2px 2px;
     height: 20rem;
     width: 15rem;
     cursor: pointer;
+    margin: 1rem; */
+    border-radius: .1rem;
+    border: 1px solid rgb(207, 205, 205);
+    box-shadow: 0 4px 4px -4px black;
+    /* border: 1px solid #857f7b; */
+    height: 23rem;
+    width: 18rem;
+    cursor: pointer;
     margin: 1rem;
+    font-weight: bold;
+    transition: 0.3s;
     }
 
     .recommendCard p {
@@ -178,8 +191,14 @@ img {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 4rem;
 }
 .pagination button {
+  font-family: 'LINESeedKR-Rg';
   margin: 0 5px;
+  border-radius: .2rem;
+  border: 1px solid #FD7E14;
+  background-color: #fff;
+  padding: .25rem .7rem;
 }
 </style>

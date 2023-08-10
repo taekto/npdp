@@ -158,7 +158,7 @@ const member: Module<MemberState, RootState> = {
     memberRecipeLatest: state => state.memberRecipeLatest,
     memberDislikeIngredient: state => state.memberDislikeIngredient,
     memberAllergy: state => state.memberAllergy,
-    memberUtensil: state => state.memberUtensil,
+    memberUtensilList: state => state.memberUtensil,
     memberSeasoning: state => state.memberSeasoning,
     memberIngredient: state => state.memberIngredient,
   },
@@ -232,6 +232,7 @@ const member: Module<MemberState, RootState> = {
           .catch(err => {
             ('회원가입 실패..')
             console.error(err.response.data)
+            alert('회원가입에 실패하셨습니다.')
             // commit('SET_AUTH_ERROR', err.response.data)
           })
       },
@@ -239,15 +240,46 @@ const member: Module<MemberState, RootState> = {
       
 
     // 회원 이메일 인증
-    async EmailVerify(email) {
+    async EmailVerify({commit}, email) {
       try {
-        console.log('이메일 인증 시작!');
-        const response = await axios.post(api.member.emailVerify(), { email });
         
-        console.log('이메일 인증 성공!');
-        console.log(response.data);
-    
-        alert('인증이 완료되었습니다!');
+        console.log(JSON.stringify({email}, null, 2))
+        const response = await axios.post(api.member.emailVerify(), { email });
+        console.log('이메일 전송 완료!', response.data);
+     
+
+        interface StoredData {
+          value : string,
+          timestamp : number
+        }
+
+        const data = {
+          value: response.data,
+          timestamp : new Date().getTime()
+        }
+
+        sessionStorage.setItem('emailVerify', JSON.stringify(data))
+
+        const storedDataString = sessionStorage.getItem('emailVerify');
+        const storedData: StoredData | null = storedDataString ? JSON.parse(storedDataString) : null;
+
+
+        // const storedData = JSON.parse(sessionStorage.getItem('emailVerify'))
+        if (storedData) {
+          const currentTime = new Date().getTime();
+          const storedTime = storedData.timestamp;
+        
+          // 현재 시간과 저장된 시간의 차이를 계산하고 3분(180000 밀리초)보다 작은지 확인
+          if (currentTime - storedTime < 180000) {
+            // 3분 이내에 저장된 데이터를 사용
+            const value = storedData.value;
+            console.log(value);
+          } else {
+            // 3분이 지난 데이터는 사용하지 않음
+            sessionStorage.removeItem("emailVerify");
+          }
+        }
+
       } catch (error) {
         console.error(error);
       }
@@ -372,21 +404,44 @@ const member: Module<MemberState, RootState> = {
       try {
         const apiUrl = 'https://i9b202.p.ssafy.io/api/members/heart'
         const sendData = { memberId, recipeId };
-
+        
         console.log(type === 'like' ? `${memberId}님이 ${recipeId}를 좋아요 실행...` : `${memberId}님이 ${recipeId}를 취소 실행...` )
-        console.log(JSON.stringify(sendData, null, 2))
+
         const response = type === 'like' ?
         await axios.post(apiUrl, sendData) :
         await axios.delete(apiUrl, { data: sendData })
         
         console.log(type === 'like' ? `${memberId}님이 ${recipeId}를 좋아요 성공!` : `${memberId}님이 ${recipeId}를 취소 성공!` )
 
-      } catch(error) {
-        console.log(`${memberId}님이 ${recipeId}를 좋아요 실패...`)
-        console.log(error)
+      } catch(err) {
+        console.log(`${memberId}님이 ${recipeId}를 좋아요 실패...`, err)
       }
     },
 
+    // 회원 조리도구 조회/ 저장
+    async memberUtensil({commit}, {type, memberId, utensilData}) {
+      try {
+        const apiUrl = type === 'get' ? `https://i9b202.p.ssafy.io/api/members/memerUtensil/${memberId}` : 'https://i9b202.p.ssafy.io/api/members/memerUtensil/'
+        if (type === 'post') {
+          
+          console.log(JSON.stringify(utensilData, null, 2))
+          const sendData = {
+            memberId: memberId,
+            utensilId: utensilData // utensilData 배열을 그대로 사용합니다.
+          };
+          
+          const res = await axios.post(apiUrl, sendData);
+          console.log('조리도구 저장 성공!:', res.data)
+        
+        } else {
+          const res = await axios.get(apiUrl);
+          console.log('조리도구 조회 성공!:', res.data);
+          commit('SET_MEMBER_UTENSIL', res.data)
+        }
+      } catch (error) {
+        console.error(type === 'get' ? '조리도구 조회 실패...' : '조리도구 저장 실패...', error);
+      }
+    },
   },
 }
 

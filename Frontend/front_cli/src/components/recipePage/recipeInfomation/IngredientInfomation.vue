@@ -38,3 +38,9 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.oneLine {
+  font-family: 'LINESeedKR-Bd';
+}
+</style>

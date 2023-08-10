@@ -31,7 +31,7 @@
             <!-- 현재 보관 중인 재료 & 양념 보여주는 컴포넌트(냉장, 냉동, 실온) -->
             <div>
                 <!-- 재료 -->
-                <div class="refrigeratorCategory" v-if="memberIngredient.length > 0">
+                <div class="refrigeratorCategory">
                     <p class="categoryTitle">{{printStorage}} 재료</p>
                     <ul class="ListShow">
                         <li class= "row" v-for="ingredientItem in memberIngredient" :key="ingredientItem.id">
@@ -54,7 +54,7 @@
                 </div>
 
                 <!-- 양념 -->
-                <div class="member_seasoning_container"     >
+                <div class="member_seasoning_container">
                     <p class="categoryTitle">{{printStorage}} 양념</p>
                     <ul class="ListShow">
                         <li class= "row" v-for="seasoningItem in memberSeasoning" :key="seasoningItem.memberSeasoningId">
