@@ -175,7 +175,7 @@ export default {
     },
 
     checkEmailVerify() {
-      if(this.emailCode === this.emailVerifyCode) {
+      if(this.emailCode.value.code === this.emailVerifyCode) {
         this.emailVerify = 1
       }
       else {
