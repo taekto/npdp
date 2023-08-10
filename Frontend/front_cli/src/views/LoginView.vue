@@ -43,7 +43,7 @@
 
     </form>
     <!-- 소셜 로그인 -->
-      <div class="signup_sns">
+      <div class="login_sns">
           <button class="btn_sns btn-google btn-block" @click="socialLoginGoogle" style="width: 100%">
           Google 계정으로 시작</button>
           <button class="btn_sns btn-naver btn-block" @click="socialLoginNaver" style="width: 100%"><i class="fab fab-naver-alt"></i> 
@@ -52,7 +52,6 @@
           KaKao 계정으로 시작</button>
       </div>
   </div>
-  
 </div>
 
 </template>
@@ -171,7 +170,7 @@ export default {
 
 /* 로그인 */
 .login_form {
-  width: 30%;
+  width: 25%;
 }
 .login_card {
   display: flex;
@@ -187,6 +186,7 @@ export default {
   text-align: center;
   margin-top: 70px;
   margin-bottom: 70px;
+  min-width: 280px;
 }
 
 .input_label {
@@ -194,6 +194,7 @@ export default {
   font-size: 18px;
   display: flex;
   padding: 15px 0px 5px 0px;
+  min-width: 280px;
 }
 
 .input_label ~ input {
@@ -202,7 +203,8 @@ export default {
   height: 3rem;
   border-radius: 3px;
   border: 1px solid black;
-  padding: .5rem
+  padding: .5rem;
+  min-width: 280px;
 }
 
 .login_form_remember {
@@ -246,10 +248,12 @@ export default {
   color: #FFFFFF;
   padding: .5rem;
   cursor: pointer; 
+  min-width: 280px;
   border-radius: 4px;
 }
 
 .login_btn_bottom {
+  min-width: 280px;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -269,7 +273,8 @@ span > a {
 
 /* 소셜 로그인 */
 .login_sns {
-  width: 30%;
+  margin-top: 2rem;
+  width: 25%;
   margin-top: 3rem;
   margin-bottom: 3rem;
 }
