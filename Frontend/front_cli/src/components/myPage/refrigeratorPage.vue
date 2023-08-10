@@ -215,12 +215,12 @@ export default {
             this.ingredients = arrayRemove(this.ingredients, tmpingredient)
         },
         goToIngredientPage(pageNumber) {
-            if (pageNumber >= 1 && pageNumber <= this.totalPages) {
+            if (pageNumber >= 1 && pageNumber <= this.ingredientTotalPages) {
                 this.ingredientPage = pageNumber;
             }
         },
         goToSeasoningPage(pageNumber) {
-            if (pageNumber >= 1 && pageNumber <= this.totalPages) {
+            if (pageNumber >= 1 && pageNumber <= this.seasoningtTotalPages) {
                 this.seasoningPage = pageNumber;
             }
         },
