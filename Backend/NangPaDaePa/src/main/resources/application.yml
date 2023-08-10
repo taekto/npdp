@@ -40,6 +40,10 @@ spring:
             enable: true  # StartTLS 활성화 여부 (기본값: false)
   auth-code-expiration-millis: 600000  # 10 * 60 * 1000 == 10분
 
+  redis:
+    host: i9b202.p.ssafy.io
+    port: 6379
+
   profiles:
     active: oauth
 

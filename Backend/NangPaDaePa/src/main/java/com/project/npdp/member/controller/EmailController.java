@@ -5,6 +5,7 @@ import com.project.npdp.member.dto.request.EmailVerityRequestDto;
 import com.project.npdp.member.dto.response.EmailAuthResponseDto;
 import com.project.npdp.member.entity.EmailMessage;
 import com.project.npdp.member.service.EmailService;
+import com.project.npdp.utils.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class EmailController {
 
     private final EmailService emailService;
+    private final RedisUtil redisUtil;
 
     // 회원가입 이메일 인증
     @PostMapping("/joinAuth")
@@ -49,8 +51,15 @@ public class EmailController {
     }
 
     // 이메일 인증코드 확인
-//    @PostMapping("/verifyAuth")
-//    public ResponseEntity<?> verifyAuthCode(@RequestBody EmailVerityRequestDto emailVerityRequestDto){
-//
-//    }
+    @PostMapping("/verifyAuth")
+    public int verifyAuthCode(@RequestBody EmailVerityRequestDto emailVerityRequestDto){
+        String redisAuthCode = redisUtil.getDate(emailVerityRequestDto.getEmail());
+        // 인증번호가 일치하면
+        if(redisAuthCode.equals(emailVerityRequestDto.getCode())){
+            return 1;
+        }else if(redisAuthCode != null && !redisAuthCode.equals(emailVerityRequestDto.getCode())){
+            return 2;
+        }else
+            return 3;
+    }
 }
