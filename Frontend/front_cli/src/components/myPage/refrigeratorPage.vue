@@ -67,7 +67,7 @@
                         :disabled="ingredientPage === pageNumber">
                             {{ pageNumber }}
                         </button>
-                        <button @click="goToIngredientPage(ingredientPage + 1)" :disabled="ingredientPage === totalPages">다음</button>
+                        <button @click="goToIngredientPage(ingredientPage + 1)" :disabled="ingredientPage === ingredientTotalPages">다음</button>
                     </div>
                 </div>
 
@@ -94,7 +94,7 @@
                         @click="goToSeasoningPage(pageNumber)">
                             {{ pageNumber }}
                         </button>
-                        <button @click="goToSeasoningPage(seasoningPage + 1)" :disabled="seasoningPage === totalPages">다음</button>
+                        <button @click="goToSeasoningPage(seasoningPage + 1)" :disabled="seasoningPage === seasoningtTotalPages">다음</button>
                     </div>
                 </div>
             </div>
