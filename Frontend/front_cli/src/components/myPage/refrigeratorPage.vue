@@ -62,7 +62,7 @@
                     </ul>
                     <div class="pagination">
                         <button @click="goToPage(ingredientPage - 1)" :disabled="ingredientPage === 1">이전</button>
-                        <button v-for="pageNumber in totalPages" :key="pageNumber" @click="goToPage(pageNumber)">
+                        <button v-for="pageNumber in ingredientTotalPages" :key="pageNumber" @click="goToPage(pageNumber)">
                             {{ pageNumber }}
                         </button>
                         <button @click="goToPage(ingredientPage + 1)" :disabled="ingredientPage === totalPages">다음</button>
@@ -88,7 +88,7 @@
                     </ul>
                     <div class="pagination">
                         <button @click="goToPage(seasoningPage - 1)" :disabled="seasoningPage === 1">이전</button>
-                        <button v-for="pageNumber in totalPages" :key="pageNumber" @click="goToPage(pageNumber)">
+                        <button v-for="pageNumber in seasoningtTotalPages" :key="pageNumber" @click="goToPage(pageNumber)">
                             {{ pageNumber }}
                         </button>
                         <button @click="goToPage(seasoningPage + 1)" :disabled="seasoningPage === totalPages">다음</button>
