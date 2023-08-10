@@ -212,6 +212,7 @@ footer {
     border-radius: .5rem;
     background-color: #f2f2f2;
     border: solid rgb(244, 244, 244);
+    font-family: 'LINESeedKR-Bd';
 }
 
 .logout {

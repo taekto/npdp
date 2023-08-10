@@ -26,8 +26,8 @@
     <div class="recipeOrder">
       <h2 class="orderTitle">레시피 순서</h2>
       <div class="orderLine" v-for="(order, index) in recipeDetail.recipeSequences" :key="index">
-        <p class="orderExplain">{{order.description}}</p>
         <img class="orderImage" :src='order.img'>
+        <p class="orderExplain">{{order.description}}</p>
       </div>
     </div>
     
@@ -150,11 +150,12 @@ export default {
     font-family: 'LINESeedKR-Bd';
     font-size: 1.25rem;
     word-break: keep-all;
+    margin-bottom: 10rem;
 }
 /* 레시피 순서 타이틀 */
 .orderTitle {
     text-align: start;
-    margin-left: 3rem;
+    /* margin-left: 2rem; */
     margin-top: 5rem;
     margin-bottom: 3rem;
     font-weight: bold;
@@ -170,9 +171,17 @@ export default {
 /* 순서 설명 */
 .orderExplain {
     width: 45%;
-    margin: 2rem;
-    padding: 1rem;
-    border: solid black;
+    /* margin: 2rem; */
+    margin: auto;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding: 2rem;
+    /* border: solid rgb(205, 205, 205); */
+    border-radius: .5rem;
+    word-break: keep-all;
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
 }
 
 /* 순서 관련 이미지 */
