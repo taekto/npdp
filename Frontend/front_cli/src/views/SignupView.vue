@@ -3,7 +3,7 @@
   <div class="signup_container">
     <div class="signup_card">
       <!-- 회원정보입력 -->
-      <form class="signup_form" id="signup_form">
+      <form class="signup_form" id="signup_form" @submit.prevent="">
         <h1 class="form_title">회원가입</h1>
           <label for="nickname" class="input_label">닉네임</label>
           <input
@@ -29,7 +29,7 @@
             name="email" 
             v-model="credentials.email"
           />
-          <button @click="emailCodeVerify" class="email_auth">
+          <button @click.prevent="emailCodeVerify" class="email_auth">
             인증
           </button>
         </div>
@@ -40,7 +40,7 @@
         <label class="input_label">이메일 인증</label>
         <div class="email_box">
           <input type="text" placeholder="인증번호를 입력해주세요" class="input-item" v-model="emailVerifyCode" />
-          <button @click="checkEmailVerify" class="email_auth">
+          <button @click.prevent="checkEmailVerify" class="email_auth">
               확인
           </button>
         </div>
