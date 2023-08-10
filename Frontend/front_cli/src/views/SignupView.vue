@@ -19,7 +19,7 @@
           :class="{ 'title-danger': emailHasError }">
           이메일
           </label>
-
+          <div class="email_box">
           <input
             type="email"
             id="email"
@@ -29,6 +29,17 @@
             name="email" 
             v-model="credentials.email"
           />
+          <button class="email_auth">
+            인증
+          </button>
+        </div>
+        <label class="input_label">이메일 인증</label>
+        <div class="email_box">
+        <input type="text" placeholder="인증번호를 입력해주세요" class="input-item" />
+        <button class="email_auth">
+            확인
+        </button>
+      </div>
           <!-- 에러 메시지 표시 -->
           <p v-show="valid.email" class="input-error">
             이메일 주소가 올바르지 않습니다. 다시 확인해주세요!
@@ -255,6 +266,7 @@ export default {
 
 .signup_form {
   width: 30%;
+  min-width: 280px;
 }
 .signup_form input {
   font-family: 'LINESeedKR-Rg';
@@ -303,6 +315,19 @@ export default {
   font-size: 18px;
   display: flex;
   padding: 15px 0px 5px 0px;
+}
+
+.email_box {
+  display: flex;
+}
+.email_auth {
+  font-family: 'LINESeedKR-Rg';
+  width: 4rem;
+  margin-left: .8rem;
+  border-radius: 3px;
+  border: none;
+  background-color: #FD7E14;
+  color: #FFFFFF;
 }
 
 .birthdate_container {
