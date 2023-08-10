@@ -169,9 +169,11 @@ export default {
 
       this.EmailVerify(this.credentials.email)
       setTimeout(() => {
-        this.emailCode = sessionStorage.getItem('emailVerify')
+        const tempEmailCode = sessionStorage.getItem('emailVerify')
+        const tempEmailCodeJson = JSON.parse(tempEmailCode)
+        this.emailCode = tempEmailCodeJson
         console.log(this.emailCode)
-      }, 1000)
+      }, 10000)
     },
 
     checkEmailVerify() {
