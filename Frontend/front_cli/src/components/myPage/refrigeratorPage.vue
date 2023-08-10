@@ -43,8 +43,8 @@
                 <div class="refrigeratorCategory">
                     <p class="categoryTitle">{{printStorage}} 재료</p>
                     <ul class="ListShow">
-                        <li class= "row" v-for="ingredientItem in memberIngredient" :key="ingredientItem.id">
-                            <div class="ingredientList" v-if="ingredientItem.storage === storage">
+                        <li class= "row" v-for="ingredientItem in displayedIngredientItems" :key="ingredientItem.id">
+                            <div class="ingredientList">
                                 <p class="col-1 ingredientName">{{ingredientItem.kor}}</p>
                                 <div class="amount col-2 row">
                                     <button class="amountButton col-3" @click="plusAmount(ingredientItem)">+</button>
@@ -60,14 +60,21 @@
                             </div>
                         </li>
                     </ul>
+                    <div class="pagination">
+                        <button @click="goToPage(ingredientPage - 1)" :disabled="ingredientPage === 1">이전</button>
+                        <button v-for="pageNumber in totalPages" :key="pageNumber" @click="goToPage(pageNumber)">
+                            {{ pageNumber }}
+                        </button>
+                        <button @click="goToPage(ingredientPage + 1)" :disabled="ingredientPage === totalPages">다음</button>
+                    </div>
                 </div>
 
                 <!-- 양념 -->
                 <div class="member_seasoning_container">
                     <p class="categoryTitle">{{printStorage}} 양념</p>
                     <ul class="ListShow">
-                        <li class= "row" v-for="seasoningItem in memberSeasoning" :key="seasoningItem.memberSeasoningId">
-                            <div class="ingredientList" v-if="seasoningItem.storage === storage">
+                        <li class= "row" v-for="seasoningItem in displayedSeasoningItems" :key="seasoningItem.memberSeasoningId">
+                            <div class="ingredientList">
                                 <p class="col-2 ingredientName">{{seasoningItem.kor}}</p>
                                 
                                 <p class="col-4">보관시작일 : {{seasoningItem.startDate}}</p>
@@ -79,6 +86,13 @@
                             </div>
                         </li>
                     </ul>
+                    <div class="pagination">
+                        <button @click="goToPage(seasoningPage - 1)" :disabled="seasoningPage === 1">이전</button>
+                        <button v-for="pageNumber in totalPages" :key="pageNumber" @click="goToPage(pageNumber)">
+                            {{ pageNumber }}
+                        </button>
+                        <button @click="goToPage(seasoningPage + 1)" :disabled="seasoningPage === totalPages">다음</button>
+                    </div>
                 </div>
             </div>
             
