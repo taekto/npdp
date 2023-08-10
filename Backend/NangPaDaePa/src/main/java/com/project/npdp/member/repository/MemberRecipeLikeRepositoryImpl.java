@@ -42,4 +42,5 @@ public class MemberRecipeLikeRepositoryImpl implements MemberRecipeLikeRepositor
                 })
                 .collect(Collectors.toList());
     }
+
 }
