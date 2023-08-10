@@ -116,6 +116,41 @@ export default {
     },
     computed: {
         ...mapGetters(['memberSeasoning', 'memberIngredient']),
+        ingredientTotalPages() {
+            let count = 0
+            for (let ingredient of this.memberIngredient) {
+                if(this.storage === ingredient.storage) {
+                    count ++ 
+                }
+            }
+            return Math.ceil(count / this.itemsPerPage)
+        },
+        seasoningtTotalPages() {
+            let count = 0
+            for (let seasoning of this.memberSeasoning) {
+                if(this.storage === seasoning.storage) {
+                    count ++ 
+                }
+            }
+            return Math.ceil(count / this.itemsPerPage)
+        },
+        displayedIngredientItems() {
+            const startIndex = (this.ingredientPage - 1) * this.itemsPerPage
+            const endIndex = startIndex + this.itemsPerPage
+            const displayedItems = this.memberIngredient.filter(ingredient => {
+                return ingredient.storage === this.storage
+            }).slice(startIndex, endIndex)
+            return displayedItems
+        },
+        displayedSeasoningItems() {
+            const startIndex = (this.seasoningPage - 1) * this.itemsPerPage
+            const endIndex = startIndex + this.itemsPerPage
+            const displayedItems = this.memberSeasoning.filter(seasoning => {
+                return seasoning.storage === this.storage
+            }).slice(startIndex, endIndex)
+            return displayedItems
+        },
+        
     },
     // 임시 더미 데이터
     data() {
@@ -176,40 +211,12 @@ export default {
             }
             this.ingredients = arrayRemove(this.ingredients, tmpingredient)
         },
-        ingredientTotalPages() {
-            let count = 0
-            for (let ingredient of this.memberIngredient) {
-                if(this.storage === ingredient.storage) {
-                    count ++ 
-                }
+        goToPage(pageNumber) {
+            if (pageNumber >= 1 && pageNumber <= this.totalPages) {
+                this.page = pageNumber;
             }
-            return Math.ceil(count / this.itemsPerPage)
         },
-        seasoningtTotalPages() {
-            let count = 0
-            for (let seasoning of this.memberSeasoning) {
-                if(this.storage === seasoning.storage) {
-                    count ++ 
-                }
-            }
-            return Math.ceil(count / this.itemsPerPage)
-        },
-        displayedIngredientItems() {
-            const startIndex = (this.ingredientPage - 1) * this.itemsPerPage
-            const endIndex = startIndex + this.itemsPerPage
-            const displayedItems = this.memberIngredient.filter(ingredient => {
-                return ingredient.storage === this.storage
-            }).slice(startIndex, endIndex)
-            return displayedItems
-        },
-        displayedSeasoningItems() {
-            const startIndex = (this.seasoningPage - 1) * this.itemsPerPage
-            const endIndex = startIndex + this.itemsPerPage
-            const displayedItems = this.memberSeasoning.filter(seasoning => {
-                return seasoning.storage === this.storage
-            }).slice(startIndex, endIndex)
-            return displayedItems
-        },
+        
     },
     created() {
         this.memberId = parseInt(sessionStorage.getItem('memberId'))
