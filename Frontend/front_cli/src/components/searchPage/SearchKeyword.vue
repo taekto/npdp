@@ -6,7 +6,7 @@
             <form @submit.prevent="recipeSpecificSearch(searchKeyword)">
                 <!-- 검색창 -->
                 <div class="input-group">
-                    <input id="searchForm" class="form-control" type="text" v-model.trim="searchKeyword">
+                    <input id="searchForm" class="form-control" type="text" placeholder="검색어를 입력해주세요" v-model.trim="searchKeyword">
                     <input id="submitButton" type="submit" value="검색">
                 </div>
 
@@ -63,3 +63,6 @@ export default {
     
 }
 </script>
+
+<style scoped>
+</style>
