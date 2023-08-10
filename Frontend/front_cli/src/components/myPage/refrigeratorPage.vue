@@ -61,13 +61,13 @@
                         </li>
                     </ul>
                     <div class="pagination">
-                        <button @click="goToPage(ingredientPage - 1)" :disabled="ingredientPage === 1">이전</button>
+                        <button @click="goToIngredientPage(ingredientPage - 1)" :disabled="ingredientPage === 1">이전</button>
                         <button v-for="pageNumber in ingredientTotalPages" :key="pageNumber" 
-                        @click="goToPage(pageNumber)" 
+                        @click="goToIngredientPage(pageNumber)" 
                         :disabled="ingredientPage === pageNumber">
                             {{ pageNumber }}
                         </button>
-                        <button @click="goToPage(ingredientPage + 1)" :disabled="ingredientPage === totalPages">다음</button>
+                        <button @click="goToIngredientPage(ingredientPage + 1)" :disabled="ingredientPage === totalPages">다음</button>
                     </div>
                 </div>
 
@@ -89,11 +89,12 @@
                         </li>
                     </ul>
                     <div class="pagination">
-                        <button @click="goToPage(seasoningPage - 1)" :disabled="seasoningPage === 1">이전</button>
-                        <button v-for="pageNumber in seasoningtTotalPages" :key="pageNumber" @click="goToPage(pageNumber)">
+                        <button @click="goToSeasoningPage(seasoningPage - 1)" :disabled="seasoningPage === 1">이전</button>
+                        <button v-for="pageNumber in seasoningtTotalPages" :key="pageNumber" 
+                        @click="goToSeasoningPage(pageNumber)">
                             {{ pageNumber }}
                         </button>
-                        <button @click="goToPage(seasoningPage + 1)" :disabled="seasoningPage === totalPages">다음</button>
+                        <button @click="goToSeasoningPage(seasoningPage + 1)" :disabled="seasoningPage === totalPages">다음</button>
                     </div>
                 </div>
             </div>
@@ -213,9 +214,14 @@ export default {
             }
             this.ingredients = arrayRemove(this.ingredients, tmpingredient)
         },
-        goToPage(pageNumber) {
+        goToIngredientPage(pageNumber) {
             if (pageNumber >= 1 && pageNumber <= this.totalPages) {
-                this.page = pageNumber;
+                this.ingredientPage = pageNumber;
+            }
+        },
+        goToSeasoningPage(pageNumber) {
+            if (pageNumber >= 1 && pageNumber <= this.totalPages) {
+                this.seasoningPage = pageNumber;
             }
         },
         
