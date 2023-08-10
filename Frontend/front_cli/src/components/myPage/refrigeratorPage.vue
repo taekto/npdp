@@ -34,8 +34,8 @@
                 <div class="refrigeratorCategory">
                     <p class="categoryTitle">{{printStorage}} 재료</p>
                     <ul class="ListShow">
-                        <li class= "row" v-for="ingredientItem in memberIngredient" :key="ingredientItem.id">
-                            <div class="ingredientList" v-if="ingredientItem.storage === storage">
+                        <li class= "row" v-for="(ingredientItem, index) in displayedIngredientItems" :key="index">
+                            <div class="ingredientList">
                                 <p class="col-1 ingredientName">{{ingredientItem.kor}}</p>
                                 <div class="amount col-2 row">
                                     <button class="amountButton col-3" @click="plusAmount(ingredientItem)">+</button>
@@ -51,14 +51,23 @@
                             </div>
                         </li>
                     </ul>
+                    <div class="pagination">
+                        <button @click="goToIngredientPage(ingredientPage - 1)" :disabled="ingredientPage === 1">이전</button>
+                        <button v-for="pageNumber in ingredientTotalPages" :key="pageNumber" 
+                        @click="goToIngredientPage(pageNumber)" 
+                        :disabled="ingredientPage === pageNumber">
+                            {{ pageNumber }}
+                        </button>
+                        <button @click="goToIngredientPage(ingredientPage + 1)" :disabled="ingredientPage === ingredientTotalPages">다음</button>
+                    </div>
                 </div>
 
                 <!-- 양념 -->
                 <div class="member_seasoning_container">
                     <p class="categoryTitle">{{printStorage}} 양념</p>
                     <ul class="ListShow">
-                        <li class= "row" v-for="seasoningItem in memberSeasoning" :key="seasoningItem.memberSeasoningId">
-                            <div class="ingredientList" v-if="seasoningItem.storage === storage">
+                        <li class= "row" v-for="seasoningItem in displayedSeasoningItems" :key="seasoningItem.memberSeasoningId">
+                            <div class="ingredientList">
                                 <p class="col-2 ingredientName">{{seasoningItem.kor}}</p>
                                 
                                 <p class="col-4">보관시작일 : {{seasoningItem.startDate}}</p>
@@ -70,6 +79,14 @@
                             </div>
                         </li>
                     </ul>
+                    <div class="pagination">
+                        <button @click="goToSeasoningPage(seasoningPage - 1)" :disabled="seasoningPage === 1">이전</button>
+                        <button v-for="pageNumber in seasoningtTotalPages" :key="pageNumber" 
+                        @click="goToSeasoningPage(pageNumber)">
+                            {{ pageNumber }}
+                        </button>
+                        <button @click="goToSeasoningPage(seasoningPage + 1)" :disabled="seasoningPage === seasoningtTotalPages">다음</button>
+                    </div>
                 </div>
             </div>
             
@@ -93,6 +110,41 @@ export default {
     },
     computed: {
         ...mapGetters(['memberSeasoning', 'memberIngredient']),
+        ingredientTotalPages() {
+            let count = 0
+            for (let ingredient of this.memberIngredient) {
+                if(this.storage === ingredient.storage) {
+                    count ++ 
+                }
+            }
+            return Math.ceil(count / this.itemsPerPage)
+        },
+        seasoningtTotalPages() {
+            let count = 0
+            for (let seasoning of this.memberSeasoning) {
+                if(this.storage === seasoning.storage) {
+                    count ++ 
+                }
+            }
+            return Math.ceil(count / this.itemsPerPage)
+        },
+        displayedIngredientItems() {
+            const startIndex = (this.ingredientPage - 1) * this.itemsPerPage
+            const endIndex = startIndex + this.itemsPerPage
+            const displayedItems = this.memberIngredient.filter(ingredient => {
+                return ingredient.storage === this.storage
+            }).slice(startIndex, endIndex)
+            return displayedItems
+        },
+        displayedSeasoningItems() {
+            const startIndex = (this.seasoningPage - 1) * this.itemsPerPage
+            const endIndex = startIndex + this.itemsPerPage
+            const displayedItems = this.memberSeasoning.filter(seasoning => {
+                return seasoning.storage === this.storage
+            }).slice(startIndex, endIndex)
+            return displayedItems
+        },
+        
     },
     // 임시 더미 데이터
     data() {
@@ -150,6 +202,20 @@ export default {
             }
             this.ingredients = arrayRemove(this.ingredients, tmpingredient)
         },
+<<<<<<< HEAD
+=======
+        goToIngredientPage(pageNumber) {
+            if (pageNumber >= 1 && pageNumber <= this.ingredientTotalPages) {
+                this.ingredientPage = pageNumber;
+            }
+        },
+        goToSeasoningPage(pageNumber) {
+            if (pageNumber >= 1 && pageNumber <= this.seasoningtTotalPages) {
+                this.seasoningPage = pageNumber;
+            }
+        },
+        
+>>>>>>> c2dc4989d6cbf4de71c7391544a3587a5dfb307c
     },
     created() {
         this.memberId = parseInt(sessionStorage.getItem('memberId'))

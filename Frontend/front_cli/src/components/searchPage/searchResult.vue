@@ -11,11 +11,13 @@
         
         
         <div class="pagination">
+            <button @click="goToPage(1)" :disabled="page === 1">처음</button>
             <button @click="goToPage(page - 1)" :disabled="page === 1">이전</button>
-            <button v-for="pageNumber in totalPages" :key="pageNumber" @click="goToPage(pageNumber)">
+            <button v-for="pageNumber in displayedPageNumbers" :key="pageNumber" @click="goToPage(pageNumber)" :disabled="pageNumber === page">
                 {{ pageNumber }}
             </button>
             <button @click="goToPage(page + 1)" :disabled="page === totalPages">다음</button>
+            <button @click="goToPage(totalPages)" :disabled="page === totalPages">끝</button>
         </div>
     </div>
     
@@ -32,6 +34,17 @@ export default {
             page: 1
         }
     },
+    watch: {
+    // recipeSpecific 데이터를 감시
+    recipeSpecific: {
+      handler() {
+        // recipeSpecific이 변경될 때 실행되는 로직);
+        // 여기에 원하는 동작을 추가할 수 있습니다.
+        this.page = 1
+      },
+      immediate: true, // 컴포넌트가 생성될 때 즉시 실행
+        },
+    },
     computed: {
         ...mapGetters(['recipe','recipeSpecific']),
         totalPages() {
@@ -41,6 +54,18 @@ export default {
             const startIndex = (this.page - 1) * this.itemsPerPage
             const endIndex = startIndex + this.itemsPerPage
             return this.recipeSpecific.slice(startIndex, endIndex)
+        },
+        displayedPageNumbers() {
+            const currentPageGroup = Math.ceil(this.page / 5); // Calculate current group based on current page
+            const startPage = (currentPageGroup - 1) * 5 + 1; // Calculate starting page number of the group
+            const endPage = Math.min(startPage + 4, this.totalPages); // Calculate ending page number of the group (up to the total pages)
+
+            const pageNumbers = [];
+            for (let i = startPage; i <= endPage; i++) {
+                pageNumbers.push(i);
+            }
+
+            return pageNumbers;
         },
     },
 
@@ -134,7 +159,8 @@ img {
 
 .recipeName {
     margin: auto;
-    word-break: keep-all;
+    /* word-break: keep-all; */
+    overflow: hidden;
     margin: 3rem 2rem;
     font-size: 2rem;
     font-family: 'LINESeedKR-Bd';

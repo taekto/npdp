@@ -3,7 +3,7 @@
   <div class="signup_container">
     <div class="signup_card">
       <!-- 회원정보입력 -->
-      <form class="signup_form" id="signup_form">
+      <form class="signup_form" id="signup_form" @submit.prevent="">
         <h1 class="form_title">회원가입</h1>
           <label for="nickname" class="input_label">닉네임</label>
           <input
@@ -40,7 +40,7 @@
         <label class="input_label">이메일 인증</label>
         <div class="email_box">
           <input type="text" placeholder="인증번호를 입력해주세요" class="input-item" v-model="emailVerifyCode" />
-          <button @click="checkEmailVerify" class="email_auth">
+          <button @click.prevent="checkEmailVerify" class="email_auth">
               확인
           </button>
         </div>
@@ -105,7 +105,8 @@
               </label>
             </div>
           </div>
-      <button class="signup_btn" style="width: 100%;" @click="localSignup(credentials)">회원가입</button>
+      <button v-if="emailVerify === 1" class="signup_btn" style="width: 100%;" @click="localSignup(credentials)">회원가입</button>
+      <button v-else class="signup_btn" style="width: 100%;" @click="failSignup">회원가입</button>
       
 
       </form>
@@ -164,17 +165,23 @@ export default {
 
   // birthdate = new Date(); // birthdate 매개변수의 타입을 Date | null로 명시
   methods: {
-    
+    failSignup() {
+      alert('회원가입에 실패하셨습니다.')
+      this.$router.go(0)
+    },
     emailCodeVerify() {
       console.log('이메일 인자',this.credentials.email)
       this.EmailVerify(this.credentials.email)
       setTimeout(() => {
-        this.emailCode = sessionStorage.getItem('emailVerify')
-      }, 1000)
+        const tempEmailCode = sessionStorage.getItem('emailVerify')
+        const tempEmailCodeJson = JSON.parse(tempEmailCode)
+        this.emailCode = tempEmailCodeJson
+        console.log(this.emailCode)
+      }, 10000)
     },
 
     checkEmailVerify() {
-      if(this.emailCode === this.emailVerifyCode) {
+      if(this.emailCode.value.code === this.emailVerifyCode) {
         this.emailVerify = 1
       }
       else {
