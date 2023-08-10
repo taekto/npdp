@@ -240,7 +240,7 @@ const member: Module<MemberState, RootState> = {
       
 
     // 회원 이메일 인증
-    async EmailVerify(email) {
+    async EmailVerify({commit}, email) {
       try {
         console.log('이메일 인증 시작!');
         const response = await axios.post(api.member.emailVerify(), { email });
