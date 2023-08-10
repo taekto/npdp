@@ -5,12 +5,14 @@ import com.project.npdp.member.dto.response.EmailAuthResponseDto;
 import com.project.npdp.member.entity.EmailMessage;
 import com.project.npdp.member.service.EmailService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/mail")
+@Slf4j
 public class EmailController {
 
     private final EmailService emailService;
@@ -18,6 +20,7 @@ public class EmailController {
     // 회원가입 이메일 인증
     @PostMapping("/joinAuth")
     public ResponseEntity<?> sendJoinAuth(@RequestBody EmailAuthRequestDto emailAuthRequestDto){
+        log.info("emailAuthRequestDto = {}", emailAuthRequestDto);
         EmailMessage emailMessage = EmailMessage.builder()
                 .to(emailAuthRequestDto.getEmail())
                 .title("[냉파대파] 이메일 인증을 위한 인증 코드")
