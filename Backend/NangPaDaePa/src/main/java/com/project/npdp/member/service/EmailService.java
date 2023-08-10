@@ -28,6 +28,10 @@ public class EmailService {
         String authCode = createAuthCode();
 
         // redis에 이메일과 인증코드 저장 (5분)
+        // 만약 이전에 저장된 값 있으면 삭제
+        if(redisUtil.existData(emailMessage.getTo())){
+            redisUtil.deleteData(emailMessage.getTo());
+        }
         redisUtil.setDataExpire(emailMessage.getTo(), authCode, 60*5L);
 
         // JavaMail API를 사용해 이메일의 속성 결정
