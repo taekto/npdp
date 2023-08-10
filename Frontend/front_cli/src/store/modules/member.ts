@@ -280,24 +280,6 @@ const member: Module<MemberState, RootState> = {
         });
     },
 
-    // 회원 레시피 좋아요
-    memberLikeRecipe ({ commit, getters}, {member_id, recipe_id}) {
-      axios ({
-        url: api.member.memberRecipeLike(member_id),
-        method: 'post',
-        data: {
-          recipe_id
-        },
-        headers: getters.authHeader,
-      })
-        .then (res=> {
-          commit('SET_MEMBER_RECIPE_LIKE', res.data)
-        })
-        .catch(err => {
-          console.log(err.response)
-        })
-    },
-
     // 회원 재료 조회 양념/ 재료/ 전체
     async fetchMemberMaterial({ commit }, { type, memberId }) {
       try {
@@ -385,6 +367,25 @@ const member: Module<MemberState, RootState> = {
       }
     },
 
+    // 회원 레시피 좋아요/ 좋아요 취소
+    async memberLikeRecipe({commit}, {type, memberId, recipeId}) {
+      try {
+        const apiUrl = 'https://i9b202.p.ssafy.io/api/members/heart'
+        const sendData = { memberId, recipeId };
+
+        console.log(type === 'like' ? `${memberId}님이 ${recipeId}를 좋아요 실행...` : `${memberId}님이 ${recipeId}를 취소 실행...` )
+        console.log(JSON.stringify(sendData, null, 2))
+        const response = type === 'like' ?
+        await axios.post(apiUrl, sendData) :
+        await axios.delete(apiUrl, { data: sendData })
+        
+        console.log(type === 'like' ? `${memberId}님이 ${recipeId}를 좋아요 성공!` : `${memberId}님이 ${recipeId}를 취소 성공!` )
+
+      } catch(error) {
+        console.log(`${memberId}님이 ${recipeId}를 좋아요 실패...`)
+        console.log(error)
+      }
+    },
 
   },
 }

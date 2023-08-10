@@ -23,28 +23,30 @@
 
 <script>
 import CategoryComponent from './categoryComponent.vue'
-import {mapGetters} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
+
 
 export default {
-    name: 'LikeRecipe',
-    components: {
-        CategoryComponent,
+  name: 'LikeRecipe',
+  components: {
+    CategoryComponent,
+  },
+  computed: {
+    ...mapGetters(['recipe'])
+  },
+  methods: {
+    ...mapActions(['memberLikeRecipe']),
+    goToDetailRecipe(recipeItem) {
+        this.$router.push({name: "recipe",  
+            params: { 
+                recipe_id: recipeItem.recipe_id,
+            },
+            query: {
+                recipeItem: JSON.stringify(recipeItem),
+            },
+        })
     },
-    computed: {
-      ...mapGetters(['recipe'])
-    },
-    methods: {
-        goToDetailRecipe(recipeItem) {
-            this.$router.push({name: "recipe",  
-                params: { 
-                    recipe_id: recipeItem.recipe_id,
-                },
-                query: {
-                    recipeItem: JSON.stringify(recipeItem),
-                },
-            })
-        },
-    }
+  }
 }
 </script>
 

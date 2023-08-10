@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 // 기능 페이지
 import MainView from '../views/MainView.vue'
-import SearchPage from "../components/searchPage/SearchPage.vue"
+// import SearchPage from "../components/searchPage/SearchPage.vue"
 import SearchKeyword from "../components/searchPage/SearchKeyword.vue"
 import SingupView from  '../views/SignupView.vue'
 import LoginView from  '../views/LoginView.vue'
@@ -41,15 +41,15 @@ const router = createRouter({
     name: 'about',
     component: AboutView
   },
-  {
-    // 검색 결과(키워드 없음) 페이지
-    path: '/search',
-    name: 'search',
-    component: SearchPage,
-  },
+  // {
+  //   // 검색 결과(키워드 없음) 페이지
+  //   path: '/search',
+  //   name: 'search',
+  //   component: SearchPage,
+  // },
   {
     // 검색 결과(키워드 있음) 페이지
-    path: '/search/:keyword',
+    path: '/search/:keyword?',
     name: 'searchKeyword',
     component: SearchKeyword,
   },

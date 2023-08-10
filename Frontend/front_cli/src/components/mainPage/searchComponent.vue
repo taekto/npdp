@@ -1,15 +1,15 @@
 <template>
     <!-- 검색창 컴포넌트 -->
     <div>
-        <form @submit.prevent="recipeSpecificSearch(content)">
+        <form @submit.prevent="goToSearchwithKeyword(searchKeyword)">
             <div class="input-group">
                 <!-- <input id="submitButton" type="submit" value="검색"> -->
-                <i class="bi bi-search" @click="recipeSpecificSearch(content)"></i>
-                <input id="searchForm" class="form-control" type="text" v-model.trim="content" placeholder="검색어를 입력해주세요.">
+                <i class="bi bi-search" @click="goToSearchwithKeyword(searchKeyword)"></i>
+                <input id="searchForm" class="form-control" type="text" v-model.trim="searchKeyword" placeholder="검색어를 입력해주세요.">
             </div>
             <!-- 해시태그 -->
             <div id="hashTagkeyword">
-                <div @click="recipeSpecificSearch(tag)" id="hash" v-for="(tag, index) in hashTag" :key="index">
+                <div @click="goToSearchwithKeyword(tag)" id="hash" v-for="(tag, index) in hashTag" :key="index">
                     # {{ tag }}
                 </div>
             </div>
@@ -18,39 +18,27 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+
 
 export default {
     data() {
-        return {
-            content : "",    
-            keyWord : "",
+        return {   
+            searchKeyword : "",
             hashTag : ["김치", "돼지", "소", "닭", "된장", "빵"],
         }
     },
     methods: {
-        ...mapActions(['recipeSpecificSearch']),
-        goToSearchwithKeyword() {
-            this.keyWord = ""
-            const tempKeyword = this.word.content
-            tempKeyword.toLowerCase()
-            console.log(tempKeyword)
-            if(tempKeyword == "" || tempKeyword == "null") {
-                this.$router.push({
-                    name: 'search',
-                })
-            }
-            else {
-                this.$router.push({
-                name: "content",
-                params: { keyword : tempKeyword }
-                })
-            }
+      goToSearchwithKeyword(word) {
+        console.log('키워드 푸쉬!')
+        const tempKeyword = word.trim().toLowerCase();
 
-            
-            this.keyWord = this.content
-            this.content = ""
-        }
+        this.$router.push({
+            name: "searchKeyword",
+            params: { keyword: tempKeyword }
+        });
+
+        this.searchKeyword = "";
+      }
     }
     
 }

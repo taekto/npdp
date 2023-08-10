@@ -2,7 +2,7 @@
     <div>
         <div class="list">
             <div v-for="(recipe_item, index) in displayedItems" :key="index">
-                <div class="recommendCard" @click="detailRecipe(recipe_item.recipeId)">
+                <div class="recommendCard" @click="goToDetailRecipe(recipe_item.recipeId)">
                     <img :src="recipe_item.imgBig" alt="">
                     <p class="recipeName">{{recipe_item.name}}</p>
                 </div>
@@ -33,7 +33,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['recipe', 'recipeSpecific']),
+        ...mapGetters(['recipe','recipeSpecific']),
         totalPages() {
             return Math.ceil(this.recipeSpecific.length / this.itemsPerPage)
         },
@@ -45,9 +45,7 @@ export default {
     },
 
     methods: {
-        
-        ...mapActions(['detailRecipe']),
-
+        ...mapActions(['recipeSpecificSearch']),
         goToPage(pageNumber) {
             if (pageNumber >= 1 && pageNumber <= this.totalPages) {
                 this.page = pageNumber;
@@ -55,16 +53,13 @@ export default {
         },
 
         // 상세 레시피로 보내주는 함수
-        // 데이터 연결 후 변경 예정
-        goToDetailRecipe(recipe_id) {
-            this.detailRecipe(recipe_id)
-            setTimeout(() => {
-                this.$router.push({name: "recipe",  
-                    params: { 
-                        recipe_id: recipe_id
-                    },
-                })
-            }, 500) 
+        goToDetailRecipe(recipe_id) {      
+          this.$router.push({name: "recipe",  
+              params: { 
+                  recipe_id: recipe_id
+              },
+            })
+          }
         },
 
     // 내려오면 api 호출하여 아래에 더 추가, total값 최대이면 호출 안함
@@ -82,7 +77,14 @@ export default {
       }
     },
 
+    created(){
+      this.recipeSpecificSearch(this.$route.params.keyword);
+    },
+    watch: {
+      '$route.params.keyword': function(newKeyword) {
+      this.recipeSpecificSearch(newKeyword);
     }
+},
   };
 </script>
 

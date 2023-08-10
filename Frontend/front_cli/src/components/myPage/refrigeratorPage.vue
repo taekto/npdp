@@ -54,7 +54,7 @@
                 </div>
 
                 <!-- 양념 -->
-                <div class="member_seasoning_container" v-if="memberSeasoning.length > 0">
+                <div class="member_seasoning_container"     >
                     <p class="categoryTitle">{{printStorage}} 양념</p>
                     <ul class="ListShow">
                         <li class= "row" v-for="seasoningItem in memberSeasoning" :key="seasoningItem.memberSeasoningId">
