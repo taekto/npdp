@@ -1,13 +1,17 @@
 package com.project.npdp.member.controller;
 
 import com.project.npdp.member.dto.request.EmailAuthRequestDto;
+import com.project.npdp.member.dto.request.EmailVerityRequestDto;
 import com.project.npdp.member.dto.response.EmailAuthResponseDto;
 import com.project.npdp.member.entity.EmailMessage;
 import com.project.npdp.member.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -46,4 +50,10 @@ public class EmailController {
 
         return ResponseEntity.ok().build();
     }
+
+    // 이메일 인증코드 확인
+//    @PostMapping("/verifyAuth")
+//    public ResponseEntity<?> verifyAuthCode(@RequestBody EmailVerityRequestDto emailVerityRequestDto){
+//
+//    }
 }
