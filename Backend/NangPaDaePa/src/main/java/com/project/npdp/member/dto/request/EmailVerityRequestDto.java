@@ -8,6 +8,8 @@ import lombok.*;
 @Data
 public class EmailVerityRequestDto {
 
+    private String email;
+
     private String code;
 
 }
