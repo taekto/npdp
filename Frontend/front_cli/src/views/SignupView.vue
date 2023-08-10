@@ -29,21 +29,28 @@
             name="email" 
             v-model="credentials.email"
           />
-          <button class="email_auth">
+          <button @click="emailCodeVerify" class="email_auth">
             인증
           </button>
         </div>
-        <label class="input_label">이메일 인증</label>
-        <div class="email_box">
-        <input type="text" placeholder="인증번호를 입력해주세요" class="input-item" />
-        <button class="email_auth">
-            확인
-        </button>
-      </div>
-          <!-- 에러 메시지 표시 -->
+        <!-- 에러 메시지 표시 -->
           <p v-show="valid.email" class="input-error">
             이메일 주소가 올바르지 않습니다. 다시 확인해주세요!
           </p>
+        <label class="input_label">이메일 인증</label>
+        <div class="email_box">
+          <input type="text" placeholder="인증번호를 입력해주세요" class="input-item" v-model="emailVerifyCode" />
+          <button @click="checkEmailVerify" class="email_auth">
+              확인
+          </button>
+        </div>
+          <p v-show="emailVerify === 1" class="input-error">
+            인증번호가 확인되었습니다.
+          </p>
+          <p v-show="emailVerify === 2" class="input-error">
+            인증번호가 일치하지 않습니다.
+          </p>
+          
 
           
 
@@ -133,6 +140,9 @@ export default {
           gender: 'none',
           birth: '',
       },
+      emailCode: '',
+      emailVerifyCode: '',
+      emailVerify: 0,
       // 이메일, 패스워드 검증
       valid: {
         email: false,
@@ -154,6 +164,23 @@ export default {
 
   // birthdate = new Date(); // birthdate 매개변수의 타입을 Date | null로 명시
   methods: {
+    
+    emailCodeVerify() {
+
+      this.EmailVerify(this.credentials.email)
+      setTimeout(() => {
+        this.emailCode = sessionStorage.getItem('emailVerify')
+      }, 1000)
+    },
+
+    checkEmailVerify() {
+      if(this.emailCode === this.emailVerifyCode) {
+        this.emailVerify = 1
+      }
+      else {
+        this.emailVerify = 2
+      }
+    },
 
     // 이메일 형식 검사
     checkEmail() {
@@ -180,7 +207,7 @@ export default {
         this.passwordHasError = false
      },
 
-    ...mapActions(["localSignup"]),
+    ...mapActions(["localSignup", "EmailVerify"]),
     
     whatDate(birthdate, delimiter = '-') {
     // if (!birthdate) return ''; // 날짜가 선택되지 않은 경우 빈 문자열 반환

@@ -232,6 +232,7 @@ const member: Module<MemberState, RootState> = {
           .catch(err => {
             ('회원가입 실패..')
             console.error(err.response.data)
+            alert('회원가입에 실패하셨습니다.')
             // commit('SET_AUTH_ERROR', err.response.data)
           })
       },
@@ -246,6 +247,39 @@ const member: Module<MemberState, RootState> = {
         
         console.log('이메일 인증 성공!');
         console.log(response.data);
+
+        interface StoredData {
+          value : string,
+          timestamp : number
+        }
+
+        const data = {
+          value: response.data,
+          timestamp : new Date().getTime()
+        }
+
+        sessionStorage.setItem('emailVerify', JSON.stringify(data))
+
+        const storedDataString = sessionStorage.getItem('emailVerify');
+        const storedData: StoredData | null = storedDataString ? JSON.parse(storedDataString) : null;
+
+
+        // const storedData = JSON.parse(sessionStorage.getItem('emailVerify'))
+        if (storedData) {
+          const currentTime = new Date().getTime();
+          const storedTime = storedData.timestamp;
+        
+          // 현재 시간과 저장된 시간의 차이를 계산하고 3분(180000 밀리초)보다 작은지 확인
+          if (currentTime - storedTime < 180000) {
+            // 3분 이내에 저장된 데이터를 사용
+            const value = storedData.value;
+            console.log(value);
+          } else {
+            // 3분이 지난 데이터는 사용하지 않음
+            sessionStorage.removeItem("emailVerify");
+          }
+        }
+
     
         alert('인증이 완료되었습니다!');
       } catch (error) {
