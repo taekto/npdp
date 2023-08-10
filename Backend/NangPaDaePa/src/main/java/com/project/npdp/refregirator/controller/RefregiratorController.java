@@ -80,7 +80,6 @@ public class RefregiratorController {
     //회원 양념 수정 및 삭제
     @PostMapping("/modify/seasoning")
     public ResponseEntity<?> modifyMemberSeasoning(@RequestBody List<MemberSeasoningModifyRequestDto> memberSeasoningModifyRequestDto) {
-        log.info("memberSeasoningModifyRequestDto = {}", memberSeasoningModifyRequestDto);
         refregiratorService.modifyMemberSeasoning(memberSeasoningModifyRequestDto);
         return ResponseEntity.ok().build();
     }
