@@ -170,6 +170,7 @@ export default {
       this.EmailVerify(this.credentials.email)
       setTimeout(() => {
         this.emailCode = sessionStorage.getItem('emailVerify')
+        console.log(this.emailCode)
       }, 1000)
     },
 
