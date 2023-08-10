@@ -83,6 +83,7 @@ export default {
     justify-content: center;
 }
 #hash {
+    font-family: 'LINESeedKR-Rg';
     margin: 1rem;
     background-color: #FD7E14;
     color: white;
@@ -91,6 +92,7 @@ export default {
     border-radius: .5rem;
     text-decoration-line: none;
     cursor: pointer;
+    min-width: 65px;
 }
 </style>
 
