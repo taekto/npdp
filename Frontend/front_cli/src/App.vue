@@ -177,6 +177,7 @@ footer {
     padding: .5rem;
     margin: .5rem;
     width: 6rem;
+    font-size: 1.25rem;
 }
 
 .radioButton2 {
@@ -187,6 +188,7 @@ footer {
   padding: .5rem;
   margin: .5rem;
   width: 6rem;
+  font-size: 1.25rem;
 }
 
 [type="radio"] {

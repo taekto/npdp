@@ -3,7 +3,7 @@
   <div class="signup_container">
     <div class="signup_card">
       <!-- 회원정보입력 -->
-      <form class="signup_form" id="signup_form" @submit.prevent="localSignup(credentials)">
+      <form class="signup_form" id="signup_form">
         <h1 class="form_title">회원가입</h1>
           <label for="nickname" class="input_label">닉네임</label>
           <input
@@ -105,7 +105,7 @@
               </label>
             </div>
           </div>
-      <button class="signup_btn" style="width: 100%;" @click="signup">회원가입</button>
+      <button class="signup_btn" style="width: 100%;" @click="localSignup(credentials)">회원가입</button>
       
 
       </form>
