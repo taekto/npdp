@@ -105,7 +105,8 @@
               </label>
             </div>
           </div>
-      <button class="signup_btn" style="width: 100%;" @click="localSignup(credentials)">회원가입</button>
+      <button v-if="emailVerify === 1" class="signup_btn" style="width: 100%;" @click="localSignup(credentials)">회원가입</button>
+      <button v-else class="signup_btn" style="width: 100%;" @click="failSignup">회원가입</button>
       
 
       </form>
@@ -164,7 +165,10 @@ export default {
 
   // birthdate = new Date(); // birthdate 매개변수의 타입을 Date | null로 명시
   methods: {
-    
+    failSignup() {
+      alert('회원가입에 실패하셨습니다.')
+      this.$router.go(0)
+    },
     emailCodeVerify() {
 
       this.EmailVerify(this.credentials.email)
