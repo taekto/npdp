@@ -100,7 +100,7 @@ export default {
 #searchForm {
     border: none;
     margin-right: 1rem;
-    
+    outline: none;
 }
 
 #submitButton {
