@@ -10,17 +10,25 @@
             <div class="buttonGroup">
                 <!-- 보관 방법 변경 버튼 -->
                 <div class="storageRadio">
-                    <label class="radioButton">
+                    <label v-if="storage !== 0" class="radioButton">
                         <input type="radio" name="coldStorage" value="냉장" @click="selectStorage(0)">냉장
                     </label>
-                    <label class="radioButton">
+                    <label v-else class="radioButton2">
+                        <input type="radio" name="coldStorage" value="냉장" @click="selectStorage(0)">냉장
+                    </label>
+                    <label v-if="storage !== 1" class="radioButton">
                         <input type="radio" name="frozenStorage" value="냉동" @click="selectStorage(1)">냉동
                     </label>
-                    <label class="radioButton">
+                    <label v-else class="radioButton2">
+                        <input type="radio" name="frozenStorage" value="냉동" @click="selectStorage(1)">냉동
+                    </label>
+                    <label v-if="storage !== 2" class="radioButton">
+                        <input type="radio" name="rtStorage" value="실온" @click="selectStorage(2)">실온
+                    </label>            
+                    <label v-else class="radioButton2">
                         <input type="radio" name="rtStorage" value="실온" @click="selectStorage(2)">실온
                     </label>            
                 </div>
-
                 <!-- 재료, 양념 입력 버튼 -->
                 <div class="modalButtons">
                     <IngredientModal />
@@ -86,16 +94,19 @@
 
 
                     <ul class="ListShow">
-                        <li class= "row" v-for="seasoningItem in displayedSeasoningItems" :key="seasoningItem.memberSeasoningId">
+                        <li v-for="seasoningItem in displayedSeasoningItems" :key="seasoningItem.memberSeasoningId">
                             <div class="ingredientList">
-                                <p class="col-2 ingredientName">{{seasoningItem.kor}}</p>
-                                
-                                <p class="col-4">보관시작일 : {{seasoningItem.startDate}}</p>
-                                <p class="col-3">
-                                유통기한 : {{seasoningItem.expiredDate}}
-                                </p>
-                                <p class="col-2">보관방식 : {{printStorage}}</p>
-                                <button class="col-1 deleteButton" @click="deleteMaterial({type: 'seasoning', memberId: this.memberId, deleteItem: seasoningItem })">제거</button>
+                                <p class="ingredientName">{{seasoningItem.kor}}</p>
+                                <div class="startDate">
+                                    <p>보관시작일 : </p>
+                                    <p>{{seasoningItem.startDate}}</p>
+                                </div>
+                                <div>
+                                    <p>유통기한 :</p>
+                                    <p>{{seasoningItem.expiredDate}}</p>
+                                </div>
+                                <p class="storage">보관방식 : {{printStorage}}</p>
+                                <button class="deleteButton" @click="deleteMaterial({type: 'seasoning', memberId: this.memberId, deleteItem: seasoningItem })">제거</button>
                             </div>
                         </li>
                     </ul>
@@ -257,7 +268,8 @@ export default {
 .buttonGroup {
     display: flex;
     justify-content: space-between;
-    width: 90%;
+    width: 80%;
+    margin: auto;
 }
 
 .modalButtons {
@@ -377,8 +389,9 @@ ul {
 
 .storageRadio {
     display: flex;
-    margin-top: 3rem;
-    margin-left: 7.5rem;
+    /* margin: auto; */
+    /* margin-top: 3rem; */
+    /* margin-left: 7.5rem; */
 }
 
 
