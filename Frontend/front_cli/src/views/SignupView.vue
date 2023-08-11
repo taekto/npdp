@@ -64,6 +64,8 @@
             name="password"
             v-model="credentials.password"
           />
+          <label class="input_label">비밀번호 확인</label>
+          <input class="input-item" placeholder="비밀번호를 확인해주세요"/>
           <!-- 에러 메시지 표시 -->
           <p v-show="valid.passord" class="input-error">
             "숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!"

@@ -147,7 +147,7 @@ nav #title {
   font-family: 'LINESeedKR-Bd';
   margin-top: auto;
   margin-bottom: auto;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
   color: #FD7E14;
 }
