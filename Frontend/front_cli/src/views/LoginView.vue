@@ -90,6 +90,9 @@ export default {
         .then(res => {
           console.log(res.data)
         })
+        .catch(err => {
+          console.log(err)
+        })
         console.log(res.status)
         // sessionStorage.setItem("accessToken", res.data.accessToken)
         // sessionStorage.setItem("memberId", res.data.id)
