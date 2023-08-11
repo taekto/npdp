@@ -55,6 +55,7 @@ public class SnsLoginController {
 
         try{
             SnsLoginResponseDto result = memberService.snsLogin(member);
+            log.info("kakao 로그인 성공~~~~~~~~");
             return ResponseEntity.status(result.getHttpStatus()).body(result.getMemberLoginResponseDto()); // 201 Created + Member 객체 반환
         } catch (IllegalStateException e) {
             log.error("에러 발생: {}", e.getMessage());
@@ -91,6 +92,7 @@ public class SnsLoginController {
 
         try{
             SnsLoginResponseDto result = memberService.snsLogin(member);
+            log.info("google 로그인 성공~~~~~~~~");
             return ResponseEntity.status(result.getHttpStatus()).body(result.getMemberLoginResponseDto()); // 201 Created + Member 객체 반환
         } catch (IllegalStateException e) {
             log.error("에러 발생: {}", e.getMessage());
@@ -123,6 +125,7 @@ public class SnsLoginController {
         printMember(member);
         try{
             SnsLoginResponseDto result = memberService.snsLogin(member);
+            log.info("naver 로그인 성공~~~~~~~~");
             return ResponseEntity.status(result.getHttpStatus()).body(result.getMemberLoginResponseDto()); // 201 Created + Member 객체 반환
         } catch (IllegalStateException e) {
             log.error("에러 발생: {}", e.getMessage());
