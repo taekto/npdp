@@ -28,10 +28,18 @@ public class HeartService {
         Member member = memberRepository.findById(memberLikeRequestDto.getMemberId()).orElseThrow();
         Recipe recipe = recipeRepository.findById(memberLikeRequestDto.getRecipeId()).orElseThrow();
 
-        MemberRecipeLike result = MemberRecipeLike.builder().member(member)
-                .recipe(recipe).build();
-        memberRecipeLikeRepository.save(result);
+        Optional<MemberRecipeLike> optionalMemberRecipeLike = memberRecipeLikeRepository.findMemberRecipeLikeByMemberIdAndRecipeId(
+                memberLikeRequestDto.getMemberId(), memberLikeRequestDto.getRecipeId()
+        );
+
+        // 만약 MemberRecipeLike 관계가 존재하지 않는다면 새로 저장
+        if (!optionalMemberRecipeLike.isPresent()) {
+            MemberRecipeLike result = MemberRecipeLike.builder().member(member)
+                    .recipe(recipe).build();
+            memberRecipeLikeRepository.save(result);
+        }
     }
+
     
     // 좋아요 삭제
     public void memberRecipeHeartDelete(MemberLikeRequestDto memberLikeRequestDto) {

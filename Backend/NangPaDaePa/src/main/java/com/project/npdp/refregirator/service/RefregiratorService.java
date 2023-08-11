@@ -129,10 +129,10 @@ public class RefregiratorService {
     public void modifyMemberSeasoning(List<MemberSeasoningModifyRequestDto> memberSeasoningModifyRequestDtos) {
         for (MemberSeasoningModifyRequestDto memberSeasoningModifyRequestDto : memberSeasoningModifyRequestDtos) {
             if (memberSeasoningModifyRequestDto.isIsdelete()) {
-                seasoningRepository.deleteById(memberSeasoningModifyRequestDto.getMemberSeasoningId());
+                memberSeasoningRepository.deleteById(memberSeasoningModifyRequestDto.getMemberSeasoningId());
             } else {
                 Long seasoningId = memberSeasoningModifyRequestDto.getMemberSeasoningId();
-                if (seasoningRepository.existsById(seasoningId)) {
+                if (memberSeasoningRepository.existsById(seasoningId)) {
                     MemberSeasoning memberSeasoning = memberSeasoningRepository.findById(seasoningId).orElseThrow();
                     memberSeasoning.updateValues(memberSeasoningModifyRequestDto);
                 } else {
