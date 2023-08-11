@@ -33,7 +33,7 @@
       <button class="login_btn" style="width: 100%;">로그인</button>
       <div class="login_btn_bottom">
         <div class="forgot_password">
-          <router-link to="/signup">비밀번호 찾기</router-link>
+          <router-link to="/find">비밀번호 찾기</router-link>
         </div>
       <!-- 회원가입 페이지 router -->
         <div class="login_signup">

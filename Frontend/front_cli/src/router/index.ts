@@ -16,6 +16,7 @@ import ToolPage from '../components/myPage/toolPage.vue'
 import LikeRecipe from '../components/myPage/likeRecipe.vue'
 import memberInfoEditPage from '../components/myPage/editPage.vue'
 import DislikeView from '../views/DislikeView.vue'
+import FindPassword from '../views/findPassword.vue'
 
 //adminPage
 import AdminLoginPage from '../views/AdminLoginPage.vue'
@@ -107,6 +108,12 @@ const router = createRouter({
     path: '/mypage/edit',
     name: 'edit',
     component: memberInfoEditPage,
+  },
+  // 비밀번호 찾기
+  {
+    path: '/find',
+    name: 'find',
+    component: FindPassword,
   },
   {
     // 비선호 재료
