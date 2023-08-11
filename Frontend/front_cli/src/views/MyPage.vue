@@ -25,6 +25,7 @@ export default {
         }
     },
     methods: {
+        // password가 해당 회원의 password가 맞는지 확인해야 함
         confirmPassword() {
             this.$router.push({name: 'refrigerator'})
         }
