@@ -67,7 +67,7 @@ public class SnsLoginController {
         log.info("kakao-login");
         try {
             String authorizeUrl = kakaoLoginService.getAuthorizeUrl();
-            return ResponseEntity.status(302).header("Access-Control-Allow-Origin", "https://i9b202.p.ssafy.io").header("Location", authorizeUrl).build();
+            return ResponseEntity.status(200).header("Access-Control-Allow-Origin", "https://i9b202.p.ssafy.io").header("Location", authorizeUrl).build();
 //            return ResponseEntity.status(200).body(authorizeUrl);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -103,7 +103,7 @@ public class SnsLoginController {
         log.info("google-login");
         try {
             String authorizeUrl = googleLoginService.getAuthorizeUrl();
-            return ResponseEntity.status(302).header("Access-Control-Allow-Origin", "https://i9b202.p.ssafy.io").header("Location", authorizeUrl).build();
+            return ResponseEntity.status(200).header("Access-Control-Allow-Origin", "https://i9b202.p.ssafy.io").header("Location", authorizeUrl).build();
 //            return ResponseEntity.status(200).body(authorizeUrl);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -135,7 +135,7 @@ public class SnsLoginController {
         log.info("naver-login");
         try {
             String authorizeUrl = naverLoginService.getAuthorizeUrl();
-            return ResponseEntity.status(302).header("Access-Control-Allow-Origin", "https://i9b202.p.ssafy.io").header("Location", authorizeUrl).build();
+            return ResponseEntity.status(200).header("Access-Control-Allow-Origin", "https://i9b202.p.ssafy.io").header("Location", authorizeUrl).build();
 //            return ResponseEntity.status(200).body(authorizeUrl);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
