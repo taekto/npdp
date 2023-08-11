@@ -1,14 +1,12 @@
 package com.project.npdp.snslogin.controller;
 
 
-import com.project.npdp.member.dto.request.MemberJoinRequestDto;
-import com.project.npdp.member.dto.request.MemberLoginRequestDto;
-import com.project.npdp.member.dto.response.MemberLoginResponseDto;
 import com.project.npdp.member.entity.Member;
 import com.project.npdp.member.service.MemberService;
-import com.project.npdp.snslogin.dto.GoogleToken;
-import com.project.npdp.snslogin.dto.KakaoToken;
-import com.project.npdp.snslogin.dto.NaverToken;
+import com.project.npdp.snslogin.dto.response.GoogleToken;
+import com.project.npdp.snslogin.dto.response.KakaoToken;
+import com.project.npdp.snslogin.dto.response.NaverToken;
+import com.project.npdp.snslogin.dto.response.SnsLoginResponseDto;
 import com.project.npdp.snslogin.service.GoogleLoginService;
 import com.project.npdp.snslogin.service.KakaoLoginService;
 import com.project.npdp.snslogin.service.NaverLoginService;
@@ -18,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.UnsupportedEncodingException;
 @CrossOrigin(origins = "https://i9b202.p.ssafy.io")
@@ -56,29 +53,13 @@ public class SnsLoginController {
 //        2. 액세스 토큰을 이용하여 사용자 정보를 얻어온다.
         Member member = kakaoLoginService.getMemberInfo(kakaoToken);
 
-//        String result = memberService.snsLogin(member);
-//        if(result.equals("new")){
-//            log.info("새롭게 생성되는 사용자!");
-//            return ResponseEntity.ok().body(member);
-//        }else{
-//            log.info("이미 존재하는 사용자!");
-//            return ResponseEntity.ok().body(memberService.snsLogin(member));
-//        }
-//        try{
-//            MemberLoginResponseDto result = memberService.snsLogin(member);
-//            if (result == null) {
-//                log.info("새롭게 생성되는 사용자!");
-//                MemberLoginResponseDto user = memberService.snsJoin(member);
-//                return ResponseEntity.status(HttpStatus.CREATED).body(user); // 201 Created + Member 객체 반환
-//            } else {
-//                log.info("이미 존재하는 사용자!");
-//                return ResponseEntity.ok().body(result); // 200 OK + 로그인 결과 반환
-//            }
-//        } catch (IllegalStateException e) {
-//            log.error("에러 발생: {}", e.getMessage());
-//            return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 회원입니다."); // 409 Conflict + 에러 메시지 반환
-//        }
-        return ResponseEntity.ok().body("카카오");
+        try{
+            SnsLoginResponseDto result = memberService.snsLogin(member);
+            return ResponseEntity.status(result.getHttpStatus()).body(result.getMemberLoginResponseDto()); // 201 Created + Member 객체 반환
+        } catch (IllegalStateException e) {
+            log.error("에러 발생: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 회원입니다."); // 409 Conflict + 에러 메시지 반환
+        }
     }
 
     @GetMapping("/kakao-login")
@@ -107,43 +88,14 @@ public class SnsLoginController {
 
         log.info("사용자 정보: ");
         printMember(member);
-//        String result = memberService.snsLogin(member);
-//        if(result.equals("new")){
-//            log.info("새롭게 생성되는 사용자!");
-//            return ResponseEntity.ok().body(member);
-//        }else{
-//            log.info("이미 존재하는 사용자!");
-//            return ResponseEntity.ok().body(memberService.snsLogin(member));
-//        }
-//        try{
-//            MemberLoginResponseDto result = memberService.snsLogin(member);
-//            log.info("google 로그인한 결과: "+result);
-//            if (result == null) {
-//                log.info("새롭게 생성되는 사용자!");
-//                return ResponseEntity.status(HttpStatus.CREATED).body(member); // 201 Created + Member 객체 반환
-//            } else {
-//                log.info("이미 존재하는 사용자!");
-//                return ResponseEntity.ok().body(memberService.snsLogin(member)); // 200 OK + 로그인 결과 반환
-//            }
-//        } catch (IllegalStateException e) {
-//            log.error("에러 발생: {}", e.getMessage());
-//            return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 회원입니다."); // 409 Conflict + 에러 메시지 반환
-//        }
-//        try{
-//            MemberLoginResponseDto result = memberService.snsLogin(member);
-//            if (result == null) {
-//                log.info("새롭게 생성되는 사용자!");
-//                MemberLoginResponseDto user = memberService.snsJoin(member);
-//                return ResponseEntity.status(HttpStatus.CREATED).body(user); // 201 Created + Member 객체 반환
-//            } else {
-//                log.info("이미 존재하는 사용자!");
-//                return ResponseEntity.ok().body(result); // 200 OK + 로그인 결과 반환
-//            }
-//        } catch (IllegalStateException e) {
-//            log.error("에러 발생: {}", e.getMessage());
-//            return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 회원입니다."); // 409 Conflict + 에러 메시지 반환
-//        }
-        return ResponseEntity.ok().body("구글");
+
+        try{
+            SnsLoginResponseDto result = memberService.snsLogin(member);
+            return ResponseEntity.status(result.getHttpStatus()).body(result.getMemberLoginResponseDto()); // 201 Created + Member 객체 반환
+        } catch (IllegalStateException e) {
+            log.error("에러 발생: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 회원입니다."); // 409 Conflict + 에러 메시지 반환
+        }
     }
 
     @GetMapping("/google-login")
@@ -169,42 +121,13 @@ public class SnsLoginController {
         Member member = naverLoginService.getMemberInfo(naverToken);
         log.info("사용자 정보");
         printMember(member);
-//        String result = memberService.snsLogin(member);
-//        if(result.equals("new")){
-//            log.info("새롭게 생성되는 사용자!");
-//            return ResponseEntity.ok().body(member);
-//        }else{
-//            log.info("이미 존재하는 사용자!");
-//            return ResponseEntity.ok().body(memberService.snsLogin(member));
-//        }
-//        try{
-//            MemberLoginResponseDto result = memberService.snsLogin(member);
-//            if (result == null) {
-//                log.info("새롭게 생성되는 사용자!");
-//                return ResponseEntity.status(HttpStatus.CREATED).body(member); // 201 Created + Member 객체 반환
-//            } else {
-//                log.info("이미 존재하는 사용자!");
-//                return ResponseEntity.ok().body(memberService.snsLogin(member)); // 200 OK + 로그인 결과 반환
-//            }
-//        } catch (IllegalStateException e) {
-//            log.error("에러 발생: {}", e.getMessage());
-//            return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 회원입니다."); // 409 Conflict + 에러 메시지 반환
-//        }
-//        try{
-//            MemberLoginResponseDto result = memberService.snsLogin(member);
-//            if (result == null) {
-//                log.info("새롭게 생성되는 사용자!");
-//                MemberLoginResponseDto user = memberService.snsJoin(member);
-//                return ResponseEntity.status(HttpStatus.CREATED).body(user); // 201 Created + Member 객체 반환
-//            } else {
-//                log.info("이미 존재하는 사용자!");
-//                return ResponseEntity.ok().body(result); // 200 OK + 로그인 결과 반환
-//            }
-//        } catch (IllegalStateException e) {
-//            log.error("에러 발생: {}", e.getMessage());
-//            return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 회원입니다."); // 409 Conflict + 에러 메시지 반환
-//        }
-        return ResponseEntity.ok().body("네이버");
+        try{
+            SnsLoginResponseDto result = memberService.snsLogin(member);
+            return ResponseEntity.status(result.getHttpStatus()).body(result.getMemberLoginResponseDto()); // 201 Created + Member 객체 반환
+        } catch (IllegalStateException e) {
+            log.error("에러 발생: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 회원입니다."); // 409 Conflict + 에러 메시지 반환
+        }
     }
 
     @GetMapping("/naver-login")

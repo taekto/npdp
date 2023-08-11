@@ -1,4 +1,4 @@
-package com.project.npdp.snslogin.dto;
+package com.project.npdp.snslogin.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.project.npdp.member.entity.Gender;

@@ -41,7 +41,7 @@ spring:
   auth-code-expiration-millis: 600000  # 10 * 60 * 1000 == 10분
 
   profiles:
-    active: oauth
+    active: oauthdev
 
 logging:
   level:
