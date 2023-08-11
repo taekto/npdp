@@ -13,7 +13,7 @@
             <p>{{ item.name }}</p>
             <div class="buttonGroup">
               <button class="recipeButton" @click="goToDetailRecipe(item)">View More</button>
-              <button class="deleteButton" @click="memberLikeRecipe({type: 'unlike', memberId: this.memberId, recipeId: item.recipeId})">좋아요 취소</button>
+              <button class="deleteButton" @click="handleUnlike(item.recipeId)">좋아요 취소</button>
             </div>
           </div>
         </div>
@@ -52,15 +52,22 @@ export default {
             },
         })
     },
+    handleUnlike(recipeId) {
+      this.memberLikeRecipe({
+        type: 'unlike',
+        memberId: this.memberId,
+        recipeId: recipeId,
+      }).then(() => {
+        // 좋아요 취소 후 데이터 다시 조회
+        this.fetchLike(this.memberId);
+      });
+    },
   },
   created() {
     this.memberId = parseInt(sessionStorage.getItem('memberId'))
     this.fetchLike(this.memberId)
+  },
 
-  },
-  watch:{
-    
-  },
 }
 </script>
 
