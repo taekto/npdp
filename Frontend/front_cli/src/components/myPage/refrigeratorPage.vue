@@ -96,14 +96,14 @@
                     <ul class="ListShow">
                         <li v-for="seasoningItem in displayedSeasoningItems" :key="seasoningItem.memberSeasoningId">
                             <div class="ingredientList">
-                                <p class="ingredientName">{{seasoningItem.kor}}</p>
+                                <p class="ingredientName2">{{seasoningItem.kor}}</p>
                                 <div class="startDate">
                                     <p>보관시작일 : </p>
-                                    <p>{{seasoningItem.startDate}}</p>
+                                    <p>{{changeDate(seasoningItem.startDate)}}</p>
                                 </div>
-                                <div>
+                                <div class="endDate">
                                     <p>유통기한 :</p>
-                                    <p>{{seasoningItem.expiredDate}}</p>
+                                    <p>{{changeDate(seasoningItem.expiredDate)}}</p>
                                 </div>
                                 <p class="storage">보관방식 : {{printStorage}}</p>
                                 <button class="deleteButton" @click="deleteMaterial({type: 'seasoning', memberId: this.memberId, deleteItem: seasoningItem })">제거</button>
@@ -290,6 +290,13 @@ export default {
 .ingredientName {
     font-weight: bold;
     width: 7.5%;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.ingredientName2 {
+    font-weight: bold;
+    width: 15%;
     margin-top: auto;
     margin-bottom: auto;
 }
