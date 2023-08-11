@@ -79,24 +79,31 @@ export default {
       this.socialType = 'Google'
       axios ({
         url: 'https://i9b202.p.ssafy.io/api/oauth/google-login',
-        methods: 'get',
+        method: 'get',
       })
       .then (res => {
         console.log(res.data)
+        axios({
+          url: 'https://i9b202.p.ssafy.io/api/oauth/google',
+          method: 'get'
+        })
+        .then(res => {
+          console.log(res.data)
+        })
         console.log(res.status)
-        sessionStorage.setItem("accessToken", res.data.accessToken)
-        sessionStorage.setItem("memberId", res.data.id)
-        sessionStorage.setItem('social', 1)
-        if(res.status === 200) {
-          this.$router.push({
-            name: 'main',
-          })
-        }
-        else if (res.status === 201) {
-          this.$router.push({
-            name: 'social',
-          })
-        }
+        // sessionStorage.setItem("accessToken", res.data.accessToken)
+        // sessionStorage.setItem("memberId", res.data.id)
+        // sessionStorage.setItem('social', 1)
+        // if(res.status === 200) {
+        //   this.$router.push({
+        //     name: 'main',
+        //   })
+        // }
+        // else if (res.status === 201) {
+        //   this.$router.push({
+        //     name: 'social',
+        //   })
+        // }
       })
       .catch (err => {
         console.log(err)
@@ -106,7 +113,7 @@ export default {
       this.socialType = 'Naver'
       axios ({
         url: 'https://i9b202.p.ssafy.io/api/oauth/naver-login',
-        methods: 'get',
+        method: 'get',
       })
       .then (res => {
         console.log(res.data)

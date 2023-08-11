@@ -69,7 +69,7 @@ export default {
             axios({
                 url: 'https://i9b202.p.ssafy.io/api/mail/password',
                 method: 'post',
-                data: this.credentials.email,
+                data: this.credentials,
             })
             .then (res => {
                 console.log(res)
