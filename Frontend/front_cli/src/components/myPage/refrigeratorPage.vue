@@ -159,6 +159,9 @@ export default {
           startDate: null,
           expiredDate:  null,
           isdelete : false,
+          itemsPerPage:5,
+          ingredientPage:1,
+          seasoningPage:1,
         }
     },
     methods: {
@@ -202,8 +205,6 @@ export default {
             }
             this.ingredients = arrayRemove(this.ingredients, tmpingredient)
         },
-<<<<<<< HEAD
-=======
         goToIngredientPage(pageNumber) {
             if (pageNumber >= 1 && pageNumber <= this.ingredientTotalPages) {
                 this.ingredientPage = pageNumber;
@@ -215,7 +216,6 @@ export default {
             }
         },
         
->>>>>>> c2dc4989d6cbf4de71c7391544a3587a5dfb307c
     },
     created() {
         this.memberId = parseInt(sessionStorage.getItem('memberId'))
