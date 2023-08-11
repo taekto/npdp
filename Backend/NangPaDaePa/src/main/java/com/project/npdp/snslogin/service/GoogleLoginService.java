@@ -3,14 +3,10 @@ package com.project.npdp.snslogin.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 import com.project.npdp.configuration.OAuthConfig;
 import com.project.npdp.member.entity.Member;
-import com.project.npdp.snslogin.dto.GoogleMember;
-import com.project.npdp.snslogin.dto.GoogleToken;
-import com.project.npdp.snslogin.dto.NaverMember;
+import com.project.npdp.snslogin.dto.response.GoogleMember;
+import com.project.npdp.snslogin.dto.response.GoogleToken;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -23,9 +19,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Type;
 import java.net.URLEncoder;
-import java.util.Map;
 
 @Service
 @Slf4j
