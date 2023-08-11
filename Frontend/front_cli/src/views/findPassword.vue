@@ -4,7 +4,7 @@
         <h1 class="form_title">비밀번호 찾기</h1>
           <label for="email" class="input_label" 
           :class="{ 'title-danger': emailHasError }">
-          비밀번호를 찾고자 하는 아이디를 입력해주세요.
+          비밀번호를 찾고자 하는 이메일을 입력해주세요.
           </label>
           <div class="email_box">
           <input
@@ -69,7 +69,7 @@ export default {
             axios({
                 url: 'https://i9b202.p.ssafy.io/api/mail/password',
                 method: 'post',
-                data: this.credentials,
+                data: this.credentials, 
             })
             .then (res => {
                 console.log(res)
