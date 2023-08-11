@@ -64,20 +64,21 @@ public class SnsLoginController {
 //            log.info("이미 존재하는 사용자!");
 //            return ResponseEntity.ok().body(memberService.snsLogin(member));
 //        }
-        try{
-            MemberLoginResponseDto result = memberService.snsLogin(member);
-            if (result == null) {
-                log.info("새롭게 생성되는 사용자!");
-                MemberLoginResponseDto user = memberService.snsJoin(member);
-                return ResponseEntity.status(HttpStatus.CREATED).body(user); // 201 Created + Member 객체 반환
-            } else {
-                log.info("이미 존재하는 사용자!");
-                return ResponseEntity.ok().body(result); // 200 OK + 로그인 결과 반환
-            }
-        } catch (IllegalStateException e) {
-            log.error("에러 발생: {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 회원입니다."); // 409 Conflict + 에러 메시지 반환
-        }
+//        try{
+//            MemberLoginResponseDto result = memberService.snsLogin(member);
+//            if (result == null) {
+//                log.info("새롭게 생성되는 사용자!");
+//                MemberLoginResponseDto user = memberService.snsJoin(member);
+//                return ResponseEntity.status(HttpStatus.CREATED).body(user); // 201 Created + Member 객체 반환
+//            } else {
+//                log.info("이미 존재하는 사용자!");
+//                return ResponseEntity.ok().body(result); // 200 OK + 로그인 결과 반환
+//            }
+//        } catch (IllegalStateException e) {
+//            log.error("에러 발생: {}", e.getMessage());
+//            return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 회원입니다."); // 409 Conflict + 에러 메시지 반환
+//        }
+        return ResponseEntity.ok().body("카카오");
     }
 
     @GetMapping("/kakao-login")
@@ -128,20 +129,21 @@ public class SnsLoginController {
 //            log.error("에러 발생: {}", e.getMessage());
 //            return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 회원입니다."); // 409 Conflict + 에러 메시지 반환
 //        }
-        try{
-            MemberLoginResponseDto result = memberService.snsLogin(member);
-            if (result == null) {
-                log.info("새롭게 생성되는 사용자!");
-                MemberLoginResponseDto user = memberService.snsJoin(member);
-                return ResponseEntity.status(HttpStatus.CREATED).body(user); // 201 Created + Member 객체 반환
-            } else {
-                log.info("이미 존재하는 사용자!");
-                return ResponseEntity.ok().body(result); // 200 OK + 로그인 결과 반환
-            }
-        } catch (IllegalStateException e) {
-            log.error("에러 발생: {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 회원입니다."); // 409 Conflict + 에러 메시지 반환
-        }
+//        try{
+//            MemberLoginResponseDto result = memberService.snsLogin(member);
+//            if (result == null) {
+//                log.info("새롭게 생성되는 사용자!");
+//                MemberLoginResponseDto user = memberService.snsJoin(member);
+//                return ResponseEntity.status(HttpStatus.CREATED).body(user); // 201 Created + Member 객체 반환
+//            } else {
+//                log.info("이미 존재하는 사용자!");
+//                return ResponseEntity.ok().body(result); // 200 OK + 로그인 결과 반환
+//            }
+//        } catch (IllegalStateException e) {
+//            log.error("에러 발생: {}", e.getMessage());
+//            return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 회원입니다."); // 409 Conflict + 에러 메시지 반환
+//        }
+        return ResponseEntity.ok().body("구글");
     }
 
     @GetMapping("/google-login")
@@ -188,20 +190,21 @@ public class SnsLoginController {
 //            log.error("에러 발생: {}", e.getMessage());
 //            return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 회원입니다."); // 409 Conflict + 에러 메시지 반환
 //        }
-        try{
-            MemberLoginResponseDto result = memberService.snsLogin(member);
-            if (result == null) {
-                log.info("새롭게 생성되는 사용자!");
-                MemberLoginResponseDto user = memberService.snsJoin(member);
-                return ResponseEntity.status(HttpStatus.CREATED).body(user); // 201 Created + Member 객체 반환
-            } else {
-                log.info("이미 존재하는 사용자!");
-                return ResponseEntity.ok().body(result); // 200 OK + 로그인 결과 반환
-            }
-        } catch (IllegalStateException e) {
-            log.error("에러 발생: {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 회원입니다."); // 409 Conflict + 에러 메시지 반환
-        }
+//        try{
+//            MemberLoginResponseDto result = memberService.snsLogin(member);
+//            if (result == null) {
+//                log.info("새롭게 생성되는 사용자!");
+//                MemberLoginResponseDto user = memberService.snsJoin(member);
+//                return ResponseEntity.status(HttpStatus.CREATED).body(user); // 201 Created + Member 객체 반환
+//            } else {
+//                log.info("이미 존재하는 사용자!");
+//                return ResponseEntity.ok().body(result); // 200 OK + 로그인 결과 반환
+//            }
+//        } catch (IllegalStateException e) {
+//            log.error("에러 발생: {}", e.getMessage());
+//            return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 회원입니다."); // 409 Conflict + 에러 메시지 반환
+//        }
+        return ResponseEntity.ok().body("네이버");
     }
 
     @GetMapping("/naver-login")
