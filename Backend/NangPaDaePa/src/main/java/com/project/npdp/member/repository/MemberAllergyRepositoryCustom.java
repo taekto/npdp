@@ -9,4 +9,6 @@ public interface MemberAllergyRepositoryCustom {
 
     public List<MemberAllergy> selectMemberAllergy(Long memberId);
 
+    public void deleteMemberAllergy(Long memberId);
+
 }
