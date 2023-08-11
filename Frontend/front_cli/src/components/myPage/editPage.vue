@@ -36,7 +36,6 @@
                 <div class="input-group">
                   <input id="searchForm" class="form-control" type="email" v-model.trim="email" readonly>
                 </div>
-                <button class="btn_update">수정</button>
               </form>
             </div>
           </div>

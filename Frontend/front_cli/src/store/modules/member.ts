@@ -158,7 +158,7 @@ const member: Module<MemberState, RootState> = {
     memberRecipeLatest: state => state.memberRecipeLatest,
     memberDislikeIngredient: state => state.memberDislikeIngredient,
     memberAllergy: state => state.memberAllergy,
-    memberUtensil: state => state.memberUtensil,
+    memberUtensilList: state => state.memberUtensil,
     memberSeasoning: state => state.memberSeasoning,
     memberIngredient: state => state.memberIngredient,
   },
@@ -242,11 +242,11 @@ const member: Module<MemberState, RootState> = {
     // 회원 이메일 인증
     async EmailVerify({commit}, email) {
       try {
-        console.log('이메일 인증 시작!');
-        const response = await axios.post(api.member.emailVerify(), { email });
         
-        console.log('이메일 인증 성공!');
-        console.log(response.data);
+        console.log(JSON.stringify({email}, null, 2))
+        const response = await axios.post(api.member.emailVerify(), { email });
+        console.log('이메일 전송 완료!', response.data);
+     
 
         interface StoredData {
           value : string,
@@ -280,8 +280,6 @@ const member: Module<MemberState, RootState> = {
           }
         }
 
-    
-        alert('인증이 완료되었습니다!');
       } catch (error) {
         console.error(error);
       }
@@ -312,24 +310,6 @@ const member: Module<MemberState, RootState> = {
         .catch(err => {
           console.log('회원 정보 조회 실패...', err)
         });
-    },
-
-    // 회원 레시피 좋아요
-    memberLikeRecipe ({ commit, getters}, {member_id, recipe_id}) {
-      axios ({
-        url: api.member.memberRecipeLike(member_id),
-        method: 'post',
-        data: {
-          recipe_id
-        },
-        headers: getters.authHeader,
-      })
-        .then (res=> {
-          commit('SET_MEMBER_RECIPE_LIKE', res.data)
-        })
-        .catch(err => {
-          console.log(err.response)
-        })
     },
 
     // 회원 재료 조회 양념/ 재료/ 전체
@@ -419,7 +399,61 @@ const member: Module<MemberState, RootState> = {
       }
     },
 
+    // 회원 레시피 좋아요/ 좋아요 취소
+    async memberLikeRecipe({commit}, {type, memberId, recipeId}) {
+      try {
+        const apiUrl = 'https://i9b202.p.ssafy.io/api/members/heart'
+        const sendData = { memberId, recipeId };
+        
+        console.log(type === 'like' ? `${memberId}님이 ${recipeId}를 좋아요 실행...` : `${memberId}님이 ${recipeId}를 취소 실행...` )
 
+        const response = type === 'like' ?
+        await axios.post(apiUrl, sendData) :
+        await axios.delete(apiUrl, { data: sendData })
+        
+        console.log(type === 'like' ? `${memberId}님이 ${recipeId}를 좋아요 성공!` : `${memberId}님이 ${recipeId}를 취소 성공!` )
+
+      } catch(err) {
+        console.log(`${memberId}님이 ${recipeId}를 좋아요 실패...`, err)
+      }
+    },
+ 
+    // 회원 레시피 좋아요 조회
+    async fetchLike({commit}, memberId){
+      try {
+        console.log('좋아요 조회 시작!')
+        const res = await axios.get(`https://i9b202.p.ssafy.io/api/members/heart/${memberId}`)
+        console.log('좋아요 조회 성공!', res.data)
+        commit('SET_MEMBER_RECIPE_LIKE', res.data)
+      } catch(err) {
+        console.log(err)
+      }
+    },
+
+    // 회원 조리도구 조회/ 저장
+    async memberUtensil({commit}, {type, memberId, utensilData}) {
+      try {
+        const apiUrl = type === 'get' ? `https://i9b202.p.ssafy.io/api/members/memberUtensil/${memberId}` : 'https://i9b202.p.ssafy.io/api/members/memberUtensil'
+        if (type === 'post') {
+          
+          const sendData = {
+            memberId: memberId,
+            utensilId: utensilData // utensilData 배열을 그대로 사용합니다.
+          };
+          console.log(JSON.stringify(sendData, null, 2))
+          
+          const res = await axios.post(apiUrl, sendData);
+          console.log('조리도구 저장 성공!:', res.data)
+        
+        } else {
+          const res = await axios.get(apiUrl);
+          console.log('조리도구 조회 성공!:', res.data);
+          commit('SET_MEMBER_UTENSIL', res.data)
+        }
+      } catch (error) {
+        console.error(type === 'get' ? '조리도구 조회 실패...' : '조리도구 저장 실패...', error);
+      }
+    },
   },
 }
 

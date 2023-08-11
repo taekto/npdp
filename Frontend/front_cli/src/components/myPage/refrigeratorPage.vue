@@ -10,22 +10,13 @@
             <div class="buttonGroup">
                 <!-- 보관 방법 변경 버튼 -->
                 <div class="storageRadio">
-                    <label v-if="storage === 0" class="radioButton2">
+                    <label class="radioButton">
                         <input type="radio" name="coldStorage" value="냉장" @click="selectStorage(0)">냉장
                     </label>
-                    <label v-else class="radioButton">
-                        <input type="radio" name="coldStorage" value="냉장" @click="selectStorage(0)">냉장
-                    </label>
-                    <label v-if="storage === 1" class="radioButton2">
+                    <label class="radioButton">
                         <input type="radio" name="frozenStorage" value="냉동" @click="selectStorage(1)">냉동
                     </label>
-                    <label v-else class="radioButton">
-                        <input type="radio" name="frozenStorage" value="냉동" @click="selectStorage(1)">냉동
-                    </label>
-                    <label v-if="storage === 2" class="radioButton2">
-                        <input type="radio" name="rtStorage" value="실온" @click="selectStorage(2)">실온
-                    </label>            
-                    <label v-else class="radioButton">
+                    <label class="radioButton">
                         <input type="radio" name="rtStorage" value="실온" @click="selectStorage(2)">실온
                     </label>            
                 </div>
@@ -41,10 +32,16 @@
             <div>
                 <!-- 재료 -->
                 <div class="refrigeratorCategory">
-                    <p class="categoryTitle">{{printStorage}} 재료</p>
+                    <div style="display: flex; justify-content: space-between; width: 80%; margin: auto">
+                        <p class="categoryTitle">{{printStorage}} 재료</p>
+                        <button class="saveButton">
+                            저장하기
+                        </button>
+                    </div>
+                    
                     <ul class="ListShow">
-                        <li class= "row" v-for="ingredientItem in memberIngredient" :key="ingredientItem.id">
-                            <div class="ingredientList" v-if="ingredientItem.storage === storage">
+                        <li class= "row" v-for="(ingredientItem, index) in displayedIngredientItems" :key="index">
+                            <div class="ingredientList">
                                 <p class="col-1 ingredientName">{{ingredientItem.kor}}</p>
                                 <div class="amount col-2 row">
                                     <button class="amountButton col-3" @click="plusAmount(ingredientItem)">+</button>
@@ -60,14 +57,30 @@
                             </div>
                         </li>
                     </ul>
+                    <div class="pagination">
+                        <button @click="goToIngredientPage(ingredientPage - 1)" :disabled="ingredientPage === 1">이전</button>
+                        <button v-for="pageNumber in ingredientTotalPages" :key="pageNumber" 
+                        @click="goToIngredientPage(pageNumber)" 
+                        :disabled="ingredientPage === pageNumber">
+                            {{ pageNumber }}
+                        </button>
+                        <button @click="goToIngredientPage(ingredientPage + 1)" :disabled="ingredientPage === ingredientTotalPages">다음</button>
+                    </div>
                 </div>
 
                 <!-- 양념 -->
-                <div class="member_seasoning_container">
-                    <p class="categoryTitle">{{printStorage}} 양념</p>
+                <div class="refrigeratorCategory">
+                    <div style="display: flex; justify-content: space-between; width: 80%; margin: auto">
+                        <p class="categoryTitle">{{printStorage}} 양념</p>
+                        <button class="saveButton">
+                            저장하기
+                        </button>
+                    </div>
+
+
                     <ul class="ListShow">
-                        <li class= "row" v-for="seasoningItem in memberSeasoning" :key="seasoningItem.memberSeasoningId">
-                            <div class="ingredientList" v-if="seasoningItem.storage === storage">
+                        <li class= "row" v-for="seasoningItem in displayedSeasoningItems" :key="seasoningItem.memberSeasoningId">
+                            <div class="ingredientList">
                                 <p class="col-2 ingredientName">{{seasoningItem.kor}}</p>
                                 
                                 <p class="col-4">보관시작일 : {{seasoningItem.startDate}}</p>
@@ -79,6 +92,15 @@
                             </div>
                         </li>
                     </ul>
+                    <div class="pagination">
+                        <button @click="goToSeasoningPage(seasoningPage - 1)" :disabled="seasoningPage === 1">이전</button>
+                        <button v-for="pageNumber in seasoningtTotalPages" :key="pageNumber" 
+                        @click="goToSeasoningPage(pageNumber)"
+                        :disabled="seasoningPage === pageNumber">
+                            {{ pageNumber }}
+                        </button>
+                        <button @click="goToSeasoningPage(seasoningPage + 1)" :disabled="seasoningPage === seasoningtTotalPages">다음</button>
+                    </div>
                 </div>
             </div>
             
@@ -102,6 +124,41 @@ export default {
     },
     computed: {
         ...mapGetters(['memberSeasoning', 'memberIngredient']),
+        ingredientTotalPages() {
+            let count = 0
+            for (let ingredient of this.memberIngredient) {
+                if(this.storage === ingredient.storage) {
+                    count ++ 
+                }
+            }
+            return Math.ceil(count / this.itemsPerPage)
+        },
+        seasoningtTotalPages() {
+            let count = 0
+            for (let seasoning of this.memberSeasoning) {
+                if(this.storage === seasoning.storage) {
+                    count ++ 
+                }
+            }
+            return Math.ceil(count / this.itemsPerPage)
+        },
+        displayedIngredientItems() {
+            const startIndex = (this.ingredientPage - 1) * this.itemsPerPage
+            const endIndex = startIndex + this.itemsPerPage
+            const displayedItems = this.memberIngredient.filter(ingredient => {
+                return ingredient.storage === this.storage
+            }).slice(startIndex, endIndex)
+            return displayedItems
+        },
+        displayedSeasoningItems() {
+            const startIndex = (this.seasoningPage - 1) * this.itemsPerPage
+            const endIndex = startIndex + this.itemsPerPage
+            const displayedItems = this.memberSeasoning.filter(seasoning => {
+                return seasoning.storage === this.storage
+            }).slice(startIndex, endIndex)
+            return displayedItems
+        },
+        
     },
     // 임시 더미 데이터
     data() {
@@ -116,9 +173,9 @@ export default {
           startDate: null,
           expiredDate:  null,
           isdelete : false,
-          itemsPerPage: 5,
-          ingredientPage: 1,
-          seasoningPage: 1,
+          itemsPerPage:5,
+          ingredientPage:1,
+          seasoningPage:1,
         }
     },
     methods: {
@@ -162,40 +219,17 @@ export default {
             }
             this.ingredients = arrayRemove(this.ingredients, tmpingredient)
         },
-        ingredientTotalPages() {
-            let count = 0
-            for (let ingredient of this.memberIngredient) {
-                if(this.storage === ingredient.storage) {
-                    count ++ 
-                }
+        goToIngredientPage(pageNumber) {
+            if (pageNumber >= 1 && pageNumber <= this.ingredientTotalPages) {
+                this.ingredientPage = pageNumber;
             }
-            return Math.ceil(count / this.itemsPerPage)
         },
-        seasoningtTotalPages() {
-            let count = 0
-            for (let seasoning of this.memberSeasoning) {
-                if(this.storage === seasoning.storage) {
-                    count ++ 
-                }
+        goToSeasoningPage(pageNumber) {
+            if (pageNumber >= 1 && pageNumber <= this.seasoningtTotalPages) {
+                this.seasoningPage = pageNumber;
             }
-            return Math.ceil(count / this.itemsPerPage)
         },
-        displayedIngredientItems() {
-            const startIndex = (this.ingredientPage - 1) * this.itemsPerPage
-            const endIndex = startIndex + this.itemsPerPage
-            const displayedItems = this.memberIngredient.filter(ingredient => {
-                return ingredient.storage === this.storage
-            }).slice(startIndex, endIndex)
-            return displayedItems
-        },
-        displayedSeasoningItems() {
-            const startIndex = (this.seasoningPage - 1) * this.itemsPerPage
-            const endIndex = startIndex + this.itemsPerPage
-            const displayedItems = this.memberSeasoning.filter(seasoning => {
-                return seasoning.storage === this.storage
-            }).slice(startIndex, endIndex)
-            return displayedItems
-        },
+        
     },
     created() {
         this.memberId = parseInt(sessionStorage.getItem('memberId'))
@@ -210,7 +244,6 @@ export default {
     display: flex;
     justify-content: space-between;
     width: 90%;
-    font-family: 'LINESeedKR-Bd';
 }
 
 .modalButtons {
@@ -224,14 +257,13 @@ export default {
     margin: auto;
     padding: 1rem;
     margin-bottom: 5rem;
+    height: 60vh;
 }
 
 /* 레시피의 ingredientName과 다름 */
 .ingredientName {
 font-weight: bold;
 }
-
-
 
 .ingredientList {
     display: flex;
@@ -240,6 +272,7 @@ font-weight: bold;
     width: 95%;
     padding: .5rem;
     margin: auto;
+    height: 10vh;
 }
 
 .amount {
@@ -269,20 +302,52 @@ font-weight: bold;
 
 .refrigeratorCategory {
   margin-top: 2rem;
-  overflow-y: auto; 
-  max-height: 500px;
+  /* overflow-y: auto;  */
+  /* max-height: 500px; */
 }
 
 .storageRadio {
     display: flex;
-    /* margin-top: 3rem; */
+    margin-top: 3rem;
     margin-left: 7.5rem;
 }
 
+
 .categoryTitle {
     text-align: start;
-    margin-left: 9rem;
+    margin-top: 1rem;
+    margin-left: 1rem;
     font-size: 2rem;
     font-weight: bold;
+}
+
+.pagination {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 4rem;
+}
+.pagination button {
+  font-family: 'LINESeedKR-Rg';
+  margin: 0 5px;
+  border-radius: .2rem;
+  border: 1px solid #FD7E14;
+  background-color: #fff;
+  padding: .25rem .7rem;
+}
+
+.saveButton {
+  border: solid #FD7E14;
+  color: white;
+  background-color: #FD7E14;
+  border-radius: .5rem;
+  margin: .5rem;
+  padding: 0.5rem;
+  margin-bottom: 3rem;
+  margin-right: 2rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  font-family: 'LINESeedKR-Bd';
 }
 </style>
