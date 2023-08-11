@@ -417,18 +417,30 @@ const member: Module<MemberState, RootState> = {
         console.log(`${memberId}님이 ${recipeId}를 좋아요 실패...`, err)
       }
     },
+ 
+    // 회원 레시피 좋아요 조회
+    async fetchLike({commit}, memberId){
+      try {
+        console.log('좋아요 조회 시작!')
+        const res = await axios.get(`https://i9b202.p.ssafy.io/api/members/heart/${memberId}`)
+        console.log('좋아요 조회 성공!', res.data)
+        commit('SET_MEMBER_RECIPE_LIKE', res.data)
+      } catch(err) {
+        console.log(err)
+      }
+    },
 
     // 회원 조리도구 조회/ 저장
     async memberUtensil({commit}, {type, memberId, utensilData}) {
       try {
-        const apiUrl = type === 'get' ? `https://i9b202.p.ssafy.io/api/members/memerUtensil/${memberId}` : 'https://i9b202.p.ssafy.io/api/members/memerUtensil/'
+        const apiUrl = type === 'get' ? `https://i9b202.p.ssafy.io/api/members/memberUtensil/${memberId}` : 'https://i9b202.p.ssafy.io/api/members/memberUtensil'
         if (type === 'post') {
           
-          console.log(JSON.stringify(utensilData, null, 2))
           const sendData = {
             memberId: memberId,
             utensilId: utensilData // utensilData 배열을 그대로 사용합니다.
           };
+          console.log(JSON.stringify(sendData, null, 2))
           
           const res = await axios.post(apiUrl, sendData);
           console.log('조리도구 저장 성공!:', res.data)

@@ -11,7 +11,7 @@
       <div class="toolBox row">
         <div v-for="(name, idx) in tools" :key="idx" class="col-4 checkTool">
           <label>
-             <input type="checkbox" name="tool" @change="toggleUtensil(name)" :checked="utensilData.includes(utensilNameToPK[name][0])">{{ name }}
+             <input type="checkbox" name="tool" @change="toggleUtensil(name)" :checked="isUtensilSelected(name)">{{ name }}
           </label>
         </div>
       </div>
@@ -88,7 +88,6 @@ export default {
           console.error('Invalid utensil name:', name);
           return;
         }
-        console.log(pkArray)
         if (this.utensilData.some(pk => pkArray.includes(pk))) {
           // 이미 선택된 조리도구인 경우 배열에서 제거
           this.utensilData = this.utensilData.filter(pk => !pkArray.includes(pk));
@@ -99,11 +98,13 @@ export default {
       },
       saveTool() {
         // utensilData에 있는 조리도구의 이름을 pk 값으로 매핑한 배열을 생성
-        const selectedPKs = this.utensilData.flatMap(tool => this.utensilNameToPK[tool]);
-        this.memberUtensil({ type: 'post', memberId: this.memberId, utensilData: selectedPKs });
+        console.log(this.memberId)
+        this.memberUtensil({ type: 'post', memberId: this.memberId, utensilData: this.utensilData });
+      },
+      isUtensilSelected(name) {
+        return this.memberUtensilList.some(item => item.utensilName === name)
       },
     },
-
     computed: {
       ...mapGetters(['memberUtensilList'])
     },
@@ -113,7 +114,10 @@ export default {
       console.log(this.memberId)
       this.memberUtensil({type:'get', memberId: this.memberId})
     }
+
+  
 }
+
 </script>
 
 <style scoped>

@@ -7,13 +7,13 @@
     <!-- 우측 좋아요한 레시피 컴포넌트 -->
     <div id="myPageView">
       <p class="likeTitle">좋아요</p>
-        <div class="likeRecipes row" v-for="recipe_item in recipe" :key="recipe_item.recipe_id">
-          <div class="recommendCard col-4" @click="goToDetailRecipe(recipe_item)">
-            <img src='@/assets/123.jpg'>
-            <p>{{ recipe_item.name }}</p>
+        <div class="likeRecipes row" v-for="item in memberRecipeLike" :key="item.recipeId">
+          <div class="recommendCard col-4">
+            <img :src='item.imgBig'>
+            <p>{{ item.name }}</p>
             <div class="buttonGroup">
-              <button class="recipeButton">View More</button>
-              <button class="deleteButton">좋아요 삭제</button>
+              <button class="recipeButton" @click="goToDetailRecipe(item)">View More</button>
+              <button class="deleteButton" @click="memberLikeRecipe({type: 'unlike', memberId: this.memberId, recipeId: item.recipeId})">좋아요 취소</button>
             </div>
           </div>
         </div>
@@ -28,25 +28,39 @@ import {mapGetters, mapActions} from 'vuex'
 
 export default {
   name: 'LikeRecipe',
+  data () {
+    return {
+      memberId:null,
+    }
+  },
   components: {
     CategoryComponent,
   },
+  
   computed: {
-    ...mapGetters(['recipe'])
+    ...mapGetters(['memberRecipeLike'])
   },
   methods: {
-    ...mapActions(['memberLikeRecipe']),
-    goToDetailRecipe(recipeItem) {
+    ...mapActions(['memberLikeRecipe','fetchLike']),
+    goToDetailRecipe(item) {
         this.$router.push({name: "recipe",  
             params: { 
-                recipe_id: recipeItem.recipe_id,
+                recipe_id: item.recipeId,
             },
             query: {
-                recipeItem: JSON.stringify(recipeItem),
+                recipeItem: JSON.stringify(item),
             },
         })
     },
-  }
+  },
+  created() {
+    this.memberId = parseInt(sessionStorage.getItem('memberId'))
+    this.fetchLike(this.memberId)
+
+  },
+  watch:{
+    
+  },
 }
 </script>
 
