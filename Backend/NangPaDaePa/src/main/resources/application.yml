@@ -45,7 +45,7 @@ spring:
     port: 6379
 
   profiles:
-    active: oauthdev
+    active: oauth
 
 logging:
   level:
