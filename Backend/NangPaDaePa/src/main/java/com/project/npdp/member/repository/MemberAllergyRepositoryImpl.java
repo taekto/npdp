@@ -24,4 +24,14 @@ public class MemberAllergyRepositoryImpl implements MemberAllergyRepositoryCusto
                 .setParameter("memberId", memberId)
                 .getResultList();
     }
+
+    @Override
+    public void deleteMemberAllergy(Long memberId) {
+
+        String jpql = "DELETE FROM MemberAllergy ma WHERE ma.member.id = :memberId";
+
+        em.createQuery(jpql)
+                .setParameter("memberId", memberId)
+                .executeUpdate();
+    }
 }
