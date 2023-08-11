@@ -67,7 +67,7 @@ export default {
         },
         tempPassword() {
             axios({
-                url: 'https://i9b202.p.ssafy.io//api/mail/password',
+                url: 'https://i9b202.p.ssafy.io/api/mail/password',
                 method: 'post',
                 data: this.credentials.email,
             })
