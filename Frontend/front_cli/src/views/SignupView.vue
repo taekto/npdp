@@ -170,7 +170,7 @@ export default {
       this.$router.go(0)
     },
     emailCodeVerify() {
-
+      console.log('이메일 인자',this.credentials.email)
       this.EmailVerify(this.credentials.email)
       setTimeout(() => {
         const tempEmailCode = sessionStorage.getItem('emailVerify')

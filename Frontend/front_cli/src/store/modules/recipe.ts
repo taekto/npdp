@@ -249,7 +249,6 @@ const recipe: Module<RecipeState, RootState> = {
       console.log(content, '레시피 특정 조회 시작!')
       console.dir(api.recipe.specificRecipe()),
       axios ({
-        //url: api.recipe.specificRecipe(),
         url: `https://i9b202.p.ssafy.io/api/recipes/want`,
         method: 'get',
         params: {
@@ -259,9 +258,7 @@ const recipe: Module<RecipeState, RootState> = {
       })
       .then (res=> {
         console.log('레시피 특정 조회 성공!')
-        console.log(res)
-        console.log(res.status)
-        console.log(res.data)
+
         commit('SET_RECIPE_SPECIFIC', res.data)
         
         router.push({
@@ -289,15 +286,12 @@ const recipe: Module<RecipeState, RootState> = {
       })
         .then(res=> {
           console.log(res.data, '레시피 상세 조회 성공!')
-          commit('SET_RECIPE_DETAIL', res.data)
-
-          setTimeout(() => {
-                router.push({name: "recipe",  
-                    params: { 
-                        recipe_id: recipe_id
-                    },
-                })
-            }, 500) 
+          commit('SET_RECIPE_DETAIL', res.data)     
+            router.push({name: "recipe",  
+              params: { 
+                recipe_id: recipe_id
+              },
+          })
         })
         .catch(err => {
           console.log('레시피 상세 조회 실패....')

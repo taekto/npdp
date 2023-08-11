@@ -11,7 +11,8 @@
       <!-- 기본 메뉴(메인, 검색, 설명) -->
       <div id="pageLink">
         <router-link to="/" class="nav_page_link">Main</router-link> |
-        <router-link to="/search" class="nav_page_link ">Search</router-link> |
+        <!-- <router-link to="/search" class="nav_page_link ">Search</router-link> | -->
+        <router-link :to="{ name: 'searchKeyword', params: { keyword: '' } }" class="nav_page_link ">Search</router-link> |
         <router-link to="/about" class="nav_page_link">About Us</router-link>
       </div>
 

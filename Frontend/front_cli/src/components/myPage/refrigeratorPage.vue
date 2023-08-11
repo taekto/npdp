@@ -10,22 +10,13 @@
             <div class="buttonGroup">
                 <!-- 보관 방법 변경 버튼 -->
                 <div class="storageRadio">
-                    <label v-if="storage === 0" class="radioButton2">
+                    <label class="radioButton">
                         <input type="radio" name="coldStorage" value="냉장" @click="selectStorage(0)">냉장
                     </label>
-                    <label v-else class="radioButton">
-                        <input type="radio" name="coldStorage" value="냉장" @click="selectStorage(0)">냉장
-                    </label>
-                    <label v-if="storage === 1" class="radioButton2">
+                    <label class="radioButton">
                         <input type="radio" name="frozenStorage" value="냉동" @click="selectStorage(1)">냉동
                     </label>
-                    <label v-else class="radioButton">
-                        <input type="radio" name="frozenStorage" value="냉동" @click="selectStorage(1)">냉동
-                    </label>
-                    <label v-if="storage === 2" class="radioButton2">
-                        <input type="radio" name="rtStorage" value="실온" @click="selectStorage(2)">실온
-                    </label>            
-                    <label v-else class="radioButton">
+                    <label class="radioButton">
                         <input type="radio" name="rtStorage" value="실온" @click="selectStorage(2)">실온
                     </label>            
                 </div>
@@ -168,9 +159,6 @@ export default {
           startDate: null,
           expiredDate:  null,
           isdelete : false,
-          itemsPerPage: 5,
-          ingredientPage: 1,
-          seasoningPage: 1,
         }
     },
     methods: {
@@ -214,6 +202,8 @@ export default {
             }
             this.ingredients = arrayRemove(this.ingredients, tmpingredient)
         },
+<<<<<<< HEAD
+=======
         goToIngredientPage(pageNumber) {
             if (pageNumber >= 1 && pageNumber <= this.ingredientTotalPages) {
                 this.ingredientPage = pageNumber;
@@ -225,6 +215,7 @@ export default {
             }
         },
         
+>>>>>>> c2dc4989d6cbf4de71c7391544a3587a5dfb307c
     },
     created() {
         this.memberId = parseInt(sessionStorage.getItem('memberId'))
@@ -239,7 +230,6 @@ export default {
     display: flex;
     justify-content: space-between;
     width: 90%;
-    font-family: 'LINESeedKR-Bd';
 }
 
 .modalButtons {
@@ -259,8 +249,6 @@ export default {
 .ingredientName {
 font-weight: bold;
 }
-
-
 
 .ingredientList {
     display: flex;
@@ -304,7 +292,7 @@ font-weight: bold;
 
 .storageRadio {
     display: flex;
-    /* margin-top: 3rem; */
+    margin-top: 3rem;
     margin-left: 7.5rem;
 }
 
