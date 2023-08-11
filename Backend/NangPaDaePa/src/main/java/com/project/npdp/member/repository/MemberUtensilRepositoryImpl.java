@@ -22,4 +22,14 @@ public class MemberUtensilRepositoryImpl implements MemberUtensilRepositoryCusto
                 .setParameter("memberId", memberId)
                 .getResultList();
     }
+
+    @Override
+    public void deleteMemberUtensil(Long memberId) {
+
+        String jpql = "DELETE FROM MemberUtensil mu WHERE mu.member.id = :memberId";
+
+        em.createQuery(jpql)
+                .setParameter("memberId", memberId)
+                .executeUpdate();
+    }
 }

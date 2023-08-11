@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-//@Transactional
+@Transactional
 @RequiredArgsConstructor
 //@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Slf4j
@@ -279,10 +279,7 @@ public class MemberService {
         Member member = memberRepository.findById(memberId).orElse(null);
 
         // 기존에 저장된 알러지 정보 삭제
-        MemberAllergy allergyMember = memberAllergyRepository.findById(memberId).orElse(null);
-        if(allergyMember != null){
-            memberAllergyRepository.deleteAllByMember(member);
-        }
+        memberAllergyRepositoryCustom.deleteMemberAllergy(memberId);
 
         // 새로운 알러지 정보 저장
         List<MemberAllergy> memberAllergyList = new ArrayList<>();
@@ -323,10 +320,7 @@ public class MemberService {
         Member member = memberRepository.findById(memberId).orElse(null);
 
         // 기존회원의 비선호 재료 정보 삭제
-        MemberDislikeIngredient dislikeMember = memberDislikeRepository.findById(memberId).orElse(null);
-        if(dislikeMember != null){
-            memberDislikeRepository.deleteAllByMember(member);
-        }
+        memberDislikeRepositoryCustom.deleteDislikeIngredient(memberId);
 
         // 새로운 비선호 재료 정보 저장
         List<MemberDislikeIngredient> memberDislikeIngredientList = new ArrayList<>();
@@ -366,10 +360,7 @@ public class MemberService {
         Member member = memberRepository.findById(memberId).orElse(null);
 
         // 기존에 저장된 조리도구 정보 삭제
-        MemberUtensil utensilMember = memberUtensilRepository.findById(memberId).orElse(null);
-        if(utensilMember != null){
-            memberUtensilRepository.deleteAllByMember(member);
-        }
+        memberUtensilRepositoryCustom.deleteMemberUtensil(memberId);
 
         // 새로운 조리도구 정보 저장
         List<MemberUtensil> memberUtensilList = new ArrayList<>();
