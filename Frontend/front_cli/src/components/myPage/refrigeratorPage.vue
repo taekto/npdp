@@ -34,7 +34,7 @@
                 <div class="refrigeratorCategory">
                     <div style="display: flex; justify-content: space-between; width: 80%; margin: auto">
                         <p class="categoryTitle">{{printStorage}} 재료</p>
-                        <button class="saveButton">
+                        <button class="saveButton" @click="saveMaterial({type: 'ingredient', memberId: this.memberId, sendData: throwList })">
                             저장하기
                         </button>
                     </div>
@@ -72,7 +72,7 @@
                 <div class="refrigeratorCategory">
                     <div style="display: flex; justify-content: space-between; width: 80%; margin: auto">
                         <p class="categoryTitle">{{printStorage}} 양념</p>
-                        <button class="saveButton">
+                        <button class="saveButton" @click="saveMaterial({ type: 'seasoning', memberId: memberId, sendData: throwList })">
                             저장하기
                         </button>
                     </div>
@@ -125,111 +125,109 @@ export default {
     computed: {
         ...mapGetters(['memberSeasoning', 'memberIngredient']),
         ingredientTotalPages() {
-            let count = 0
-            for (let ingredient of this.memberIngredient) {
-                if(this.storage === ingredient.storage) {
-                    count ++ 
-                }
+          let count = 0
+          for (let ingredient of this.memberIngredient) {
+            if(this.storage === ingredient.storage) {
+              count ++ 
             }
-            return Math.ceil(count / this.itemsPerPage)
+          }
+          return Math.ceil(count / this.itemsPerPage)
         },
         seasoningtTotalPages() {
-            let count = 0
-            for (let seasoning of this.memberSeasoning) {
-                if(this.storage === seasoning.storage) {
-                    count ++ 
-                }
-            }
-            return Math.ceil(count / this.itemsPerPage)
+          let count = 0
+          for (let seasoning of this.memberSeasoning) {
+              if(this.storage === seasoning.storage) {
+                count ++ 
+              }
+          }
+          return Math.ceil(count / this.itemsPerPage)
         },
         displayedIngredientItems() {
-            const startIndex = (this.ingredientPage - 1) * this.itemsPerPage
-            const endIndex = startIndex + this.itemsPerPage
-            const displayedItems = this.memberIngredient.filter(ingredient => {
-                return ingredient.storage === this.storage
-            }).slice(startIndex, endIndex)
-            return displayedItems
+          const startIndex = (this.ingredientPage - 1) * this.itemsPerPage
+          const endIndex = startIndex + this.itemsPerPage
+          const displayedItems = this.memberIngredient.filter(ingredient => {
+            return ingredient.storage === this.storage
+          }).slice(startIndex, endIndex)
+          return displayedItems
         },
         displayedSeasoningItems() {
-            const startIndex = (this.seasoningPage - 1) * this.itemsPerPage
-            const endIndex = startIndex + this.itemsPerPage
-            const displayedItems = this.memberSeasoning.filter(seasoning => {
-                return seasoning.storage === this.storage
-            }).slice(startIndex, endIndex)
-            return displayedItems
+          const startIndex = (this.seasoningPage - 1) * this.itemsPerPage
+          const endIndex = startIndex + this.itemsPerPage
+          const displayedItems = this.memberSeasoning.filter(seasoning => {
+            return seasoning.storage === this.storage
+          }).slice(startIndex, endIndex)
+          return displayedItems
         },
         
     },
     // 임시 더미 데이터
     data() {
-        return {
-          storage : 0,
-          memberId:null,
-          printStorage:'냉장',
-          delData:[],
-          refregiratorId: null,
-          amount: null,
-          unit: '',
-          startDate: null,
-          expiredDate:  null,
-          isdelete : false,
-          itemsPerPage:5,
-          ingredientPage:1,
-          seasoningPage:1,
-        }
+      return {
+        storage : 0,
+        memberId:null,
+        printStorage:'냉장',
+        delData:[],
+        refregiratorId: null,
+        amount: null,
+        unit: '',
+        startDate: null,
+        expiredDate:  null,
+        isdelete : false,
+        itemsPerPage:5,
+        ingredientPage:1,
+        seasoningPage:1,
+      }
     },
     methods: {
-        ...mapActions(['plusAmount', 'minusAmount', 'fetchMemberMaterial', 'deleteMaterial']),
-        selectStorage(storage) {
-          this.storage = storage
-          switch (storage) {
-          case 0:
-            this.printStorage = "냉장";
-            break;
-          case 1:
-            this.printStorage = "냉동";
-            break;
-          case 2:
-            this.printStorage = "실온";
-            break;
+      ...mapActions(['plusAmount', 'minusAmount', 'fetchMemberMaterial', 'deleteMaterial']),
+      selectStorage(storage) {
+        this.storage = storage
+        switch (storage) {
+        case 0:
+          this.printStorage = "냉장";
+          break;
+        case 1:
+          this.printStorage = "냉동";
+          break;
+        case 2:
+          this.printStorage = "실온";
+          break;
+        }
+      },
+      minusAmount(tmpingredient) {
+        if(tmpingredient.unit === "g") {
+            tmpingredient.amount -= 10
+        } else {
+          tmpingredient.amount --
+        }
+        if (tmpingredient.amount <= 0) {
+          const arrayRemove = (arr, value) => {
+            return arr.filter((ele) => {
+                return ele != value
+            })
           }
-        },
-        minusAmount(tmpingredient) {
-            if(tmpingredient.unit === "g") {
-                tmpingredient.amount -= 10
-            }
-            else{
-                tmpingredient.amount --
-            }
-
-            if (tmpingredient.amount <= 0) {
-                const arrayRemove = (arr, value) => {
-                    return arr.filter((ele) => {
-                        return ele != value
-                    })
-                }
-                this.ingredients = arrayRemove(this.ingredients, tmpingredient)
-            }
-        },
-        deleteIngredient(tmpingredient) {
-            const arrayRemove = (arr, value) => {
-                return arr.filter((ele) => {
-                    return ele != value
-                })
-            }
-            this.ingredients = arrayRemove(this.ingredients, tmpingredient)
-        },
-        goToIngredientPage(pageNumber) {
-            if (pageNumber >= 1 && pageNumber <= this.ingredientTotalPages) {
-                this.ingredientPage = pageNumber;
-            }
-        },
-        goToSeasoningPage(pageNumber) {
-            if (pageNumber >= 1 && pageNumber <= this.seasoningtTotalPages) {
-                this.seasoningPage = pageNumber;
-            }
-        },
-        
+          this.ingredients = arrayRemove(this.ingredients, tmpingredient)
+        }
+      },
+      deleteIngredient(tmpingredient) {
+        const arrayRemove = (arr, value) => {
+          return arr.filter((ele) => {
+            return ele != value
+          })
+        }
+        this.ingredients = arrayRemove(this.ingredients, tmpingredient)
+      },
+      goToIngredientPage(pageNumber) {
+        if (pageNumber >= 1 && pageNumber <= this.ingredientTotalPages) {
+          this.ingredientPage = pageNumber;
+        }
+      },
+      goToSeasoningPage(pageNumber) {
+        if (pageNumber >= 1 && pageNumber <= this.seasoningtTotalPages) {
+          this.seasoningPage = pageNumber;
+        }
+      },
+      
     },
     created() {
         this.memberId = parseInt(sessionStorage.getItem('memberId'))

@@ -345,7 +345,7 @@ const member: Module<MemberState, RootState> = {
         const response = await axios.post(apiUrl, sendData)
   
         console.log(type === 'seasoning' ? '양념 저장 성공!' : '재료 저장 성공!', response.data)
-        dispatch('fetchIngredient')
+        dispatch('fetchMemberMaterial', ({type:type, memberId:memberId}))
       } catch (error) {
         console.log(type === 'seasoning' ? '양념 저장 실패..' : '재료 저장 실패..', error)
       }
