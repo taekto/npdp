@@ -147,7 +147,7 @@ nav #title {
   font-family: 'LINESeedKR-Bd';
   margin-top: auto;
   margin-bottom: auto;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
   color: #FD7E14;
 }
@@ -174,13 +174,17 @@ footer {
 /* 라디오 버튼 공통 */
 .radioButton {
   font-family: 'LINESeedKR-Rg';
-    border: 1.6px solid #FD7E14;
-    border-radius: .5rem;
-    padding: .3rem .2rem;
-    margin: .5rem;
-    width: 6rem;
-    font-size: 1.25rem;
+  border: 1.6px solid #FD7E14;
+  border-radius: .5rem;
+  padding: .3rem .2rem;
+  margin: .5rem;
+  width: 6rem;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
 
 .radioButton2 {
   font-family: 'LINESeedKR-Rg';
@@ -192,6 +196,9 @@ footer {
   margin: .5rem;
   width: 6rem;
   font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 [type="radio"] {

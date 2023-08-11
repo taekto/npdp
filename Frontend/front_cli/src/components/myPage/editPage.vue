@@ -17,11 +17,11 @@
               <p>닉네임 변경</p>
             </div>
             <div>
-              <form class="edit_form" @submit.prevent="memberUpdate(memberId, nickname)" >
+              <form class="edit_form" @submit.prevent="memberUpdate(memberId, userData.nickname)" >
                 <div class="input-group">
                   <input id="searchForm" class="form-control" type="text" v-model.trim="nickname">
                 </div>
-                <button class="btn_update">수정</button>
+                <button class="btn_update" @click="asd">수정</button>
               </form>
             </div>
           </div>
@@ -34,7 +34,7 @@
             <div>
               <form class="edit_form">
                 <div class="input-group">
-                  <input id="searchForm" class="form-control" type="email" v-model.trim="email" readonly>
+                  <input id="searchForm" class="form-control" type="email" v-model.trim="member.email" readonly>
                 </div>
               </form>
             </div>
@@ -48,7 +48,7 @@
             <div>
               <form class="edit_form" @submit.prevent="confirmPassword">
                 <div class="input-group">
-                    <input id="searchForm" class="form-control" type="password" v-model.trim="password">
+                    <input id="searchForm" class="form-control" type="password" v-model.trim="userData.password">
                 </div>
                 <button class="btn_update">수정</button>
               </form>
@@ -65,7 +65,7 @@
               </div>
               <VDatePicker v-model="birthDate" :max-date="new Date()" @click="whatDate(birthDate)"/>
               <div>
-                <input id="searchForm" class="birthInput" type="date" v-model.trim="birth">
+                <input id="searchForm" class="birthInput" type="date" v-model.trim="userData.birthDate">
               </div>
             </div>
 
@@ -87,7 +87,7 @@
               </div>
             </div>
           </div>
-          <button class="saveButton" @click="changeUserData">저장</button>
+          <button class="saveButton" @click="memberUpdate({type:'all', memberId:this.memberId, updateData: userData})">저장</button>
         </div>
       </div>
       </div>
@@ -107,12 +107,14 @@ export default {
     // 임시 데이터
     data() {
       return {
+        userData:{
           nickname:'',
           email : "",
           birthDate : "",
           password : "",
           gender : "",
-          memberId: null,
+        },
+        memberId: null,
       }
     },
     computed: {
@@ -121,16 +123,7 @@ export default {
 
     methods: {
       ...mapActions(['fetchMember','memberUpdate']),
-       
-      async loadData() {
-        this.memberId = parseInt(sessionStorage.getItem('memberId'));
-        await this.fetchMember(this.memberId);
-        
-        this.nickname = this.member.nickname;
-        this.email = this.member.email;
-        this.birthDate = this.member.birth;
-      },
-
+      
       whatDate(birthDate, delimiter = '-') {
         const year = birthDate.getFullYear()
         const month = birthDate.getMonth() + 1
@@ -143,12 +136,13 @@ export default {
         else {
           this.birthDate = year + delimiter + month + delimiter + date
         }
-        
       }
     },
-    created(){
-      this.loadData();
+    async created() {
+      this.memberId = parseInt(sessionStorage.getItem('memberId'))
+      this.fetchMember(this.memberId)
     },
+
 }
 </script>
 

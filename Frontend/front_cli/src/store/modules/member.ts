@@ -309,7 +309,7 @@ const member: Module<MemberState, RootState> = {
         })
         .catch(err => {
           console.log('회원 정보 조회 실패...', err)
-        });
+        })
     },
 
     // 회원 재료 조회 양념/ 재료/ 전체
@@ -387,15 +387,15 @@ const member: Module<MemberState, RootState> = {
         
         const apiUrl = type === 'seasoning' ?
         'https://i9b202.p.ssafy.io/api/refregirator/modify/seasoning':
-        'https://i9b202.p.ssafy.io/api/refregirator/modify/ingredient';
+        'https://i9b202.p.ssafy.io/api/refregirator/modify/ingredient'
     
-        await axios.post(apiUrl, deleteData);
+        await axios.post(apiUrl, deleteData)
+        console.log(type === 'seasoning' ? '양념 삭제 성공!' : '재료 삭제 성공!')
 
-        await dispatch('fetchMemberMaterial', { type: 'all', memberId: memberId });
+        dispatch('fetchMemberMaterial', { type: type, memberId: memberId })
 
-        console.log(type === 'seasoning' ? '양념 삭제 성공!' : '재료 삭제 성공!');
       } catch (err) {
-        console.log(type === 'seasoning' ? '양념 삭제 실패..' : '재료 삭제 실패..', err);
+        console.log(type === 'seasoning' ? '양념 삭제 실패..' : '재료 삭제 실패..', err)
       }
     },
 
@@ -454,6 +454,38 @@ const member: Module<MemberState, RootState> = {
         console.error(type === 'get' ? '조리도구 조회 실패...' : '조리도구 저장 실패...', error);
       }
     },
+    
+    // 회원 정보 변경
+    async memberUpdate({commit}, {type, memberId, updateData}) {
+      try {
+        let sendData
+
+        const apiUrl = type === 'all' ? 'https://i9b202.p.ssafy.io/api/members/modifyAll' : 'https://i9b202.p.ssafy.io/api/members/updatePassword'
+        if (type == 'all') {
+          const allInfo = updateData 
+          sendData = {
+            memberId: memberId,
+            password:allInfo.password,
+            nickname: allInfo.nickname,
+            birth: allInfo.birthDate,
+            gender: allInfo.gender,
+          } 
+        } else {
+          const pwdInfo =  updateData
+          sendData = {
+            email: pwdInfo.email,
+            newPassword: pwdInfo.newPassword,     
+          }
+        }
+
+        console.log('회원정보 수정 시작!',JSON.stringify(sendData,null,2))
+        const res = await axios.put(apiUrl, sendData);
+        
+
+      } catch(err) {
+        console.error(type === 'all' ? '정보 변경 실패...' : '비밀번호 변경 실패...', err);
+      }
+    }
   },
 }
 
