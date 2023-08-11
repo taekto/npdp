@@ -26,7 +26,7 @@
                   <p>유통기한 : </p>
                   <p>{{ingredient.expiredDate}}</p>
                 </div>
-                <p class="storage">보관방식 : {{ingredient.storage}}</p>
+                <p class="storage">보관방식 : {{selectStorage(ingredient.storage)}}</p>
                 <button class="deleteButton" @click="deleteIngredient(ingredient)">제거</button>
               </li>
             </ul>
@@ -96,7 +96,7 @@
                   <input type="radio" name="classification" value="실온" @click="selectStorage(2)">실온
                 </label>
               </div>
-              <button class="soundButton" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">음성입력</button>
+              <button v-show="none" class="soundButton" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">음성입력</button>
               <button class="soundButton" @click="appendList">추가하기</button>
             
 
