@@ -48,11 +48,17 @@
                                     <p class="amountAndUnit">{{ingredientItem.amount}}{{ingredientItem.unit}}</p>
                                     <button class="amountButton" @click="minusAmount(ingredientItem)">-</button>
                                 </div>
-                                <p class="startDate">보관시작일 : {{changeDate(ingredientItem.startDate)}}</p>
+                                <div class="startDate">
+                                    <p>보관시작일 : </p>
+                                    <p>{{changeDate(ingredientItem.startDate)}}</p>
+                                </div>
+                                <div class="endDate">
+                                    <p>유통기한 : </p>
+                                    <p>{{changeDate(ingredientItem.expiredDate)}}</p>
+                                </div>
+
                                 <!-- <p class="startDate">보관시작일 : {{whatDate(ingredientItem.startDate)}}</p> -->
-                                <p class="endDate">
-                                유통기한 : {{changeDate(ingredientItem.expiredDate)}}
-                                </p>
+                                
                                 <p class="storage">보관방식 : {{printStorage}}</p>
                                 <button class="deleteButton" @click="deleteMaterial({type: 'ingredient', memberId: this.memberId, deleteItem: ingredientItem })">제거</button>
                             </div>
@@ -323,6 +329,13 @@ ul {
     margin-bottom: auto;
     margin-left: .5rem;
     margin-right: .5rem;
+    flex: none;
+    width: 10rem;
+}
+
+.startDate p {
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .endDate {
@@ -330,6 +343,13 @@ ul {
     margin-bottom: auto;
     margin-left: .5rem;
     margin-right: .5rem;
+    flex: none;
+    width: 10rem;
+}
+
+.endDate p {
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .storage {
