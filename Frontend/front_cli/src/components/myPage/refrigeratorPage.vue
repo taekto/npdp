@@ -40,20 +40,21 @@
                     </div>
                     
                     <ul class="ListShow">
-                        <li class= "row" v-for="(ingredientItem, index) in displayedIngredientItems" :key="index">
+                        <li v-for="(ingredientItem, index) in displayedIngredientItems" :key="index">
                             <div class="ingredientList">
-                                <p class="col-1 ingredientName">{{ingredientItem.kor}}</p>
-                                <div class="amount col-2 row">
-                                    <button class="amountButton col-3" @click="plusAmount(ingredientItem)">+</button>
-                                    <p class="col-6">{{ingredientItem.amount}}{{ingredientItem.unit}}</p>
-                                    <button class="amountButton col-3" @click="minusAmount(ingredientItem)">-</button>
+                                <p class="ingredientName">{{ingredientItem.kor}}</p>
+                                <div class="amount">
+                                    <button class="amountButton" @click="plusAmount(ingredientItem)">+</button>
+                                    <p class="amountAndUnit">{{ingredientItem.amount}}{{ingredientItem.unit}}</p>
+                                    <button class="amountButton" @click="minusAmount(ingredientItem)">-</button>
                                 </div>
-                                <p class="col-3">보관시작일 : {{ingredientItem.startDate}}</p>
-                                <p class="col-3">
-                                유통기한 : {{ingredientItem.expiredDate}}
+                                <p class="startDate">보관시작일 : {{changeDate(ingredientItem.startDate)}}</p>
+                                <!-- <p class="startDate">보관시작일 : {{whatDate(ingredientItem.startDate)}}</p> -->
+                                <p class="endDate">
+                                유통기한 : {{changeDate(ingredientItem.expiredDate)}}
                                 </p>
-                                <p class="col-2">보관방식 : {{printStorage}}</p>
-                                <button class="col-1 deleteButton" @click="deleteMaterial({type: 'ingredient', memberId: this.memberId, deleteItem: ingredientItem })">제거</button>
+                                <p class="storage">보관방식 : {{printStorage}}</p>
+                                <button class="deleteButton" @click="deleteMaterial({type: 'ingredient', memberId: this.memberId, deleteItem: ingredientItem })">제거</button>
                             </div>
                         </li>
                     </ul>
@@ -179,7 +180,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['plusAmount', 'minusAmount', 'fetchMemberMaterial', 'deleteMaterial']),
+        ...mapActions(['fetchMemberMaterial', 'deleteMaterial']),
         selectStorage(storage) {
           this.storage = storage
           switch (storage) {
@@ -194,6 +195,14 @@ export default {
             break;
           }
         },
+        plusAmount(tmpingredient) {
+            if(tmpingredient.unit === "g") {
+                tmpingredient.amount += 10
+            }
+            else{
+                tmpingredient.amount ++
+            }
+        },
         minusAmount(tmpingredient) {
             if(tmpingredient.unit === "g") {
                 tmpingredient.amount -= 10
@@ -203,21 +212,8 @@ export default {
             }
 
             if (tmpingredient.amount <= 0) {
-                const arrayRemove = (arr, value) => {
-                    return arr.filter((ele) => {
-                        return ele != value
-                    })
-                }
-                this.ingredients = arrayRemove(this.ingredients, tmpingredient)
+                this.deleteMaterial({type: 'ingredient', memberId: this.memberId, deleteItem: tmpingredient })
             }
-        },
-        deleteIngredient(tmpingredient) {
-            const arrayRemove = (arr, value) => {
-                return arr.filter((ele) => {
-                    return ele != value
-                })
-            }
-            this.ingredients = arrayRemove(this.ingredients, tmpingredient)
         },
         goToIngredientPage(pageNumber) {
             if (pageNumber >= 1 && pageNumber <= this.ingredientTotalPages) {
@@ -229,7 +225,19 @@ export default {
                 this.seasoningPage = pageNumber;
             }
         },
-        
+        changeDate(targetdate) {
+            if (targetdate !== null) {
+                let returnDate = ''
+
+                returnDate = targetdate.slice(0, 4) + '년 ' + targetdate.slice(5, 7) + '월 ' + targetdate.slice(8, 10) + '일'
+
+
+                return returnDate
+            }
+            else {
+                return
+            }
+        },
     },
     created() {
         this.memberId = parseInt(sessionStorage.getItem('memberId'))
@@ -262,26 +270,44 @@ export default {
 
 /* 레시피의 ingredientName과 다름 */
 .ingredientName {
-font-weight: bold;
+    font-weight: bold;
+    width: 7.5%;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 .ingredientList {
     display: flex;
     border-bottom: solid grey;
     align-items: center;
+    justify-content: space-between;
     width: 95%;
     padding: .5rem;
     margin: auto;
     height: 10vh;
 }
 
+ul {
+    list-style: none;
+}
+
 .amount {
     display: flex;
-    border: solid rgb(207, 207, 207);
+    /* border: solid rgb(207, 207, 207); */
     border-radius: .5rem;
-    margin: auto;
+    /* margin: auto; */
+    margin-left: 1rem;
+    margin-right: 1rem;
     justify-content: center;
     align-items: center;
+    width: 20%;
+}
+
+.amountAndUnit {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: .5rem;
+    margin-right: .5rem;
 }
 
 .amountButton {
@@ -292,12 +318,35 @@ font-weight: bold;
     border: solid rgb(244, 244, 244);
 }
 
+.startDate {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: .5rem;
+    margin-right: .5rem;
+}
+
+.endDate {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: .5rem;
+    margin-right: .5rem;
+}
+
+.storage {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: .5rem;
+    margin-right: .5rem;
+}
+
 .deleteButton {
     border-radius: .5rem;
+    margin-left: .5rem;
     height: 2rem;
+    width: 5rem;
     background-color: #FD7E14;
     color: white;
-    border: none
+    border: none;
 }
 
 .refrigeratorCategory {
