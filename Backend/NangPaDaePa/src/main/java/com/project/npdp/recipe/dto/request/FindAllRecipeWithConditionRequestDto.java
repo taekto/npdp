@@ -13,5 +13,6 @@ public class FindAllRecipeWithConditionRequestDto {
     // 분류
     private String classification;
     // 키워드
-    private String keyword;
+    private String keyWord;
+
 }

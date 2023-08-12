@@ -174,7 +174,7 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
         QRecipe recipe = QRecipe.recipe; // QueryDSL을 위한 엔티티 경로
         String searchWord = findAllRecipeWithConditionRequestDto.getSearchWord();
         String classification = findAllRecipeWithConditionRequestDto.getClassification();
-        String keyword = findAllRecipeWithConditionRequestDto.getKeyword();
+        String keyword = findAllRecipeWithConditionRequestDto.getKeyWord();
 
         // 분류(전체) + 키워드
         if(classification.equals("전체")) {
@@ -194,10 +194,12 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
         // 분류(레시피명) + 키워드
         else if(classification.equals("레시피명")) {
             List<Recipe> result = queryFactory.selectFrom(recipe)
-                    .where(keywordEq(keyword), recipeNameLike(searchWord)).fetch();
+                    .where(recipeNameContains(searchWord), keywordEq(keyword)).fetch();
             log.info("searchWord ={}", searchWord);
             log.info("classification ={}", classification);
             log.info("keyword ={}", keyword);
+            log.info("result = {}", result);
+
             return result.stream()
                     .map(recipeEntity -> RecipeResponseDto.builder()
                             .recipeId(recipeEntity.getId())
@@ -212,6 +214,7 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
         else if (classification.equals("주재료")) {
             List<RecipeIngredient> result = queryFactory.selectFrom(recipeIngredient)
                     .innerJoin(recipeIngredient.recipe, recipe).fetchJoin()
+                    .innerJoin(recipeIngredient.ingredient, QIngredient.ingredient).fetchJoin()
                     .where(keywordEq(keyword), recipeIngredientTypeEq(0L), IngredientKorEq(searchWord))
                     .fetch();
             return result.stream()
@@ -228,6 +231,7 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
         else if(classification.equals("보조재료")) {
             List<RecipeIngredient> result = queryFactory.selectFrom(recipeIngredient)
                     .innerJoin(recipeIngredient.recipe, recipe).fetchJoin()
+                    .innerJoin(recipeIngredient.ingredient, QIngredient.ingredient).fetchJoin()
                     .where(keywordEq(keyword), recipeIngredientTypeEq(1L), IngredientKorEq(searchWord))
                     .fetch();
             return result.stream()
@@ -244,6 +248,7 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
         else if(classification.equals("양념")) {
             List<RecipeSeasoning> result = queryFactory.selectFrom(recipeSeasoning)
                     .innerJoin(recipeSeasoning.recipe, recipe).fetchJoin()
+                    .innerJoin(recipeSeasoning.seasoning, QSeasoning.seasoning).fetchJoin()
                     .where(SeasoningKorEq(searchWord), keywordEq(keyword))
                     .fetch();
             return result.stream()
@@ -265,8 +270,8 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
         return keyword != null ? recipe.category.eq(keyword) : null;
     }
 
-    private BooleanExpression recipeNameLike(String searchWord) {
-        return searchWord != null ? recipe.name.like(searchWord) : null;
+    private BooleanExpression recipeNameContains(String searchWord) {
+        return searchWord != null ? recipe.name.contains(searchWord) : null;
     }
 
     private BooleanExpression recipeIngredientTypeEq(Long type) {
