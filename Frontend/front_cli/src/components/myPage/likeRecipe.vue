@@ -7,13 +7,13 @@
     <!-- 우측 좋아요한 레시피 컴포넌트 -->
     <div id="myPageView">
       <p class="likeTitle">좋아요</p>
-        <div class="likeRecipes row" v-for="recipe_item in recipe" :key="recipe_item.recipe_id">
-          <div class="recommendCard col-4" @click="goToDetailRecipe(recipe_item)">
+        <div class="likeRecipes row" v-for="item in memberRecipeLike" :key="item.recipe_id">
+          <div class="recommendCard col-4" @click="goToDetailRecipe(item)">
             <img src='@/assets/123.jpg'>
-            <p>{{ recipe_item.name }}</p>
+            <p>{{ item.name }}</p>
             <div class="buttonGroup">
               <button class="recipeButton">View More</button>
-              <button class="deleteButton">좋아요 삭제</button>
+              <button class="deleteButton" @click="memberLikeRecipe({type: 'unlike', memberId: this.memberId, recipeId: this.item.recipeId})">좋아요 삭제</button>
             </div>
           </div>
         </div>
@@ -28,14 +28,20 @@ import {mapGetters, mapActions} from 'vuex'
 
 export default {
   name: 'LikeRecipe',
+  data () {
+    return {
+      memberId:null,
+    }
+  },
   components: {
     CategoryComponent,
   },
+  
   computed: {
-    ...mapGetters(['recipe'])
+    ...mapGetters(['memberRecipeLike'])
   },
   methods: {
-    ...mapActions(['memberLikeRecipe']),
+    ...mapActions(['memberLikeRecipe','fetchLike']),
     goToDetailRecipe(recipeItem) {
         this.$router.push({name: "recipe",  
             params: { 
@@ -46,6 +52,11 @@ export default {
             },
         })
     },
+  },
+  created() {
+    this.memberId = parseInt(sessionStorage.getItem('memberId'))
+    this.fetchLike(this.memberId)
+    console.log(this.memberRecipeLike)
   }
 }
 </script>

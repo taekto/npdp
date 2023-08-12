@@ -34,7 +34,7 @@
                 <div class="refrigeratorCategory">
                     <p class="categoryTitle">{{printStorage}} 재료</p>
                     <ul class="ListShow">
-                        <li class= "row" v-for="(ingredientItem, index) in displayedIngredientItems" :key="index">
+                        <li class= "row" v-for="(ingredientItem, index) in memberIngredient" :key="index">
                             <div class="ingredientList">
                                 <p class="col-1 ingredientName">{{ingredientItem.kor}}</p>
                                 <div class="amount col-2 row">
@@ -66,7 +66,7 @@
                 <div class="member_seasoning_container">
                     <p class="categoryTitle">{{printStorage}} 양념</p>
                     <ul class="ListShow">
-                        <li class= "row" v-for="seasoningItem in displayedSeasoningItems" :key="seasoningItem.memberSeasoningId">
+                        <li class= "row" v-for="seasoningItem in memberSeasoning" :key="seasoningItem.memberSeasoningId">
                             <div class="ingredientList">
                                 <p class="col-2 ingredientName">{{seasoningItem.kor}}</p>
                                 
@@ -110,40 +110,40 @@ export default {
     },
     computed: {
         ...mapGetters(['memberSeasoning', 'memberIngredient']),
-        ingredientTotalPages() {
-            let count = 0
-            for (let ingredient of this.memberIngredient) {
-                if(this.storage === ingredient.storage) {
-                    count ++ 
-                }
-            }
-            return Math.ceil(count / this.itemsPerPage)
-        },
-        seasoningtTotalPages() {
-            let count = 0
-            for (let seasoning of this.memberSeasoning) {
-                if(this.storage === seasoning.storage) {
-                    count ++ 
-                }
-            }
-            return Math.ceil(count / this.itemsPerPage)
-        },
-        displayedIngredientItems() {
-            const startIndex = (this.ingredientPage - 1) * this.itemsPerPage
-            const endIndex = startIndex + this.itemsPerPage
-            const displayedItems = this.memberIngredient.filter(ingredient => {
-                return ingredient.storage === this.storage
-            }).slice(startIndex, endIndex)
-            return displayedItems
-        },
-        displayedSeasoningItems() {
-            const startIndex = (this.seasoningPage - 1) * this.itemsPerPage
-            const endIndex = startIndex + this.itemsPerPage
-            const displayedItems = this.memberSeasoning.filter(seasoning => {
-                return seasoning.storage === this.storage
-            }).slice(startIndex, endIndex)
-            return displayedItems
-        },
+        // ingredientTotalPages() {
+        //     let count = 0
+        //     for (let ingredient of this.memberIngredient) {
+        //         if(this.storage === ingredient.storage) {
+        //             count ++ 
+        //         }
+        //     }
+        //     return Math.ceil(count / this.itemsPerPage)
+        // },
+        // seasoningtTotalPages() {
+        //     let count = 0
+        //     for (let seasoning of this.memberSeasoning) {
+        //         if(this.storage === seasoning.storage) {
+        //             count ++ 
+        //         }
+        //     }
+        //     return Math.ceil(count / this.itemsPerPage)
+        // },
+        // displayedIngredientItems() {
+        //     const startIndex = (this.ingredientPage - 1) * this.itemsPerPage
+        //     const endIndex = startIndex + this.itemsPerPage
+        //     const displayedItems = this.memberIngredient.filter(ingredient => {
+        //         return ingredient.storage === this.storage
+        //     }).slice(startIndex, endIndex)
+        //     return displayedItems
+        // },
+        // displayedSeasoningItems() {
+        //     const startIndex = (this.seasoningPage - 1) * this.itemsPerPage
+        //     const endIndex = startIndex + this.itemsPerPage
+        //     const displayedItems = this.memberSeasoning.filter(seasoning => {
+        //         return seasoning.storage === this.storage
+        //     }).slice(startIndex, endIndex)
+        //     return displayedItems
+        // },
         
     },
     // 임시 더미 데이터
@@ -202,20 +202,6 @@ export default {
             }
             this.ingredients = arrayRemove(this.ingredients, tmpingredient)
         },
-<<<<<<< HEAD
-=======
-        goToIngredientPage(pageNumber) {
-            if (pageNumber >= 1 && pageNumber <= this.ingredientTotalPages) {
-                this.ingredientPage = pageNumber;
-            }
-        },
-        goToSeasoningPage(pageNumber) {
-            if (pageNumber >= 1 && pageNumber <= this.seasoningtTotalPages) {
-                this.seasoningPage = pageNumber;
-            }
-        },
-        
->>>>>>> c2dc4989d6cbf4de71c7391544a3587a5dfb307c
     },
     created() {
         this.memberId = parseInt(sessionStorage.getItem('memberId'))
