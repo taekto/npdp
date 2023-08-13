@@ -23,13 +23,15 @@
       </div>
 
       <!-- 레시피 순서 -->
-      <div class="recipeOrder">
-        <h2 class="orderTitle">레시피 순서</h2>
-        <div class="orderLine" v-for="(order, index) in recipeDetail.recipeSequences" :key="index">
-          <p class="orderExplain">{{order.description}}</p>
-          <img class="orderImage" :src='order.img'>
-        </div>
-      </div>
+  <div class="recipeOrder">
+    <h2 class="orderTitle">레시피 순서</h2>
+    <button @click="playAllDescriptions">모든 설명 재생</button>
+    <div class="orderLine" v-for="(order, index) in recipeDetail.recipeSequences" :key="index">
+      <p class="orderExplain">{{ order.description }}</p>
+      <img class="orderImage" :src="order.img">
+      <button @click="playTTS(order.description)">TTS 재생</button>
+    </div>
+  </div>
       
     </div>
 </template>
@@ -67,6 +69,55 @@ export default {
     
     methods: {
       ...mapActions(['memberLikeRecipe','detailRecipe']),
+          playTTS(text) {
+      const apiKey = 'AIzaSyCN8qg_05_pSKpv6wRKwKyUfVfEAOC-uaA'; // Google Text-to-Speech API 키를 여기에 넣으세요.
+      const url = `https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`;
+      const data = {
+        input: {
+          text: text,
+        },
+        voice: {
+          languageCode: 'ko-KR',
+          name: 'ko-KR-Neural2-c',
+          ssmlGender: 'MALE',
+        },
+        audioConfig: {
+          audioEncoding: 'MP3',
+        },
+      };
+      const otherparam = {
+        headers: {
+          'content-type': 'application/json; charset=UTF-8',
+        },
+        body: JSON.stringify(data),
+        method: 'POST',
+      };
+
+      fetch(url, otherparam)
+        .then((data) => {
+          return data.json();
+        })
+        .then((res) => {
+          if (res.audioContent) {
+            const audioData = res.audioContent;
+            const audioBlob = new Blob([new Uint8Array(atob(audioData).split('').map((c) => c.charCodeAt(0)))], {
+              type: 'audio/mp3',
+            });
+            const audioUrl = URL.createObjectURL(audioBlob);
+            const audio = new Audio(audioUrl);
+            audio.play();
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    playAllDescriptions() {
+      const allDescriptions = this.recipeDetail.recipeSequences.map(order => order.description);
+      const combinedText = allDescriptions.join(' '); // 본문 전체 텍스트를 결합하여 재생
+
+      this.playTTS(combinedText);
+    },
 
     },
     created() {
