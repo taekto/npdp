@@ -42,9 +42,12 @@ export default {
       ...mapGetters(['recipeDetail', 'recipeWay'])
     },
     watch: {
-        recipeDetail() {
-            this.setCalorie()
-            this.setWay()
+        recipeDetail: {
+            immediate: true, // 처음에도 즉시 호출
+            handler() {
+                this.setCalorie();
+                this.setWay();
+            },
         }
     },
     methods: {
