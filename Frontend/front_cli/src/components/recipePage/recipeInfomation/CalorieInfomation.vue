@@ -49,6 +49,12 @@ export default {
     computed: {
       ...mapGetters(['recipeDetail', 'recipeWay'])
     },
+    watch: {
+        recipeDetail() {
+            this.setCalorie()
+            this.setWay()
+        }
+    },
     methods: {
         setCalorie() {
             this.calorie = [{name: "칼로리", value: this.recipeDetail.calorie},

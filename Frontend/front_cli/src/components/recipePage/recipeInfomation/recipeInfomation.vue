@@ -4,7 +4,8 @@
     <!-- 레시피 정보 윗줄(재료 & 그래프) -->
     <div class="InfomationLine">
       <!-- 재료 정보 -->
-      <IngredientInfomation class="infoBox" :serving='serving' />
+      
+      <CalorieInformation class="infoBox" :serving='serving' />
       
       <!-- 유사도 그래프 -->
       <GraphInfomation class="infoBox" />
@@ -12,9 +13,9 @@
   
     
     <!-- 레시피 정보 아랫줄(영양소 & 재료 관리 버튼) -->
-    <div class="InfomationLine">
+    <div class="InfomationLine2">
       <!-- 영양소 정보 -->
-      <CalorieInformation class="infoBox" :serving='serving' />
+      
       
       <!-- 각종 버튼(인분 조절, 재료 입력, 양념 입력) -->
       <div class="infoBox">
@@ -43,7 +44,7 @@
 </template>
 
 <script>
-import IngredientInfomation from './IngredientInfomation.vue'
+
 import GraphInfomation from './GraphInfomation.vue'
 import CalorieInformation from './CalorieInfomation.vue'
 import IngredientModal from '../../modalPage/IngredientModal'
@@ -53,7 +54,7 @@ import {mapGetters} from 'vuex'
 export default {
     name : 'RecipeInfomation',
     components: {
-      IngredientInfomation,
+      
       GraphInfomation,
       CalorieInformation,
       IngredientModal,
@@ -127,6 +128,11 @@ export default {
 /* 레시피 정보 각 줄 */
 .InfomationLine {
     display: flex;
+}
+
+.InfomationLine2 {
+    display: flex;
+    justify-content: flex-end;
 }
 
 
