@@ -1,6 +1,6 @@
 <template>
   <!-- 재료 입력 모달 상위 컴포넌트 -->
-  <div>
+  <div class="modal_container">
     <IngredientText />
     <IngredientSound />
     <button class="modalButton" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-whatever="@ingredient">재료수정</button>
@@ -36,6 +36,7 @@ export default {
   padding: 0.3rem;
   font-size: 1.2rem;
   font-weight: bold;
+  /* min-width: 5rem; */
   /* font-family: 'LINESeedKR-Bd'; */
   font-family: 'GangwonEdu_OTFBoldA';
 }

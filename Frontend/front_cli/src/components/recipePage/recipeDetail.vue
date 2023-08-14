@@ -20,6 +20,7 @@
         <!-- 레시피 정보 -->
         <RecipeInfomation />
       </div>
+      
   <div>
     <IngredientInfomation/>
   </div>
@@ -215,7 +216,7 @@ export default {
 /* 레시피 이미지 & 레시피 정보 */
 .recipeInfomation {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
 }
 
 /* 레시피 이미지 */
@@ -224,6 +225,7 @@ export default {
     height: 30rem;
     border-radius: .5rem;
     border: solid rgb(205, 205, 205) 1.5px;
+    margin-right: 3rem;
 }
 
 .recipeImg {
@@ -264,6 +266,7 @@ export default {
   /* color: #FD7E14; */
   font-size: 1.5rem;
   font-style: normal;
+  color: #FD7E14;
 }
 
 .all_replay:hover {
