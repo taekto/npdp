@@ -56,18 +56,19 @@ export default {
 
 <style scoped>
 .myPageComponent {
-    margin-top: 3rem;
-    margin-bottom: 3rem;
-    border-radius: .5rem;
-    box-shadow: 1px 1px 1px 1px;
-    margin-left: 1rem;
-    height: 15rem;
+    margin-top: 5rem;
+    /* margin-bottom: 3rem; */
+    /* border: 1px solid black; */
+    border-radius: .4rem;
+    /* box-shadow: 1px 1px 1px 1px; */
+    margin-left: 3rem;
+    height: 17rem;
+    min-width: 12rem;
 }
 
 .myPageComponent div {
-    margin: auto;
-    margin-top: 1rem;
-    border-bottom: 1px solid #bdbdbd;
+    margin: 1rem auto 2rem;
+    /* border-bottom: 1px solid #000000; */
     width: 90%;
 }
 
@@ -78,7 +79,6 @@ export default {
     font-size: 1.5rem;
     font-family: 'LINESeedKR-Rg';
 }
-
 .myPageComponent div a.router-link-exact-active {
   color: #FD7E14;
 }
