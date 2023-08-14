@@ -10,13 +10,13 @@
             <div class="buttonGroup">
                 <!-- 보관 방법 변경 버튼 -->
                 <div class="storageRadio">
-                    <label class="radioButton">
+                    <label class="storagae radioButton">
                         <input type="radio" name="coldStorage" value="냉장" @click="selectStorage(0)">냉장
                     </label>
-                    <label class="radioButton">
+                    <label class="storagae radioButton">
                         <input type="radio" name="frozenStorage" value="냉동" @click="selectStorage(1)">냉동
                     </label>
-                    <label class="radioButton">
+                    <label class="storagae radioButton">
                         <input type="radio" name="rtStorage" value="실온" @click="selectStorage(2)">실온
                     </label>            
                 </div>
@@ -308,10 +308,19 @@ font-weight: bold;
 
 .storageRadio {
     display: flex;
-    margin-top: 3rem;
-    margin-left: 7.5rem;
+    margin-top: 2rem;
+    margin-left: 4rem;
 }
 
+.storagae.radioButton {
+    font-family: 'LINESeedKR-Bd';
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+.storagae.radioButton:hover {
+    background-color: #FD7E14;
+    color: #f2f2f2;
+}
 
 .categoryTitle {
     text-align: start;
