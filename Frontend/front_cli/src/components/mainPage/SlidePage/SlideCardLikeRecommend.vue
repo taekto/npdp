@@ -2,7 +2,8 @@
     <!-- 좋아요 많은 레시피 카드 -->
     <div class="recommendCard" @click="goToDetailRecipe(recipe)">
         <img :src="recipe.imgSmall">
-        <p>{{ recipe }}</p>
+        <p class="recipeName">{{ recipe.name }}</p>
+        <p id="recipeCount">♥ : {{recipe.count}}</p>
     </div>
 </template>
 
@@ -29,11 +30,25 @@ export default {
 
 <style scoped>
 /* 좋아요 많은 레시피 카드 */
-.recommendCard {
+/* .recommendCard {
     border-radius: .5rem;
     border: solid #7f7f7f 1px;
     height: 22rem;
     width: 20rem;
+    cursor: pointer;
+    margin: 1rem;
+    font-weight: bold;
+    transition: 0.3s;
+} */
+
+.recommendCard {
+    border-radius: .1rem;
+    border: 1px solid rgb(207, 205, 205);
+    /* box-shadow: 0 4px 4px -4px black; */
+    box-shadow: 0 0 0 1px hsla(212,7%,43%,.32);
+    /* border: 1px solid #857f7b; */
+    height: 23rem;
+    width: 18rem;
     cursor: pointer;
     margin: 1rem;
     font-weight: bold;
@@ -55,10 +70,30 @@ export default {
     word-break: keep-all;
 }
 
+#recipeCount {
+    font-size: 1.5rem;
+    text-align: end;
+    /* margin-right: 1rem; */
+    position: absolute;
+    left: 70%;
+    top: 77.5%;
+    color: red;
+}
+
 img {
-    width: 90%;
-    margin-top: .7rem;
-    border-radius: 0.5rem;
+    width: 100%;
+    height: 50%;
+    /* margin-top: .7rem; */
+    border-radius: 0.1rem;
+}
+
+.recipeName {
+    margin: auto;
+    /* word-break: keep-all; */
+    overflow: hidden;
+    margin: 3rem 2rem;
+    font-size: 2rem;
+    font-family: 'LINESeedKR-Bd';
 }
 
 .recipeButton {
