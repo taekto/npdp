@@ -21,7 +21,7 @@ public class RecipeIngredient {
 
     private Long type;
 
-    private Long amount;
+    private String amount;
 
     private String unit;
 

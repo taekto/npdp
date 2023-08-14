@@ -22,7 +22,7 @@ public class QRecipeIngredient extends EntityPathBase<RecipeIngredient> {
 
     public static final QRecipeIngredient recipeIngredient = new QRecipeIngredient("recipeIngredient");
 
-    public final NumberPath<Long> amount = createNumber("amount", Long.class);
+    public final StringPath amount = createString("amount");
 
     public final StringPath etc = createString("etc");
 

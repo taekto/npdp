@@ -48,6 +48,10 @@ public class QRecipe extends EntityPathBase<Recipe> {
 
     public final ListPath<RecipeIngredient, QRecipeIngredient> recipeIngredientList = this.<RecipeIngredient, QRecipeIngredient>createList("recipeIngredientList", RecipeIngredient.class, QRecipeIngredient.class, PathInits.DIRECT2);
 
+    public final ListPath<com.project.npdp.domain.RecipeRecommend, com.project.npdp.domain.QRecipeRecommend> recipeRecommendList1 = this.<com.project.npdp.domain.RecipeRecommend, com.project.npdp.domain.QRecipeRecommend>createList("recipeRecommendList1", com.project.npdp.domain.RecipeRecommend.class, com.project.npdp.domain.QRecipeRecommend.class, PathInits.DIRECT2);
+
+    public final ListPath<com.project.npdp.domain.RecipeRecommend, com.project.npdp.domain.QRecipeRecommend> recipeRecommendList2 = this.<com.project.npdp.domain.RecipeRecommend, com.project.npdp.domain.QRecipeRecommend>createList("recipeRecommendList2", com.project.npdp.domain.RecipeRecommend.class, com.project.npdp.domain.QRecipeRecommend.class, PathInits.DIRECT2);
+
     public final ListPath<RecipeSeasoning, QRecipeSeasoning> recipeSeasoningList = this.<RecipeSeasoning, QRecipeSeasoning>createList("recipeSeasoningList", RecipeSeasoning.class, QRecipeSeasoning.class, PathInits.DIRECT2);
 
     public final ListPath<RecipeSequence, QRecipeSequence> recipeSequenceList = this.<RecipeSequence, QRecipeSequence>createList("recipeSequenceList", RecipeSequence.class, QRecipeSequence.class, PathInits.DIRECT2);

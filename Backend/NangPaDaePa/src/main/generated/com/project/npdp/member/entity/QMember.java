@@ -38,6 +38,8 @@ public class QMember extends EntityPathBase<Member> {
 
     public final ListPath<MemberRecipeLike, QMemberRecipeLike> memberRecipeLikeList = this.<MemberRecipeLike, QMemberRecipeLike>createList("memberRecipeLikeList", MemberRecipeLike.class, QMemberRecipeLike.class, PathInits.DIRECT2);
 
+    public final ListPath<com.project.npdp.domain.MemberRecommend, com.project.npdp.domain.QMemberRecommend> memberRecommendList = this.<com.project.npdp.domain.MemberRecommend, com.project.npdp.domain.QMemberRecommend>createList("memberRecommendList", com.project.npdp.domain.MemberRecommend.class, com.project.npdp.domain.QMemberRecommend.class, PathInits.DIRECT2);
+
     public final ListPath<com.project.npdp.refregirator.entity.MemberSeasoning, com.project.npdp.refregirator.entity.QMemberSeasoning> memberSeasoningList = this.<com.project.npdp.refregirator.entity.MemberSeasoning, com.project.npdp.refregirator.entity.QMemberSeasoning>createList("memberSeasoningList", com.project.npdp.refregirator.entity.MemberSeasoning.class, com.project.npdp.refregirator.entity.QMemberSeasoning.class, PathInits.DIRECT2);
 
     public final ListPath<MemberUtensil, QMemberUtensil> memberUtensilList = this.<MemberUtensil, QMemberUtensil>createList("memberUtensilList", MemberUtensil.class, QMemberUtensil.class, PathInits.DIRECT2);
