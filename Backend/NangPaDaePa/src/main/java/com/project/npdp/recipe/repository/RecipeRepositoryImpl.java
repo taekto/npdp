@@ -2,18 +2,26 @@ package com.project.npdp.recipe.repository;
 
 import com.project.npdp.food.entity.QIngredient;
 import com.project.npdp.food.entity.QSeasoning;
+import com.project.npdp.recipe.dto.request.FindAllRecipeWithConditionRequestDto;
 import com.project.npdp.recipe.dto.response.*;
 import com.project.npdp.recipe.entity.*;
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.project.npdp.recipe.entity.QRecipe.recipe;
+import static com.project.npdp.recipe.entity.QRecipeIngredient.recipeIngredient;
+import static com.project.npdp.recipe.entity.QRecipeSeasoning.recipeSeasoning;
+
 
 @RequiredArgsConstructor
+@Slf4j
 public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
@@ -160,5 +168,128 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
                 .recipeSequences(recipeSequences)
                 .build();
     }
+
+    @Override
+    public List<RecipeResponseDto> findAllRecipeWithCategory(FindAllRecipeWithConditionRequestDto findAllRecipeWithConditionRequestDto) {
+        QRecipe recipe = QRecipe.recipe; // QueryDSL을 위한 엔티티 경로
+        String searchWord = findAllRecipeWithConditionRequestDto.getSearchWord();
+        String classification = findAllRecipeWithConditionRequestDto.getClassification();
+        String keyword = findAllRecipeWithConditionRequestDto.getKeyWord();
+
+        // 분류(전체) + 키워드
+        if(classification.equals("전체")) {
+
+            List<Recipe> result = queryFactory.selectFrom(recipe)
+                    .where(keywordEq(keyword)).fetch();
+            return result.stream()
+                    .map(recipeEntity -> RecipeResponseDto.builder()
+                            .recipeId(recipeEntity.getId())
+                            .name(recipeEntity.getName())
+                            .imgBig(recipeEntity.getImgBig())
+                            .imgSmall(recipeEntity.getImgSmall())
+                            .category(recipeEntity.getCategory())
+                            .build())
+                    .collect(Collectors.toList());
+        }
+        // 분류(레시피명) + 키워드
+        else if(classification.equals("레시피명")) {
+            List<Recipe> result = queryFactory.selectFrom(recipe)
+                    .where(recipeNameContains(searchWord), keywordEq(keyword)).fetch();
+            log.info("searchWord ={}", searchWord);
+            log.info("classification ={}", classification);
+            log.info("keyword ={}", keyword);
+            log.info("result = {}", result);
+
+            return result.stream()
+                    .map(recipeEntity -> RecipeResponseDto.builder()
+                            .recipeId(recipeEntity.getId())
+                            .name(recipeEntity.getName())
+                            .imgBig(recipeEntity.getImgBig())
+                            .imgSmall(recipeEntity.getImgSmall())
+                            .category(recipeEntity.getCategory())
+                            .build())
+                    .collect(Collectors.toList());
+        }
+        // 분류(주재료) + 키워드
+        else if (classification.equals("주재료")) {
+            List<RecipeIngredient> result = queryFactory.selectFrom(recipeIngredient)
+                    .innerJoin(recipeIngredient.recipe, recipe).fetchJoin()
+                    .innerJoin(recipeIngredient.ingredient, QIngredient.ingredient).fetchJoin()
+                    .where(keywordEq(keyword), recipeIngredientTypeEq(0L), IngredientKorEq(searchWord))
+                    .fetch();
+            return result.stream()
+                    .map(recipeIngredientEntity -> RecipeResponseDto.builder()
+                            .recipeId(recipeIngredientEntity.getRecipe().getId())
+                            .name(recipeIngredientEntity.getRecipe().getName()) // 수정된 부분
+                            .imgBig(recipeIngredientEntity.getRecipe().getImgBig())
+                            .imgSmall(recipeIngredientEntity.getRecipe().getImgSmall())
+                            .category(recipeIngredientEntity.getRecipe().getCategory())
+                            .build())
+                    .collect(Collectors.toList());
+        }
+        // 분류(보조재료) + 키워드
+        else if(classification.equals("보조재료")) {
+            List<RecipeIngredient> result = queryFactory.selectFrom(recipeIngredient)
+                    .innerJoin(recipeIngredient.recipe, recipe).fetchJoin()
+                    .innerJoin(recipeIngredient.ingredient, QIngredient.ingredient).fetchJoin()
+                    .where(keywordEq(keyword), recipeIngredientTypeEq(1L), IngredientKorEq(searchWord))
+                    .fetch();
+            return result.stream()
+                    .map(recipeIngredientEntity -> RecipeResponseDto.builder()
+                            .recipeId(recipeIngredientEntity.getRecipe().getId())
+                            .name(recipeIngredientEntity.getRecipe().getName()) // 수정된 부분
+                            .imgBig(recipeIngredientEntity.getRecipe().getImgBig())
+                            .imgSmall(recipeIngredientEntity.getRecipe().getImgSmall())
+                            .category(recipeIngredientEntity.getRecipe().getCategory())
+                            .build())
+                    .collect(Collectors.toList());
+        }
+        // 분류(양념) + 키워드
+        else if(classification.equals("양념")) {
+            List<RecipeSeasoning> result = queryFactory.selectFrom(recipeSeasoning)
+                    .innerJoin(recipeSeasoning.recipe, recipe).fetchJoin()
+                    .innerJoin(recipeSeasoning.seasoning, QSeasoning.seasoning).fetchJoin()
+                    .where(SeasoningKorEq(searchWord), keywordEq(keyword))
+                    .fetch();
+            return result.stream()
+                    .map(recipeSeasoningEntity -> RecipeResponseDto.builder()
+                            .recipeId(recipeSeasoningEntity.getRecipe().getId())
+                            .name(recipeSeasoningEntity.getRecipe().getName())
+                            .imgBig(recipeSeasoningEntity.getRecipe().getImgBig())
+                            .imgSmall(recipeSeasoningEntity.getRecipe().getImgSmall())
+                            .category(recipeSeasoningEntity.getRecipe().getCategory())
+                            .build())
+                    .collect(Collectors.toList());
+        }
+        return null;
+
+    }
+
+
+    private BooleanExpression keywordEq(String keyword) {
+        return keyword != null ? recipe.category.eq(keyword) : null;
+    }
+
+    private BooleanExpression recipeNameContains(String searchWord) {
+        return searchWord != null ? recipe.name.contains(searchWord) : null;
+    }
+
+    private BooleanExpression recipeIngredientTypeEq(Long type) {
+        return type != null ? recipeIngredient.type.eq(type) : null;
+    }
+
+    private BooleanExpression IngredientKorEq(String kor) {
+        return kor != null ? QIngredient.ingredient.kor.eq(kor) : null;
+    }
+
+    private BooleanExpression SeasoningKorEq(String kor) {
+        return kor != null ? QSeasoning.seasoning.kor.eq(kor) : null;
+    }
+//    private BooleanExpression recipeNameLike(String name) {
+//        return name != null ? recipe.name.like(name) : null;
+//    }
+
+
+
 
 }

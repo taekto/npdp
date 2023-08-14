@@ -1,7 +1,7 @@
 package com.project.npdp.recipe.service;
 
+import com.project.npdp.recipe.dto.request.FindAllRecipeWithConditionRequestDto;
 import com.project.npdp.recipe.dto.response.RecipeDetailResponseDto;
-import com.project.npdp.recipe.dto.response.RecipeIngredientDetailDto;
 import com.project.npdp.recipe.dto.response.RecipeResponseDto;
 import com.project.npdp.recipe.dto.response.RecipeWantResponseDto;
 import com.project.npdp.recipe.entity.Recipe;
@@ -56,6 +56,13 @@ public class RecipeService {
                         .build())
                 .collect(Collectors.toList());
 
+        return result;
+    }
+
+    // 레시피 검색 분류(전체) + 카테고리(전체,밥,국/찌개,반찬,일품,후식)
+    @Transactional(readOnly = true)
+    public List<RecipeResponseDto> findAllRecipeWithCategory(FindAllRecipeWithConditionRequestDto findAllRecipeWithConditionRequestDto) {
+        List<RecipeResponseDto> result = recipeRepository.findAllRecipeWithCategory(findAllRecipeWithConditionRequestDto);
         return result;
     }
 
