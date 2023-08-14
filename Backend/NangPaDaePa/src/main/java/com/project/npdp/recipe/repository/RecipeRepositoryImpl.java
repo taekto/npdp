@@ -1,8 +1,11 @@
 package com.project.npdp.recipe.repository;
 
+import com.project.npdp.domain.QRecipeRecommend;
+import com.project.npdp.domain.RecipeRecommend;
 import com.project.npdp.food.entity.QIngredient;
 import com.project.npdp.food.entity.QSeasoning;
 import com.project.npdp.recipe.dto.request.FindAllRecipeWithConditionRequestDto;
+import com.project.npdp.recipe.dto.request.RecipeRecommendRequestDto;
 import com.project.npdp.recipe.dto.response.*;
 import com.project.npdp.recipe.entity.*;
 import com.querydsl.core.Tuple;
@@ -15,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.project.npdp.domain.QRecipeRecommend.recipeRecommend;
 import static com.project.npdp.recipe.entity.QRecipe.recipe;
 import static com.project.npdp.recipe.entity.QRecipeIngredient.recipeIngredient;
 import static com.project.npdp.recipe.entity.QRecipeSeasoning.recipeSeasoning;
@@ -263,6 +267,27 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
         }
         return null;
 
+    }
+
+    @Override
+    public List<RecipeRecommendResponseDto> findRecipesWithSimilarity(RecipeRecommendRequestDto recipeRecommendRequestDto) {
+        log.info("recipeRecommendRequestDto = {}", recipeRecommendRequestDto.getRecipeOwnId());
+        Long recipeOwnId = recipeRecommendRequestDto.getRecipeOwnId();
+        List<RecipeRecommend> result = queryFactory.selectFrom(recipeRecommend)
+                .innerJoin(recipeRecommend.recipeSlave, recipe).fetchJoin()
+                .innerJoin(recipeRecommend.recipeOwn, recipe).fetchJoin()
+                .where(recipeRecommend.recipeOwn.id.eq(recipeOwnId))
+                .fetch();
+        return result.stream()
+                .map(recipeRecommendEntity -> RecipeRecommendResponseDto.builder()
+                        .recipeId(recipeRecommendEntity.getRecipeSlave().getId())
+                        .name(recipeRecommendEntity.getRecipeSlave().getName())
+                        .imgBig(recipeRecommendEntity.getRecipeSlave().getImgBig())
+                        .imgSmall(recipeRecommendEntity.getRecipeSlave().getImgSmall())
+                        .category(recipeRecommendEntity.getRecipeSlave().getCategory())
+                        .similarity(recipeRecommendEntity.getSimilarity())
+                        .build())
+                .collect(Collectors.toList());
     }
 
 

@@ -1,13 +1,16 @@
 package com.project.npdp.recipe.service;
 
 import com.project.npdp.recipe.dto.request.FindAllRecipeWithConditionRequestDto;
+import com.project.npdp.recipe.dto.request.RecipeRecommendRequestDto;
 import com.project.npdp.recipe.dto.response.RecipeDetailResponseDto;
+import com.project.npdp.recipe.dto.response.RecipeRecommendResponseDto;
 import com.project.npdp.recipe.dto.response.RecipeResponseDto;
 import com.project.npdp.recipe.dto.response.RecipeWantResponseDto;
 import com.project.npdp.recipe.entity.Recipe;
 import com.project.npdp.recipe.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,6 +66,12 @@ public class RecipeService {
     @Transactional(readOnly = true)
     public List<RecipeResponseDto> findAllRecipeWithCategory(FindAllRecipeWithConditionRequestDto findAllRecipeWithConditionRequestDto) {
         List<RecipeResponseDto> result = recipeRepository.findAllRecipeWithCategory(findAllRecipeWithConditionRequestDto);
+        return result;
+    }
+
+    @Transactional(readOnly = true)
+    public List<RecipeRecommendResponseDto> findRecipesWithSimilarity(RecipeRecommendRequestDto recipeRecommendRequestDto) {
+        List<RecipeRecommendResponseDto> result = recipeRepository.findRecipesWithSimilarity(recipeRecommendRequestDto);
         return result;
     }
 
