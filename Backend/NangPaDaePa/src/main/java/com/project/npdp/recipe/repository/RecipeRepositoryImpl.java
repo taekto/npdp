@@ -61,7 +61,7 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
         for (Tuple tuple : result1) {
             RecipeIngredientDetailDto recipeIngredientDetailDto = RecipeIngredientDetailDto.builder()
                     .type(tuple.get(recipeIngredient.type))
-                    .amount(tuple.get(recipeIngredient.amount))
+//                    .amount(tuple.get(recipeIngredient.amount))
                     .unit(tuple.get(recipeIngredient.unit))
                     .ingredientId(tuple.get(qIngredient.id))
                     .code(tuple.get(qIngredient.code))
@@ -99,7 +99,7 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
         List<RecipeSeasoningDetailDto> recipeSeasonings = new ArrayList<>();
         for (Tuple tuple : result2) {
             RecipeSeasoningDetailDto recipeSeasoningDetailDto = RecipeSeasoningDetailDto.builder()
-                    .amount(tuple.get(recipeSeasoning.amount))
+//                    .amount(tuple.get(recipeSeasoning.amount))
                     .unit(tuple.get(recipeSeasoning.unit))
                     .seasoningId(tuple.get(qSeasoning.id))
                     .code(tuple.get(qSeasoning.code))
