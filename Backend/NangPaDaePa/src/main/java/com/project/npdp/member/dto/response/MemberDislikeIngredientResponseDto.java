@@ -8,7 +8,7 @@ import lombok.*;
 @Builder
 public class MemberDislikeIngredientResponseDto {
 
-    private Long memberId;
+    private Long ingredientId;
 
     private String ingredientName;
 }
