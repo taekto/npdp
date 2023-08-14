@@ -1,8 +1,8 @@
 <template>
     <!-- 좋아요 많은 레시피 카드 -->
     <div class="recommendCard" @click="goToDetailRecipe(recipe)">
-        <img src='@/assets/123.jpg'>
-        <p>{{ recipe.name }}</p>
+        <img :src="recipe.imgSmall">
+        <p>{{ recipe }}</p>
     </div>
 </template>
 
