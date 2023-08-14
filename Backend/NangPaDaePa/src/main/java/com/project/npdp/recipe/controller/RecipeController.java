@@ -1,6 +1,7 @@
 package com.project.npdp.recipe.controller;
 
 import com.project.npdp.recipe.dto.request.FindAllRecipeWithConditionRequestDto;
+import com.project.npdp.recipe.dto.request.RecipeDetailRequestDto;
 import com.project.npdp.recipe.dto.request.RecipeRecommendRequestDto;
 import com.project.npdp.recipe.dto.response.RecipeDetailResponseDto;
 import com.project.npdp.recipe.dto.response.RecipeRecommendResponseDto;
@@ -24,9 +25,9 @@ public class RecipeController {
     private final RecipeService recipeService;
 
     // id로 Recipe Detail 조회
-    @GetMapping("{recipeId}")
-    public ResponseEntity<?> findRecipeById(@PathVariable("recipeId") Long recipeId) {
-        RecipeDetailResponseDto recipeDetail = recipeService.findRecipeDetail(recipeId);
+    @GetMapping("/detail")
+    public ResponseEntity<?> findRecipeById(@RequestBody RecipeDetailRequestDto recipeDetailRequestDto) {
+        RecipeDetailResponseDto recipeDetail = recipeService.findRecipeDetail(recipeDetailRequestDto);
         return ResponseEntity.ok().body(recipeDetail);
     }
 

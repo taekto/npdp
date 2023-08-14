@@ -1,6 +1,7 @@
 package com.project.npdp.recipe.repository;
 
 import com.project.npdp.recipe.dto.request.FindAllRecipeWithConditionRequestDto;
+import com.project.npdp.recipe.dto.request.RecipeDetailRequestDto;
 import com.project.npdp.recipe.dto.request.RecipeRecommendRequestDto;
 import com.project.npdp.recipe.dto.response.RecipeDetailResponseDto;
 import com.project.npdp.recipe.dto.response.RecipeHeartResponseDto;
@@ -13,7 +14,7 @@ import java.util.List;
 public interface RecipeRepositoryCustom {
     public List<Recipe> findRecipeByContent(String content);
 
-    public RecipeDetailResponseDto findRecipeDetail(Long recipeId);
+    public RecipeDetailResponseDto findRecipeDetail(RecipeDetailRequestDto recipeDetailRequestDto);
 
     public List<RecipeResponseDto> findAllRecipeWithCategory(FindAllRecipeWithConditionRequestDto findAllRecipeWithConditionRequestDto);
 

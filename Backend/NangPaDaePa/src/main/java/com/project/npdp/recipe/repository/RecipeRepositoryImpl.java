@@ -7,6 +7,7 @@ import com.project.npdp.food.entity.QSeasoning;
 import com.project.npdp.member.entity.MemberRecipeLike;
 import com.project.npdp.member.entity.QMemberRecipeLike;
 import com.project.npdp.recipe.dto.request.FindAllRecipeWithConditionRequestDto;
+import com.project.npdp.recipe.dto.request.RecipeDetailRequestDto;
 import com.project.npdp.recipe.dto.request.RecipeRecommendRequestDto;
 import com.project.npdp.recipe.dto.response.*;
 import com.project.npdp.recipe.entity.*;
@@ -45,14 +46,37 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
     }
 
     @Override
-    public RecipeDetailResponseDto findRecipeDetail(Long recipeId) {
+    public RecipeDetailResponseDto findRecipeDetail(RecipeDetailRequestDto recipeDetailRequestDto) {
         QRecipeIngredient recipeIngredient = QRecipeIngredient.recipeIngredient;
         QIngredient qIngredient = QIngredient.ingredient;
         QSeasoning qSeasoning = QSeasoning.seasoning;
         QRecipeSeasoning recipeSeasoning = QRecipeSeasoning.recipeSeasoning;
         QRecipeSequence recipeSequence = QRecipeSequence.recipeSequence;
         QRecipe recipe = QRecipe.recipe;
+        Long recipeId = recipeDetailRequestDto.getRecipeId();
+        Long memberId = recipeDetailRequestDto.getMemberId();
 
+        Long count = queryFactory
+                .select(memberRecipeLike.recipe.id.count())
+                .from(memberRecipeLike)
+                .where(memberRecipeLike.recipe.id.eq(recipeId))
+                .fetchOne();
+
+        Boolean heartTF = false;
+
+        MemberRecipeLike memberRecipeLike1 = queryFactory.select(memberRecipeLike)
+                .from(memberRecipeLike)
+                .where(memberRecipeLike.recipe.id.eq(recipeId)
+                        .and(memberRecipeLike.member.id.eq(memberId)))
+                .fetchOne();
+        if(memberRecipeLike1 == null) {
+            heartTF = false;
+        }
+        else {
+            heartTF = true;
+        }
+        log.info("count : {} ", count);
+        log.info("heartTF : {} ", heartTF);
 
         List<Tuple> result1 = queryFactory.select(
                         recipeIngredient.type,
@@ -156,6 +180,7 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
                 .where(recipe.id.eq(recipeId))
                 .fetchOne();
 
+
         return RecipeDetailResponseDto.builder()
                 .recipeId(recipeId)
                 .name(recipeEntity.getName())
@@ -173,6 +198,8 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
                 .recipeIngredients(recipeIngredients)
                 .recipeSeasonings(recipeSeasonings)
                 .recipeSequences(recipeSequences)
+                .count(count)
+                .heartTF(heartTF)
                 .build();
     }
 

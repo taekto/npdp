@@ -42,6 +42,11 @@ public class MemberLatestService {
                     .recipe(recipe).build();
             memberRecipeLatestRepository.save(result);
         }
+        // 존재한다면?
+        else {
+            MemberRecipeLatest memberRecipeLatest = memberRecipeLatestByMemberIdAndRecipeId.get();
+            memberRecipeLatest.updateDate();
+        }
     }
 
     // 회원 최근본 레시피 조회

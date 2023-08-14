@@ -39,6 +39,10 @@ public class RecipeDetailResponseDto {
 
     private Long dish;
 
+    private Long count;
+
+    private Boolean heartTF;
+
     private List<RecipeIngredientDetailDto> recipeIngredients;
 
     private List<RecipeSeasoningDetailDto> recipeSeasonings;

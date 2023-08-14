@@ -33,6 +33,13 @@ public class MemberRecipeLatest {
     public MemberRecipeLatest(Recipe recipe, Member member) {
         this.recipe = recipe;
         this.member = member;
+        this.date = LocalDateTime.now();
     }
+
+    // 날짜 업데이트
+    public void updateDate() {
+        this.date = LocalDateTime.now();
+    }
+
 
 }

@@ -25,7 +25,7 @@ public class MemberRecipeLatestRepositoryImpl implements MemberRecipeLatestRepos
     public List<MemberLatestResponseDto> findLatestWithRecipesByMemberId(Long memberId) {
         List<MemberRecipeLatest> memberRecipeLatests = queryFactory
                 .selectFrom(memberRecipeLatest)
-                .join(memberRecipeLatest.recipe, recipe)
+                .join(memberRecipeLatest.recipe, recipe).fetchJoin()
                 .where(memberRecipeLatest.member.id.eq(memberId))
                 .orderBy(memberRecipeLatest.date.desc()) // 내림차순 정렬
                 .limit(20) // 최근 20개 항목 제한

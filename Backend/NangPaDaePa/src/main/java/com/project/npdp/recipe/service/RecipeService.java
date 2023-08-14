@@ -1,6 +1,7 @@
 package com.project.npdp.recipe.service;
 
 import com.project.npdp.recipe.dto.request.FindAllRecipeWithConditionRequestDto;
+import com.project.npdp.recipe.dto.request.RecipeDetailRequestDto;
 import com.project.npdp.recipe.dto.request.RecipeRecommendRequestDto;
 import com.project.npdp.recipe.dto.response.RecipeDetailResponseDto;
 import com.project.npdp.recipe.dto.response.RecipeRecommendResponseDto;
@@ -42,8 +43,8 @@ public class RecipeService {
     }
 
     // 레시피id로 레시피 조회
-    public RecipeDetailResponseDto findRecipeDetail(Long recipeId) {
-        RecipeDetailResponseDto recipeDetail = recipeRepository.findRecipeDetail(recipeId);
+    public RecipeDetailResponseDto findRecipeDetail(RecipeDetailRequestDto recipeDetailRequestDto) {
+        RecipeDetailResponseDto recipeDetail = recipeRepository.findRecipeDetail(recipeDetailRequestDto);
         return recipeDetail;
     }
 
