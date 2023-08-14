@@ -94,7 +94,7 @@
             <div class="editCategoryTitle">
               <p>성별 선택</p>
             </div>
-            <div class="storageRadio">
+            <div class="storageRadio btn_group">
               <label v-if="credentials.gender === 'none'" class="activeRadioButton">
                 <input type="radio" name="noGender" value="none" v-model="credentials.gender" @click="changeClassification">선택 안함
               </label>
@@ -527,5 +527,10 @@ export default {
   border-radius: 3px;
   border: 1px solid black;
   padding: .5rem
+}
+
+.btn_group {
+  display: flex;
+  justify-content: center;
 }
 </style>
