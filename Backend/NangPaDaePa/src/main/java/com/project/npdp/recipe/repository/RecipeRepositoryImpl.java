@@ -215,7 +215,7 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
             List<RecipeIngredient> result = queryFactory.selectFrom(recipeIngredient)
                     .innerJoin(recipeIngredient.recipe, recipe).fetchJoin()
                     .innerJoin(recipeIngredient.ingredient, QIngredient.ingredient).fetchJoin()
-                    .where(keywordEq(keyword), recipeIngredientTypeEq(0L), IngredientKorEq(searchWord))
+                    .where(keywordEq(keyword), recipeIngredientTypeEq(0L), IngredientKorContains(searchWord))
                     .fetch();
             return result.stream()
                     .map(recipeIngredientEntity -> RecipeResponseDto.builder()
@@ -232,7 +232,7 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
             List<RecipeIngredient> result = queryFactory.selectFrom(recipeIngredient)
                     .innerJoin(recipeIngredient.recipe, recipe).fetchJoin()
                     .innerJoin(recipeIngredient.ingredient, QIngredient.ingredient).fetchJoin()
-                    .where(keywordEq(keyword), recipeIngredientTypeEq(1L), IngredientKorEq(searchWord))
+                    .where(keywordEq(keyword), recipeIngredientTypeEq(1L), IngredientKorContains(searchWord))
                     .fetch();
             return result.stream()
                     .map(recipeIngredientEntity -> RecipeResponseDto.builder()
@@ -249,7 +249,7 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
             List<RecipeSeasoning> result = queryFactory.selectFrom(recipeSeasoning)
                     .innerJoin(recipeSeasoning.recipe, recipe).fetchJoin()
                     .innerJoin(recipeSeasoning.seasoning, QSeasoning.seasoning).fetchJoin()
-                    .where(SeasoningKorEq(searchWord), keywordEq(keyword))
+                    .where(SeasoningKorContains(searchWord), keywordEq(keyword))
                     .fetch();
             return result.stream()
                     .map(recipeSeasoningEntity -> RecipeResponseDto.builder()
@@ -278,12 +278,12 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
         return type != null ? recipeIngredient.type.eq(type) : null;
     }
 
-    private BooleanExpression IngredientKorEq(String kor) {
-        return kor != null ? QIngredient.ingredient.kor.eq(kor) : null;
+    private BooleanExpression IngredientKorContains(String kor) {
+        return kor != null ? QIngredient.ingredient.kor.contains(kor) : null;
     }
 
-    private BooleanExpression SeasoningKorEq(String kor) {
-        return kor != null ? QSeasoning.seasoning.kor.eq(kor) : null;
+    private BooleanExpression SeasoningKorContains(String kor) {
+        return kor != null ? QSeasoning.seasoning.kor.contains(kor) : null;
     }
 //    private BooleanExpression recipeNameLike(String name) {
 //        return name != null ? recipe.name.like(name) : null;
