@@ -193,6 +193,7 @@ const member: Module<MemberState, RootState> = {
         .then(res => {
           console.log('로컬로그인 시작!')
           console.log(res)
+          sessionStorage.setItem("email", credentials.email)
           sessionStorage.setItem("accessToken", res.data.accessToken)
           sessionStorage.setItem("memberId", res.data.id)
           commit('SET_CURRENT_MEMBER', credentials.email)

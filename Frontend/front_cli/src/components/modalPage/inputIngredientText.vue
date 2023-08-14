@@ -43,7 +43,7 @@
               </form>
             <div class="search_results_container">
               <ul>
-                <li v-for="result in ingredientSearchData" :key="result.id" @click="selectedItem(result)">
+                <li v-for="result in ingredientSearchData" :key="result.id" class="search_container" @click="selectedItem(result)">
                   {{ result.name }}
                 </li>
               </ul>
@@ -285,7 +285,9 @@ export default {
   width: 90%;
   margin: auto;
 }
-
+.search_container {
+  text-decoration: none;
+}
 .ingredientList {
   /* display: flex;
   border-bottom: solid grey; */

@@ -35,6 +35,7 @@ interface Recipe {
   // dish: number
   likes: number
 }
+
 // 과정
 interface RecipeSequence {
   procedure_id:number
@@ -116,88 +117,7 @@ interface RecipeWay {
 
 const recipe: Module<RecipeState, RootState> = {
   state: {
-    recipe: [
-      {
-        "recipe_id": 1,
-        "name": "Spaghetti Bolognese",
-        "img_small": "path_to_small_image_1.jpg",
-        "img_big": "path_to_big_image_1.jpg",
-        "category": "Pasta",
-        "likes": 100
-      },
-      {
-        "recipe_id": 2,
-        "name": "Grilled Chicken Salad",
-        "img_small": "path_to_small_image_2.jpg",
-        "img_big": "path_to_big_image_2.jpg",
-        "category": "Salad",
-        "likes": 50
-      },
-      {
-        "recipe_id": 3,
-        "name": "Cheese Pizza",
-        "img_small": "path_to_small_image_3.jpg",
-        "img_big": "path_to_big_image_3.jpg",
-        "category": "Pizza",
-        "likes": 200
-      },
-      {
-        "recipe_id": 4,
-        "name": "Stir-Fried Vegetables",
-        "img_small": "path_to_small_image_4.jpg",
-        "img_big": "path_to_big_image_4.jpg",
-        "category": "Vegetables",
-        "likes": 80
-      },
-      {
-        "recipe_id": 5,
-        "name": "Chicken Curry",
-        "img_small": "path_to_small_image_5.jpg",
-        "img_big": "path_to_big_image_5.jpg",
-        "category": "Curry",
-        "likes": 120
-      },
-      {
-        "recipe_id": 6,
-        "name": "Burger",
-        "img_small": "path_to_small_image_6.jpg",
-        "img_big": "path_to_big_image_6.jpg",
-        "category": "Fast Food",
-        "likes": 300
-      },
-      {
-        "recipe_id": 7,
-        "name": "Tacos",
-        "img_small": "path_to_small_image_7.jpg",
-        "img_big": "path_to_big_image_7.jpg",
-        "category": "Mexican",
-        "likes": 90
-      },
-      {
-        "recipe_id": 8,
-        "name": "Sushi Roll",
-        "img_small": "path_to_small_image_8.jpg",
-        "img_big": "path_to_big_image_8.jpg",
-        "category": "Sushi",
-        "likes": 250
-      },
-      {
-        "recipe_id": 9,
-        "name": "Fried Rice",
-        "img_small": "path_to_small_image_9.jpg",
-        "img_big": "path_to_big_image_9.jpg",
-        "category": "Rice",
-        "likes": 70
-      },
-      {
-        "recipe_id": 10,
-        "name": "Tomato Soup",
-        "img_small": "path_to_small_image_10.jpg",
-        "img_big": "path_to_big_image_10.jpg",
-        "category": "Soup",
-        "likes": 110
-      }
-    ],
+    recipe: [],
     recipeSpecific: [],
     recipeSequence: [],
     recipeUtensil: [],
@@ -297,7 +217,15 @@ const recipe: Module<RecipeState, RootState> = {
           console.log('레시피 상세 조회 실패....')
           console.log(err.response)
         })
-    }
+    },
+    async fetchRecipes(context) {
+      try {
+        const response = await axios.get('https://i9b202.p.ssafy.io/api/members/heart/count');
+        context.commit('SET_RECIPE', response.data);
+      } catch (error) {
+        console.error('Error fetching recipes:', error);
+      }
+    },
   },
 
 }
