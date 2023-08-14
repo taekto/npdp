@@ -11,19 +11,23 @@
           <!-- 입력된 재료 리스트 -->
           <div class="modal-body">
             <ul class="ListShow">
-              <li class="ingredientList row" v-for="(ingredient, index) in ingredientList" :key="index">
-                <p class="col-1">{{ingredient.ingredientName}}</p>
-                <div class="amount col-2 row">
-                  <button class="amountButton col-3" @click="plusAmount(ingredient)">+</button>
-                  <p class="col-6">{{ingredient.amount}}{{ingredient.unit}}</p>
-                  <button class="amountButton col-3" @click="minusAmount(ingredient)">-</button>
+              <li class="ingredientList" v-for="(ingredient, index) in ingredientList" :key="index">
+                <p class="ingredientName">{{ingredient.ingredientName}}</p>
+                <div class="amount">
+                  <button class="amountButton" @click="plusAmount(ingredient)">+</button>
+                  <p class="amountAndUnit">{{ingredient.amount}}{{ingredient.unit}}</p>
+                  <button class="amountButton" @click="minusAmount(ingredient)">-</button>
                 </div>
-                <p class="col-3">보관시작일 : {{ingredient.startDate}}</p>
-                <p class="col-3">
-                  유통기한 : {{ingredient.expiredDate}}
-                </p>
-                <p class="col-2">보관방식 : {{ingredient.storage}}</p>
-                <button class="col-1" @click="deleteIngredient(ingredient)">제거</button>
+                <div class="startDate">
+                  <p>보관시작일 : </p>
+                  <p>{{ingredient.startDate}}</p>
+                </div>
+                <div class="endDate">
+                  <p>유통기한 : </p>
+                  <p>{{ingredient.expiredDate}}</p>
+                </div>
+                <p class="storage">보관방식 : {{selectStorage(ingredient.storage)}}</p>
+                <button class="deleteButton" @click="deleteIngredient(ingredient)">제거</button>
               </li>
             </ul>
           </div>
@@ -37,7 +41,7 @@
                     <input id="submitButton" type="submit" value="검색">
                 </div>
               </form>
-            <div class="search_results_container" v-if="ingredientSearchData.length > 0">
+            <div class="search_results_container">
               <ul>
                 <li v-for="result in ingredientSearchData" :key="result.id" @click="selectedItem(result)">
                   {{ result.name }}
@@ -53,35 +57,46 @@
                 <form @submit.prevent="addIngredient">
                   <p v-if="ingredientName">선택한 재료: {{ ingredientName }}</p>
                   <div class="input-group">
+                    <div class="amount">
                       <button class="amountButton" @click="addAmount">+</button>
                       <input id="searchForm" class="form-control" type="number" v-model.trim="amount">
                       <button class="amountButton" @click="reduceAmount">-</button>
-                      <div class="dropdown">
-                        <button class="dropdown-toggle servingButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                          {{unit}}
-                        </button>
-                        <ul class="dropdown-menu">
-                          <li><button class="dropdown-item" type="button" @click="chageUnit('개')">개</button></li>
-                          <li><button class="dropdown-item" type="button" @click="chageUnit('g')">g</button></li>
-                          <li><button class="dropdown-item" type="button" @click="chageUnit('마리')">마리</button></li>
-                          <li class="inputServing">직접기입 : <input class="dropdown-item" type="text" v-model="unit"></li>
-                        </ul>
-                      </div>
+                    </div>
+                    <div class="dropdown">
+                      <button class="dropdown-toggle servingButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        {{unit}}
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li><button class="dropdown-item" type="button" @click="chageUnit('개')">개</button></li>
+                        <li><button class="dropdown-item" type="button" @click="chageUnit('g')">g</button></li>
+                        <li><button class="dropdown-item" type="button" @click="chageUnit('마리')">마리</button></li>
+                        <li class="inputServing">직접기입 : <input class="dropdown-item" type="text" v-model="unit"></li>
+                      </ul>
+                    </div>
                   </div>
                 </form>
               </div>
-              <div>
-                <label class="radioButton">
+              <div class="btn_group">
+                <label v-if="storage !== 0" class="radioButton">
                   <input type="radio" name="classification" value="냉장" @click="selectStorage(0)">냉장
                 </label>
-                <label class="radioButton">
+                <label v-else class="radioButton2">
+                  <input type="radio" name="classification" value="냉장" @click="selectStorage(0)">냉장
+                </label>
+                <label v-if="storage !== 1" class="radioButton">
                   <input type="radio" name="classification" value="냉동" @click="selectStorage(1)">냉동
                 </label>
-                <label class="radioButton">
+                <label v-else class="radioButton2">
+                  <input type="radio" name="classification" value="냉동" @click="selectStorage(1)">냉동
+                </label>
+                <label v-if="storage !== 2" class="radioButton">
+                  <input type="radio" name="classification" value="실온" @click="selectStorage(2)">실온
+                </label>
+                <label v-else class="radioButton2">
                   <input type="radio" name="classification" value="실온" @click="selectStorage(2)">실온
                 </label>
               </div>
-              <button class="soundButton" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">음성입력</button>
+              <button v-show="none" class="soundButton" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">음성입력</button>
               <button class="soundButton" @click="appendList">추가하기</button>
             
 
@@ -108,10 +123,10 @@ export default {
         ingredientList: [],
         throwList:[],
         ingredientId: null,
-        storage: null,
+        storage: 0,
         printStorage:'',
-        amount: null,
-        unit: '',
+        amount: 0,
+        unit: '개',
         startDate: '',
         expiredDate: '',
         ingredientName: '',
@@ -230,6 +245,7 @@ export default {
         return ele.ingredientId !== ingredient.ingredientId;
       });
       },
+      
     },
     created() {
     // 컴포넌트가 생성될 때 sessionStorage에서 memberId 값을 가져옵니다.
@@ -253,8 +269,12 @@ export default {
 }
 
 .amountButton {
-  width: 2rem;
-  height: 60%;
+  /* width: 2rem; */
+  padding-left: 1rem;
+  padding-right: 1rem;
+  justify-content: center;
+  /* padding: 5rem; */
+  /* height: 60%; */
   border-radius: .5rem;
   background-color: #f2f2f2;
   border: solid rgb(244, 244, 244);
@@ -262,14 +282,29 @@ export default {
 
 .ListShow {
   border-bottom: solid #a7a7a7;
-  width: 95%;
+  width: 90%;
   margin: auto;
 }
 
 .ingredientList {
+  /* display: flex;
+  border-bottom: solid grey; */
   display: flex;
-  border-bottom: solid grey;
+    border-bottom: solid grey;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    /* padding: .5rem; */
+    margin: auto;
+    height: 10vh;
   
+}
+
+.ingredientName {
+    font-weight: bold;
+    width: 7.5%;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 .modal-body {
@@ -281,6 +316,76 @@ export default {
 
 .amount {
   display: flex;
+  border-radius: .5rem;
+  /* margin: auto; */
+  margin-left: 1rem;
+  margin-right: 1rem;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+}
+
+.amountAndUnit {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: .5rem;
+    margin-right: .5rem;
+}
+
+.amountButton {
+    width: 2rem;
+    height: 60%;
+    border-radius: .5rem;
+    background-color: #f2f2f2;
+    border: solid rgb(244, 244, 244);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.startDate {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: .5rem;
+    margin-right: .5rem;
+    flex: none;
+    width: 10rem;
+}
+
+.startDate p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.endDate {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: .5rem;
+    margin-right: .5rem;
+    flex: none;
+    width: 10rem;
+}
+
+.endDate p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.storage {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: .5rem;
+    margin-right: .5rem;
+}
+
+.deleteButton {
+    border-radius: .5rem;
+    margin-left: .5rem;
+    height: 2rem;
+    width: 5rem;
+    background-color: #FD7E14;
+    color: white;
+    border: none;
 }
 
 .inputComponent {
@@ -299,10 +404,15 @@ export default {
     appearance: none;
 }
 
+.btn_group {
+  display: flex;
+}
+
 #searchForm {
     border-radius: .5rem;
     margin-right: 1rem;
     margin-left: 1rem;
+    width: 10rem;
 }
 
 #ingredientText {
@@ -314,6 +424,12 @@ export default {
     border-radius: .5rem;
     background-color: #f2f2f2;
     border: solid rgb(244, 244, 244);
+}
+
+.input-group {
+  display: flex;
+  justify-content: space-around;
+  /* margin: auto; */
 }
 
 .servingButton {

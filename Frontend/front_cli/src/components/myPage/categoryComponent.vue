@@ -42,15 +42,12 @@ export default {
 
 .myPageComponent div a {
     text-decoration: none;
-    color: #000000;
+    color: #757575;
     font-weight: bold;
-    font-size: 1.4rem;
-    margin-bottom: 2rem;
-}
-.category {
+    font-size: 1.5rem;
     font-family: 'LINESeedKR-Rg';
 }
 .myPageComponent div a.router-link-exact-active {
-  /* color: #42b983; */
+  color: #FD7E14;
 }
 </style>

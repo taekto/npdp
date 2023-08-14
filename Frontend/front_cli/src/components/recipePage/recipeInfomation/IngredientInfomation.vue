@@ -4,11 +4,12 @@
     <!-- 각 컬럼이 무엇을 뜻하는 지 설명 -->
     <div class="oneLine menu">
       <div class="ingredientName">
-      <p>재료명</p>
+      <p>재료</p>
       </div>
       <div class="ingredientAmount">
+      <!-- <p>양</p>
+      <p>/단위</p> -->
       <p>양</p>
-      <p>/단위</p>
       </div>
     </div>
 

@@ -10,17 +10,25 @@
             <div class="buttonGroup">
                 <!-- 보관 방법 변경 버튼 -->
                 <div class="storageRadio">
-                    <label class="storagae radioButton">
+                    <label v-if="storage !== 0" class="radioButton">
                         <input type="radio" name="coldStorage" value="냉장" @click="selectStorage(0)">냉장
                     </label>
-                    <label class="storagae radioButton">
+                    <label v-else class="radioButton2">
+                        <input type="radio" name="coldStorage" value="냉장" @click="selectStorage(0)">냉장
+                    </label>
+                    <label v-if="storage !== 1" class="radioButton">
                         <input type="radio" name="frozenStorage" value="냉동" @click="selectStorage(1)">냉동
                     </label>
-                    <label class="storagae radioButton">
+                    <label v-else class="radioButton2">
+                        <input type="radio" name="frozenStorage" value="냉동" @click="selectStorage(1)">냉동
+                    </label>
+                    <label v-if="storage !== 2" class="radioButton">
+                        <input type="radio" name="rtStorage" value="실온" @click="selectStorage(2)">실온
+                    </label>            
+                    <label v-else class="radioButton2">
                         <input type="radio" name="rtStorage" value="실온" @click="selectStorage(2)">실온
                     </label>            
                 </div>
-
                 <!-- 재료, 양념 입력 버튼 -->
                 <div class="modalButtons">
                     <IngredientModal />
@@ -34,26 +42,33 @@
                 <div class="refrigeratorCategory">
                     <div style="display: flex; justify-content: space-between; width: 80%; margin: auto">
                         <p class="categoryTitle">{{printStorage}} 재료</p>
-                        <button class="saveButton">
+                        <button class="saveButton" @click="saveMaterial({type: 'ingredient', memberId: this.memberId, sendData: displayedIngredientItems.tempIngredient })">
                             저장하기
                         </button>
                     </div>
                     
                     <ul class="ListShow">
-                        <li class= "row" v-for="(ingredientItem, index) in displayedIngredientItems" :key="index">
+                        <li v-for="(ingredientItem, index) in displayedIngredientItems.displayedItems" :key="index">
                             <div class="ingredientList">
-                                <p class="col-1 ingredientName">{{ingredientItem.kor}}</p>
-                                <div class="amount col-2 row">
-                                    <button class="amountButton col-3" @click="plusAmount(ingredientItem)">+</button>
-                                    <p class="col-6">{{ingredientItem.amount}}{{ingredientItem.unit}}</p>
-                                    <button class="amountButton col-3" @click="minusAmount(ingredientItem)">-</button>
+                                <p class="ingredientName">{{ingredientItem.kor}}</p>
+                                <div class="amount">
+                                    <button class="amountButton" @click="plusAmount(ingredientItem)">+</button>
+                                    <p class="amountAndUnit">{{ingredientItem.amount}}{{ingredientItem.unit}}</p>
+                                    <button class="amountButton" @click="minusAmount(ingredientItem)">-</button>
                                 </div>
-                                <p class="col-3">보관시작일 : {{ingredientItem.startDate}}</p>
-                                <p class="col-3">
-                                유통기한 : {{ingredientItem.expiredDate}}
-                                </p>
-                                <p class="col-2">보관방식 : {{printStorage}}</p>
-                                <button class="col-1 deleteButton" @click="deleteMaterial({type: 'ingredient', memberId: this.memberId, deleteItem: ingredientItem })">제거</button>
+                                <div class="startDate">
+                                    <p>보관시작일 : </p>
+                                    <p>{{changeDate(ingredientItem.startDate)}}</p>
+                                </div>
+                                <div class="endDate">
+                                    <p>유통기한 : </p>
+                                    <p>{{changeDate(ingredientItem.expiredDate)}}</p>
+                                </div>
+
+                                <!-- <p class="startDate">보관시작일 : {{whatDate(ingredientItem.startDate)}}</p> -->
+                                
+                                <p class="storage">보관방식 : {{printStorage}}</p>
+                                <button class="deleteButton" @click="deleteMaterial({type: 'ingredient', memberId: this.memberId, deleteItem: ingredientItem })">제거</button>
                             </div>
                         </li>
                     </ul>
@@ -72,23 +87,26 @@
                 <div class="refrigeratorCategory">
                     <div style="display: flex; justify-content: space-between; width: 80%; margin: auto">
                         <p class="categoryTitle">{{printStorage}} 양념</p>
-                        <button class="saveButton">
+                        <button class="saveButton" @click="saveMaterial({ type: 'seasoning', memberId: memberId, sendData: displayedIngredientItems.tempIngredient })">
                             저장하기
                         </button>
                     </div>
 
 
                     <ul class="ListShow">
-                        <li class= "row" v-for="seasoningItem in displayedSeasoningItems" :key="seasoningItem.memberSeasoningId">
+                        <li v-for="seasoningItem in displayedSeasoningItems.displayedItems" :key="seasoningItem.memberSeasoningId">
                             <div class="ingredientList">
-                                <p class="col-2 ingredientName">{{seasoningItem.kor}}</p>
-                                
-                                <p class="col-4">보관시작일 : {{seasoningItem.startDate}}</p>
-                                <p class="col-3">
-                                유통기한 : {{seasoningItem.expiredDate}}
-                                </p>
-                                <p class="col-2">보관방식 : {{printStorage}}</p>
-                                <button class="col-1 deleteButton" @click="deleteMaterial({type: 'seasoning', memberId: this.memberId, deleteItem: seasoningItem })">제거</button>
+                                <p class="ingredientName2">{{seasoningItem.kor}}</p>
+                                <div class="startDate">
+                                    <p>보관시작일 : </p>
+                                    <p>{{changeDate(seasoningItem.startDate)}}</p>
+                                </div>
+                                <div class="endDate">
+                                    <p>유통기한 :</p>
+                                    <p>{{changeDate(seasoningItem.expiredDate)}}</p>
+                                </div>
+                                <p class="storage">보관방식 : {{printStorage}}</p>
+                                <button class="deleteButton" @click="deleteMaterial({type: 'seasoning', memberId: this.memberId, deleteItem: seasoningItem })">제거</button>
                             </div>
                         </li>
                     </ul>
@@ -125,61 +143,92 @@ export default {
     computed: {
         ...mapGetters(['memberSeasoning', 'memberIngredient']),
         ingredientTotalPages() {
-            let count = 0
-            for (let ingredient of this.memberIngredient) {
-                if(this.storage === ingredient.storage) {
-                    count ++ 
-                }
+          let count = 0
+          for (let ingredient of this.memberIngredient) {
+            if(this.storage === ingredient.storage) {
+              count ++ 
             }
-            return Math.ceil(count / this.itemsPerPage)
+          }
+          return Math.ceil(count / this.itemsPerPage)
         },
         seasoningtTotalPages() {
-            let count = 0
-            for (let seasoning of this.memberSeasoning) {
-                if(this.storage === seasoning.storage) {
-                    count ++ 
-                }
-            }
-            return Math.ceil(count / this.itemsPerPage)
+          let count = 0
+          for (let seasoning of this.memberSeasoning) {
+              if(this.storage === seasoning.storage) {
+                count ++ 
+              }
+          }
+          return Math.ceil(count / this.itemsPerPage)
         },
         displayedIngredientItems() {
-            const startIndex = (this.ingredientPage - 1) * this.itemsPerPage
-            const endIndex = startIndex + this.itemsPerPage
-            const displayedItems = this.memberIngredient.filter(ingredient => {
-                return ingredient.storage === this.storage
-            }).slice(startIndex, endIndex)
-            return displayedItems
+          const startIndex = (this.ingredientPage - 1) * this.itemsPerPage
+          const endIndex = startIndex + this.itemsPerPage
+          
+          const tempIngredient = this.memberIngredient
+            .filter(ingredient => ingredient.storage === this.storage)
+            .map(ingredient => {
+              return {
+                // ingredientId: ingredient.refregiratorId,
+                amount: ingredient.amount,
+                unit: ingredient.unit,
+                startDate: ingredient.startDate,
+                expiredDate: ingredient.expiredDate,
+                storage: ingredient.storage
+              }
+          })
+          const displayedItems = this.memberIngredient.filter(ingredient => {
+            return ingredient.storage === this.storage
+          }).slice(startIndex, endIndex)
+
+          const tmp = {
+            displayedItems : displayedItems,
+            tempIngredient : tempIngredient,
+          }
+          return tmp
         },
         displayedSeasoningItems() {
-            const startIndex = (this.seasoningPage - 1) * this.itemsPerPage
-            const endIndex = startIndex + this.itemsPerPage
-            const displayedItems = this.memberSeasoning.filter(seasoning => {
-                return seasoning.storage === this.storage
-            }).slice(startIndex, endIndex)
-            return displayedItems
+          const startIndex = (this.seasoningPage - 1) * this.itemsPerPage
+          const endIndex = startIndex + this.itemsPerPage
+          const displayedItems = this.memberSeasoning.filter(seasoning => {
+            return seasoning.storage === this.storage
+          }).slice(startIndex, endIndex)
+
+          const tempIngredient = this.memberSeasoning
+            .filter(seasoning => seasoning.storage === this.storage)
+            .map(seasoning => {
+              return {
+                seasoningId: seasoning.seasoningId,
+                storage: seasoning.storage
+              }
+          })
+           const tmp = {
+            displayedItems : displayedItems,
+            tempIngredient : tempIngredient,
+          }
+          return tmp
         },
         
     },
     // 임시 더미 데이터
     data() {
-        return {
-          storage : 0,
-          memberId:null,
-          printStorage:'냉장',
-          delData:[],
-          refregiratorId: null,
-          amount: null,
-          unit: '',
-          startDate: null,
-          expiredDate:  null,
-          isdelete : false,
-          itemsPerPage:5,
-          ingredientPage:1,
-          seasoningPage:1,
-        }
+      return {
+        storage : 0,
+        memberId:null,
+        printStorage:'냉장',
+        delData:[],
+        refregiratorId: null,
+        amount: null,
+        unit: '',
+        startDate: null,
+        expiredDate:  null,
+        isdelete : false,
+        itemsPerPage:5,
+        ingredientPage:1,
+        seasoningPage:1,
+      }
     },
     methods: {
-        ...mapActions(['plusAmount', 'minusAmount', 'fetchMemberMaterial', 'deleteMaterial']),
+        ...mapActions(['fetchMemberMaterial', 'deleteMaterial','saveMaterial']),
         selectStorage(storage) {
           this.storage = storage
           switch (storage) {
@@ -194,30 +243,26 @@ export default {
             break;
           }
         },
-        minusAmount(tmpingredient) {
-            if(tmpingredient.unit === "g") {
-                tmpingredient.amount -= 10
-            }
-            else{
-                tmpingredient.amount --
-            }
-
-            if (tmpingredient.amount <= 0) {
-                const arrayRemove = (arr, value) => {
-                    return arr.filter((ele) => {
-                        return ele != value
-                    })
-                }
-                this.ingredients = arrayRemove(this.ingredients, tmpingredient)
-            }
+        plusAmount(tmpingredient) {
+          if(tmpingredient.unit === "g") {
+            tmpingredient.amount += 10
+          }
+          else{
+            tmpingredient.amount ++        
+          }
+          
         },
-        deleteIngredient(tmpingredient) {
-            const arrayRemove = (arr, value) => {
-                return arr.filter((ele) => {
-                    return ele != value
-                })
-            }
-            this.ingredients = arrayRemove(this.ingredients, tmpingredient)
+        minusAmount(tmpingredient) {
+          if(tmpingredient.unit === "g") {
+            tmpingredient.amount -= 10
+          }
+          else{
+            tmpingredient.amount --
+          }
+
+          if (tmpingredient.amount <= 0) {
+            this.deleteMaterial({type: 'ingredient', memberId: this.memberId, deleteItem: tmpingredient })
+          }
         },
         goToIngredientPage(pageNumber) {
             if (pageNumber >= 1 && pageNumber <= this.ingredientTotalPages) {
@@ -229,7 +274,19 @@ export default {
                 this.seasoningPage = pageNumber;
             }
         },
-        
+        changeDate(targetdate) {
+            if (targetdate !== null) {
+                let returnDate = ''
+
+                returnDate = targetdate.slice(0, 4) + '년 ' + targetdate.slice(5, 7) + '월 ' + targetdate.slice(8, 10) + '일'
+
+
+                return returnDate
+            }
+            else {
+                return
+            }
+        },
     },
     created() {
         this.memberId = parseInt(sessionStorage.getItem('memberId'))
@@ -243,7 +300,8 @@ export default {
 .buttonGroup {
     display: flex;
     justify-content: space-between;
-    width: 90%;
+    width: 80%;
+    margin: auto;
 }
 
 .modalButtons {
@@ -262,26 +320,51 @@ export default {
 
 /* 레시피의 ingredientName과 다름 */
 .ingredientName {
-font-weight: bold;
+    font-weight: bold;
+    width: 7.5%;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.ingredientName2 {
+    font-weight: bold;
+    width: 15%;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 .ingredientList {
     display: flex;
     border-bottom: solid grey;
     align-items: center;
+    justify-content: space-between;
     width: 95%;
     padding: .5rem;
     margin: auto;
     height: 10vh;
 }
 
+ul {
+    list-style: none;
+}
+
 .amount {
     display: flex;
-    border: solid rgb(207, 207, 207);
+    /* border: solid rgb(207, 207, 207); */
     border-radius: .5rem;
-    margin: auto;
+    /* margin: auto; */
+    margin-left: 1rem;
+    margin-right: 1rem;
     justify-content: center;
     align-items: center;
+    width: 20%;
+}
+
+.amountAndUnit {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: .5rem;
+    margin-right: .5rem;
 }
 
 .amountButton {
@@ -292,12 +375,49 @@ font-weight: bold;
     border: solid rgb(244, 244, 244);
 }
 
+.startDate {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: .5rem;
+    margin-right: .5rem;
+    flex: none;
+    width: 10rem;
+}
+
+.startDate p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.endDate {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: .5rem;
+    margin-right: .5rem;
+    flex: none;
+    width: 10rem;
+}
+
+.endDate p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.storage {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: .5rem;
+    margin-right: .5rem;
+}
+
 .deleteButton {
     border-radius: .5rem;
+    margin-left: .5rem;
     height: 2rem;
+    width: 5rem;
     background-color: #FD7E14;
     color: white;
-    border: none
+    border: none;
 }
 
 .refrigeratorCategory {
@@ -308,8 +428,9 @@ font-weight: bold;
 
 .storageRadio {
     display: flex;
-    margin-top: 2rem;
-    margin-left: 4rem;
+    /* margin: auto; */
+    /* margin-top: 3rem; */
+    /* margin-left: 7.5rem; */
 }
 
 .storagae.radioButton {

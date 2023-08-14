@@ -43,7 +43,7 @@
 
     </form>
     <!-- 소셜 로그인 -->
-      <div class="login_sns">
+      <div class="login_sns" v-show="none">
           <button class="btn_sns btn-google btn-block" @click="socialLoginGoogle" style="width: 100%">
           Google 계정으로 시작</button>
           <button class="btn_sns btn-naver btn-block" @click="socialLoginNaver" style="width: 100%"><i class="fab fab-naver-alt"></i> 
@@ -82,10 +82,11 @@ export default {
         method: 'get',
       })
       .then (res => {
-        console.log(res.data)
+        console.log(res.data) // redirect_uri 받아 옴
+
         axios({
           url: 'https://i9b202.p.ssafy.io/api/oauth/google',
-          method: 'get'
+          method: 'post',
         })
         .then(res => {
           console.log(res.data)

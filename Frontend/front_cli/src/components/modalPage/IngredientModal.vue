@@ -3,7 +3,7 @@
   <div>
     <IngredientText />
     <IngredientSound />
-    <button class="modalButton" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-whatever="@ingredient">재료입력</button>
+    <button class="modalButton" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-whatever="@ingredient">재료수정</button>
   </div>
   
 </template>
@@ -33,10 +33,11 @@ export default {
   background-color: #FD7E14;
   border-radius: .5rem;
   margin: .5rem;
-  padding: 0.5rem;
-  font-size: 1.25rem;
+  padding: 0.3rem;
+  font-size: 1.2rem;
   font-weight: bold;
-  font-family: 'LINESeedKR-Bd';
+  /* font-family: 'LINESeedKR-Bd'; */
+  font-family: 'GangwonEdu_OTFBoldA';
 }
 
 .amountButton {

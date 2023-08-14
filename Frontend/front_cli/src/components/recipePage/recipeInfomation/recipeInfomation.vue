@@ -32,11 +32,13 @@
           </ul>
         </div>
 
-        <!-- 재료 입력 모달 버튼 -->
-        <IngredientModal />
+        <div class="modal_container">
+          <!-- 재료 입력 모달 버튼 -->
+          <IngredientModal />
 
-        <!-- 양념 입력 모달 버튼 -->
-        <SeasoningModal />
+          <!-- 양념 입력 모달 버튼 -->
+          <SeasoningModal />
+        </div>
       </div>
     </div>
   </div>
@@ -138,12 +140,19 @@ export default {
     border-radius: .5rem;
     margin: 1rem;
     margin-top: 0rem;
-    padding: 0.7rem;
-    padding-left: 1.5rem;
+    padding: 0.3rem;
+    padding-left: 1rem;
     font-size: 1.25rem;
     font-weight: bold;
     text-align: end;    
-    font-family: 'LINESeedKR-Bd';
+    /* font-family: 'LINESeedKR-Bd'; */
+    /* font-family: 'IBMPlexSansKR-Regular'; */
+    font-family: 'GangwonEdu_OTFBoldA';
+}
+
+.modal_container {
+  display: flex;
+  justify-content: center;
 }
 
 .inputServing {

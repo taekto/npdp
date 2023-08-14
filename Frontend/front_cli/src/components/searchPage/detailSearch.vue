@@ -139,5 +139,15 @@ export default {
     color: white;
 }
 
+.accordion-button {
+    min-width: 620px;
+}
+
+.accordion-body {
+    display: flex;
+    justify-content: center;
+    min-width: 620px;
+}
+
 
 </style>
