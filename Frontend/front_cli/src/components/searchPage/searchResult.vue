@@ -34,7 +34,6 @@ export default {
             page: 1
         }
     },
-    
     computed: {
         ...mapGetters(['recipe','recipeSpecific']),
         totalPages() {
@@ -98,8 +97,16 @@ export default {
     watch: {
       '$route.params.keyword': function(newKeyword) {
       this.recipeSpecificSearch(newKeyword);
-    }
-},
+    },
+    recipeSpecific: {
+      handler() {
+        // recipeSpecific이 변경될 때 실행되는 로직);
+        // 여기에 원하는 동작을 추가할 수 있습니다.
+        this.page = 1
+      },
+      immediate: true, // 컴포넌트가 생성될 때 즉시 실행
+    },
+    },
   };
 </script>
 

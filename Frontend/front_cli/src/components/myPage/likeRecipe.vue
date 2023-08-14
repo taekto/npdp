@@ -7,13 +7,12 @@
     <!-- 우측 좋아요한 레시피 컴포넌트 -->
     <div id="myPageView">
       <p class="likeTitle">좋아요</p>
-        <div class="likeRecipes row" v-for="item in memberRecipeLike" :key="item.recipe_id">
-          <div class="recommendCard col-4" @click="goToDetailRecipe(item)">
-            <img src='@/assets/123.jpg'>
-            <p>{{ item.name }}</p>
+        <div class="likeRecipes" v-for="item in memberRecipeLike" :key="item.recipeId">
+          <div class="recommendCard" @click.prevent="goToDetailRecipe(item)">
+            <img :src='item.imgBig'>
+            <p class="recipeName">{{ item.name }}</p>
             <div class="buttonGroup">
-              <button class="recipeButton">View More</button>
-              <button class="deleteButton" @click="memberLikeRecipe({type: 'unlike', memberId: this.memberId, recipeId: this.item.recipeId})">좋아요 삭제</button>
+              <button class="deleteButton" @click.stop="handleUnlike(item.recipeId)">좋아요 취소</button>
             </div>
           </div>
         </div>
@@ -42,22 +41,32 @@ export default {
   },
   methods: {
     ...mapActions(['memberLikeRecipe','fetchLike']),
-    goToDetailRecipe(recipeItem) {
+    goToDetailRecipe(item) {
         this.$router.push({name: "recipe",  
             params: { 
-                recipe_id: recipeItem.recipe_id,
+                recipe_id: item.recipeId,
             },
             query: {
-                recipeItem: JSON.stringify(recipeItem),
+                recipeItem: JSON.stringify(item),
             },
         })
+    },
+    handleUnlike(recipeId) {
+      this.memberLikeRecipe({
+        type: 'unlike',
+        memberId: this.memberId,
+        recipeId: recipeId,
+      }).then(() => {
+        // 좋아요 취소 후 데이터 다시 조회
+        this.fetchLike(this.memberId);
+      });
     },
   },
   created() {
     this.memberId = parseInt(sessionStorage.getItem('memberId'))
     this.fetchLike(this.memberId)
-    console.log(this.memberRecipeLike)
-  }
+  },
+
 }
 </script>
 
@@ -76,23 +85,43 @@ export default {
     font-weight: bold;
 }
 
+/* 검색 결과 레시피 카드 */
 .recommendCard {
-    border-radius: .5rem;
-    box-shadow: 2px 2px 2px 2px;
-    height: 25rem;
-    width: 20rem;
+    border-radius: .1rem;
+    border: 1px solid rgb(207, 205, 205);
+    /* box-shadow: 0 4px 4px -4px black; */
+    box-shadow: 0 0 0 1px hsla(212,7%,43%,.32);
+    /* border: 1px solid #857f7b; */
+    height: 23rem;
+    width: 18rem;
     cursor: pointer;
     margin: 1rem;
+    font-weight: bold;
+    transition: 0.3s;
 }
 
-.recommendCard p {
-    margin-top: 2rem;
-    font-size: 2.5rem;
+.recommendCard:hover{
+    transform: scale(1.05);
 }
 
 img {
-    width: 90%;
-    margin-top: 1rem;
+    width: 100%;
+    height: 50%;
+    /* margin-top: 1rem; */
+    border-radius: .1rem;
+    /* box-shadow: 2px 2px .5px .5px; */
+}
+
+.recipeName {
+    margin: auto;
+    /* word-break: keep-all; */
+    overflow: hidden;
+    /* margin: 3rem 2rem; */
+    height: 7rem;
+    padding-top: 1.5rem;
+    /* margin-bottom: 1rem; */
+    font-size: 2rem;
+    font-family: 'LINESeedKR-Bd';
 }
 
 .recipeButton {

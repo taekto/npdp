@@ -95,8 +95,8 @@ interface MemberIngredient {
   expiredDate: any
 }   
 
-// 회원 재료 삭제
-interface IngredientDeleteData {
+// 회원 재료 수정/삭제
+interface ingredientUpdateData {
   memberId: number
   refregiratorId: number
   storage: number
@@ -107,8 +107,8 @@ interface IngredientDeleteData {
   isdelete : boolean
 }
 
-// 회원 양념 삭제
-interface SeasoningDeleteData {
+// 회원 양념 수정/삭제
+interface SeasoningUpdateData {
   memberId: number;
   memberSeasoningId: number;
   storage: number;
@@ -309,7 +309,7 @@ const member: Module<MemberState, RootState> = {
         })
         .catch(err => {
           console.log('회원 정보 조회 실패...', err)
-        });
+        })
     },
 
     // 회원 재료 조회 양념/ 재료/ 전체
@@ -345,57 +345,58 @@ const member: Module<MemberState, RootState> = {
         const response = await axios.post(apiUrl, sendData)
   
         console.log(type === 'seasoning' ? '양념 저장 성공!' : '재료 저장 성공!', response.data)
-        dispatch('fetchIngredient')
+        dispatch('fetchMemberMaterial', ({type:type, memberId:memberId}))
       } catch (error) {
         console.log(type === 'seasoning' ? '양념 저장 실패..' : '재료 저장 실패..', error)
       }
     },
 
-    // 회원 재료/양념 삭제
-    async deleteMaterial({ dispatch }, { type, memberId, deleteItem }: { type: string, memberId: number, deleteItem: IngredientDeleteData | SeasoningDeleteData }) {
+
+    // 회원 재료/양념 수정, 삭제
+    async updateMaterial({ dispatch }, { type, memberId, updateItem }: { type: string, memberId: number, updateItem: ingredientUpdateData | SeasoningUpdateData }) {
       try {
-        let deleteData
+        let updateData
         
         if (type === 'ingredient') {
-          console.log('재료 삭제 시작!')
-          const ingredientDeleteData = deleteItem as IngredientDeleteData
-          deleteData = [{
+          console.log('재료 수정/삭제 시작!')
+          const ingredientUpdateData = updateItem as ingredientUpdateData
+          updateData = [{
             memberId: memberId,
-            refregiratorId: ingredientDeleteData.refregiratorId,
-            storage: ingredientDeleteData.storage,
-            amount: ingredientDeleteData.amount,
-            unit: ingredientDeleteData.unit,
-            startDate: ingredientDeleteData.startDate,
-            expiredDate: ingredientDeleteData.expiredDate,
-            isdelete: true 
+            refregiratorId: ingredientUpdateData.refregiratorId,
+            storage: ingredientUpdateData.storage,
+            amount: ingredientUpdateData.amount,
+            unit: ingredientUpdateData.unit,
+            startDate: ingredientUpdateData.startDate,
+            expiredDate: ingredientUpdateData.expiredDate,
+            isdelete: ingredientUpdateData.isdelete 
           }]
           
-          console.log('재료 삭제 데이터:', JSON.stringify(deleteData, null, 2))
+          console.log('재료수정 데이터:', JSON.stringify(updateData, null, 2))
         } else if (type === 'seasoning') {
-          console.log('양념 삭제 시작!')
-          const seasoningDeleteData = deleteItem as SeasoningDeleteData
-          deleteData = [{
+          console.log('양념 수정/삭제 시작!')
+          const seasoningUpdateData = updateItem as SeasoningUpdateData
+          updateData = [{
             memberId: memberId,
-            memberSeasoningId: seasoningDeleteData.memberSeasoningId,
-            storage: seasoningDeleteData.storage,
-            startDate: seasoningDeleteData.startDate,
-            expiredDate: seasoningDeleteData.expiredDate,
-            isdelete: true 
+            memberSeasoningId: seasoningUpdateData.memberSeasoningId,
+            storage: seasoningUpdateData.storage,
+            startDate: seasoningUpdateData.startDate,
+            expiredDate: seasoningUpdateData.expiredDate,
+            isdelete: seasoningUpdateData.isdelete 
           }]
-          console.log('양념 삭제 데이터:', JSON.stringify(deleteData, null, 2))
+          console.log('양념 수정 데이터:', JSON.stringify(updateData, null, 2))
         }
         
         const apiUrl = type === 'seasoning' ?
         'https://i9b202.p.ssafy.io/api/refregirator/modify/seasoning':
-        'https://i9b202.p.ssafy.io/api/refregirator/modify/ingredient';
+        'https://i9b202.p.ssafy.io/api/refregirator/modify/ingredient'
     
-        await axios.post(apiUrl, deleteData);
+        await axios.post(apiUrl, updateData)
+        console.log(type === 'seasoning' ? '양념 수정/삭제 성공!' : '재료 수정/삭제 성공!')
 
-        await dispatch('fetchMemberMaterial', { type: 'all', memberId: memberId });
+        dispatch('fetchMemberMaterial', { type: type, memberId: memberId })
 
-        console.log(type === 'seasoning' ? '양념 삭제 성공!' : '재료 삭제 성공!');
       } catch (err) {
-        console.log(type === 'seasoning' ? '양념 삭제 실패..' : '재료 삭제 실패..', err);
+        console.log(type === 'seasoning' ? '양념 수정/삭제 실패..' : '재료 수정/삭제 실패..', err)
       }
     },
 
@@ -417,13 +418,13 @@ const member: Module<MemberState, RootState> = {
         console.log(`${memberId}님이 ${recipeId}를 좋아요 실패...`, err)
       }
     },
-    
+ 
     // 회원 레시피 좋아요 조회
     async fetchLike({commit}, memberId){
       try {
         console.log('좋아요 조회 시작!')
         const res = await axios.get(`https://i9b202.p.ssafy.io/api/members/heart/${memberId}`)
-        console.log('좋아요 조회 성공!')
+        console.log('좋아요 조회 성공!', res.data)
         commit('SET_MEMBER_RECIPE_LIKE', res.data)
       } catch(err) {
         console.log(err)
@@ -454,6 +455,38 @@ const member: Module<MemberState, RootState> = {
         console.error(type === 'get' ? '조리도구 조회 실패...' : '조리도구 저장 실패...', error);
       }
     },
+    
+    // 회원 정보 변경
+    async memberUpdate({commit}, {type, memberId, updateData}) {
+      try {
+        let sendData
+
+        const apiUrl = type === 'all' ? 'https://i9b202.p.ssafy.io/api/members/modifyAll' : 'https://i9b202.p.ssafy.io/api/members/updatePassword'
+        if (type == 'all') {
+          const allInfo = updateData 
+          sendData = {
+            memberId: memberId,
+            password:allInfo.password,
+            nickname: allInfo.nickname,
+            birth: allInfo.birthDate,
+            gender: allInfo.gender,
+          } 
+        } else {
+          const pwdInfo =  updateData
+          sendData = {
+            email: pwdInfo.email,
+            newPassword: pwdInfo.newPassword,     
+          }
+        }
+
+        console.log('회원정보 수정 시작!',JSON.stringify(sendData,null,2))
+        const res = await axios.put(apiUrl, sendData);
+        
+
+      } catch(err) {
+        console.error(type === 'all' ? '정보 변경 실패...' : '비밀번호 변경 실패...', err);
+      }
+    }
   },
 }
 

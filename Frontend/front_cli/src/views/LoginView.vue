@@ -33,7 +33,7 @@
       <button class="login_btn" style="width: 100%;">로그인</button>
       <div class="login_btn_bottom">
         <div class="forgot_password">
-          <router-link to="/signup">비밀번호 찾기</router-link>
+          <router-link to="/find">비밀번호 찾기</router-link>
         </div>
       <!-- 회원가입 페이지 router -->
         <div class="login_signup">
@@ -43,7 +43,7 @@
 
     </form>
     <!-- 소셜 로그인 -->
-      <div class="login_sns">
+      <div class="login_sns" v-show="none">
           <button class="btn_sns btn-google btn-block" @click="socialLoginGoogle" style="width: 100%">
           Google 계정으로 시작</button>
           <button class="btn_sns btn-naver btn-block" @click="socialLoginNaver" style="width: 100%"><i class="fab fab-naver-alt"></i> 
@@ -79,24 +79,35 @@ export default {
       this.socialType = 'Google'
       axios ({
         url: 'https://i9b202.p.ssafy.io/api/oauth/google-login',
-        methods: 'get',
+        method: 'get',
       })
       .then (res => {
-        console.log(res.data)
+        console.log(res.data) // redirect_uri 받아 옴
+
+        axios({
+          url: 'https://i9b202.p.ssafy.io/api/oauth/google',
+          method: 'post',
+        })
+        .then(res => {
+          console.log(res.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
         console.log(res.status)
-        sessionStorage.setItem("accessToken", res.data.accessToken)
-        sessionStorage.setItem("memberId", res.data.id)
-        sessionStorage.setItem('social', 1)
-        if(res.status === 200) {
-          this.$router.push({
-            name: 'main',
-          })
-        }
-        else if (res.status === 201) {
-          this.$router.push({
-            name: 'social',
-          })
-        }
+        // sessionStorage.setItem("accessToken", res.data.accessToken)
+        // sessionStorage.setItem("memberId", res.data.id)
+        // sessionStorage.setItem('social', 1)
+        // if(res.status === 200) {
+        //   this.$router.push({
+        //     name: 'main',
+        //   })
+        // }
+        // else if (res.status === 201) {
+        //   this.$router.push({
+        //     name: 'social',
+        //   })
+        // }
       })
       .catch (err => {
         console.log(err)
@@ -106,7 +117,7 @@ export default {
       this.socialType = 'Naver'
       axios ({
         url: 'https://i9b202.p.ssafy.io/api/oauth/naver-login',
-        methods: 'get',
+        method: 'get',
       })
       .then (res => {
         console.log(res.data)
