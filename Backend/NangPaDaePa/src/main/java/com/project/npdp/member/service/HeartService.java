@@ -5,11 +5,13 @@ import com.project.npdp.member.entity.Member;
 import com.project.npdp.member.entity.MemberRecipeLike;
 import com.project.npdp.member.repository.MemberRecipeLikeRepository;
 import com.project.npdp.member.repository.MemberRepository;
+import com.project.npdp.recipe.dto.response.RecipeHeartResponseDto;
 import com.project.npdp.recipe.dto.response.RecipeResponseDto;
 import com.project.npdp.recipe.entity.Recipe;
 import com.project.npdp.recipe.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -56,5 +58,10 @@ public class HeartService {
         return result;
     }
 
+    @Transactional(readOnly = true)
+    public List<RecipeHeartResponseDto> findTop20RecipesByRecipeIdCount() {
+        List<RecipeHeartResponseDto> result = recipeRepository.findTop20RecipesByRecipeIdCount();
+        return result;
+    }
 
 }

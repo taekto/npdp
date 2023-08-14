@@ -2,6 +2,7 @@ package com.project.npdp.member.controller;
 
 import com.project.npdp.member.dto.request.MemberLikeRequestDto;
 import com.project.npdp.member.service.HeartService;
+import com.project.npdp.recipe.dto.response.RecipeHeartResponseDto;
 import com.project.npdp.recipe.dto.response.RecipeResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,12 @@ public class HeartController {
     @GetMapping("/{memberId}")
     public ResponseEntity<?> findMemberRecipeHeartById(@PathVariable("memberId") Long memberId) {
         List<RecipeResponseDto> result = heartService.findMemberRecipeHeartById(memberId);
+        return ResponseEntity.ok().body(result);
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<?> findTop20RecipesByRecipeIdCount() {
+        List<RecipeHeartResponseDto> result = heartService.findTop20RecipesByRecipeIdCount();
         return ResponseEntity.ok().body(result);
     }
 

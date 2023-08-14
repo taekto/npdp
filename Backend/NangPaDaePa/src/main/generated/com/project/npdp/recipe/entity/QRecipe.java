@@ -42,6 +42,8 @@ public class QRecipe extends EntityPathBase<Recipe> {
 
     public final ListPath<com.project.npdp.member.entity.MemberRecipeLike, com.project.npdp.member.entity.QMemberRecipeLike> memberRecipeLikeList = this.<com.project.npdp.member.entity.MemberRecipeLike, com.project.npdp.member.entity.QMemberRecipeLike>createList("memberRecipeLikeList", com.project.npdp.member.entity.MemberRecipeLike.class, com.project.npdp.member.entity.QMemberRecipeLike.class, PathInits.DIRECT2);
 
+    public final ListPath<com.project.npdp.domain.MemberRecommend, com.project.npdp.domain.QMemberRecommend> memberRecommendList = this.<com.project.npdp.domain.MemberRecommend, com.project.npdp.domain.QMemberRecommend>createList("memberRecommendList", com.project.npdp.domain.MemberRecommend.class, com.project.npdp.domain.QMemberRecommend.class, PathInits.DIRECT2);
+
     public final StringPath name = createString("name");
 
     public final NumberPath<Double> protein = createNumber("protein", Double.class);

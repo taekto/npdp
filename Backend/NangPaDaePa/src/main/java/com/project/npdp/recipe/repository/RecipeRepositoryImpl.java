@@ -4,6 +4,8 @@ import com.project.npdp.domain.QRecipeRecommend;
 import com.project.npdp.domain.RecipeRecommend;
 import com.project.npdp.food.entity.QIngredient;
 import com.project.npdp.food.entity.QSeasoning;
+import com.project.npdp.member.entity.MemberRecipeLike;
+import com.project.npdp.member.entity.QMemberRecipeLike;
 import com.project.npdp.recipe.dto.request.FindAllRecipeWithConditionRequestDto;
 import com.project.npdp.recipe.dto.request.RecipeRecommendRequestDto;
 import com.project.npdp.recipe.dto.response.*;
@@ -19,6 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.project.npdp.domain.QRecipeRecommend.recipeRecommend;
+import static com.project.npdp.member.entity.QMemberRecipeLike.memberRecipeLike;
 import static com.project.npdp.recipe.entity.QRecipe.recipe;
 import static com.project.npdp.recipe.entity.QRecipeIngredient.recipeIngredient;
 import static com.project.npdp.recipe.entity.QRecipeSeasoning.recipeSeasoning;
@@ -289,6 +292,50 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
                         .build())
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<RecipeHeartResponseDto> findTop20RecipesByRecipeIdCount() {
+        List<Tuple> tuples = queryFactory
+                .select(
+                        memberRecipeLike.recipe.id,
+                        memberRecipeLike.recipe.name,
+                        memberRecipeLike.recipe.imgBig,
+                        memberRecipeLike.recipe.imgSmall,
+                        memberRecipeLike.recipe.category,
+                        memberRecipeLike.recipe.id.count())
+                .from(memberRecipeLike)
+                .innerJoin(memberRecipeLike.recipe, recipe)
+                .groupBy(memberRecipeLike.recipe.id)
+                .orderBy(memberRecipeLike.recipe.id.count().desc())
+                .limit(20)
+                .fetch();
+
+        List<RecipeHeartResponseDto> result = tuples.stream()
+                .map(tuple -> {
+                    Long recipeId = tuple.get(memberRecipeLike.recipe.id);
+                    String name = tuple.get(memberRecipeLike.recipe.name);
+                    String imgBig = tuple.get(memberRecipeLike.recipe.imgBig);
+                    String imgSmall = tuple.get(memberRecipeLike.recipe.imgSmall);
+                    String category = tuple.get(memberRecipeLike.recipe.category);
+                    Long count = tuple.get(memberRecipeLike.recipe.id.count());
+
+                    return RecipeHeartResponseDto.builder()
+                            .recipeId(recipeId)
+                            .name(name)
+                            .imgBig(imgBig)
+                            .imgSmall(imgSmall)
+                            .category(category)
+                            .count(count)
+                            .build();
+                })
+                .collect(Collectors.toList());
+
+        return result;
+    }
+
+
+
+
 
 
     private BooleanExpression keywordEq(String keyword) {
