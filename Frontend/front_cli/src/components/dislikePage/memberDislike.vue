@@ -62,7 +62,7 @@ export default {
       this.ingredientName = result.name
     },
     
-    /////
+    ///
     startSpeechRecognition() {
       const recognition = new window.webkitSpeechRecognition();
       recognition.lang = "ko-KR"
