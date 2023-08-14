@@ -54,19 +54,14 @@ interface MemberRecipeLatest {
 
 // 회원 비선호 재료
 interface MemberDislikeIngredient {
-  member_dislike_ingredient_id:number
-  member_id: number
-  ingredient_id: number
-  // have_id: number
-  // member_id2: number
+  ingredientId: number,
+  ingredientName : String
 }
 
 // 회원 알러지 정보
 interface MemberAllergy {
-  member_allergy_id: number
-  member_id: number
-  allergy_id: number
-  // ingredient_id: number
+  allergyId: number
+  allergyName: string
 }
 
 // 회원 보유 장비
@@ -134,11 +129,7 @@ const member: Module<MemberState, RootState> = {
     // 
     memberRecipeLatest: [],
     memberDislikeIngredient: [],
-    memberAllergy: [
-      { member_allergy_id: 1, member_id: 1 , allergy_id: 3},
-      { member_allergy_id: 2, member_id: 1 , allergy_id: 4},
-      { member_allergy_id: 3, member_id: 1 , allergy_id: 5},
-    ],
+    memberAllergy: [],
     memberUtensil: [],
     memberSeasoning: [],
     eamilCode: null,
@@ -161,8 +152,10 @@ const member: Module<MemberState, RootState> = {
     memberUtensilList: state => state.memberUtensil,
     memberSeasoning: state => state.memberSeasoning,
     memberIngredient: state => state.memberIngredient,
-  },
-  mutations: {
+    memberTypeIds: (state) =>  (type: string) => { if (type ==='dislike') { return state.memberDislikeIngredient.map(item => item.ingredientId)} else if (type === 'allergy') {return state.memberAllergy.map(item => item.allergyId)}},
+    },
+  
+    mutations: {
     // SET_ACCESS_TOKEN: (state, accessToken) => (state.accessToken = accessToken),
     // SET_REFRESH_TOKEN: (state, refreshToken) => (state.refreshToken = refreshToken),
     SET_MEMBER: (state, member) => (state.member = member),
@@ -175,8 +168,9 @@ const member: Module<MemberState, RootState> = {
     SET_MEMBER_SEASONING: (state, memberSeasoning) => (state.memberSeasoning = memberSeasoning),
     SET_EMAIL_VERIFY: (state, emailCode) => (state.eamilCode = emailCode),
     SET_MEMBER_INGREDIENT: ( state, ingredient ) => (state.memberIngredient = ingredient),
-
-
+    // 기존 배열에 추가(기존 SET_MEMBER_DISLIKE_INGREDIENT에 push할경우 저장을 누르면 기존배열 + 업데이트 배열)
+    UPDATE_LIST: (state, { type, updateData }) => {if (type === 'dislike') {state.memberDislikeIngredient.push(...updateData)} else if (type === 'allergy') {state.memberAllergy.push(...updateData)}},
+    REMOVE_FROM_LIST: (state, { type, removeData }) => {if (type === 'dislike') {state.memberDislikeIngredient = state.memberDislikeIngredient.filter(item => item.ingredientId !== removeData)} else if (type === 'allergy') {state.memberAllergy = state.memberAllergy.filter(item => item.allergyId !== removeData)}},
   },
   actions: {
     saveToken({ commit }, { accessToken}) {
@@ -439,7 +433,7 @@ const member: Module<MemberState, RootState> = {
           const sendData = {
             memberId: memberId,
             utensilId: utensilData // utensilData 배열을 그대로 사용합니다.
-          };
+          }
           console.log(JSON.stringify(sendData, null, 2))
           
           const res = await axios.post(apiUrl, sendData);
@@ -483,10 +477,111 @@ const member: Module<MemberState, RootState> = {
         
 
       } catch(err) {
-        console.error(type === 'all' ? '정보 변경 실패...' : '비밀번호 변경 실패...', err);
+        console.error(type === 'all' ? '정보 변경 실패...' : '비밀번호 변경 실패...', err)
       }
-    }
-  },
+    },
+
+    // 회원 비선호 재료, 알러지 저장/ 조회
+    async memberDislikeAllergy({commit, getters}, {type, memberId}) {
+      try {
+        let apiUrl
+        let sendData
+        
+        
+        if (type === 'dislikeGet') {
+          apiUrl = `https://i9b202.p.ssafy.io/api/members/dislikeIngredient/${memberId}`         
+        } else if (type === 'dislikePost') {
+          apiUrl = 'https://i9b202.p.ssafy.io/api/members/dislikeIngredient'  
+          sendData = {
+            memberId: memberId,
+            ingredientId: getters.memberTypeIds('dislike')
+          }       
+        } else if (type === 'allergyGet') {
+          apiUrl = `https://i9b202.p.ssafy.io/api/members/memberAllergy/${memberId}`
+        } else if (type === 'allergyPost') {
+          apiUrl = 'https://i9b202.p.ssafy.io/api/api/members/memberAllergy'
+          sendData = {
+            memberId: memberId,
+            allergyId: getters.memberTypeIds('allergy')
+          }
+        } else {
+          throw new Error('Invalid request type');
+        }
+        
+        console.log(
+          type === 'dislikeGet' || type === 'dislikePost'
+            ? '비선호 재료 요청 시작!'
+            : '알러지 재료 요청 시작!',
+            sendData
+        )
+
+        
+        let res
+        if (type === 'dislikeGet' || type === 'allergyGet') {
+          res = await axios.get(apiUrl)
+        } else if (type === 'dislikePost' || type === 'allergyPost') {
+          res = await axios.post(apiUrl, sendData)
+        }
+        
+        
+        console.log(
+          type === 'dislikeGet' || type === 'dislikePost'
+          ? '비선호 재료 요청 성공!'
+          : '알러지 재료 요청 성공!',
+          res
+          )
+          
+          if (type === 'dislikeGet') {
+            if (res && res.data) {
+              commit('SET_MEMBER_DISLIKE_INGREDIENT', res.data);
+            }
+          } else if (type === 'dislikePost') {
+            console.log('비선호 재료 저장 완료!')
+          } else if (type === 'allergenGet') {
+            if (res && res.data) {
+              commit('SET_MEMBER_ALLERGY', res.data);
+            }
+          } else if (type === 'allergenPost') {
+            if (res && res.data) {
+              console.log('알러지 저장 완료!')
+            }
+          }
+      } catch(err) {
+        console.log(
+          type === 'dislikeGet' || type === 'dislikePost'
+            ? '비선호 재료 요청 실패..'
+            : '알러지 재료 요청 실패..',
+          err
+        )
+      }
+    },
+    
+    // 아이템 추가 (비선호, 알러지)
+    async appendItem({commit,state }, {type, inputData}) {
+      try {
+        const data = {ingredientId: inputData.id ,ingredientName: inputData.name}
+        const isDuplicate = state.memberDislikeIngredient.some(item => item.ingredientId === inputData.id)
+    
+        if (!isDuplicate) {
+          commit('UPDATE_LIST', { type: 'dislike', updateData: [data] });
+        } else {
+          console.log('이미 존재하는 재료입니다.');
+        }
+      } catch(err) {
+        console.log(err)
+      }
+    },
+
+    // 아이템 삭제
+    async deleteItem({commit}, {type, delData}){
+      try {
+        commit('REMOVE_FROM_LIST', { type, removeData: delData })
+        console.log(delData,'삭제성공!')
+      } catch(err) {
+        console.log(delData,'삭제실패,,,,',err)
+      }
+    },
+  }, 
 }
 
-export default member;
+export default member

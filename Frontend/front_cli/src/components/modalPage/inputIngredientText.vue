@@ -59,7 +59,7 @@
                   <div class="input-group">
                     <div class="amount">
                       <button class="amountButton" @click="addAmount">+</button>
-                      <input id="searchForm" class="form-control" type="number" v-model.trim="amount">
+                      <input id="searchForm" class="form-control" type="text" v-model.trim="amount">
                       <button class="amountButton" @click="reduceAmount">-</button>
                     </div>
                     <div class="dropdown">
@@ -125,7 +125,7 @@ export default {
         ingredientId: null,
         storage: 0,
         printStorage:'',
-        amount: 0,
+        amount: "",
         unit: '개',
         startDate: '',
         expiredDate: '',

@@ -187,7 +187,7 @@ const atc: Module<ATCState, RootState> = {
           params: {
             name : name,
           },
-        });
+        })
         console.log(type === 'seasoning' ? '양념 조회 성공!' : '재료 조회 성공!', response.data);
         commit(type === 'seasoning' ? 'SET_SEASONING_SEARCH_DATA' : 'SET_INGREDIENT_SEARCH_DATA', response.data);
       } catch (error) {
