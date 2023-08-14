@@ -1,6 +1,6 @@
 <template>
   <!-- 모달창 이동 하게하는 상위 컴퍼넌트 -->
-  <div>
+  <div class="modal_container">
     <SeasoningText />
     <SeasoningSound />
     <button class="modalButton" data-bs-target="#seasoningModalToggle" data-bs-toggle="modal">양념수정</button>
