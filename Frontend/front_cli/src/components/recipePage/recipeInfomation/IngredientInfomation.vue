@@ -7,8 +7,6 @@
         <p>재료</p>
       </div>
     </div>
-    
-
     <!-- 재료 정보 -->
     <div class="ingredientContainer">
       <div class="ingredientLine" v-for="(ingredient, index) in recipeDetail.recipeIngredients" :key="index">

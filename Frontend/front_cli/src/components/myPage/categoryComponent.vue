@@ -2,16 +2,16 @@
     <!-- 좌측 메뉴 변경 컴포넌트 -->
     <div class="myPageComponent" id="myPageMenu">
         <div>
-            <router-link to="/mypage/refrigerator">내 냉장고</router-link>
+            <router-link to="/mypage/refrigerator" class="category">내 냉장고</router-link>
         </div>
         <div>
-            <router-link to="/mypage/tool">내 조리도구</router-link>
+            <router-link to="/mypage/tool" class="category">내 조리도구</router-link>
         </div>
         <div>
-            <router-link to="/mypage/like">좋아요한 레시피</router-link>
+            <router-link to="/mypage/like" class="category">좋아요한 레시피</router-link>
         </div>
         <div>
-            <router-link to="/mypage/edit">내 정보 수정</router-link>
+            <router-link to="/mypage/edit" class="category">내 정보 수정</router-link>
         </div>
     </div>
 </template>
@@ -24,18 +24,19 @@ export default {
 
 <style scoped>
 .myPageComponent {
-    margin-top: 3rem;
-    margin-bottom: 3rem;
-    border-radius: .5rem;
-    box-shadow: 1px 1px 1px 1px;
-    margin-left: 1rem;
-    height: 15rem;
+    margin-top: 5rem;
+    /* margin-bottom: 3rem; */
+    /* border: 1px solid black; */
+    border-radius: .4rem;
+    /* box-shadow: 1px 1px 1px 1px; */
+    margin-left: 3rem;
+    height: 17rem;
+    min-width: 12rem;
 }
 
 .myPageComponent div {
-    margin: auto;
-    margin-top: 1rem;
-    border-bottom: 1px solid #bdbdbd;
+    margin: 1rem auto 2rem;
+    /* border-bottom: 1px solid #000000; */
     width: 90%;
 }
 
@@ -46,7 +47,6 @@ export default {
     font-size: 1.5rem;
     font-family: 'LINESeedKR-Rg';
 }
-
 .myPageComponent div a.router-link-exact-active {
   color: #FD7E14;
 }

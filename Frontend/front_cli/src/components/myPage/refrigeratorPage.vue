@@ -433,6 +433,15 @@ ul {
     /* margin-left: 7.5rem; */
 }
 
+.storagae.radioButton {
+    font-family: 'LINESeedKR-Bd';
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+.storagae.radioButton:hover {
+    background-color: #FD7E14;
+    color: #f2f2f2;
+}
 
 .categoryTitle {
     text-align: start;
