@@ -17,11 +17,12 @@
           <img class="recipeImg" :src='recipeDetail.imgBig'>
         </div>
         
-        
         <!-- 레시피 정보 -->
         <RecipeInfomation />
       </div>
-
+  <div>
+    <IngredientInfomation/>
+  </div>
       <!-- 레시피 순서 -->
   <div class="recipeOrder">
     <h2 class="orderTitle">레시피 순서</h2>
@@ -39,18 +40,19 @@
 
 <script>
 import RecipeInfomation from '../recipePage/recipeInfomation/recipeInfomation.vue'
+import IngredientInfomation from './recipeInfomation/IngredientInfomation.vue'
 import {mapGetters, mapActions} from 'vuex' 
 
 export default {
     name: 'RecipeDetail',
     components: {
+      IngredientInfomation,
       RecipeInfomation,
     },
     data() {
       return {
         recipeId: null,
         liked : false,
-        lorem : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
         memberId: null,
       }
     },
@@ -66,13 +68,13 @@ export default {
       },
       ...mapGetters(['recipeDetail'])
     },
-
     
     methods: {
       toggleLike(){
         this.liked = !this.liked;
       },
       ...mapActions(['memberLikeRecipe','detailRecipe']),
+      
           playTTS(text) {
       const apiKey = 'AIzaSyCN8qg_05_pSKpv6wRKwKyUfVfEAOC-uaA'; // Google Text-to-Speech API 키를 여기에 넣으세요.
       const url = `https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`;
