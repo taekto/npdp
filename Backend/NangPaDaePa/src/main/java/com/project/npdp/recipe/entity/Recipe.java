@@ -1,6 +1,7 @@
 package com.project.npdp.recipe.entity;
 
 import com.project.npdp.domain.Calendar;
+import com.project.npdp.domain.MemberRecommend;
 import com.project.npdp.member.entity.MemberRecipeLatest;
 import com.project.npdp.member.entity.MemberRecipeLike;
 import lombok.AccessLevel;
@@ -74,4 +75,9 @@ public class Recipe {
     // member_recipe_like(과정) 연관관계
     @OneToMany(mappedBy = "recipe")
     private List<MemberRecipeLatest> memberRecipeLatestList = new ArrayList<>();
+
+    // member_recommend(회원추천) 연관관계
+    @OneToMany(mappedBy = "member")
+    private List<MemberRecommend> memberRecommendList = new ArrayList<>();
+
 }

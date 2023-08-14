@@ -2,6 +2,7 @@ package com.project.npdp.member.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.npdp.domain.Calendar;
+import com.project.npdp.domain.MemberRecommend;
 import com.project.npdp.refregirator.entity.MemberSeasoning;
 import com.project.npdp.refregirator.entity.Refregirator;
 import com.project.npdp.utils.SHA256Util;
@@ -80,6 +81,10 @@ public class Member {
     // member_recipe_latest(회원최근본레시피) 연관관계
     @OneToMany(mappedBy = "member")
     private List<MemberRecipeLatest> memberRecipeLatestList = new ArrayList<>();
+
+    // member_recommend(회원추천) 연관관계
+    @OneToMany(mappedBy = "member")
+    private List<MemberRecommend> memberRecommendList = new ArrayList<>();
 
     public String getRoleKey(){
         return this.role.getKey();
