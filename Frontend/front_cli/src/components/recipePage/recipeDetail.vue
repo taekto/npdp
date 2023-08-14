@@ -21,7 +21,7 @@
         <RecipeInfomation />
       </div>
   <div>
-    <IngredientInfomation/>
+    <IngredientInfomation :serving='serving'/>
   </div>
       <!-- 레시피 순서 -->
   <div class="recipeOrder">
@@ -54,6 +54,7 @@ export default {
         recipeId: null,
         liked : false,
         memberId: null,
+        serving: 1,
       }
     },
     
@@ -73,6 +74,11 @@ export default {
       toggleLike(){
         this.liked = !this.liked;
       },
+
+      servingUpdate(serving) {
+        this.serving = serving
+      },
+
       ...mapActions(['memberLikeRecipe','detailRecipe']),
       
           playTTS(text) {

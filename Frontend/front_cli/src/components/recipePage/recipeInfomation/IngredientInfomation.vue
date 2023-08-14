@@ -32,8 +32,12 @@
             <p>{{ingredient.kor}}</p>
           </div>
           <div class="ingredientAmount">
-            <p>{{(ingredient.amount * serving).toFixed(1)}}</p>
+            <!-- <p>{{(ingredient.amount * serving).toFixed(1)}}</p>
+            <p>{{ingredient.amount}}</p>
             <p>{{ingredient.unit}}</p>
+            <p>{{ formatAmount(ingredient.amount, serving) }}</p> -->
+            <p>{{calculatedValues[index].value}}</p>
+            <p>{{ ingredient.unit }}</p>
           </div>
       </div>
     </div>
@@ -46,21 +50,44 @@ import {mapGetters} from 'vuex'
 export default {
     name: 'IngredientInfomation',
     props: {
-      // serving : Number
+      serving : Number
     },
     data() {
       return {
-        ingredientData : [],
+        calculatedValues: [],
       }
     },
     computed: {
       ...mapGetters(['recipeDetail'])
     },
-    // watch: {
-    //   recipeDetail() {
-    //     this.setIngredient()
-    //   }
-    // },
+    watch: {
+      recipeDetail: {
+        immediate: true, // 처음에도 즉시 호출
+        handler() {
+          this.recipeDetail
+          this.calculateValues();
+        },
+      },
+      'ingredient.amount': 'calculateValue'
+    },
+    methods: {
+      calculateValues() {
+      this.calculatedValues = this.recipeDetail.recipeIngredients.map(ingredient => {
+        const parsedValue = parseFloat(ingredient.amount);
+        const calculatedValue = {
+          kor: ingredient.kor,
+          value: '',
+          unit: ingredient.unit,
+        };
+        if (!isNaN(parsedValue)) {
+          calculatedValue.value = (parsedValue * this.serving).toFixed(1);
+        } else {
+          calculatedValue.value = ingredient.amount;
+        }
+        return calculatedValue;
+      });
+    },
+    },
 }
 </script>
 

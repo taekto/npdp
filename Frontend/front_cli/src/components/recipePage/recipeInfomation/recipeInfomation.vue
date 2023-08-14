@@ -56,7 +56,6 @@ import {mapGetters} from 'vuex'
 export default {
     name : 'RecipeInfomation',
     components: {
-      
       GraphInfomation,
       CalorieInformation,
       IngredientModal,
@@ -76,15 +75,19 @@ export default {
     methods: {
       chageServingOne() {
         this.serving = this.recipeDetail.dish * 1
+        this.$emit('servingUpdate', this.serving)
       },
       chageServingTwo() {
         this.serving = this.recipeDetail.dish * 2
+        this.$emit('servingUpdate', this.serving)
       },
       chageServingThree() {
         this.serving = this.recipeDetail.dish * 3
+        this.$emit('servingUpdate', this.serving)
       },
       chageServingFour() {
         this.serving = this.recipeDetail.dish * 4
+        this.$emit('servingUpdate', this.serving)
       },
       // goToIngredient() {
       //   console.log('ingredient')
