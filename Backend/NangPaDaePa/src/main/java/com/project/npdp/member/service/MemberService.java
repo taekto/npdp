@@ -304,7 +304,7 @@ public class MemberService {
         List<MemberAllergyResponseDto> memberAllergyResponseDto = new ArrayList<>();
         for(MemberAllergy memberAllergy : memberAllergies){
             MemberAllergyResponseDto memberAllergyResponse = MemberAllergyResponseDto.builder()
-                    .memberId(memberAllergy.getMember().getId())
+                    .allergyId(memberAllergy.getAllergy().getId())
                     .allergyName(memberAllergy.getAllergy().getName())
                     .build();
 
@@ -345,7 +345,7 @@ public class MemberService {
         List<MemberDislikeIngredientResponseDto> memberDislikeIngredientResponseDtos = new ArrayList<>();
         for(MemberDislikeIngredient memberDislike : memberDislikeIngredients){
             MemberDislikeIngredientResponseDto memberDislikeIngredientResponseDto = MemberDislikeIngredientResponseDto.builder()
-                    .memberId(memberDislike.getMember().getId())
+                    .ingredientId(memberDislike.getIngredient().getId())
                     .ingredientName(memberDislike.getIngredient().getKor())
                     .build();
             memberDislikeIngredientResponseDtos.add(memberDislikeIngredientResponseDto);
@@ -385,7 +385,7 @@ public class MemberService {
         List<MemberUtensilResponseDto> memberUtensilResponseDtos = new ArrayList<>();
         for(MemberUtensil memberUtensil : memberUtensils){
             MemberUtensilResponseDto memberUtensilResponseDto = MemberUtensilResponseDto.builder()
-                    .memberId(memberUtensil.getMember().getId())
+                    .utensilId(memberUtensil.getUtensil().getId())
                     .utensilName(memberUtensil.getUtensil().getName())
                     .build();
 

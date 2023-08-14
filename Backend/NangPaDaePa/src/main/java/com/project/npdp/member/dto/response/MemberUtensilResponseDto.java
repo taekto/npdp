@@ -8,7 +8,7 @@ import lombok.*;
 @Builder
 public class MemberUtensilResponseDto {
 
-    private Long memberId;
+    private Long utensilId;
 
     private String utensilName;
 }

@@ -8,7 +8,7 @@ import lombok.*;
 @Builder
 public class MemberAllergyResponseDto {
 
-    private Long memberId;
+    private Long allergyId;
 
     private String allergyName;
 
