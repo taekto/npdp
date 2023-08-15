@@ -64,11 +64,15 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
 
         Boolean heartTF = false;
 
+        BooleanExpression condition = memberRecipeLike.recipe.id.eq(recipeId);
+        if (memberId != null) {
+            condition = condition.and(memberRecipeLike.member.id.eq(memberId));
+        }
         MemberRecipeLike memberRecipeLike1 = queryFactory.select(memberRecipeLike)
                 .from(memberRecipeLike)
-                .where(memberRecipeLike.recipe.id.eq(recipeId)
-                        .and(memberRecipeLike.member.id.eq(memberId)))
+                .where(condition)
                 .fetchOne();
+
         if(memberRecipeLike1 == null) {
             heartTF = false;
         }
