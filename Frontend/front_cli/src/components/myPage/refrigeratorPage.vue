@@ -40,7 +40,6 @@
             <div>
                 <!-- 재료 -->
                 <div class="refrigeratorCategory">
-                    <p>{{displayedIngredientItems.tempIngredient}}</p>
                     <div style="display: flex; justify-content: space-between; width: 80%; margin: auto">
                         <p class="categoryTitle">{{printStorage}} 재료</p>
                         <button class="saveButton" @click="saveMaterial({type: 'ingredient', memberId: this.memberId, sendData: displayedIngredientItems.tempIngredient })">
@@ -50,7 +49,6 @@
                     
                     <ul class="ListShow">
                         <li v-for="(ingredientItem, index) in displayedIngredientItems.displayedItems" :key="index">
-                                <p>ㄱㅁㄴㅇㄻㄴㅇㄻㄴㅇㄹ{{ingredientItem}}</p>
                             <div class="ingredientList">
                                 <p class="ingredientName">{{ingredientItem.kor}}</p>
                                 <div class="amount">
@@ -439,6 +437,15 @@ ul {
     /* margin-left: 7.5rem; */
 }
 
+.storagae.radioButton {
+    font-family: 'LINESeedKR-Bd';
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+.storagae.radioButton:hover {
+    background-color: #FD7E14;
+    color: #f2f2f2;
+}
 
 .categoryTitle {
     text-align: start;

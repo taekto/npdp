@@ -19,7 +19,7 @@
             <div>
               <form class="edit_form" @submit.prevent="memberUpdate(memberId, userData.nickname)" >
                 <div class="input-group">
-                  <input id="searchForm" class="form-control" type="text" v-model.trim="userData.nickname">
+                  <input id="searchForm" class="form-control" type="text" v-model.trim="member.nickname">
                 </div>
                 <button class="btn_update" @click="asd">수정</button>
               </form>
@@ -63,10 +63,7 @@
               <div class="editCategoryTitle">
                 <p>생일 변경</p>
               </div>
-              <VDatePicker v-model="birthDate" :max-date="new Date()" @click="whatDate(birthDate)"/>
-              <div>
-                <input id="searchForm" class="birthInput" type="date" v-model.trim="userData.birthDate">
-              </div>
+              <VDatePicker v-model="member.birth" :max-date="new Date()" @click="whatDate(member.birth)"/>
             </div>
 
             <!-- 성별 변경 -->
@@ -75,14 +72,23 @@
                 <p>성별 변경</p>
               </div>
               <div class="storageRadio">
-                <label class="radioButton">
-                  <input type="radio" name="male" value="남자" v-model="gender" @click="changeClassification">남자
+                <label v-if="userData.gender !== 'MALE'" class="radioButton">
+                  <input type="radio" name="MALE" value="MALE" v-model="userData.gender" @click="changeClassification">남자
                 </label>
-                <label class="radioButton">
-                  <input type="radio" name="female" value="여자" v-model="gender" @click="changeClassification">여자
+                <label v-else class="radioButton2">
+                  <input type="radio" name="MALE" value="MALE" v-model="userData.gender" @click="changeClassification">남자
                 </label>
-                <label class="radioButton">
-                  <input type="radio" name="noGender" value="미선택" v-model="gender" @click="changeClassification">선택 안함
+                <label v-if="userData.gender !== 'FEMALE'" class="radioButton">
+                  <input type="radio" name="FEMALE" value="FEMALE" v-model="userData.gender" @click="changeClassification">여자
+                </label>
+                <label v-else class="radioButton2">
+                  <input type="radio" name="FEMALE" value="FEMALE" v-model="userData.gender" @click="changeClassification">여자
+                </label>
+                <label v-if="userData.gender !== 'NONE'" class="radioButton">
+                  <input type="radio" name="NONE" value="NONE" v-model="userData.gender" @click="changeClassification">선택 안함
+                </label>            
+                <label v-else class="radioButton2">
+                  <input type="radio" name="NONE" value="NONE" v-model="userData.gender" @click="changeClassification">선택 안함
                 </label>            
               </div>
             </div>
@@ -91,7 +97,6 @@
         </div>
       </div>
       </div>
-      
   </div>
 </template>
 
@@ -108,7 +113,7 @@ export default {
     data() {
       return {
         userData:{
-          nickname:'',
+          nickname:"",
           email : "",
           birthDate : "",
           password : "",
@@ -118,12 +123,16 @@ export default {
       }
     },
     computed: {
-      ...mapGetters(['member'])
+      ...mapGetters(['member']),
     },
 
     methods: {
       ...mapActions(['fetchMember','memberUpdate']),
       
+      setGender() {
+        this.userData.gender = this.member.gender
+      },
+
       whatDate(birthDate, delimiter = '-') {
         const year = birthDate.getFullYear()
         const month = birthDate.getMonth() + 1
@@ -136,7 +145,7 @@ export default {
         else {
           this.birthDate = year + delimiter + month + delimiter + date
         }
-      }
+      },
     },
     watch: {
       'member': {
@@ -155,6 +164,7 @@ export default {
     async created() {
       this.memberId = parseInt(sessionStorage.getItem('memberId'))
       this.fetchMember(this.memberId)
+      this.setGender()
     },
 
 }
@@ -225,11 +235,35 @@ export default {
 
 .btn_update {
   border-radius: .5rem;
+  font-family: 'LINESeedKR-Rg';
+  border: 1.6px solid #FD7E14;
+  background-color: #FD7E14;
+  color: white;
+  border-radius: .5rem;
+  padding: .3rem .2rem;
+  margin-right: 1rem;
+  width: 4rem;
+  font-size: 1.25rem;
 }
 
 .edit_form {
   display: flex;
 }
 
+.saveButton {
+  font-family: 'LINESeedKR-Rg';
+  border: 1.6px solid #FD7E14;
+  background-color: #FD7E14;
+  color: white;
+  border-radius: .5rem;
+  padding: .3rem .2rem;
+  margin: .5rem;
+  width: 6rem;
+  font-size: 1.25rem;
+  margin-bottom: 3rem;
+  /* display: flex;
+  align-items: center;
+  justify-content: center; */
+}
 
 </style>

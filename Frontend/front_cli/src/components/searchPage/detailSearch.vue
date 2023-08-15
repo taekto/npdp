@@ -10,7 +10,7 @@
                     </button>
                 </h2>
                 <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse">
-                    <div class="accordion-body">
+                    <div class="accordion-body btn_group">
                         <label v-if="selectClassification === '전체'" class="radioButton2">
                             <input type="radio" name="classification" value="전체" v-model="selectClassification" @click="changeClassification">전체
                         </label>
@@ -50,10 +50,11 @@
                 <h2 class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
                         <strong>키워드</strong>
+                        <h1>{{selectCategory}}</h1>
                     </button>
                 </h2>
                 <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
-                    <div class="accordion-body">
+                    <div class="accordion-body btn_group">
                         <label v-if="selectCategory !== '전체'" class="radioButton">
                             <input type="radio" name="category" value="전체" v-model="selectCategory" @click="changeCategory">전체
                         </label>
@@ -98,25 +99,33 @@
 </template>
 
 <script>
+import {mapActions, mapGetters} from 'vuex'
 export default {
     name: "DetailSearch",
     data() {
         return {
-            selectClassification : '전체',
-            selectCategory : '전체',
+            selectClassification : null,
+            selectCategory : null,
         }
     },
+    computed:{
+      ...mapGetters(['selectCategory'])
+    },
     methods: {
-        // 분류를 바꿔주는 함수
-        changeClassification() {
-            setTimeout(() => {console.log(this.selectClassification)}, 250)
-        },
+       ...mapActions(['categoryChoice']),
+      // 분류를 바꿔주는 함수
+      changeClassification() {
+        this.categoryChoice({type: 'classification', choice: this.selectClassification})
+      },
 
-        // 카테고리를 바꿔주는 함수
-        changeCategory() {
-            setTimeout(() => {console.log(this.selectCategory)}, 250)
-        }
+      // 카테고리를 바꿔주는 함수
+      changeCategory() {
+        this.categoryChoice({type: 'category', choice: this.selectCategory})
+      },
+
+
     }
+
 }
 </script>
 
@@ -139,5 +148,9 @@ export default {
     color: white;
 }
 
+.btn_group {
+  display: flex;
+  justify-content: center;
+}
 
 </style>

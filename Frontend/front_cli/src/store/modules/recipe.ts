@@ -15,6 +15,8 @@ interface RecipeState {
   recipeDetail: RecipeDetail[];
   recipeRecommend: RecipeRecommend[];
   recipeWay: RecipeWay[];
+  selectCategory: string;
+  selectClassification: string;
 }
 
 // 레시피
@@ -33,8 +35,9 @@ interface Recipe {
   img_big: string
   category: string
   // dish: number
-  likes: number
+  // likes: number
 }
+
 // 과정
 interface RecipeSequence {
   procedure_id:number
@@ -114,90 +117,10 @@ interface RecipeWay {
 }
 
 
+
 const recipe: Module<RecipeState, RootState> = {
   state: {
-    recipe: [
-      {
-        "recipe_id": 1,
-        "name": "Spaghetti Bolognese",
-        "img_small": "path_to_small_image_1.jpg",
-        "img_big": "path_to_big_image_1.jpg",
-        "category": "Pasta",
-        "likes": 100
-      },
-      {
-        "recipe_id": 2,
-        "name": "Grilled Chicken Salad",
-        "img_small": "path_to_small_image_2.jpg",
-        "img_big": "path_to_big_image_2.jpg",
-        "category": "Salad",
-        "likes": 50
-      },
-      {
-        "recipe_id": 3,
-        "name": "Cheese Pizza",
-        "img_small": "path_to_small_image_3.jpg",
-        "img_big": "path_to_big_image_3.jpg",
-        "category": "Pizza",
-        "likes": 200
-      },
-      {
-        "recipe_id": 4,
-        "name": "Stir-Fried Vegetables",
-        "img_small": "path_to_small_image_4.jpg",
-        "img_big": "path_to_big_image_4.jpg",
-        "category": "Vegetables",
-        "likes": 80
-      },
-      {
-        "recipe_id": 5,
-        "name": "Chicken Curry",
-        "img_small": "path_to_small_image_5.jpg",
-        "img_big": "path_to_big_image_5.jpg",
-        "category": "Curry",
-        "likes": 120
-      },
-      {
-        "recipe_id": 6,
-        "name": "Burger",
-        "img_small": "path_to_small_image_6.jpg",
-        "img_big": "path_to_big_image_6.jpg",
-        "category": "Fast Food",
-        "likes": 300
-      },
-      {
-        "recipe_id": 7,
-        "name": "Tacos",
-        "img_small": "path_to_small_image_7.jpg",
-        "img_big": "path_to_big_image_7.jpg",
-        "category": "Mexican",
-        "likes": 90
-      },
-      {
-        "recipe_id": 8,
-        "name": "Sushi Roll",
-        "img_small": "path_to_small_image_8.jpg",
-        "img_big": "path_to_big_image_8.jpg",
-        "category": "Sushi",
-        "likes": 250
-      },
-      {
-        "recipe_id": 9,
-        "name": "Fried Rice",
-        "img_small": "path_to_small_image_9.jpg",
-        "img_big": "path_to_big_image_9.jpg",
-        "category": "Rice",
-        "likes": 70
-      },
-      {
-        "recipe_id": 10,
-        "name": "Tomato Soup",
-        "img_small": "path_to_small_image_10.jpg",
-        "img_big": "path_to_big_image_10.jpg",
-        "category": "Soup",
-        "likes": 110
-      }
-    ],
+    recipe: [],
     recipeSpecific: [],
     recipeSequence: [],
     recipeUtensil: [],
@@ -211,6 +134,9 @@ const recipe: Module<RecipeState, RootState> = {
     {recipe_way_id : 4, recipe_way_name : '찌기'},
     {recipe_way_id : 5, recipe_way_name : '튀기기'},
     {recipe_way_id : 6, recipe_way_name : '기타'},],
+    selectCategory: "",
+    selectClassification: "",
+
   },
 
   getters: {
@@ -218,12 +144,18 @@ const recipe: Module<RecipeState, RootState> = {
     recipeSpecific: state => state.recipeSpecific,
     recipeDetail: state => state.recipeDetail,
     recipeWay: state => state.recipeWay,
+    selectCategory: state => state.selectCategory,
+    selectClassification: state => state.selectClassification,
+
   },
 
   mutations: {
     SET_RECIPE: (state, recipe) => (state.recipe = recipe),
     SET_RECIPE_SPECIFIC: (state, recipeSpecific) => (state.recipeSpecific = recipeSpecific),
     SET_RECIPE_DETAIL: (state, recipeDetail) => (state.recipeDetail = recipeDetail),
+    SET_CATEGORY_CHOICE: (state, choice) => (state.selectCategory = choice),
+    SET_CLASSIFICATION_CHOICE: (state, choice) => (state.selectClassification = choice),
+
   },
 
   actions: {
@@ -275,21 +207,26 @@ const recipe: Module<RecipeState, RootState> = {
     },
 
     // 레시피 상세 조회
-    detailRecipe ({commit}, recipe_id) {
-      console.log('레시피 상세 조회 시작!', recipe_id)
+    detailRecipe ({commit,getters}, {recipeId, memberId}) {
+      console.log(memberId,'님이 레시피 상세 조회 시작!', recipeId)
       axios({
         // url: api.recipe.detailRecipe(recipe_id),
-        url: `https://i9b202.p.ssafy.io/api/recipes/${recipe_id}`,
-        method:'get',
-
+        url: 'https://i9b202.p.ssafy.io/api/recipes/detail',
+        method:'post',
+        data: {
+          recipeId: recipeId,
+          memberId: memberId
+        }
         // headers: getters.authHeader,
       })
         .then(res=> {
           console.log(res.data, '레시피 상세 조회 성공!')
-          commit('SET_RECIPE_DETAIL', res.data)     
+          commit('SET_RECIPE_DETAIL', res.data)  
+          console.log('레시피 좋아요 상태 업데이트', getters.isRecipeLike,'---->',res.data.heartTF)
+          commit('SET_IS_RECIPE_LIKE', res.data.heartTF)   
             router.push({name: "recipe",  
               params: { 
-                recipe_id: recipe_id
+                recipe_id: recipeId,
               },
           })
         })
@@ -297,7 +234,45 @@ const recipe: Module<RecipeState, RootState> = {
           console.log('레시피 상세 조회 실패....')
           console.log(err.response)
         })
-    }
+    },
+
+    async fetchRecipes(context) {
+      try {
+        const response = await axios.get('https://i9b202.p.ssafy.io/api/members/heart/count');
+        context.commit('SET_RECIPE', response.data);
+      } catch (error) {
+        console.error('Error fetching recipes:', error);
+      }
+    },
+
+    // 레시피 동적 서치
+    async querySearch({commit}, data) {
+      try {
+        const apiUrl = 'https://i9b202.p.ssafy.io/api/recipes/category'
+
+        console.log('동적 서치 시작!' )
+        const res = await axios.post(apiUrl, data)
+        console.log('동적 서치 성공!', res.data)
+        commit('SET_RECIPE_SPECIFIC', res.data)
+      } catch (err) {
+        console.log(err)
+      }
+    },
+
+    // 레시피 카테고리 선택
+    async categoryChoice({commit}, {type, choice}) {
+      try {
+        if (type === 'category') {
+          commit('SET_CATEGORY_CHOICE', choice)
+        } else {
+          commit('SET_CLASSIFICATION_CHOICE', choice)
+        }
+        console.log(choice, '선택!')
+      } catch(err) {
+        console.log(err)
+      }
+    },
+
   },
 
 }
