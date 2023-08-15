@@ -1,6 +1,7 @@
 package com.project.npdp.recipe.repository;
 
 import com.project.npdp.domain.QRecipeRecommend;
+import com.project.npdp.domain.QUtensil;
 import com.project.npdp.domain.RecipeRecommend;
 import com.project.npdp.food.entity.QIngredient;
 import com.project.npdp.food.entity.QSeasoning;
@@ -16,6 +17,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.parameters.P;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,7 @@ import static com.project.npdp.member.entity.QMemberRecipeLike.memberRecipeLike;
 import static com.project.npdp.recipe.entity.QRecipe.recipe;
 import static com.project.npdp.recipe.entity.QRecipeIngredient.recipeIngredient;
 import static com.project.npdp.recipe.entity.QRecipeSeasoning.recipeSeasoning;
+import static com.project.npdp.recipe.entity.QRecipeUtensil.recipeUtensil;
 
 
 @RequiredArgsConstructor
@@ -184,6 +187,22 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
                 .where(recipe.id.eq(recipeId))
                 .fetchOne();
 
+        List<RecipeUtensil> result4 = queryFactory.selectFrom(recipeUtensil)
+                .from(recipeUtensil)
+                .innerJoin(recipeUtensil.recipe, QRecipe.recipe).fetchJoin()
+                .innerJoin(recipeUtensil.utensil, QUtensil.utensil).fetchJoin()
+                .where(QRecipe.recipe.id.eq(recipeId))
+                .fetch();
+
+        List<RecipeUtensilResponseDto> recipeUtensils = new ArrayList<>();
+        for(RecipeUtensil recipeUtensil1 : result4) {
+            RecipeUtensilResponseDto recipeUtensilResponseDto = RecipeUtensilResponseDto.builder()
+                    .name(recipeUtensil1.getUtensil().getName())
+                    .way(recipeUtensil1.getUtensil().getWay())
+                    .build();
+
+            recipeUtensils.add(recipeUtensilResponseDto);
+        }
 
         return RecipeDetailResponseDto.builder()
                 .recipeId(recipeId)
@@ -202,6 +221,7 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
                 .recipeIngredients(recipeIngredients)
                 .recipeSeasonings(recipeSeasonings)
                 .recipeSequences(recipeSequences)
+                .recipeUtensils(recipeUtensils)
                 .count(count)
                 .heartTF(heartTF)
                 .build();
@@ -302,7 +322,7 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
         return null;
 
     }
-
+    // 레시피 간 유사도
     @Override
     public List<RecipeRecommendResponseDto> findRecipesWithSimilarity(RecipeRecommendRequestDto recipeRecommendRequestDto) {
         log.info("recipeRecommendRequestDto = {}", recipeRecommendRequestDto.getRecipeOwnId());
@@ -325,7 +345,8 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
                         .build())
                 .collect(Collectors.toList());
     }
-
+    // 회원 유사도
+    
     @Override
     public List<RecipeHeartResponseDto> findTop20RecipesByRecipeIdCount() {
         List<Tuple> tuples = queryFactory
@@ -372,11 +393,11 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
 
 
     private BooleanExpression keywordEq(String keyword) {
-        return keyword != null ? QRecipe.recipe.category.eq(keyword) : null;
+        return keyword != null ? recipe.category.eq(keyword) : null;
     }
 
     private BooleanExpression recipeNameContains(String searchWord) {
-        return searchWord != null ? QRecipe.recipe.name.contains(searchWord) : null;
+        return searchWord != null ? recipe.name.contains(searchWord) : null;
     }
 
     private BooleanExpression recipeIngredientTypeEq(Long type) {

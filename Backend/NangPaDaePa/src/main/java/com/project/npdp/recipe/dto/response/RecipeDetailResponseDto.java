@@ -49,4 +49,6 @@ public class RecipeDetailResponseDto {
 
     private List<RecipeSequenceDetailDto> recipeSequences;
 
+    private List<RecipeUtensilResponseDto> recipeUtensils;
+
 }
