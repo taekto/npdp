@@ -307,6 +307,8 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
                 .innerJoin(recipeRecommend.recipeSlave, recipe).fetchJoin()
                 .innerJoin(recipeRecommend.recipeOwn, recipe).fetchJoin()
                 .where(recipeRecommend.recipeOwn.id.eq(recipeOwnId))
+                .orderBy(recipeRecommend.similarity.desc())
+                .limit(20)
                 .fetch();
         return result.stream()
                 .map(recipeRecommendEntity -> RecipeRecommendResponseDto.builder()

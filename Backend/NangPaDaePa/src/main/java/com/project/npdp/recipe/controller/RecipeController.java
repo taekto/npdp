@@ -52,8 +52,8 @@ public class RecipeController {
         List<RecipeResponseDto> result = recipeService.findAllRecipeWithCategory(findAllRecipeWithConditionRequestDto);
         return ResponseEntity.ok().body(result);
     }
-
-    @GetMapping("/similarity")
+    // 레시피 유사도
+    @PostMapping("/similarity")
     public ResponseEntity<?> findRecipesWithSimilarity(@RequestBody RecipeRecommendRequestDto recipeRecommendRequestDto) {
         List<RecipeRecommendResponseDto> result = recipeService.findRecipesWithSimilarity(recipeRecommendRequestDto);
         return ResponseEntity.ok().body(result);
