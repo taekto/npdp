@@ -1,12 +1,10 @@
 package com.project.npdp.recipe.service;
 
 import com.project.npdp.recipe.dto.request.FindAllRecipeWithConditionRequestDto;
+import com.project.npdp.recipe.dto.request.MemberRecommendRequestDto;
 import com.project.npdp.recipe.dto.request.RecipeDetailRequestDto;
 import com.project.npdp.recipe.dto.request.RecipeRecommendRequestDto;
-import com.project.npdp.recipe.dto.response.RecipeDetailResponseDto;
-import com.project.npdp.recipe.dto.response.RecipeRecommendResponseDto;
-import com.project.npdp.recipe.dto.response.RecipeResponseDto;
-import com.project.npdp.recipe.dto.response.RecipeWantResponseDto;
+import com.project.npdp.recipe.dto.response.*;
 import com.project.npdp.recipe.entity.Recipe;
 import com.project.npdp.recipe.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
@@ -70,9 +68,17 @@ public class RecipeService {
         return result;
     }
 
+    // 레시피 간 유사도로 레시피 반환
     @Transactional(readOnly = true)
     public List<RecipeRecommendResponseDto> findRecipesWithSimilarity(RecipeRecommendRequestDto recipeRecommendRequestDto) {
         List<RecipeRecommendResponseDto> result = recipeRepository.findRecipesWithSimilarity(recipeRecommendRequestDto);
+        return result;
+    }
+
+    // 유저 유사도로 레시피 반환
+    @Transactional(readOnly = true)
+    public List<MemberRecommendResponseDto> findMemberRecipesWithSimilarity(MemberRecommendRequestDto memberRecommendRequestDto) {
+        List<MemberRecommendResponseDto> result = recipeRepository.findMemberRecipesWithSimilarity(memberRecommendRequestDto);
         return result;
     }
 

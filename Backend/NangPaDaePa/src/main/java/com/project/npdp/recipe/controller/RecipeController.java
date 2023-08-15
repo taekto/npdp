@@ -1,12 +1,10 @@
 package com.project.npdp.recipe.controller;
 
 import com.project.npdp.recipe.dto.request.FindAllRecipeWithConditionRequestDto;
+import com.project.npdp.recipe.dto.request.MemberRecommendRequestDto;
 import com.project.npdp.recipe.dto.request.RecipeDetailRequestDto;
 import com.project.npdp.recipe.dto.request.RecipeRecommendRequestDto;
-import com.project.npdp.recipe.dto.response.RecipeDetailResponseDto;
-import com.project.npdp.recipe.dto.response.RecipeRecommendResponseDto;
-import com.project.npdp.recipe.dto.response.RecipeResponseDto;
-import com.project.npdp.recipe.dto.response.RecipeWantResponseDto;
+import com.project.npdp.recipe.dto.response.*;
 import com.project.npdp.recipe.service.RecipeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -56,6 +54,12 @@ public class RecipeController {
     @PostMapping("/similarity")
     public ResponseEntity<?> findRecipesWithSimilarity(@RequestBody RecipeRecommendRequestDto recipeRecommendRequestDto) {
         List<RecipeRecommendResponseDto> result = recipeService.findRecipesWithSimilarity(recipeRecommendRequestDto);
+        return ResponseEntity.ok().body(result);
+    }
+
+    @PostMapping("/member/similarity")
+    public ResponseEntity<?> findMemberRecipesWithSimilarity(@RequestBody MemberRecommendRequestDto memberRecommendRequestDto) {
+        List<MemberRecommendResponseDto> result = recipeService.findMemberRecipesWithSimilarity(memberRecommendRequestDto);
         return ResponseEntity.ok().body(result);
     }
 

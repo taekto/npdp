@@ -1,13 +1,13 @@
 package com.project.npdp.recipe.repository;
 
-import com.project.npdp.domain.QRecipeRecommend;
-import com.project.npdp.domain.QUtensil;
-import com.project.npdp.domain.RecipeRecommend;
+import com.project.npdp.domain.*;
 import com.project.npdp.food.entity.QIngredient;
 import com.project.npdp.food.entity.QSeasoning;
 import com.project.npdp.member.entity.MemberRecipeLike;
+import com.project.npdp.member.entity.QMember;
 import com.project.npdp.member.entity.QMemberRecipeLike;
 import com.project.npdp.recipe.dto.request.FindAllRecipeWithConditionRequestDto;
+import com.project.npdp.recipe.dto.request.MemberRecommendRequestDto;
 import com.project.npdp.recipe.dto.request.RecipeDetailRequestDto;
 import com.project.npdp.recipe.dto.request.RecipeRecommendRequestDto;
 import com.project.npdp.recipe.dto.response.*;
@@ -23,7 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.project.npdp.domain.QMemberRecommend.memberRecommend;
 import static com.project.npdp.domain.QRecipeRecommend.recipeRecommend;
+import static com.project.npdp.member.entity.QMember.member;
 import static com.project.npdp.member.entity.QMemberRecipeLike.memberRecipeLike;
 import static com.project.npdp.recipe.entity.QRecipe.recipe;
 import static com.project.npdp.recipe.entity.QRecipeIngredient.recipeIngredient;
@@ -325,7 +327,6 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
     // 레시피 간 유사도
     @Override
     public List<RecipeRecommendResponseDto> findRecipesWithSimilarity(RecipeRecommendRequestDto recipeRecommendRequestDto) {
-        log.info("recipeRecommendRequestDto = {}", recipeRecommendRequestDto.getRecipeOwnId());
         Long recipeOwnId = recipeRecommendRequestDto.getRecipeOwnId();
         List<RecipeRecommend> result = queryFactory.selectFrom(recipeRecommend)
                 .innerJoin(recipeRecommend.recipeSlave, recipe).fetchJoin()
@@ -346,7 +347,31 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
                 .collect(Collectors.toList());
     }
     // 회원 유사도
-    
+    @Override
+    public List<MemberRecommendResponseDto> findMemberRecipesWithSimilarity(MemberRecommendRequestDto memberRecommendRequestDto) {
+        Long memberId = memberRecommendRequestDto.getMemberId();
+        Long recipeId = memberRecommendRequestDto.getRecipeId();
+
+        List<MemberRecommend> result = queryFactory.selectFrom(memberRecommend)
+                .innerJoin(memberRecommend.member, member).fetchJoin()
+                .innerJoin(memberRecommend.recipe, recipe).fetchJoin()
+                .where(recipe.id.eq(recipeId)
+                        .and(member.id.eq(memberId)))
+                .orderBy(memberRecommend.similarity.desc())
+                .limit(20)
+                .fetch();
+
+        return result.stream()
+                .map(memberRecommendEntity -> MemberRecommendResponseDto.builder()
+                        .recipeId(memberRecommendEntity.getRecipe().getId())
+                        .name(memberRecommendEntity.getRecipe().getName())
+                        .imgBig(memberRecommendEntity.getRecipe().getImgBig())
+                        .imgSmall(memberRecommendEntity.getRecipe().getImgSmall())
+                        .category(memberRecommendEntity.getRecipe().getCategory())
+                        .similarity(memberRecommendEntity.getSimilarity())
+                        .build())
+                .collect(Collectors.toList());
+    }
     @Override
     public List<RecipeHeartResponseDto> findTop20RecipesByRecipeIdCount() {
         List<Tuple> tuples = queryFactory
@@ -386,11 +411,6 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
 
         return result;
     }
-
-
-
-
-
 
     private BooleanExpression keywordEq(String keyword) {
         return keyword != null ? recipe.category.eq(keyword) : null;
