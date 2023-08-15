@@ -47,7 +47,7 @@ public class RecipeController {
 
 
     // 레시피 검색 분류(전체) + 카테고리(전체,밥,국/찌개,반찬,일품,후식)
-    @GetMapping("/category")
+    @PostMapping("/category")
     public ResponseEntity<?> findAllRecipeWithCategory(@RequestBody FindAllRecipeWithConditionRequestDto findAllRecipeWithConditionRequestDto) {
         List<RecipeResponseDto> result = recipeService.findAllRecipeWithCategory(findAllRecipeWithConditionRequestDto);
         return ResponseEntity.ok().body(result);
