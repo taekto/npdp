@@ -16,7 +16,7 @@ public class RecipeRecommend {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "recipe_relation_id")
+    @Column(name = "recipe_recommend_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY) // Many RecipeRelation instances can relate to one recipeOwn
