@@ -19,12 +19,12 @@
       <!-- 유저 관련 메뉴 -->
       <div>
         <div v-if="!isLoggedIn" id="user">
-          <router-link to="/signup" class="nav_user_link">Signup</router-link>
-          <router-link to="/login" class="nav_user_link login">Login</router-link>
+          <router-link to="/signup" class="nav_user_link">회원가입</router-link>
+          <router-link to="/login" class="nav_user_link login">로그인</router-link>
         </div>
         <div v-else id="user">
-          <router-link to="/mypage" class="nav_user_link">MyPage</router-link>
-          <a class="logout nav_user_link" @click="logout">Logout</a>
+          <router-link to="/mypage" class="nav_user_link">마이페이지</router-link>
+          <a class="logout nav_user_link" @click="logout">로그아웃</a>
         </div>
       </div>
     </nav>
@@ -174,13 +174,18 @@ footer {
 /* 라디오 버튼 공통 */
 .radioButton {
   font-family: 'LINESeedKR-Rg';
-    border: 1.6px solid #FD7E14;
-    border-radius: .5rem;
-    padding: .3rem .2rem;
-    margin: .5rem;
-    width: 6rem;
-    font-size: 1.25rem;
+  border: 1.6px solid #FD7E14;
+  border-radius: .5rem;
+  padding: .3rem .1rem;
+  margin: .5rem;
+  width: 6rem;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 5rem;
 }
+
 
 .radioButton2 {
   font-family: 'LINESeedKR-Rg';
@@ -188,10 +193,14 @@ footer {
   background-color: #FD7E14;
   color: white;
   border-radius: .5rem;
-  padding: .3rem .2rem;
+  padding: .3rem .1rem;
   margin: .5rem;
   width: 6rem;
-  font-size: 1.25rem;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 5rem;
 }
 
 [type="radio"] {
@@ -227,6 +236,7 @@ footer {
   font-family: 'LINESeedKR-Bd';
   cursor: pointer;
   text-decoration: underline;
+  text-decoration-line: none;
 }
 
 .footer_text {
