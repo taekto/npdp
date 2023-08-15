@@ -22,7 +22,7 @@ public class DataUpdateScheduler {
         CompletableFuture<List<MemberRecommend>> result = dataUpdateService.fetchDataFromDjangoApi();
         List<MemberRecommend> memberRecommends = result.get();
 
-        dataUpdateService.updateMemberRecommend(memberRecommends);
+//        dataUpdateService.updateMemberRecommend(memberRecommends);
     }
 
 }

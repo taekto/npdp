@@ -3,22 +3,23 @@ package com.project.npdp.member.service;
 import com.project.npdp.domain.MemberRecommend;
 import com.project.npdp.member.repository.DataRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 
 @Service
 @RequiredArgsConstructor
 public class DataUpdateService {
 
     private final DataRepository dataRepository;
-    private final RestTemplate restTemplate;
+//    private RestTemplate restTemplate;
 
     // Django에서 비동기로 유사도 Get
     @Async
@@ -28,6 +29,8 @@ public class DataUpdateService {
 
         // 업데이트시 기존 데이터 모두 삭제
         dataRepository.deleteAll();
+
+        RestTemplate restTemplate = new RestTemplate();
 
         ResponseEntity<MemberRecommend[]> responseEntity = restTemplate.getForEntity(api, MemberRecommend[].class);
         if(responseEntity.getStatusCode().is2xxSuccessful()){
@@ -39,12 +42,12 @@ public class DataUpdateService {
     }
 
 
-    // 유사도 저장
-    @Transactional
-    public void updateMemberRecommend(List<MemberRecommend> memberRecommends){
-        for(MemberRecommend result : memberRecommends){
-            dataRepository.save(result);
-        }
-    }
+//    // 유사도 저장
+//    @Transactional
+//    public void updateMemberRecommend(List<MemberRecommend> memberRecommends){
+//        for(MemberRecommend result : memberRecommends){
+//            dataRepository.save(result);
+//        }
+//    }
 
 }
