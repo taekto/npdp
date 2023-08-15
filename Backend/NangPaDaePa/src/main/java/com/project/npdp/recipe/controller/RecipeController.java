@@ -25,7 +25,7 @@ public class RecipeController {
     private final RecipeService recipeService;
 
     // id로 Recipe Detail 조회
-    @GetMapping("/detail")
+    @PostMapping("/detail")
     public ResponseEntity<?> findRecipeById(@RequestBody RecipeDetailRequestDto recipeDetailRequestDto) {
         RecipeDetailResponseDto recipeDetail = recipeService.findRecipeDetail(recipeDetailRequestDto);
         return ResponseEntity.ok().body(recipeDetail);
