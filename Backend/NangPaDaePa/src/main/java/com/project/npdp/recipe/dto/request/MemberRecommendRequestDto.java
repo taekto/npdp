@@ -10,6 +10,4 @@ public class MemberRecommendRequestDto {
 
     private Long memberId;
 
-    private Long recipeId;
-
 }

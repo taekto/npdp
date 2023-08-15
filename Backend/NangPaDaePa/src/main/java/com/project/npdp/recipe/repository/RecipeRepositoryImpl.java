@@ -350,13 +350,11 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
     @Override
     public List<MemberRecommendResponseDto> findMemberRecipesWithSimilarity(MemberRecommendRequestDto memberRecommendRequestDto) {
         Long memberId = memberRecommendRequestDto.getMemberId();
-        Long recipeId = memberRecommendRequestDto.getRecipeId();
 
         List<MemberRecommend> result = queryFactory.selectFrom(memberRecommend)
                 .innerJoin(memberRecommend.member, member).fetchJoin()
                 .innerJoin(memberRecommend.recipe, recipe).fetchJoin()
-                .where(recipe.id.eq(recipeId)
-                        .and(member.id.eq(memberId)))
+                .where(member.id.eq(memberId))
                 .orderBy(memberRecommend.similarity.desc())
                 .limit(20)
                 .fetch();
