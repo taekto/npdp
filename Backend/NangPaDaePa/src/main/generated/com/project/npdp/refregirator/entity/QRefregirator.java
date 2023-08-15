@@ -22,7 +22,7 @@ public class QRefregirator extends EntityPathBase<Refregirator> {
 
     public static final QRefregirator refregirator = new QRefregirator("refregirator");
 
-    public final NumberPath<Double> amount = createNumber("amount", Double.class);
+    public final StringPath amount = createString("amount");
 
     public final DateTimePath<java.time.LocalDateTime> expiredDate = createDateTime("expiredDate", java.time.LocalDateTime.class);
 
