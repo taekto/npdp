@@ -210,6 +210,10 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
         String classification = findAllRecipeWithConditionRequestDto.getClassification();
         String keyword = findAllRecipeWithConditionRequestDto.getKeyWord();
 
+        log.info("searchWord ={}", searchWord);
+        log.info("classification ={}", classification);
+        log.info("keyword ={}", keyword);
+
         // 분류(전체) + 키워드
         if(classification.equals("전체")) {
 
@@ -229,10 +233,6 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
         else if(classification.equals("레시피명")) {
             List<Recipe> result = queryFactory.selectFrom(recipe)
                     .where(recipeNameContains(searchWord), keywordEq(keyword)).fetch();
-            log.info("searchWord ={}", searchWord);
-            log.info("classification ={}", classification);
-            log.info("keyword ={}", keyword);
-            log.info("result = {}", result);
 
             return result.stream()
                     .map(recipeEntity -> RecipeResponseDto.builder()
@@ -366,15 +366,15 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
 
 
     private BooleanExpression keywordEq(String keyword) {
-        return keyword != null ? recipe.category.eq(keyword) : null;
+        return keyword != null ? QRecipe.recipe.category.eq(keyword) : null;
     }
 
     private BooleanExpression recipeNameContains(String searchWord) {
-        return searchWord != null ? recipe.name.contains(searchWord) : null;
+        return searchWord != null ? QRecipe.recipe.name.contains(searchWord) : null;
     }
 
     private BooleanExpression recipeIngredientTypeEq(Long type) {
-        return type != null ? recipeIngredient.type.eq(type) : null;
+        return type != null ? QRecipeIngredient.recipeIngredient.type.eq(type) : null;
     }
 
     private BooleanExpression IngredientKorContains(String kor) {
@@ -384,11 +384,6 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
     private BooleanExpression SeasoningKorContains(String kor) {
         return kor != null ? QSeasoning.seasoning.kor.contains(kor) : null;
     }
-//    private BooleanExpression recipeNameLike(String name) {
-//        return name != null ? recipe.name.like(name) : null;
-//    }
-
-
 
 
 }
