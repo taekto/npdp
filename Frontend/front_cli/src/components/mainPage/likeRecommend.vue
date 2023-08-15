@@ -27,7 +27,7 @@ import { defineComponent } from 'vue'
 import { Carousel, Navigation, Slide } from 'vue3-carousel'
 
 import {mapGetters} from 'vuex'
-
+import {mapActions } from 'vuex';
 import 'vue3-carousel/dist/carousel.css'
 
 export default defineComponent({
@@ -41,6 +41,12 @@ export default defineComponent({
   computed: {
         ...mapGetters(['recipe'])
     },
+  methods: {
+    ...mapActions(['fetchRecipes']),
+  },
+  created() {
+    this.fetchRecipes();
+  },
   data: () => ({
     // carousel settings
     settings: {

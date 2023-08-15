@@ -38,7 +38,6 @@ export default {
           "반죽기",
           "빙수기",
           "수비드머신",
-          "식기건조대",
           "전기레인지",
           "전기밥솥",
           "전기찜솥",
@@ -62,7 +61,6 @@ export default {
           '반죽기': [27],
           '빙수기': [28],
           '수비드머신': [30],
-          '식기건조대': [],
           '전기레인지': [6, 8, 11, 13, 18, 23],
           '전기밥솥': [14],
           '전기찜솥': [15],
@@ -77,45 +75,48 @@ export default {
           '제빙기': [29],
           '제빵기': [26],
           '제면기': [25]
-        } 
+        },
+        resData:[],
       }
     },
     methods: {
       ...mapActions(['memberUtensil']),
+      saveTool() {
+        this.memberUtensil({ type: 'post', memberId: this.memberId, utensilData: this.utensilData });
+      },
       toggleUtensil(name) {
         const pkArray = this.utensilNameToPK[name]
-        if (!pkArray) {
-          console.error('Invalid utensil name:', name);
-          return;
-        }
-        if (this.utensilData.some(pk => pkArray.includes(pk))) {
-          // 이미 선택된 조리도구인 경우 배열에서 제거
+        if (pkArray.some(pk => this.utensilData.includes(pk))) {
           this.utensilData = this.utensilData.filter(pk => !pkArray.includes(pk));
+          console.log('배열에서 제거', this.utensilData);
         } else {
-          // 선택되지 않은 조리도구인 경우 배열에 추가
           this.utensilData.push(...pkArray);
+          console.log('배열에 추가', this.utensilData);
         }
-      },
-      saveTool() {
-        // utensilData에 있는 조리도구의 이름을 pk 값으로 매핑한 배열을 생성
-        console.log(this.memberId)
-        this.memberUtensil({ type: 'post', memberId: this.memberId, utensilData: this.utensilData });
+
       },
       isUtensilSelected(name) {
         return this.memberUtensilList.some(item => item.utensilName === name)
       },
     },
+
     computed: {
       ...mapGetters(['memberUtensilList'])
     },
 
     created() {
       this.memberId = parseInt(sessionStorage.getItem('memberId'))
-      console.log(this.memberId)
-      this.memberUtensil({type:'get', memberId: this.memberId})
-    }
-
-  
+      this.memberUtensil({ type: 'get', memberId: this.memberId })
+        .then(() => {
+          this.utensilData = this.memberUtensilList.reduce((data, item) => {
+            const pkArray = this.utensilNameToPK[item.utensilName];
+            if (pkArray) {
+              data.push(...pkArray);
+            }
+            return data;
+          }, []);
+        });
+  },
 }
 
 </script>
