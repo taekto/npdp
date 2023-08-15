@@ -6,7 +6,7 @@
             <div>
                 <form @submit.prevent="confirmPassword">
                     <div class="input-group">
-                        <input id="searchForm" class="form-control" type="password" v-model.trim="password">
+                        <input id="searchForm" class="form-control" type="password" v-model.trim="creditials.password">
                         <input id="submitButton" type="submit" value="확인">
                     </div>
                 </form>
@@ -17,16 +17,41 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
     name: 'MyPage',
     data() {
         return{
-            password : "",
+            creditials: {
+                email: '',
+                password : "",
+            }
+            
         }
     },
+    created() {
+        this.creditials.email = sessionStorage.getItem("email")
+    },
     methods: {
+        // password가 해당 회원의 password가 맞는지 확인해야 함
         confirmPassword() {
-            this.$router.push({name: 'refrigerator'})
+            console.log(this.creditials.password)
+            axios({
+                url: 'https://i9b202.p.ssafy.io/api/members/checkPassword',
+                method: 'post',
+                data: this.creditials,
+            })
+            .then(res => {
+                console.log(res.data)
+                this.$router.push({name: 'refrigerator'})
+            })
+            .catch(err => {
+                console.log(err)
+                alert("비밀번호가 일치하지 않습니다.")
+                this.$router.go(0)
+            })
+            // 
         }
     }
 }

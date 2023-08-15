@@ -10,7 +10,7 @@
                     </button>
                 </h2>
                 <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse">
-                    <div class="accordion-body">
+                    <div class="accordion-body btn_group">
                         <label v-if="selectClassification === '전체'" class="radioButton2">
                             <input type="radio" name="classification" value="전체" v-model="selectClassification" @click="changeClassification">전체
                         </label>
@@ -53,7 +53,7 @@
                     </button>
                 </h2>
                 <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
-                    <div class="accordion-body">
+                    <div class="accordion-body btn_group">
                         <label v-if="selectCategory !== '전체'" class="radioButton">
                             <input type="radio" name="category" value="전체" v-model="selectCategory" @click="changeCategory">전체
                         </label>
@@ -139,5 +139,9 @@ export default {
     color: white;
 }
 
+.btn_group {
+  display: flex;
+  justify-content: center;
+}
 
 </style>
