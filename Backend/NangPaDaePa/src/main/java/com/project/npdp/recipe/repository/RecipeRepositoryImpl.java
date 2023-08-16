@@ -215,7 +215,7 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
         if (memberId != null) {
 
             List<MemberRecommend> memberRecommends = queryFactory.selectFrom(memberRecommend)
-                    .where(memberRecommend.id.eq(memberId))
+                    .where(memberRecommend.member.id.eq(memberId))
                     .fetch();
             log.info("memberRecommends = {}", memberRecommends.size());
             if (memberRecommends.size() != 0) {
