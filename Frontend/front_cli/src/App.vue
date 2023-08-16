@@ -33,7 +33,7 @@
     <router-view/>
 
     <!-- 하단 설명 -->
-    <footer>
+    <footer class="footer">
       <!-- <p>@2023.panda. All rights reserved</p> -->
       <router-link to="#" class="footer_text">이용약관</router-link>
       <router-link to="#" class="footer_text">개인정보 처리방침</router-link>
@@ -130,6 +130,11 @@ nav #pageLink {
 .nav_user_link.login:hover {
   background-color: white;
   color: #fd7e14;
+}
+
+.nav_user_link.logout {
+  background-color: #fd7e14;
+  color: #f2f2f2;
 }
 
 nav #title {
@@ -252,6 +257,10 @@ footer {
   margin: 0 25px;
   content: " | ";
   color: #f2f2f2;
+}
+
+.footer {
+  margin-top: 3rem;
 }
 
 .footer_css {

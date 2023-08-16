@@ -17,10 +17,10 @@
                   <p>보관시작일 : </p>
                   <p>{{seasoning.startDate}}</p>
                 </div>
-                <div class="endDate">
+                <!-- <div class="endDate">
                   <p>유통기한 :</p>
                   <p>{{seasoning.expiredDate}}</p>
-                </div>
+                </div> -->
                 
                 <p class="storage">보관방식 : {{seasoning.storage}}</p>
                 <button class="deleteButton" @click="deleteSeasoning(seasoning)">제거</button>

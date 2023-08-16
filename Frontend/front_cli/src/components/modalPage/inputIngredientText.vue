@@ -22,10 +22,10 @@
                   <p>보관시작일 : </p>
                   <p>{{ingredient.startDate}}</p>
                 </div>
-                <div class="endDate">
+                <!-- <div class="endDate">
                   <p>유통기한 : </p>
                   <p>{{ingredient.expiredDate}}</p>
-                </div>
+                </div> -->
                 <p class="storage">보관방식 : {{printStorage}}</p>
                 <button class="deleteButton" @click="deleteIngredient(ingredient)">제거</button>
               </li>
@@ -59,7 +59,7 @@
                   <div class="input-group">
                     <div class="amount">
                       <button class="amountButton" @click="addAmount">+</button>
-                      <input id="searchForm" class="form-control" type="text" v-model.trim="amount">
+                      <input id="searchForm" class="form-control" type="number" v-model.trim="amount">
                       <button class="amountButton" @click="reduceAmount">-</button>
                     </div>
                     <div class="dropdown">
@@ -125,7 +125,7 @@ export default {
         ingredientId: null,
         storage: 0,
         printStorage:'',
-        amount: "",
+        amount: 0,
         unit: '개',
         startDate: '',
         expiredDate: '',
@@ -136,6 +136,14 @@ export default {
   computed: {
     ...mapGetters(['ingredientSearchData'])
     
+  },
+  watch: {
+    amount(newValue) {
+      if(newValue < 0) {
+        alert('0보다 작은 값을 입력할 수 없습니다.')
+        this.amount = 0
+      }
+    }
   },
   methods: {
     ...mapActions(['specificSearch','saveMaterial']),
@@ -190,7 +198,7 @@ export default {
           todayDate = `${year}-${month}-${date}`
         }
       }
-      this.ingredientList.push({ingredientName:this.ingredientName, ingredientId: this.ingredientId, amount: this.amount, unit: this.unit, startDate : todayDate, expiredDate: this.expiredDate, storage: this.printStorage})
+      this.ingredientList.push({ingredientName:this.ingredientName, ingredientId: this.ingredientId, amount: this.amount.toString(), unit: this.unit, startDate : todayDate, expiredDate: this.expiredDate, storage: this.printStorage})
       this.throwList.push({ingredientId: this.ingredientId, amount: this.amount, unit: this.unit, startDate : today, expiredDate: this.expiredDate, storage: this.storage})
       console.log(this.throwList)
     },
