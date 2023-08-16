@@ -3,9 +3,7 @@ package com.project.npdp.recipe.repository;
 import com.project.npdp.domain.*;
 import com.project.npdp.food.entity.QIngredient;
 import com.project.npdp.food.entity.QSeasoning;
-import com.project.npdp.member.entity.MemberRecipeLike;
-import com.project.npdp.member.entity.QMember;
-import com.project.npdp.member.entity.QMemberRecipeLike;
+import com.project.npdp.member.entity.*;
 import com.project.npdp.recipe.dto.request.FindAllRecipeWithConditionRequestDto;
 import com.project.npdp.recipe.dto.request.MemberRecommendRequestDto;
 import com.project.npdp.recipe.dto.request.RecipeDetailRequestDto;
@@ -27,7 +25,9 @@ import java.util.stream.Collectors;
 import static com.project.npdp.domain.QMemberRecommend.memberRecommend;
 import static com.project.npdp.domain.QRecipeRecommend.recipeRecommend;
 import static com.project.npdp.member.entity.QMember.member;
+import static com.project.npdp.member.entity.QMemberRecipeLatest.memberRecipeLatest;
 import static com.project.npdp.member.entity.QMemberRecipeLike.memberRecipeLike;
+import static com.project.npdp.recipe.entity.QRecipe.*;
 import static com.project.npdp.recipe.entity.QRecipe.recipe;
 import static com.project.npdp.recipe.entity.QRecipeIngredient.recipeIngredient;
 import static com.project.npdp.recipe.entity.QRecipeSeasoning.recipeSeasoning;
@@ -206,10 +206,21 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
 
             recipeUtensils.add(recipeUtensilResponseDto);
         }
+        String memberName = null;
+        MemberRecommend memberRecommend1 = null;
+        if (memberId != null) {
+             memberRecommend1 = queryFactory.selectFrom(memberRecommend)
+                    .join(memberRecommend.member, member).fetchJoin()
+                     .join(memberRecommend.recipe, QRecipe.recipe).fetchJoin()
+                    .where(member.id.eq(memberId).and(QRecipe.recipe.id.eq(recipeId)))
+                    .fetchOne();
+        }
 
         return RecipeDetailResponseDto.builder()
                 .recipeId(recipeId)
                 .name(recipeEntity.getName())
+                .memberName(memberRecommend1.getMember().getNickname())
+                .similarity(memberRecommend1.getSimilarity())
                 .way(recipeEntity.getWay())
                 .weight(recipeEntity.getWeight())
                 .calorie(recipeEntity.getCalorie())

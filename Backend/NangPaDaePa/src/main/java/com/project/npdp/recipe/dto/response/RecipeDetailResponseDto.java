@@ -15,6 +15,8 @@ public class RecipeDetailResponseDto {
 
     private Long recipeId;
 
+    private String memberName;
+
     private String name;
 
     private Long way;
@@ -42,6 +44,8 @@ public class RecipeDetailResponseDto {
     private Long count;
 
     private Boolean heartTF;
+
+    private Double similarity;
 
     private List<RecipeIngredientDetailDto> recipeIngredients;
 
