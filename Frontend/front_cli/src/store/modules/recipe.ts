@@ -225,7 +225,7 @@ const recipe: Module<RecipeState, RootState> = {
         data: {
           recipeId: recipeId,
           memberId: memberId
-        }
+        },
         // headers: getters.authHeader,
       })
         .then(res=> {

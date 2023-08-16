@@ -98,9 +98,9 @@ export default {
           unit: ingredient.unit,
         };
         if (!isNaN(parsedValue)) {
-          calculatedValue.value = (parsedValue * this.serving).toFixed(1);
+          calculatedValue.value = (parsedValue * this.serving).toFixed(1)
         } else {
-          calculatedValue.value = ingredient.amount;
+          calculatedValue.value = ingredient.amount
         }
         this.calculatedValues.push(calculatedValue)
       }
