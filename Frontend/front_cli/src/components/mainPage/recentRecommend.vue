@@ -3,19 +3,23 @@
   <div class="thirdLine">
     <div class="recentRecommend">
         <p class="menuTitle">최근 본 레시피</p>
+        <div v-if="memberRecipeLatest.length !== 0">
+          <Carousel :items-to-show="calculateItemsToShow" :wrap-around="calculateWrapAround"
 
-        <Carousel :items-to-show="calculateItemsToShow" :wrap-around="calculateWrapAround"
+          :autoplay= "3500" :transition = "1000">
+              <Slide v-for="item in memberRecipeLatest" :key="item.recipeId">
+                  <SlideCardRecentRecommned :recipe = item />
+              </Slide>
 
-        :autoplay= "3500" :transition = "1000">
-            <Slide v-for="item in memberRecipeLatest" :key="item.recipeId">
-                <SlideCardRecentRecommned :recipe = item />
-            </Slide>
-
-            <!-- 슬라이드 이동 버튼 -->
-            <template #addons>
-              <Navigation />
-            </template>
-        </Carousel>
+              <!-- 슬라이드 이동 버튼 -->
+              <template #addons>
+                <Navigation />
+              </template>
+          </Carousel>
+        </div>
+        <div v-else class="recentReco_logout">
+          최근 조회한 레시피가 없습니다.
+        </div>
     </div>
   </div>
     
@@ -104,6 +108,14 @@ export default defineComponent({
 .menuTitle {
   font-family: 'KimjungchulGothic-Bold';
     margin-left: 2rem;
+}
+
+.recentReco_logout {
+  font-family: 'LINESeedKR-Rg';
+  font-size: 1.5rem;
+  text-align: center;
+  color: #ababab;
+  margin: 3.5rem 0;
 }
 
 @media screen and (max-width: 992px) {

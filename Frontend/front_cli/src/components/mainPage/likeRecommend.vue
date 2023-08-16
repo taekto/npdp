@@ -3,17 +3,22 @@
   <div class="secondLine">
     <div class="likeRecommend">
         <p class="menuTitle">좋아요 많은 레시피</p>
-        <Carousel :items-to-show="3" :wrap-around="true"
-        :autoplay= "3500" :transition = "1000">
-            <Slide v-for="recipe_item in recipe" :key="recipe_item.recipeId">
-                <SlideCardLikeRecommend :recipe = recipe_item />
-            </Slide>
+        <div v-if="recipe">
+          <Carousel :items-to-show="3" :wrap-around="true"
+          :autoplay= "3500" :transition = "1000">
+              <Slide v-for="recipe_item in recipe" :key="recipe_item.recipeId">
+                  <SlideCardLikeRecommend :recipe = recipe_item />
+              </Slide>
 
-            <!-- 슬라이드 이동 버튼 -->
-            <template #addons>
-                <Navigation />
-            </template>
-        </Carousel>
+              <!-- 슬라이드 이동 버튼 -->
+              <template #addons>
+                  <Navigation />
+              </template>
+          </Carousel>
+        </div>
+        <div v-else class="likeReco_logout">
+          좋아요 많은 레시피가 없습니다.
+        </div>
     </div>
   </div>
     
@@ -93,6 +98,14 @@ export default defineComponent({
     font-family: 'KimjungchulGothic-Bold';
     margin-left: 2rem;
 }
+.likeReco_logout {
+  font-family: 'LINESeedKR-Rg';
+  font-size: 1.5rem;
+  text-align: center;
+  color: #ababab;
+  margin: 3.5rem 0;
+}
+
 
 @media screen and (max-width: 992px) {
   .likeRecommend{
