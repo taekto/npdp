@@ -11,12 +11,12 @@
   <!-- 링크 바인딩 a태그 없애고 라우팅? -->
 <div class="mainPageCategory">
   <div class="cate_cont" style="height:100px;">
-    <li class="categoryBtn"><img src="@/assets/mainPageCategory/all.png" @click="categorySearch(null)"><span>전체</span></li>
-    <li class="categoryBtn"><img src="@/assets/mainPageCategory/bob.png" @click="categorySearch('밥')"><span>밥</span></li>
-    <li class="categoryBtn"><img src="@/assets/mainPageCategory/gook.png" @click="categorySearch('국&찌개')"><span>국&찌개</span></li>
-    <li class="categoryBtn"><img src="@/assets/mainPageCategory/banchan.png" @click="categorySearch('반찬')"><span>반찬</span></li>
-    <li class="categoryBtn"><img src="@/assets/mainPageCategory/ilfoom.png" @click="categorySearch('일품')"><span>일품</span></li>
-    <li class="categoryBtn"><img src="@/assets/mainPageCategory/hoosik.png" @click="categorySearch('후식')"><span>후식</span></li>
+    <li class="categoryBtn"><img src="@/assets/mainPageCategory/all.png" @click="categorySearch(null)"><span class="categoryText">전체</span></li>
+    <li class="categoryBtn"><img src="@/assets/mainPageCategory/bob.png" @click="categorySearch('밥')"><span class="categoryText">밥</span></li>
+    <li class="categoryBtn"><img src="@/assets/mainPageCategory/gook.png" @click="categorySearch('국&찌개')"><span class="categoryText">국&찌개</span></li>
+    <li class="categoryBtn"><img src="@/assets/mainPageCategory/banchan.png" @click="categorySearch('반찬')"><span class="categoryText">반찬</span></li>
+    <li class="categoryBtn"><img src="@/assets/mainPageCategory/ilfoom.png" @click="categorySearch('일품')"><span class="categoryText">일품</span></li>
+    <li class="categoryBtn"><img src="@/assets/mainPageCategory/hoosik.png" @click="categorySearch('후식')"><span class="categoryText">후식</span></li>
   </div>
 </div>
 </template>
@@ -67,6 +67,10 @@ export default {
     margin-left: 1rem;
     margin-right: 1rem;
 } */
+
+.categoryText {
+  font-family: 'LINESeedKR-Bd';
+}
 
 .categoryBtn {
   display:table-cell;
