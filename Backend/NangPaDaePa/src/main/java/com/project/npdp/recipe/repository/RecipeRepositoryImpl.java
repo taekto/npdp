@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.parameters.P;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -245,7 +246,10 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
 
             List<Recipe> result = queryFactory.selectFrom(recipe)
                     .where(keywordEq(keyword)).fetch();
-            return result.stream()
+
+            HashSet<Recipe> uniqueRecipes = new HashSet<>(result);
+
+            return uniqueRecipes.stream()
                     .map(recipeEntity -> RecipeResponseDto.builder()
                             .recipeId(recipeEntity.getId())
                             .name(recipeEntity.getName())
@@ -260,7 +264,9 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
             List<Recipe> result = queryFactory.selectFrom(recipe)
                     .where(recipeNameContains(searchWord), keywordEq(keyword)).fetch();
 
-            return result.stream()
+            HashSet<Recipe> uniqueRecipes = new HashSet<>(result);
+
+            return uniqueRecipes.stream()
                     .map(recipeEntity -> RecipeResponseDto.builder()
                             .recipeId(recipeEntity.getId())
                             .name(recipeEntity.getName())
@@ -277,7 +283,11 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
                     .innerJoin(recipeIngredient.ingredient, QIngredient.ingredient).fetchJoin()
                     .where(keywordEq(keyword), recipeIngredientTypeEq(0L), IngredientKorContains(searchWord))
                     .fetch();
-            return result.stream()
+
+            HashSet<RecipeIngredient> uniqueRecipes = new HashSet<>(result);
+
+
+            return uniqueRecipes.stream()
                     .map(recipeIngredientEntity -> RecipeResponseDto.builder()
                             .recipeId(recipeIngredientEntity.getRecipe().getId())
                             .name(recipeIngredientEntity.getRecipe().getName()) // 수정된 부분
@@ -294,7 +304,10 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
                     .innerJoin(recipeIngredient.ingredient, QIngredient.ingredient).fetchJoin()
                     .where(keywordEq(keyword), recipeIngredientTypeEq(1L), IngredientKorContains(searchWord))
                     .fetch();
-            return result.stream()
+
+            HashSet<RecipeIngredient> uniqueRecipes = new HashSet<>(result);
+
+            return uniqueRecipes.stream()
                     .map(recipeIngredientEntity -> RecipeResponseDto.builder()
                             .recipeId(recipeIngredientEntity.getRecipe().getId())
                             .name(recipeIngredientEntity.getRecipe().getName()) // 수정된 부분
@@ -311,7 +324,11 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
                     .innerJoin(recipeSeasoning.seasoning, QSeasoning.seasoning).fetchJoin()
                     .where(SeasoningKorContains(searchWord), keywordEq(keyword))
                     .fetch();
-            return result.stream()
+
+            HashSet<RecipeSeasoning> uniqueRecipes = new HashSet<>(result);
+
+
+            return uniqueRecipes.stream()
                     .map(recipeSeasoningEntity -> RecipeResponseDto.builder()
                             .recipeId(recipeSeasoningEntity.getRecipe().getId())
                             .name(recipeSeasoningEntity.getRecipe().getName())
