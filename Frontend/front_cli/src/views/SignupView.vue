@@ -50,7 +50,7 @@
           <p v-show="emailVerify === 2" class="input-error">
             인증번호가 일치하지 않습니다.
           </p>
-          <p v-if="countdown > 0">남은 시간: {{ formatCountdown() }}초</p>
+          <p v-if="countdown > 0" class="input-error">남은 시간: {{ formatCountdown() }}초</p>
           
 
           
@@ -233,6 +233,7 @@ export default {
     checkEmailVerify() {
       if(this.emailCode.value.code === this.emailVerifyCode) {
         this.emailVerify = 1
+        this.countdown = 0
       }
       else {
         this.emailVerify = 2
