@@ -4,8 +4,8 @@
     <h2>레시피 관리 페이지</h2>
     <div class="admin_recipe_container">
       <template v-if="recipe.length > 0">
-        <div v-for="recipeItem in recipe" class="recipe_list" :key="recipeItem.recipe_id">
-          <span class="recipe_id">{{ recipeItem.recipe_id }} </span>
+        <div v-for="recipeItem in recipe" class="recipe_list" :key="recipeItem.recipeId">
+          <span class="recipeId">{{ recipeItem.recipeId }} </span>
           <span class="recipe_name">{{ recipeItem.name }} </span>
           <span class="recipe_update col">수정</span>
           <span class="recipe_delete col-2">삭제</span>
@@ -42,7 +42,7 @@ export default {
   display: flex;
 }
 
-.recipe_id {
+.recipeId {
   margin-right: 20px;
 }
 

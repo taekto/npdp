@@ -5,8 +5,8 @@
         <p class="menuTitle">유저기반 레시피</p>
         <Carousel :items-to-show="3" :wrap-around="true"
         :autoplay= "3500" :transition = "1000">
-            <Slide v-for="recipe_item in recipe" :key="recipe_item.recipe_id">
-                <SlideCardUserRecommend :recipe = recipe_item />
+            <Slide v-for="item,idx in memberSimilarity" :key="idx">
+                <SlideCardUserRecommend :recipe = item />
             </Slide>
 
             <!-- 슬라이드 이동 버튼 -->
@@ -27,7 +27,7 @@ import { Carousel, Navigation, Slide } from 'vue3-carousel'
 
 import 'vue3-carousel/dist/carousel.css'
 
-import {mapGetters} from 'vuex' 
+import {mapActions, mapGetters} from 'vuex' 
 
 export default defineComponent({
   name: 'MemberRecommend',
@@ -38,33 +38,35 @@ export default defineComponent({
     SlideCardUserRecommend
   },
   computed: {
-    ...mapGetters(['recipe'])
+    ...mapGetters(['memberSimilarity'])
   },
-  data: () => ({
-
-    // carousel settings
-    settings: {
-      itemsToShow: 1,
-      snapAlign: 'center',
-    },
-    // breakpoints are mobile first
-    // any settings not specified will fallback to the carousel settings
-    breakpoints: {
-      // 700px and up
-      700: {
-        itemsToShow: 2,
+  methods: {
+    ...mapActions(['memberRecommend'])
+  },
+  data() {
+    return {
+      memberId: null,
+      settings: {
+        itemsToShow: 1,
         snapAlign: 'center',
       },
-      // 1024 and up
-      1024: {
-        itemsToShow: 3,
-        snapAlign: 'start',
+      breakpoints: {
+        700: {
+          itemsToShow: 2,
+          snapAlign: 'center',
+        },
+        1024: {
+          itemsToShow: 3,
+          snapAlign: 'start',
+        },
       },
-    },
-  }),
-  
-  
-  
+    }
+  },
+  created() {
+    this.memberId = parseInt(sessionStorage.getItem('memberId'))
+    this.memberRecommend(this.memberId)
+  }
+
 })
 </script>
 

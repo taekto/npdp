@@ -57,7 +57,7 @@ const router = createRouter({
   {
     // 상세 레시피 페이지
     // 후에 데이터 연결 후 recipe_id 연결해줘야 함
-    path: '/recipe/:recipe_id',
+    path: '/recipe/:recipeId',
     name: 'recipe',
     component: RecipeDetail,
   },
