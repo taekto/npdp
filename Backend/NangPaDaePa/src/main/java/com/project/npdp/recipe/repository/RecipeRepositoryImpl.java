@@ -69,15 +69,16 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
                 .fetchOne();
 
         Boolean heartTF = false;
-
+        MemberRecipeLike memberRecipeLike1 = null;
         BooleanExpression condition = memberRecipeLike.recipe.id.eq(recipeId);
         if (memberId != null) {
             condition = condition.and(memberRecipeLike.member.id.eq(memberId));
+            memberRecipeLike1 = queryFactory.select(memberRecipeLike)
+                    .from(memberRecipeLike)
+                    .where(condition)
+                    .fetchOne();
         }
-        MemberRecipeLike memberRecipeLike1 = queryFactory.select(memberRecipeLike)
-                .from(memberRecipeLike)
-                .where(condition)
-                .fetchOne();
+
 
         if(memberRecipeLike1 == null) {
             heartTF = false;
@@ -214,13 +215,36 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
                      .join(memberRecommend.recipe, QRecipe.recipe).fetchJoin()
                     .where(member.id.eq(memberId).and(QRecipe.recipe.id.eq(recipeId)))
                     .fetchOne();
+            return RecipeDetailResponseDto.builder()
+                    .recipeId(recipeId)
+                    .name(recipeEntity.getName())
+                    .memberName(memberRecommend1.getMember().getNickname())
+                    .similarity(memberRecommend1.getSimilarity())
+                    .way(recipeEntity.getWay())
+                    .weight(recipeEntity.getWeight())
+                    .calorie(recipeEntity.getCalorie())
+                    .carbohydrate(recipeEntity.getCarbohydrate())
+                    .protein(recipeEntity.getProtein())
+                    .fat(recipeEntity.getFat())
+                    .salt(recipeEntity.getSalt())
+                    .imgSmall(recipeEntity.getImgSmall())
+                    .imgBig(recipeEntity.getImgBig())
+                    .category(recipeEntity.getCategory())
+                    .dish(recipeEntity.getDish())
+                    .recipeIngredients(recipeIngredients)
+                    .recipeSeasonings(recipeSeasonings)
+                    .recipeSequences(recipeSequences)
+                    .recipeUtensils(recipeUtensils)
+                    .count(count)
+                    .heartTF(heartTF)
+                    .build();
         }
 
         return RecipeDetailResponseDto.builder()
                 .recipeId(recipeId)
                 .name(recipeEntity.getName())
-                .memberName(memberRecommend1.getMember().getNickname())
-                .similarity(memberRecommend1.getSimilarity())
+                .memberName(null)
+                .similarity(null)
                 .way(recipeEntity.getWay())
                 .weight(recipeEntity.getWeight())
                 .calorie(recipeEntity.getCalorie())
