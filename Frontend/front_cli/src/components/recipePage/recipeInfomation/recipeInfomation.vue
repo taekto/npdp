@@ -166,6 +166,9 @@ export default {
     justify-content: flex-end;
 }
 
+.similarity_title {
+  color: #FD7E14;
+}
 
 
 /* 인분 조절 버튼 */

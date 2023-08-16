@@ -91,7 +91,9 @@ export default {
     display: flex;
     justify-content: center;
 }
+
 #hash {
+    font-family: 'LINESeedKR-Rg';
     margin: 1rem;
     background-color: #FD7E14;
     color: white;

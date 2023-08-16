@@ -270,10 +270,10 @@ export default {
 /* 레시피 이미지 */
 .recipeImage {
     width: 45%;
-    height: 30rem;
+    height: 32rem;
     border-radius: .5rem;
     border: solid rgb(205, 205, 205) 1.5px;
-    margin-right: 3rem;
+    margin-right: 5rem;
 }
 
 .recipeImg {

@@ -652,7 +652,9 @@ const member: Module<MemberState, RootState> = {
           console.log('최근 본 레시피 저장...')
         } else {
           const res = await axios.get(`https://i9b202.p.ssafy.io/api/members/latest/${memberId}`)
-          console.log('최근 본 레시피 조회 성공')
+
+          console.log('최근 본 레시피 조회 성공',res.data)
+
           commit('SET_MEMBER_RECIPE_LATEST', res.data)
         }
         
