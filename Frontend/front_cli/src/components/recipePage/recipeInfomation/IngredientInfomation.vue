@@ -69,18 +69,18 @@ export default {
     methods: {
       calculateValues() {
       this.calculatedValues = this.recipeDetail.recipeIngredients.map(ingredient => {
-        const parsedValue = parseFloat(ingredient.amount);
+        const parsedValue = parseFloat(ingredient.amount)
         const calculatedValue = {
           kor: ingredient.kor,
           value: '',
           unit: ingredient.unit,
         }
         if (!isNaN(parsedValue)) {
-          calculatedValue.value = (parsedValue * this.serving).toFixed(1);
+          calculatedValue.value = (parsedValue * this.serving).toFixed(1)
         } else {
-          calculatedValue.value = ingredient.amount;
+          calculatedValue.value = ingredient.amount
         }
-        return calculatedValue;
+        return calculatedValue
       })
     },
     },
