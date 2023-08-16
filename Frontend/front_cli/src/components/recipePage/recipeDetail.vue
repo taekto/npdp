@@ -196,7 +196,7 @@ export default {
     },
 }
 </script>
-
+ 
 <style scoped>
 /* 레시피 상세 */
 .recipeDetail {
