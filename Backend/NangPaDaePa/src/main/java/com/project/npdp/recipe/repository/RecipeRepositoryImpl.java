@@ -86,8 +86,6 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
         else {
             heartTF = true;
         }
-        log.info("count : {} ", count);
-        log.info("heartTF : {} ", heartTF);
 
         List<Tuple> result1 = queryFactory.select(
                         recipeIngredient.type,
