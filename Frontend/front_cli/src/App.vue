@@ -132,6 +132,11 @@ nav #pageLink {
   color: #fd7e14;
 }
 
+.nav_user_link.logout {
+  background-color: #fd7e14;
+  color: #f2f2f2;
+}
+
 nav #title {
   display: flex;
   justify-content: left;
