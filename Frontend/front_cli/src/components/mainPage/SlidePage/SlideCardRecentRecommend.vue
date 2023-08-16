@@ -1,14 +1,8 @@
 <template>
     <!-- 최근 본 레시피 카드 -->
-<<<<<<< HEAD
-    <div class="recommendCard" @click="goToDetailRecipe(recipe)">
-        <img :src="recipe.imgBig">
-        <p>{{ recipe.name }}</p>
-=======
     <div class="recommendCard" @click="goToDetailRecipe(recipe.recipeId)">
         <img :src="recipe.imgSmall">
         <p class="recipeName">{{ recipe.name }}</p>
->>>>>>> 25f4c4e8b9bfb634e4c6a9681d685fa046053ccb
     </div>
 </template>
 
