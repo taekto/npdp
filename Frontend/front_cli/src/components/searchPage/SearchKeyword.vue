@@ -68,27 +68,19 @@ export default {
 
       goToSearchwithKeyword(word) {
         const tempKeyword = word.trim().toLowerCase()
-        
-        if (this.keyWord || this.classification) {
-          const data = {      
-            searchWord : tempKeyword,
-            classification : this.classification,
-            keyWord : this.keyWord
-          }
-
-          this.querySearch(data)
-          
-        } else {
-          this.$router.push({
-            name: "searchKeyword",
-            params: { keyword: tempKeyword }
-          })
+        const data = {      
+          searchWord : tempKeyword,
+          classification : this.classification,
+          keyWord : this.keyWord
+        }
+        this.querySearch(data)
+        this.$router.push({
+          name: "searchKeyword",
+          params: { keyword: tempKeyword }
+        })
 
           this.searchKeyword = "";
         }
-
-      },
-        // 키워드를 통해 검색하도록 하는 함수
     },
 }
 </script>

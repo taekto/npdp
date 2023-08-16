@@ -35,7 +35,7 @@ export default {
         this.$router.push({
             name: "searchKeyword",
             params: { keyword: tempKeyword }
-        });
+        })
 
         this.searchKeyword = "";
       }

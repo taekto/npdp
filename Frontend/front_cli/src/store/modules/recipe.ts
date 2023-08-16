@@ -259,40 +259,40 @@ const recipe: Module<RecipeState, RootState> = {
 
     // 레시피 동적 서치
     async querySearch({commit}, data) {
-      // try {
-      //   const apiUrl = 'https://i9b202.p.ssafy.io/api/recipes/category'
+      try {
+        const apiUrl = 'https://i9b202.p.ssafy.io/api/recipes/category'
 
-      //   console.log('동적 서치 시작!' )
-      //   const res = await axios.post(apiUrl, data)
-      //   console.log('동적 서치 성공!', res.data)
-      //   commit('SET_RECIPE_SPECIFIC', res.data)
-      // } catch (err) {
-      //   console.log(err)
-      // }
-      console.log(data)
-      axios({
-        url: 'https://i9b202.p.ssafy.io/api/recipes/category',
-        method: 'post',
-        data: {
-          searchWord: data.searchWord,
-          classification: data.classification,
-          keyWord: data.keyWord,
-        },
-      })
-      .then (res => {
-        console.log(res)
+        console.log('동적 서치 시작!' )
+        const res = await axios.post(apiUrl, data)
+        console.log('동적 서치 성공!', res.data)
         commit('SET_RECIPE_SPECIFIC', res.data)
-        
-        router.push({
-          name: 'searchKeyword',
-          params: {
-            keyword: data.searchWord,
-          },
-        });
-      })
-      .catch (err => {
+      } catch (err) { 
         console.log(err)
-      })
+      }
+      // console.log('동적 서치 시작!',data)
+      // axios({
+      //   url: 'https://i9b202.p.ssafy.io/api/recipes/category',
+      //   method: 'post',
+      //   data: {
+      //     searchWord: data.searchWord,
+      //     classification: data.classification,
+      //     keyWord: data.keyWord,
+      //   },
+      // })
+      // .then (res => {
+      //   console.log(res)
+      //   commit('SET_RECIPE_SPECIFIC', res.data)
+        
+      //   router.push({
+      //     name: 'searchKeyword',
+      //     params: {
+      //       keyword: data.searchWord,
+      //     },
+      //   })
+      // })
+      // .catch (err => {
+      //   console.log(err)
+      // })
     },
     // 레시피 재료 유사도
     async recipeSimilarity({commit}, recipeOwnId) {
