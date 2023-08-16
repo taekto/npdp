@@ -35,7 +35,8 @@ public class DataUpdateService {
         String api = "http://i9b202.p.ssafy.io/data/recommend/user";
 
         // 업데이트시 기존 데이터 모두 삭제
-//        dataRepository.deleteAll();
+        dataRepository.deleteAll();
+
         RestTemplate restTemplate = new RestTemplate();
 //        ResponseEntity<Void> responseEntity = restTemplate.getForEntity(api, Void.class);
         restTemplate.getForEntity(api, Void.class);
