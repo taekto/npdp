@@ -37,10 +37,21 @@
       </div>
   </div>
 
-
-  <!-- 레시피 유사도 재료 추천 -->
-  
+      <!-- 레시피 순서 -->
+  <div class="recipeOrder">
+    <h2 class="orderTitle">레시피 순서</h2>
+    <button @click="playAllDescriptions" class="all_replay"><i class="bi bi-volume-up-fill">click!</i></button>
+    <div class="orderLine" v-for="(order, index) in recipeDetail.recipeSequences" :key="index">
+      <p class="orderExplain">{{ order.description }}
+        <!-- <button @click="playTTS(order.description)" class="replay_button"><i class="bi bi-volume-up-fill"></i></button> -->
+      </p>
+      <img class="orderImage" :src="order.img">
+    </div>
+  </div>
+      
+    <!-- 레시피 유사도 재료 추천 -->
   <div class="slider-container">
+    <h2 class="orderTitle">유사한 레시피</h2>
     <div class="slider-track">
       <div
         class="slide"
@@ -55,18 +66,6 @@
     </div>
   </div>
 
-      <!-- 레시피 순서 -->
-  <div class="recipeOrder">
-    <h2 class="orderTitle">레시피 순서</h2>
-    <button @click="playAllDescriptions" class="all_replay"><i class="bi bi-volume-up-fill">click!</i></button>
-    <div class="orderLine" v-for="(order, index) in recipeDetail.recipeSequences" :key="index">
-      <p class="orderExplain">{{ order.description }}
-        <!-- <button @click="playTTS(order.description)" class="replay_button"><i class="bi bi-volume-up-fill"></i></button> -->
-      </p>
-      <img class="orderImage" :src="order.img">
-    </div>
-  </div>
-      
     </div>
 </template>
 
@@ -197,7 +196,7 @@ export default {
     },
 }
 </script>
-
+ 
 <style scoped>
 /* 레시피 상세 */
 .recipeDetail {
@@ -419,6 +418,7 @@ img {
 .slider-container {
   width: 100%;
   overflow: hidden;
+  margin-bottom: 5rem;
 }
 
 .slider-track {
@@ -441,6 +441,7 @@ img {
   /* width: ; */
   border: 2px solid #FD7E14;
   border-radius: .7rem;
+  margin-bottom: 2rem;
 }
 
 
@@ -448,6 +449,7 @@ img {
   position: absolute;
   font-size: 1.7rem;
   min-width: 60px;
+  padding: 0 1rem;
   color: #FD7E14;
   background-color: #fff;
 }

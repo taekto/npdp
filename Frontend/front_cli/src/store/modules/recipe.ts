@@ -266,10 +266,17 @@ const recipe: Module<RecipeState, RootState> = {
         const res = await axios.post(apiUrl, data)
         console.log('동적 서치 성공!', res.data)
         commit('SET_RECIPE_SPECIFIC', res.data)
+<<<<<<< HEAD
+      } catch (err) { 
+        console.log(err)
+      }
+      // console.log('동적 서치 시작!',data)
+=======
       } catch (err) {
         console.log(err)
       }
       // console.log(data)
+>>>>>>> 363f69aa1bf92c802d197742356e456a91fd9549
       // axios({
       //   url: 'https://i9b202.p.ssafy.io/api/recipes/category',
       //   method: 'post',
@@ -288,7 +295,11 @@ const recipe: Module<RecipeState, RootState> = {
       //     params: {
       //       keyword: data.searchWord,
       //     },
+<<<<<<< HEAD
+      //   })
+=======
       //   });
+>>>>>>> 363f69aa1bf92c802d197742356e456a91fd9549
       // })
       // .catch (err => {
       //   console.log(err)

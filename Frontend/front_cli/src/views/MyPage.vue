@@ -2,7 +2,7 @@
     <!-- 마이 페이지 들어갈시 비밀번호 확인 -->
     <div>
         <div class="searchWindow">
-            <h2>Password</h2>
+            <h2 class="mypage_pw">비밀번호 입력</h2>
             <div>
                 <form @submit.prevent="confirmPassword">
                     <div class="input-group">
@@ -73,6 +73,9 @@ export default {
 </style>
 
 <style scoped>
+.mypage_pw {
+    font-family: 'LINESeedKR-Bd';
+}
 .searchWindow {
     width: 60%;
     height: 15rem;

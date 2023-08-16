@@ -67,7 +67,7 @@
           <p
             v-show="valid.password"
             class="input-error">
-             "8~16자리 숫자+영문자+특수문자 조합으로 입력해주세요!"
+             8~16자리 숫자,영문자,특수문자 조합으로 입력해주세요
           </p>
           <label class="input_label">비밀번호 확인</label>
           <input
@@ -80,7 +80,7 @@
             v-model="passwordConfirm" />
           <!-- 에러 메시지 표시 -->
           <p v-show="passwordConfirmHasError" class="input-error">
-            비밀번호가 다릅니다.
+            비밀번호가 일치하지 않습니다.
           </p>
           
 
@@ -504,10 +504,12 @@ export default {
 } */
 
 /* 이메일 패스워드 에러 */
-.input-error {  
+.input-error {
+  font-family: 'LINESeedKR-Rg' !important;
   display: flex; 
   line-height: 16px;
-  font-size: 11px;
+  font-size: 13px !important;
+  margin-top: .5rem !important;
   color: red;
   align-content: left;
 }
