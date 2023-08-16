@@ -58,13 +58,12 @@
                                     <button class="amountButton" @click="minusAmount(ingredientItem)">-</button>
                                 </div>
                                 <div class="startDate">
-                                    <p>보관시작일 : </p>
-                                    <p>{{changeDate(ingredientItem.startDate)}}</p>
+                                    <p>보관시작일 : {{changeDate(ingredientItem.startDate)}}</p>
                                 </div>
-                                <div class="endDate">
+                                <!-- <div class="endDate">
                                     <p>유통기한 : </p>
                                     <p>{{changeDate(ingredientItem.expiredDate)}}</p>
-                                </div>
+                                </div> -->
 
                                 <!-- <p class="startDate">보관시작일 : {{whatDate(ingredientItem.startDate)}}</p> -->
                                 
@@ -99,13 +98,12 @@
                             <div class="ingredientList">
                                 <p class="ingredientName2">{{seasoningItem.kor}}</p>
                                 <div class="startDate">
-                                    <p>보관시작일 : </p>
-                                    <p>{{changeDate(seasoningItem.startDate)}}</p>
+                                    <p>보관시작일 : {{changeDate(seasoningItem.startDate)}}</p>
                                 </div>
-                                <div class="endDate">
+                                <!-- <div class="endDate">
                                     <p>유통기한 :</p>
                                     <p>{{changeDate(seasoningItem.expiredDate)}}</p>
-                                </div>
+                                </div> -->
                                 <p class="storage">보관방식 : {{printStorage}}</p>
                                 <button class="deleteButton" @click="updateMaterial({type: 'seasoningDelete', memberId: this.memberId, updateItem: seasoningItem })">제거</button>
                             </div>
@@ -387,8 +385,6 @@ ul {
     margin-bottom: auto;
     margin-left: .5rem;
     margin-right: .5rem;
-    flex: none;
-    width: 10rem;
 }
 
 .startDate p {

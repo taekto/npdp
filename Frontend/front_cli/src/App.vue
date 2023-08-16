@@ -23,7 +23,7 @@
           <router-link to="/login" class="nav_user_link login">로그인</router-link>
         </div>
         <div v-else id="user">
-          <router-link to="/mypage" class="nav_user_link">마이페이지</router-link>
+          <router-link to="/mypage/refrigerator" class="nav_user_link">마이페이지</router-link>
           <a class="logout nav_user_link" @click="logout">로그아웃</a>
         </div>
       </div>

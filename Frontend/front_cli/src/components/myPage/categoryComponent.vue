@@ -11,7 +11,7 @@
             <router-link to="/mypage/like">{{link3Text}}</router-link>
         </div>
         <div>
-            <router-link to="/mypage/edit">{{link4Text}}</router-link>
+            <router-link to="/mypage">{{link4Text}}</router-link>
         </div>
         <!-- 비선호/ 알러지 -->
         <div>

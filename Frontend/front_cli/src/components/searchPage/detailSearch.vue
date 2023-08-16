@@ -66,11 +66,11 @@
                         <label v-else class="radioButton2">
                             <input type="radio" name="category" value="밥" v-model="selectCategory" @change="changeCategory">밥
                         </label>
-                        <label v-if="selectCategory !== '국/찌개'" class="radioButton">
-                            <input type="radio" name="category" value="국/찌개" v-model="selectCategory" @change="changeCategory">국/찌개
+                        <label v-if="selectCategory !== '국&찌개'" class="radioButton">
+                            <input type="radio" name="category" value="국&찌개" v-model="selectCategory" @change="changeCategory">국&찌개
                         </label>
                         <label v-else class="radioButton2">
-                            <input type="radio" name="category" value="국/찌개" v-model="selectCategory" @change="changeCategory">국/찌개
+                            <input type="radio" name="category" value="국&찌개" v-model="selectCategory" @change="changeCategory">국&찌개
                         </label>
                         <label v-if="selectCategory !== '반찬'" class="radioButton">
                             <input type="radio" name="category" value="반찬" v-model="selectCategory" @change="changeCategory">반찬
