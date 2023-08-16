@@ -53,17 +53,22 @@
     <!-- 레시피 유사도 재료 추천 -->
   <div class="slider-container">
     <h2 class="orderTitle similarity">유사한 레시피</h2>
+    <Carousel :items-to-show="3" :wrap-around="true"
+    :autoplay= "3500" :transition = "1000">
+        <Slide v-for="item,idx in recipeSimilarity" :key="idx">
+            <div class="recommendCard" @click="goToDetailRecipe(item.recipeId)">
+              <img :src="item.imgBig" alt="">
+              <p class="card_recipeName">{{ item.name }}</p>
+            </div>
+        </Slide>
+
+        <!-- 슬라이드 이동 버튼 -->
+        <template #addons>
+            <Navigation class="arrowButton" />
+        </template>
+    </Carousel>
     <div class="slider-track">
-      <div
-        class="slide"
-        v-for="(item, index) in recipeSimilarity"
-        :key="index"
-      >
-        <div class="recommendCard" @click="goToDetailRecipe(item.recipeId)">
-          <img :src="item.imgBig" alt="">
-          <p class="card_recipeName">{{ item.name }}</p>
-        </div>
-      </div>
+      
     </div>
   </div>
 
@@ -74,12 +79,18 @@
 import RecipeInfomation from '../recipePage/recipeInfomation/recipeInfomation.vue'
 import IngredientInfomation from './recipeInfomation/IngredientInfomation.vue'
 import {mapGetters, mapActions} from 'vuex' 
+import { Carousel, Navigation, Slide } from 'vue3-carousel'
+
+import 'vue3-carousel/dist/carousel.css'
 
 export default {
     name: 'RecipeDetail',
     components: {
       IngredientInfomation,
       RecipeInfomation,
+      Carousel,
+      Slide,
+      Navigation,
     },
     data() {
       return {
