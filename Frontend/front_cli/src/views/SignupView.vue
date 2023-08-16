@@ -50,6 +50,7 @@
           <p v-show="emailVerify === 2" class="input-error">
             인증번호가 일치하지 않습니다.
           </p>
+          <p v-if="countdown > 0">남은 시간: {{ formatCountdown() }}초</p>
           
 
           
@@ -164,6 +165,9 @@ export default {
       passwordConfirmHasError: false,
       emailHasError: false,
       passwordHasError: false,
+      countdown: 0,
+      countdownTimer: null,
+      verificationCodeSent: false,
     }
   },
   
@@ -188,17 +192,43 @@ export default {
     emailCodeVerify() {
       console.log('이메일 인자',this.credentials.email)
       this.EmailVerify(this.credentials.email)
+      this.startCountdown()
       setTimeout(() => {
         const tempEmailCode = sessionStorage.getItem('emailVerify')
         const tempEmailCodeJson = JSON.parse(tempEmailCode)
         this.emailCode = tempEmailCodeJson
+        
         console.log('--------------------')
         console.log(this.emailCode)
         console.log(this.emailCode.value)
         console.log(this.emailCode.value.code)
         console.log('--------------------')
-      }, 5000)
+      }, 7500)
     },
+
+    startCountdown() {
+      this.countdown = 180; // 3분 (180초) 카운트 다운 시작
+      this.countdownTimer = setInterval(() => {
+        if (this.countdown > 0) {
+          this.countdown--;
+        } else {
+          this.stopCountdown();
+        }
+      }, 1000);
+    },
+
+    stopCountdown() {
+      clearInterval(this.countdownTimer);
+      this.verificationCodeSent = false;
+      this.countdown = 0;
+    },
+
+    formatCountdown() {
+      const minutes = Math.floor(this.countdown / 60);
+      const seconds = this.countdown % 60;
+      return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    },
+
 
     checkEmailVerify() {
       if(this.emailCode.value.code === this.emailVerifyCode) {
@@ -320,7 +350,10 @@ export default {
       //                           withCredentials: false,
       //                       });
     }
-  }
+  },
+  beforeUnmount() {
+    clearInterval(this.countdownTimer);
+  },
 }
 </script>
 
