@@ -482,5 +482,6 @@ ul {
   font-size: 1.25rem;
   font-weight: bold;
   font-family: 'LINESeedKR-Bd';
+  width: 6rem;
 }
 </style>
