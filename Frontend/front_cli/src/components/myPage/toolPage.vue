@@ -148,9 +148,9 @@ export default {
 }
 
 .toolTitle {
-    text-align: start;
-    margin-left: 10rem;
-    font-size: 2rem;
-    font-weight: bold;
+  text-align: start;
+  margin-left: 10rem;
+  font-size: 2rem;
+  font-weight: bold;
 }
 </style>
