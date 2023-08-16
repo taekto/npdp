@@ -19,6 +19,7 @@ interface MemberState {
   eamilCode: string | null;
   memberIngredient: MemberIngredient[];
   isRecipeLike: boolean;
+  memberSimilarity:MemberSimilarity[];
 }
 
 // 회원
@@ -40,16 +41,20 @@ interface Member {
 
 // 회원 레시피 좋아요
 interface MemberRecipeLike {
-  member_recipe_like_id : number
-  member_id: number
-  recipe_id: number
+  recipeId: number
+  name: string
+  imgBig: string
+  imgSmall: string
+  category: string
 }
 
 // 회원 최근 본 레시피
 interface MemberRecipeLatest {
-  member_recipe_latest_id: number
-  member_id: number
   recipe_id: number
+  name: string
+  imgBig: string
+  imgSmall: string
+  category: string
   date: Date
 }
 
@@ -113,7 +118,15 @@ interface SeasoningUpdateData {
   isdelete: boolean;
 }
 
-
+// 유저 레시피 추천
+interface MemberSimilarity {
+  recipeId: number
+  name: string
+  imgBig: string
+  imgSmall: string
+  category: string
+  similarity: number
+}
 
 const member: Module<MemberState, RootState> = {
   state: {
@@ -124,11 +137,7 @@ const member: Module<MemberState, RootState> = {
     // 로그인 시 입력한 이메일 저장
     currentMember: null,
     // 좋아하는 레시피 저장 할 용도
-    memberRecipeLike: [  
-      { member_recipe_like_id: 1, member_id: 1, recipe_id: 1 },
-      { member_recipe_like_id: 2, member_id: 1, recipe_id: 2 },
-      { member_recipe_like_id: 3, member_id: 1, recipe_id: 3 },
-    ],
+    memberRecipeLike: [],
     // 
     memberRecipeLatest: [],
     memberDislikeIngredient: [],
@@ -138,7 +147,7 @@ const member: Module<MemberState, RootState> = {
     eamilCode: null,
     memberIngredient: [],
     isRecipeLike: false,
-
+    memberSimilarity:[],
   },
 
   getters: {
@@ -158,6 +167,7 @@ const member: Module<MemberState, RootState> = {
     memberIngredient: state => state.memberIngredient,
     memberTypeIds: (state) =>  (type: string) => { if (type ==='dislike') { return state.memberDislikeIngredient.map(item => item.ingredientId)} else if (type === 'allergy') {return state.memberAllergy.map(item => item.allergyId)}},
     isRecipeLike: (state) => state.isRecipeLike,
+    memberSimilarity: (state) => state.memberSimilarity,
     },
   
     mutations: {
@@ -177,6 +187,7 @@ const member: Module<MemberState, RootState> = {
     UPDATE_LIST: (state, { type, updateData }) => {if (type === 'dislike') {state.memberDislikeIngredient.push(...updateData)} else if (type === 'allergy') {state.memberAllergy.push(...updateData)}},
     REMOVE_FROM_LIST: (state, { type, removeData }) => {if (type === 'dislike') {state.memberDislikeIngredient = state.memberDislikeIngredient.filter(item => item.ingredientId !== removeData)} else if (type === 'allergy') {state.memberAllergy = state.memberAllergy.filter(item => item.allergyId !== removeData)}},
     SET_IS_RECIPE_LIKE: (state, isLike) => (state.isRecipeLike = isLike),
+    SET_MEMBER_SIMILARITY: (state, similarityData) => (state.memberSimilarity = similarityData)
   },
   actions: {
     saveToken({ commit }, { accessToken}) {
@@ -603,6 +614,40 @@ const member: Module<MemberState, RootState> = {
         console.log(delData,'삭제실패,,,,',err)
       }
     },
+
+    // 회원 최근 본 레시피
+    async latestRecipe({commit}, {type, memberId, lookData}) {
+      try{  
+        console.log('회원 최근 본 레시피 조회/저장!')
+        const apiUrl = 'https://i9b202.p.ssafy.io/api/members/latest'
+        
+        if (type === 'post') {
+          const res = await axios.post('https://i9b202.p.ssafy.io/api/members/latest', lookData)
+          console.log('최근 본 레시피 저장...')
+        } else {
+          const res = await axios.get(`https://i9b202.p.ssafy.io/api/members/latest/${memberId}`)
+          console.log('최근 본 레시피 조회 성공')
+          commit('SET_MEMBER_RECIPE_LATEST', res.data)
+        }
+        
+      } catch(err) {
+        console.log('최근 본 레시피 조회 실패...', err)
+      }
+    },
+
+    // 회원 기반 레시피 추천
+    async memberRecommend({commit}, memberId) {
+      try{
+        console.log('유저 기반 레시피 추천 시작!')
+        const data = {memberId: memberId}
+        const res = await axios.post('https://i9b202.p.ssafy.io/api/recipes/member/similarity', data)
+        console.log('유저 기반 레시피 추천 성공!', res.data)
+        commit('SET_MEMBER_SIMILARITY', res.data)
+      }catch(err) {
+        console.log(err)
+      }
+    }
+
   }, 
 }
 

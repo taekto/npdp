@@ -67,10 +67,10 @@ export default {
         },
 
         // 상세 레시피로 보내주는 함수
-        goToDetailRecipe(recipe_id) {      
+        goToDetailRecipe(recipeId) {      
           this.$router.push({name: "recipe",  
               params: { 
-                  recipe_id: recipe_id
+                  recipeId: recipeId
               },
             })
           }

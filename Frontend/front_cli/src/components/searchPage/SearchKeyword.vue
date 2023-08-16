@@ -81,7 +81,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 /* 해시태그 */
 #hashTagkeyword {
     display: flex;

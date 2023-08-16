@@ -17,6 +17,7 @@ interface RecipeState {
   recipeWay: RecipeWay[];
   selectCategory: string;
   selectClassification: string;
+  recipeSimilarity: RecipeSimilarity[];
 }
 
 // 레시피
@@ -112,10 +113,18 @@ interface RecipeRecommend {
 }
 
 interface RecipeWay {
-  recipe_way_id : number,
-  recipe_way_name: string,
+  recipe_way_id : number
+  recipe_way_name: string
 }
 
+interface RecipeSimilarity {
+  recipeId: number
+  name: string
+  imgBig: string
+  imgSmall: string
+  category: string
+  similarity: number
+}
 
 
 const recipe: Module<RecipeState, RootState> = {
@@ -136,7 +145,7 @@ const recipe: Module<RecipeState, RootState> = {
     {recipe_way_id : 6, recipe_way_name : '기타'},],
     selectCategory: "",
     selectClassification: "",
-
+    recipeSimilarity: [],
   },
 
   getters: {
@@ -146,7 +155,7 @@ const recipe: Module<RecipeState, RootState> = {
     recipeWay: state => state.recipeWay,
     selectCategory: state => state.selectCategory,
     selectClassification: state => state.selectClassification,
-
+    recipeSimilarity: state => state.recipeSimilarity
   },
 
   mutations: {
@@ -155,7 +164,7 @@ const recipe: Module<RecipeState, RootState> = {
     SET_RECIPE_DETAIL: (state, recipeDetail) => (state.recipeDetail = recipeDetail),
     SET_CATEGORY_CHOICE: (state, choice) => (state.selectCategory = choice),
     SET_CLASSIFICATION_CHOICE: (state, choice) => (state.selectClassification = choice),
-
+    SET_RECIPE_SIMILARITY: (state, similarity) => (state.recipeSimilarity= similarity),
   },
 
   actions: {
@@ -207,7 +216,7 @@ const recipe: Module<RecipeState, RootState> = {
     },
 
     // 레시피 상세 조회
-    detailRecipe ({commit,getters}, {recipeId, memberId}) {
+    detailRecipe ({commit, dispatch}, {recipeId, memberId}) {
       console.log(memberId,'님이 레시피 상세 조회 시작!', recipeId)
       axios({
         // url: api.recipe.detailRecipe(recipe_id),
@@ -222,7 +231,10 @@ const recipe: Module<RecipeState, RootState> = {
         .then(res=> {
           console.log(res.data, '레시피 상세 조회 성공!')
           commit('SET_RECIPE_DETAIL', res.data)  
-          console.log('레시피 좋아요 상태 업데이트', getters.isRecipeLike,'---->',res.data.heartTF)
+          const lookData = { memberId: memberId, recipeId: res.data.recipeId}
+          const recipeOwnId = {recipeOwnId: res.data.recipeId}
+          dispatch('recipeSimilarity', recipeOwnId)
+          dispatch('latestRecipe', {type:'post', lookData: lookData})
           commit('SET_IS_RECIPE_LIKE', res.data.heartTF)   
             router.push({name: "recipe",  
               params: { 
@@ -272,7 +284,16 @@ const recipe: Module<RecipeState, RootState> = {
         console.log(err)
       }
     },
-
+    // 레시피 재료 유사도
+    async recipeSimilarity({commit}, recipeOwnId) {
+      try {
+        const res = await axios.post('https://i9b202.p.ssafy.io/api/recipes/similarity', recipeOwnId)
+        commit('SET_RECIPE_SIMILARITY', res.data)
+        console.log('레시피 재료 유사도 조회!', res.data)
+      } catch(err) {
+        console.log(err)
+      }
+    },
   },
 
 }

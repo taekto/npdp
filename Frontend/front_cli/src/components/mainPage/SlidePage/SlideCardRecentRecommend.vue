@@ -1,7 +1,7 @@
 <template>
     <!-- 최근 본 레시피 카드 -->
     <div class="recommendCard" @click="goToDetailRecipe(recipe)">
-        <img src='@/assets/123.jpg'>
+        <img :src="recipe.imgBig">
         <p>{{ recipe.name }}</p>
     </div>
 </template>
@@ -16,11 +16,9 @@ export default {
         goToDetailRecipe(recipeItem) {
             this.$router.push({name: "recipe",  
                 params: { 
-                    recipe_id: recipeItem.recipe_id,
+                    recipeId: recipeItem.recipeId,
                 },
-                query: {
-                    recipeItem: JSON.stringify(recipeItem),
-                },
+
             })
         },
     }
