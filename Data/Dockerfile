@@ -15,7 +15,11 @@ WORKDIR /app/NangPaDaePa
 
 # 필요한 패키지 설치
 RUN  pip install --no-cache-dir -r requirements.txt
-    
+
+# Run migrations during the build process
+RUN python manage.py makemigrations
+RUN python manage.py migrate
+
 # 컨테이너 실행 명령어 설정
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 

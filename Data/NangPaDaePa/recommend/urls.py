@@ -3,7 +3,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from recommend import views
 
 urlpatterns = [
-    path('', views.index),
+    path('users', views.users),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
