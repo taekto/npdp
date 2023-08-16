@@ -38,6 +38,8 @@
       <router-link to="#" class="footer_text">이용약관</router-link>
       <router-link to="#" class="footer_text">개인정보 처리방침</router-link>
       <router-link to="#" class="footer_text">문의</router-link>
+      <div>&copy; 2023 All Rights Reserved.</div>
+      <div>문의: ssafyIdle 개발팀</div>
     </footer>
   </div>
 </template>
