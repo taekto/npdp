@@ -25,6 +25,7 @@
     <IngredientInfomation :serving='serving'/>
   </div>
 
+  div
   <div class="utensilLine menu">
       <div class="utensilName total">조리도구</div>
   </div>

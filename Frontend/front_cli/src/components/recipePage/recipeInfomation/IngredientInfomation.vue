@@ -18,31 +18,33 @@
           </div>
       </div>
     </div>
+    
+    <div class="seasoning_containter" v-if="recipeDetail.recipeSeasonings && recipeDetail.recipeSeasonings.length > 0">
+      <div class="ingredientLine menu">
+        <div class="ingredientName total">양념</div>
+      </div>
 
-    <div class="ingredientLine menu">
-      <div class="ingredientName total">양념</div>
-    </div>
+      <div class="ingredientContainer">
+        <div class="ingredientLine" v-for="(ingredient, index) in recipeDetail.recipeSeasonings" :key="index">
+            <div class="ingredientName each">
+              <div>{{ingredient.kor}}</div>
+            </div>
+            <div class="ingredientAmount each">
+              <!-- <p>{{(ingredient.amount * serving).toFixed(1)}}</p>
+              
+              <p>{{ingredient.unit}}</p>
+              <p>{{ formatAmount(ingredient.amount, serving) }}</p> -->
 
-    <div class="ingredientContainer">
-      <div class="ingredientLine" v-for="(ingredient, index) in recipeDetail.recipeSeasonings" :key="index">
-          <div class="ingredientName each">
-            <div>{{ingredient.kor}}</div>
-          </div>
-          <div class="ingredientAmount each">
-            <!-- <p>{{(ingredient.amount * serving).toFixed(1)}}</p>
-            
-            <p>{{ingredient.unit}}</p>
-            <p>{{ formatAmount(ingredient.amount, serving) }}</p> -->
+              <!-- <div>{{calculatedValues[index].value}}</div>
+              <div>{{ ingredient.unit }}</div> -->
 
-            <!-- <div>{{calculatedValues[index].value}}</div>
-            <div>{{ ingredient.unit }}</div> -->
+              <!-- <p>{{calculatedValues[index].value}}</p> -->
+              <!-- <p>{{ingredient.amount}}</p>
+              
+              <p>{{ ingredient.unit }}</p> -->
 
-            <!-- <p>{{calculatedValues[index].value}}</p> -->
-            <!-- <p>{{ingredient.amount}}</p>
-            
-            <p>{{ ingredient.unit }}</p> -->
-
-          </div>
+            </div>
+        </div>
       </div>
     </div>
   </div>
