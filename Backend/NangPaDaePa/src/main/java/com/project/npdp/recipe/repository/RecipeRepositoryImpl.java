@@ -24,9 +24,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.project.npdp.domain.QAllergy.allergy;
+import static com.project.npdp.domain.QAllergyIngredient.allergyIngredient;
 import static com.project.npdp.domain.QMemberRecommend.memberRecommend;
 import static com.project.npdp.domain.QRecipeRecommend.recipeRecommend;
 import static com.project.npdp.member.entity.QMember.member;
+import static com.project.npdp.member.entity.QMemberAllergy.memberAllergy;
 import static com.project.npdp.member.entity.QMemberRecipeLatest.memberRecipeLatest;
 import static com.project.npdp.member.entity.QMemberRecipeLike.memberRecipeLike;
 import static com.project.npdp.recipe.entity.QRecipe.*;
@@ -506,6 +509,16 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
     public List<MemberRecommendResponseDto> findMemberRecipesWithSimilarity(MemberRecommendRequestDto memberRecommendRequestDto) {
         Long memberId = memberRecommendRequestDto.getMemberId();
 
+//        List<Long> allergyIdLists = queryFactory.select(memberAllergy.allergy.id)
+//                .from(memberAllergy)
+//                .where(memberAllergy.member.id.eq(memberId))
+//                .fetch();
+//
+//        List<Long> ingredientIdLists = queryFactory.select(allergyIngredient.ingredient.id)
+//                .from(allergyIngredient)
+//                .where(allergyIngredient.id.in(allergyIdLists))
+//                .fetch();
+        
         List<MemberRecommend> result = queryFactory.selectFrom(memberRecommend)
                 .innerJoin(memberRecommend.member, member).fetchJoin()
                 .innerJoin(memberRecommend.recipe, recipe).fetchJoin()
@@ -588,5 +601,5 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
     private BooleanExpression memberIdEq(Long memberId) {
         return memberId != null ? member.id.eq(memberId) : null;
     }
-    
+
 }
