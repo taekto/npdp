@@ -391,7 +391,11 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
             combinedList.addAll(collect2);
             combinedList.addAll(collect3);
             combinedList.addAll(collect4);
-            return combinedList;
+
+            HashSet<RecipeResponseDto> combinedresult = new HashSet<>(combinedList);
+            List<RecipeResponseDto> resultList = new ArrayList<>(combinedresult);
+
+            return resultList;
         }
         // 분류(레시피명) + 키워드
         else if(classification.equals("레시피명")) {
