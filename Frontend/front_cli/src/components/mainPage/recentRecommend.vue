@@ -3,7 +3,7 @@
   <div class="thirdLine">
     <div class="recentRecommend">
         <p class="menuTitle">최근 본 레시피</p>
-        <Carousel :items-to-show="3" :wrap-around="true"
+        <Carousel :items-to-show="carouselItemsToShow" :wrap-around="false"
         :autoplay= "3500" :transition = "1000">
             <Slide v-for="item in memberRecipeLatest" :key="item.recipeId">
                 <SlideCardRecentRecommned :recipe = item />
@@ -38,7 +38,10 @@ export default defineComponent({
     SlideCardRecentRecommned,
   },
   computed: {
-    ...mapGetters(['memberRecipeLatest'])
+    ...mapGetters(['memberRecipeLatest']),
+    carouselItemsToShow() {
+      return Math.max(1, Math.min(this.memberRecipeLatest.length, 3));
+    },
   },
 
   methods:{
