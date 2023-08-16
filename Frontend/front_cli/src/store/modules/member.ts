@@ -561,7 +561,7 @@ const member: Module<MemberState, RootState> = {
         } else if (type === 'allergyGet') {
           apiUrl = `https://i9b202.p.ssafy.io/api/members/memberAllergy/${memberId}`
         } else if (type === 'allergyPost') {
-          apiUrl = 'https://i9b202.p.ssafy.io/api/api/members/memberAllergy'
+          apiUrl = 'https://i9b202.p.ssafy.io/api/members/memberAllergy'
           sendData = {
             memberId: memberId,
             allergyId: getters.memberTypeIds('allergy')
@@ -574,7 +574,7 @@ const member: Module<MemberState, RootState> = {
           type === 'dislikeGet' || type === 'dislikePost'
             ? '비선호 재료 요청 시작!'
             : '알러지 재료 요청 시작!',
-            sendData
+            JSON.stringify(sendData,null,2)
         )
 
         
@@ -591,23 +591,24 @@ const member: Module<MemberState, RootState> = {
           ? '비선호 재료 요청 성공!'
           : '알러지 재료 요청 성공!',
           res
-          )
+        )
           
-          if (type === 'dislikeGet') {
-            if (res && res.data) {
-              commit('SET_MEMBER_DISLIKE_INGREDIENT', res.data);
-            }
-          } else if (type === 'dislikePost') {
-            console.log('비선호 재료 저장 완료!')
-          } else if (type === 'allergenGet') {
-            if (res && res.data) {
-              commit('SET_MEMBER_ALLERGY', res.data);
-            }
-          } else if (type === 'allergenPost') {
-            if (res && res.data) {
-              console.log('알러지 저장 완료!')
-            }
+        if (type === 'dislikeGet') {
+          if (res && res.data) {
+            commit('SET_MEMBER_DISLIKE_INGREDIENT', res.data);
           }
+        } else if (type === 'dislikePost') {
+          console.log('비선호 재료 저장 완료!')
+        } else if (type === 'allergyGet') {
+          if (res && res.data) {
+            console.log('-----------> 알러지 커밋 시작!')
+            commit('SET_MEMBER_ALLERGY', res.data)
+          }
+        } else if (type === 'allergyPost') {
+          if (res && res.data) {
+            console.log('알러지 저장 완료!')
+          }
+        }
       } catch(err) {
         console.log(
           type === 'dislikeGet' || type === 'dislikePost'
