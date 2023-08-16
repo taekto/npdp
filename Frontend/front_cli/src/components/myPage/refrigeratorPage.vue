@@ -214,7 +214,6 @@ export default {
           }
           return tmp
         },
-        
     },
     // 임시 더미 데이터
     data() {
@@ -293,6 +292,7 @@ export default {
                 return
             }
         },
+        
     },
     created() {
         this.memberId = parseInt(sessionStorage.getItem('memberId'))

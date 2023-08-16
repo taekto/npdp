@@ -207,12 +207,15 @@ export default {
       }
     },
     reduceAmount() {
-      if(this.unit === 'g') {
-        this.amount -= 10
+      if(this.amount > 0) {
+        if(this.unit === 'g') {
+          this.amount -= 10
+        }
+        else {
+          this.amount --
+        }
       }
-      else {
-        this.amount --
-      }
+      
 
       
     },

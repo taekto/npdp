@@ -32,7 +32,7 @@
   <div class="utensilContainer">
       <div class="utensilLine" v-for="item,idx in recipeDetail.recipeUtensils" :key="idx">
           <div class="utensilName">
-            <div>{{item.name}}</div>
+            {{item.name}}
           </div>
       </div>
   </div>
@@ -48,10 +48,10 @@
       <img class="orderImage" :src="order.img">
     </div>
   </div>
-      
+  <hr/>    
     <!-- 레시피 유사도 재료 추천 -->
   <div class="slider-container">
-    <h2 class="orderTitle">유사한 레시피</h2>
+    <h2 class="orderTitle similarity">유사한 레시피</h2>
     <div class="slider-track">
       <div
         class="slide"
@@ -301,6 +301,10 @@ export default {
     font-weight: bold;
 }
 
+.similarity.similarity {
+  margin-left: 1rem;
+}
+
 .all_replay {
   font-family: 'GangwonEdu_OTFBoldA';
   position: absolute;
@@ -423,6 +427,7 @@ img {
 
 .slider-track {
   display: flex;
+  justify-content: flex-start;
   transition: transform 0.3s ease-in-out;
 }
 
@@ -443,7 +448,9 @@ img {
   border-radius: .7rem;
   margin-bottom: 2rem;
 }
-
+.utensilName {
+  padding: 0 1rem;
+}
 
 .utensilName.total {
   position: absolute;
