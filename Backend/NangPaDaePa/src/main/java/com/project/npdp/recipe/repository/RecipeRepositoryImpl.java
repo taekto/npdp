@@ -244,12 +244,12 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
         // 분류(전체) + 키워드
         if(classification.equals("전체")) {
 
-            List<Recipe> result = queryFactory.selectFrom(recipe)
-                    .where(keywordEq(keyword)).fetch();
+            List<Recipe> result1 = queryFactory.selectFrom(recipe)
+                    .where(recipeNameContains(searchWord), keywordEq(keyword)).fetch();
 
-            HashSet<Recipe> uniqueRecipes = new HashSet<>(result);
+            HashSet<Recipe> uniqueRecipes1 = new HashSet<>(result1);
 
-            return uniqueRecipes.stream()
+            List<RecipeResponseDto> collect1 = uniqueRecipes1.stream()
                     .map(recipeEntity -> RecipeResponseDto.builder()
                             .recipeId(recipeEntity.getId())
                             .name(recipeEntity.getName())
@@ -258,6 +258,68 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
                             .category(recipeEntity.getCategory())
                             .build())
                     .collect(Collectors.toList());
+
+            List<RecipeIngredient> result2 = queryFactory.selectFrom(recipeIngredient)
+                    .innerJoin(recipeIngredient.recipe, recipe).fetchJoin()
+                    .innerJoin(recipeIngredient.ingredient, QIngredient.ingredient).fetchJoin()
+                    .where(keywordEq(keyword), recipeIngredientTypeEq(0L), IngredientKorContains(searchWord))
+                    .fetch();
+
+            HashSet<RecipeIngredient> uniqueRecipes2 = new HashSet<>(result2);
+
+
+            List<RecipeResponseDto> collect2 = uniqueRecipes2.stream()
+                    .map(recipeIngredientEntity -> RecipeResponseDto.builder()
+                            .recipeId(recipeIngredientEntity.getRecipe().getId())
+                            .name(recipeIngredientEntity.getRecipe().getName()) // 수정된 부분
+                            .imgBig(recipeIngredientEntity.getRecipe().getImgBig())
+                            .imgSmall(recipeIngredientEntity.getRecipe().getImgSmall())
+                            .category(recipeIngredientEntity.getRecipe().getCategory())
+                            .build())
+                    .collect(Collectors.toList());
+
+            List<RecipeIngredient> result3 = queryFactory.selectFrom(recipeIngredient)
+                    .innerJoin(recipeIngredient.recipe, recipe).fetchJoin()
+                    .innerJoin(recipeIngredient.ingredient, QIngredient.ingredient).fetchJoin()
+                    .where(keywordEq(keyword), recipeIngredientTypeEq(1L), IngredientKorContains(searchWord))
+                    .fetch();
+
+            HashSet<RecipeIngredient> uniqueRecipes3 = new HashSet<>(result3);
+
+            List<RecipeResponseDto> collect3 = uniqueRecipes3.stream()
+                    .map(recipeIngredientEntity -> RecipeResponseDto.builder()
+                            .recipeId(recipeIngredientEntity.getRecipe().getId())
+                            .name(recipeIngredientEntity.getRecipe().getName()) // 수정된 부분
+                            .imgBig(recipeIngredientEntity.getRecipe().getImgBig())
+                            .imgSmall(recipeIngredientEntity.getRecipe().getImgSmall())
+                            .category(recipeIngredientEntity.getRecipe().getCategory())
+                            .build())
+                    .collect(Collectors.toList());
+
+            List<RecipeSeasoning> result4 = queryFactory.selectFrom(recipeSeasoning)
+                    .innerJoin(recipeSeasoning.recipe, recipe).fetchJoin()
+                    .innerJoin(recipeSeasoning.seasoning, QSeasoning.seasoning).fetchJoin()
+                    .where(SeasoningKorContains(searchWord), keywordEq(keyword))
+                    .fetch();
+
+            HashSet<RecipeSeasoning> uniqueRecipes4 = new HashSet<>(result4);
+
+
+            List<RecipeResponseDto> collect4 = uniqueRecipes4.stream()
+                    .map(recipeSeasoningEntity -> RecipeResponseDto.builder()
+                            .recipeId(recipeSeasoningEntity.getRecipe().getId())
+                            .name(recipeSeasoningEntity.getRecipe().getName())
+                            .imgBig(recipeSeasoningEntity.getRecipe().getImgBig())
+                            .imgSmall(recipeSeasoningEntity.getRecipe().getImgSmall())
+                            .category(recipeSeasoningEntity.getRecipe().getCategory())
+                            .build())
+                    .collect(Collectors.toList());
+            List<RecipeResponseDto> combinedList = new ArrayList<>();
+            combinedList.addAll(collect1);
+            combinedList.addAll(collect2);
+            combinedList.addAll(collect3);
+            combinedList.addAll(collect4);
+            return combinedList;
         }
         // 분류(레시피명) + 키워드
         else if(classification.equals("레시피명")) {
