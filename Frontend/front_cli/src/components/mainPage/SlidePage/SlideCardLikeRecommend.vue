@@ -36,6 +36,7 @@ export default {
     cursor: pointer;
     margin: 1rem;
     font-weight: bold;
+    font-size: 1rem;
     transition: 0.3s;
 }
 
@@ -93,14 +94,24 @@ img {
 
 @media screen and (max-width: 992px) {
   .recommendCard {
-        border-radius: .5rem;
+        /* border-radius: .5rem;
         border: 1px solid #FD7E14;
         /* box-shadow: 2px 2px 2px 2px; */
-        height: 20rem;
+        /* height: 20rem;
         width: 20rem;
         cursor: pointer;
         padding: .1rem;
-        margin: .5rem;
+        margin: .5rem; */
+        border-radius: .1rem;
+    border: 1px solid rgb(207, 205, 205);
+    box-shadow: 0 0 0 1px hsla(212,7%,43%,.32);
+    height: 23rem;
+    width: 18rem;
+    cursor: pointer;
+    margin: 1rem;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: 0.3s;
     }
 
     .recommendCard_img {

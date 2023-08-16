@@ -38,8 +38,10 @@
       <router-link to="#" class="footer_text">이용약관</router-link>
       <router-link to="#" class="footer_text">개인정보 처리방침</router-link>
       <router-link to="#" class="footer_text">문의</router-link>
-      <div>&copy; 2023 All Rights Reserved.</div>
-      <div>문의: ssafyIdle 개발팀</div>
+      <div class="footer_css">
+        <div>&copy; 2023 All Rights Reserved.</div>
+        <div>문의: ssafyIdle 개발팀</div>
+      </div>
     </footer>
   </div>
 </template>
@@ -250,6 +252,12 @@ footer {
   margin: 0 25px;
   content: " | ";
   color: #f2f2f2;
+}
+
+.footer_css {
+  font-family: 'LINESeedKR-Rg';
+  font-size: .9rem;
+  margin-top: 1rem;
 }
 
 </style>

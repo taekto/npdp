@@ -13,7 +13,7 @@
           </div>
           <div class="ingredientAmount each">
             <!-- <div>{{(ingredient.amount * serving).toFixed(1)}}</div> -->
-            <p>{{ingredient.amount}}</p>
+            <div>{{ingredient.amount}}</div>
             <div>{{ingredient.unit}}</div>
           </div>
       </div>

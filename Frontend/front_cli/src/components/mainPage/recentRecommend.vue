@@ -3,7 +3,9 @@
   <div class="thirdLine">
     <div class="recentRecommend">
         <p class="menuTitle">최근 본 레시피</p>
+
         <Carousel :items-to-show="calculateItemsToShow" :wrap-around="calculateWrapAround"
+
         :autoplay= "3500" :transition = "1000">
             <Slide v-for="item in memberRecipeLatest" :key="item.recipeId">
                 <SlideCardRecentRecommned :recipe = item />

@@ -75,8 +75,6 @@ export default {
 .oneLine {
   font-family: 'LINESeedKR-Bd';
 }
-.calorie_container {
-}
 .oneLine.menu.way {
     margin-top: 2rem;
 }
