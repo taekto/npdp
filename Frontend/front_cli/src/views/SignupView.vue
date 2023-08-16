@@ -29,7 +29,7 @@
             name="email" 
             v-model="credentials.email"
           />
-          <button @click.prevent="emailCodeVerify" class="email_auth">
+          <button @click.prevent="emailCodeVerify; startCountdown" class="email_auth">
             인증
           </button>
         </div>
@@ -44,12 +44,18 @@
               확인
           </button>
         </div>
+          
           <p v-show="emailVerify === 1" class="input-error">
             인증번호가 확인되었습니다.
           </p>
           <p v-show="emailVerify === 2" class="input-error">
             인증번호가 일치하지 않습니다.
           </p>
+          <p v-if="isCounting">{{formattedTime }}</p>
+          <p>-----------</p>
+          <p>{{formattedTime }}</p>
+          <p>{{isCounting}}</p>
+          <p>-----------</p>
           
 
           
@@ -145,12 +151,17 @@ export default {
     return {
         socialType: '',
         credentials: {
-          email: '',
-          password: '',
-          nickname: '',
-          gender: 'none',
-          birth: '',
+        email: '',
+        password: '',
+        nickname: '',
+        gender: 'none',
+        birth: '',
+        
       },
+      isCounting: false,
+      countdown: 180, // 초기 카운트다운 값 (3분 = 180초)
+      intervalId: null,
+      remainingSeconds: 0,
       emailCode: '',
       emailVerifyCode: '',
       emailVerify: 0,
@@ -178,6 +189,17 @@ export default {
       this.checkPasswordConfirm()
     }
   },
+  computed: {
+    formattedTime() {
+    if (this.remainingSeconds >= 0) {
+      const minutes = Math.floor(this.remainingSeconds / 60);
+      const seconds = this.remainingSeconds % 60;
+      return `${this.formatDigits(minutes)}:${this.formatDigits(seconds)}`;
+    } else {
+      return '00:00';
+    }
+  }
+  },
 
   // birthdate = new Date(); // birthdate 매개변수의 타입을 Date | null로 명시
   methods: {
@@ -197,7 +219,7 @@ export default {
         console.log(this.emailCode.value)
         console.log(this.emailCode.value.code)
         console.log('--------------------')
-      }, 5000)
+      }, 7500)
     },
 
     checkEmailVerify() {
@@ -268,6 +290,24 @@ export default {
       }
       this.credentials.birth = this.birthdate
     },
+    startCountdown() {
+      this.isCounting = true;
+      this.remainingSeconds = this.totalSeconds;
+      this.intervalId = setInterval(() => {
+        if (this.remainingSeconds > 0) {
+          this.remainingSeconds--;
+        } else {
+          this.stopCountdown();
+        }
+      }, 1000); // 1초마다 감소
+    },
+    stopCountdown() {
+      clearInterval(this.intervalId);
+      this.isCounting = false;
+    },
+    formatDigits(value) {
+      return value < 10 ? `0${value}` : value;
+    },
 
     socialLoginGoogle() {
       this.socialType = 'Google'
@@ -320,6 +360,10 @@ export default {
       //                           withCredentials: false,
       //                       });
     }
+  },
+  beforeUnmount() {
+    // 컴포넌트가 파괴되기 전에 interval 정리
+    clearInterval(this.intervalId);
   }
 }
 </script>
