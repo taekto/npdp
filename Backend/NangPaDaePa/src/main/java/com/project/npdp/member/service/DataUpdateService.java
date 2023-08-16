@@ -32,10 +32,10 @@ public class DataUpdateService {
     @Async
     public CompletableFuture<Void> fetchDataFromDjangoApi() {
 
-        String api = "http://i9b202.p.ssafy.io/data/recommend/user";
+        String api = "http://i9b202.p.ssafy.io/data/recommend/users";
 
         // 업데이트시 기존 데이터 모두 삭제
-        dataRepository.deleteAll();
+//        dataRepository.deleteAll();
 
         RestTemplate restTemplate = new RestTemplate();
 //        ResponseEntity<Void> responseEntity = restTemplate.getForEntity(api, Void.class);
