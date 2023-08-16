@@ -183,9 +183,4 @@ export default {
   /* display: flex; */
 }
 
-.ingredientAmount {
-  /* margin-left: 1rem; */
-  /* text-align: center;
-  vertical-align: center; */
-}
 </style>
