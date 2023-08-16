@@ -2,9 +2,10 @@
   <div class="myPage">
     <!-- 좌측 마이페이지 메뉴 컴포넌트 -->
     <CategoryComponent />
+    <div id="myPageView">
+    <p class="menuTitle">비선호 재료 검색</p>
     <div class="dislike_container">
       <div class="row member_dislike_search">
-        <h3 class="list_title">비선호 재료 검색</h3>
         <div class="col-3 col_container"></div>
         <div class="col-6 searchbox">
           <form class="search_form" @submit.prevent="specificSearch({ type: 'ingredient', name: this.ingredientName })">
@@ -40,7 +41,8 @@
       <p class="output">인식된 재료: {{ recognizedIngredients }}</p>
     </div>  
         
-  </div>
+    </div>
+    </div>
   </div>
 
 
@@ -113,6 +115,13 @@ export default {
   border-radius: .5rem;
   width: 75%;
   margin-bottom: 3rem;
+  margin-top: 3rem;
+
+}
+
+.list_title{
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .saveButton {
@@ -128,7 +137,10 @@ export default {
 .search_result_container_box{
   text-align: left
 }
+
 .search_result_container_box li {
-margin-top: .1rem;
+  margin-top: .1rem;
 }
+
+
 </style>
