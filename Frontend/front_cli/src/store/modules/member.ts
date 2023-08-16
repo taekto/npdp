@@ -224,6 +224,7 @@ const member: Module<MemberState, RootState> = {
           sessionStorage.setItem("email", credentials.email)
           sessionStorage.setItem("accessToken", res.data.accessToken)
           sessionStorage.setItem("memberId", res.data.id)
+          sessionStorage.setItem("nickname", res.data.nickname)
           commit('SET_CURRENT_MEMBER', credentials.email)
           // commit('SET_CURRENT_MEMBER', res.data)
           dispatch('fetchMember', res.data.id)
