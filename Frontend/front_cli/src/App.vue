@@ -205,7 +205,7 @@ footer {
   padding: .3rem .1rem;
   margin: .5rem;
   width: 6rem;
-  font-size: 1.1rem;
+  font-size: 1.25rem;
   display: flex;
   align-items: center;
   justify-content: center;
