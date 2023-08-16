@@ -213,17 +213,14 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
 
 
         if (memberId != null) {
+            
+            memberRecommend1 = queryFactory.selectFrom(memberRecommend)
+                    .join(memberRecommend.member, member).fetchJoin()
+                    .join(memberRecommend.recipe, QRecipe.recipe).fetchJoin()
+                    .where(member.id.eq(memberId).and(QRecipe.recipe.id.eq(recipeId)))
+                    .fetchOne();
+            if (memberRecommend1 != null) {
 
-            List<MemberRecommend> memberRecommends = queryFactory.selectFrom(memberRecommend)
-                    .where(memberRecommend.member.id.eq(memberId))
-                    .fetch();
-            log.info("memberRecommends = {}", memberRecommends.size());
-            if (memberRecommends.size() != 0) {
-                memberRecommend1 = queryFactory.selectFrom(memberRecommend)
-                        .join(memberRecommend.member, member).fetchJoin()
-                        .join(memberRecommend.recipe, QRecipe.recipe).fetchJoin()
-                        .where(member.id.eq(memberId).and(QRecipe.recipe.id.eq(recipeId)))
-                        .fetchOne();
                 return RecipeDetailResponseDto.builder()
                         .recipeId(recipeId)
                         .name(recipeEntity.getName())
