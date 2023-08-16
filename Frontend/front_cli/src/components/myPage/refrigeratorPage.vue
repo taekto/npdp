@@ -40,7 +40,6 @@
             <div>
                 <!-- 재료 -->
                 <div class="refrigeratorCategory">
-                    <h1>{{memberIngredient}}</h1>
                     <div style="display: flex; justify-content: space-between; width: 80%; margin: auto">
                         <p class="categoryTitle">{{printStorage}} 재료</p>
                         <button class="saveButton" @click="saveMaterial({type: 'ingredient', memberId: this.memberId, sendData: displayedIngredientItems.tempIngredient })">
@@ -83,7 +82,6 @@
                         <button @click="goToIngredientPage(ingredientPage + 1)" :disabled="ingredientPage === ingredientTotalPages">다음</button>
                     </div>
                 </div>
-
                 <!-- 양념 -->
                 <div class="refrigeratorCategory">
 
