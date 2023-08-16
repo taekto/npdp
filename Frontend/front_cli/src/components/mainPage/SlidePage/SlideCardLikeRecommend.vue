@@ -1,6 +1,6 @@
 <template>
     <!-- 좋아요 많은 레시피 카드 -->
-    <div class="recommendCard" @click="goToDetailRecipe(recipe)">
+    <div class="recommendCard" @click="goToDetailRecipe(recipe.recipeId)">
         <img :src="recipe.imgSmall">
         <p class="recipeName">{{ recipe.name }}</p>
     </div>
@@ -16,7 +16,7 @@ export default {
         goToDetailRecipe(recipeItem) {
             this.$router.push({name: "recipe",  
                 params: { 
-                    recipe_id: recipeItem.recipeId,
+                    recipeId: recipeItem,
                 },
             })
         },
