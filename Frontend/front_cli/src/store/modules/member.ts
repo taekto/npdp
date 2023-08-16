@@ -256,7 +256,6 @@ const member: Module<MemberState, RootState> = {
     // 회원 이메일 인증
     async EmailVerify({commit}, email) {
       try {
-        
         console.log(JSON.stringify({email}, null, 2))
         const response = await axios.post(api.member.emailVerify(), { email });
         console.log('이메일 전송 완료!', response.data);
@@ -330,14 +329,14 @@ const member: Module<MemberState, RootState> = {
     // 회원 재료 조회 양념/ 재료/ 전체
     async fetchMemberMaterial({ commit }, { type, memberId }) {
       try {
-        if (type === 'all' || type === 'seasoning') {
+        if (type === 'all' || type === 'seasoning' || type === 'seasoningDelete') {
           const seasoningApiUrl = `https://i9b202.p.ssafy.io/api/refregirator/seasoning/${memberId}`
           const seasoningResponse = await axios.get(seasoningApiUrl)
           console.log('양념 get 성공!', seasoningResponse.data)
           commit('SET_MEMBER_SEASONING', seasoningResponse.data)
         }
     
-        if (type === 'all' || type === 'ingredient') {
+        if (type === 'all' || type === 'ingredient' || type === 'ingredientDelete') {
           const ingredientApiUrl = `https://i9b202.p.ssafy.io/api/refregirator/ingredient/${memberId}`
           const ingredientResponse = await axios.get(ingredientApiUrl)
           console.log('재료 get 성공!', ingredientResponse.data)
@@ -370,7 +369,7 @@ const member: Module<MemberState, RootState> = {
     async updateMaterial({ dispatch }, { type, memberId, updateItem }: { type: string, memberId: number, updateItem: ingredientUpdateData | SeasoningUpdateData }) {
       try {
         let updateData
-        
+
         if (type === 'ingredient') {
           console.log('재료 수정/삭제 시작!')
           const ingredientUpdateData = updateItem as ingredientUpdateData
@@ -429,9 +428,10 @@ const member: Module<MemberState, RootState> = {
         'https://i9b202.p.ssafy.io/api/refregirator/modify/ingredient'
     
         const res = await axios.post(apiUrl, updateData)
-        console.log('뭔가 성공...!')
 
-        dispatch('fetchMemberMaterial', { type: type, memberId: memberId })
+        dispatch('fetchMemberMaterial', {type:type, memberId: memberId})
+        
+        console.log('뭔가 성공...!')
 
       } catch (err) {
         console.log(err)
@@ -652,7 +652,9 @@ const member: Module<MemberState, RootState> = {
           console.log('최근 본 레시피 저장...')
         } else {
           const res = await axios.get(`https://i9b202.p.ssafy.io/api/members/latest/${memberId}`)
-          console.log('최근 본 레시피 조회 성공', res.data)
+
+          console.log('최근 본 레시피 조회 성공',res.data)
+
           commit('SET_MEMBER_RECIPE_LATEST', res.data)
         }
         

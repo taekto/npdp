@@ -3,7 +3,6 @@
     <div class="recommendCard" @click="goToDetailRecipe(recipe)">
         <img :src="recipe.imgBig">
         <p>{{ recipe.name }}</p>
-        <p>{{recipe.recipeId}}</p>
     </div>
 </template>
 
@@ -29,13 +28,23 @@ export default {
 <style scoped>
 /* 최근 본 레시피 카드 */
 .recommendCard {
-    border-radius: .5rem;
+    /* border-radius: .5rem;
     border: solid rgb(190, 190, 190) 1px;
     height: 22rem;
     width: 20rem;
     cursor: pointer;
     margin: 1rem;
     font-weight: bold;
+    transition: 0.3s; */
+    border-radius: .1rem;
+    border: 1px solid rgb(207, 205, 205);
+    box-shadow: 0 0 0 1px hsla(212,7%,43%,.32);
+    height: 23rem;
+    width: 18rem;
+    cursor: pointer;
+    margin: 1rem;
+    font-weight: bold;
+    font-size: 1rem;
     transition: 0.3s;
 }
 
@@ -55,9 +64,13 @@ export default {
 }
 
 img {
-    width: 90%;
+    /* width: 90%;
     margin-top: .7rem;
-    border-radius: 0.5rem;
+    border-radius: 0.5rem; */
+    width: 100%;
+    height: 50%;
+    /* margin-top: .7rem; */
+    border-radius: 0.1rem;
 }
 
 .recipeButton {
@@ -73,14 +86,24 @@ img {
 
 @media screen and (max-width: 992px) {
   .recommendCard {
-        border-radius: .5rem;
-        border: 1px solid #FD7E14;
+        /* border-radius: .5rem;
+        border: 1px solid rgb(207, 205, 205);
         /* box-shadow: 2px 2px 2px 2px; */
-        height: 20rem;
+        /* height: 20rem;
         width: 20rem;
         cursor: pointer;
         padding: .1rem;
-        margin: .5rem;
+        margin: .5rem; */
+        border-radius: .1rem;
+    border: 1px solid rgb(207, 205, 205);
+    box-shadow: 0 0 0 1px hsla(212,7%,43%,.32);
+    height: 23rem;
+    width: 18rem;
+    cursor: pointer;
+    margin: 1rem;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: 0.3s;
     }
 
     .recommendCard_img {

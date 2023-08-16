@@ -3,7 +3,9 @@
   <div class="thirdLine">
     <div class="recentRecommend">
         <p class="menuTitle">최근 본 레시피</p>
-        <Carousel :items-to-show="carouselItemsToShow" :wrap-around="false"
+
+        <Carousel :items-to-show="calculateItemsToShow" :wrap-around="calculateWrapAround"
+
         :autoplay= "3500" :transition = "1000">
             <Slide v-for="item in memberRecipeLatest" :key="item.recipeId">
                 <SlideCardRecentRecommned :recipe = item />
@@ -39,8 +41,15 @@ export default defineComponent({
   },
   computed: {
     ...mapGetters(['memberRecipeLatest']),
-    carouselItemsToShow() {
-      return Math.max(1, Math.min(this.memberRecipeLatest.length, 3));
+    calculateItemsToShow() {
+      if (this.memberRecipeLatest.length <= 3) {
+        return this.memberRecipeLatest.length;
+      } else {
+        return 3; // 최대 3개까지만 보여주기
+      }
+    },
+    calculateWrapAround() {
+      return this.memberRecipeLatest.length > 3;
     },
   },
 

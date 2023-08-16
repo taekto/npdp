@@ -51,10 +51,7 @@ export default {
     name: 'SeasoningSound',
     data() {
       return {
-        seasoningList : [{name : "그기ㅡ고춧가루", startDate : '2023-07-27', endDate: '', storage: '냉장'}, 
-        {name : "간장",  startDate : '2023-07-27', endDate: '', storage: '냉장'},
-        {name : "고추장",  startDate : '2023-07-27', endDate: '', storage: '냉장'},
-        {name : "된장",  startDate : '2023-07-27', endDate: '', storage: '냉장'},],
+        seasoningList : [],
         soundInput : '',
         recognizedSeasoning : "",
       }
