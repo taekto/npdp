@@ -348,11 +348,10 @@ const member: Module<MemberState, RootState> = {
     // 회원 재료/양념/ 저장
     async saveMaterial({ dispatch }, {type, memberId, sendData}) {
       try {
-        console.log(type === 'seasoning' ? '양념 저장 시작!': '재료 저장 시작!', sendData)
+        console.log(type === 'seasoning' ? '양념 저장 시작!': '재료 저장 시작!',JSON.stringify(sendData, null, 2))
         const apiUrl = type === 'seasoning' ?
           `https://i9b202.p.ssafy.io/api/refregirator/member/seasoning/${memberId}`:
           `https://i9b202.p.ssafy.io/api/refregirator/member/ingredient/${memberId}` 
-        console.log(JSON.stringify(sendData, null, 2))
         
         const response = await axios.post(apiUrl, sendData)
   
