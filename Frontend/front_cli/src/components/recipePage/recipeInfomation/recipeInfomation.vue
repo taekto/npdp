@@ -2,7 +2,7 @@
   <!-- 레시피 정보(재료, 영양소, 유사도 등) -->
   <div>
     <!-- 레시피 정보 윗줄(재료 & 그래프) -->
-    <div class="graph_title" v-if="recipeDetail.memberName">{{recipeDetail.memberName}}님 냉장고 속 재료와 {{recipeDetail.similarity*100}}% 일치합니다!</div>
+    <div class="graph_title" v-if="recipeDetail.memberName"><span class="similarity_title">{{recipeDetail.memberName}}</span>님 냉장고 속 재료와 <span class="similarity_title">{{recipeDetail.similarity*100}}%</span> 일치합니다!</div>
     <div class="graph_title logout" v-else>로그인 후 유사도 확인이 가능합니다</div>
     <div class="InfomationLine">
       <!-- 유사도 그래프 -->
@@ -164,6 +164,9 @@ export default {
     justify-content: flex-end;
 }
 
+.similarity_title {
+  color: #FD7E14;
+}
 
 
 /* 인분 조절 버튼 */
