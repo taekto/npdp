@@ -27,7 +27,7 @@
 
 
         <!-- 검색 결과 컴포넌트 -->
-        <SearchResult />
+        <SearchResult :classification='classification' :keyWord='keyWord'/>
     </div>
 </template>
 
@@ -48,7 +48,7 @@ export default {
           searchKeyword : "",
           hashTag : ["김치", "돼지", "소", "닭", "된장", "빵"],
           keyword: this.$route.params.keyword,
-          classification: null,
+          classification: "전체",
           keyWord : null,
         }
     },

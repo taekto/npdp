@@ -3,6 +3,7 @@
     <div class="recommendCard" @click="goToDetailRecipe(recipe)">
         <img :src="recipe.imgBig">
         <p>{{ recipe.name }}</p>
+        <p>{{recipe.recipeId}}</p>
     </div>
 </template>
 
