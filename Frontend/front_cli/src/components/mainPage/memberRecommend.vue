@@ -17,7 +17,7 @@
           </Carousel>
         </div>
         <div v-else class="memberReco_logout">
-          로그인 후 이용 가능합니다
+          재료 등록 후 이용 가능합니다
         </div>
     </div>
   </div>
