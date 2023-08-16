@@ -213,7 +213,7 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
 
 
         if (memberId != null) {
-            
+
             memberRecommend1 = queryFactory.selectFrom(memberRecommend)
                     .join(memberRecommend.member, member).fetchJoin()
                     .join(memberRecommend.recipe, QRecipe.recipe).fetchJoin()
@@ -226,6 +226,35 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
                         .name(recipeEntity.getName())
                         .memberName(memberRecommend1.getMember().getNickname())
                         .similarity(memberRecommend1.getSimilarity())
+                        .way(recipeEntity.getWay())
+                        .weight(recipeEntity.getWeight())
+                        .calorie(recipeEntity.getCalorie())
+                        .carbohydrate(recipeEntity.getCarbohydrate())
+                        .protein(recipeEntity.getProtein())
+                        .fat(recipeEntity.getFat())
+                        .salt(recipeEntity.getSalt())
+                        .imgSmall(recipeEntity.getImgSmall())
+                        .imgBig(recipeEntity.getImgBig())
+                        .category(recipeEntity.getCategory())
+                        .dish(recipeEntity.getDish())
+                        .recipeIngredients(recipeIngredients)
+                        .recipeSeasonings(recipeSeasonings)
+                        .recipeSequences(recipeSequences)
+                        .recipeUtensils(recipeUtensils)
+                        .count(count)
+                        .heartTF(heartTF)
+                        .build();
+            }
+            Member member1 = queryFactory.selectFrom(member)
+                    .from(member)
+                    .where(member.id.eq(memberId))
+                    .fetchOne();
+            if(member1 != null) {
+                return RecipeDetailResponseDto.builder()
+                        .recipeId(recipeId)
+                        .name(recipeEntity.getName())
+                        .memberName(member1.getNickname())
+                        .similarity(null)
                         .way(recipeEntity.getWay())
                         .weight(recipeEntity.getWeight())
                         .calorie(recipeEntity.getCalorie())
