@@ -4,10 +4,15 @@ import com.project.npdp.domain.MemberRecommend;
 import com.project.npdp.member.repository.DataRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.AsyncRestTemplate;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,27 +24,25 @@ import java.util.concurrent.Future;
 public class DataUpdateService {
 
     private final DataRepository dataRepository;
+
+//    @Autowired
 //    private RestTemplate restTemplate;
 
     // Django에서 비동기로 유사도 Get
     @Async
-    public CompletableFuture<List<MemberRecommend>> fetchDataFromDjangoApi(){
+    public CompletableFuture<Void> fetchDataFromDjangoApi() {
 
-        String api = "https://i9b202.p.ssafy.io/data/recommend/user";
+        String api = "http://i9b202.p.ssafy.io/data/recommend/user";
 
         // 업데이트시 기존 데이터 모두 삭제
-        dataRepository.deleteAll();
-
+//        dataRepository.deleteAll();
         RestTemplate restTemplate = new RestTemplate();
+//        ResponseEntity<Void> responseEntity = restTemplate.getForEntity(api, Void.class);
+        restTemplate.getForEntity(api, Void.class);
 
-        ResponseEntity<MemberRecommend[]> responseEntity = restTemplate.getForEntity(api, MemberRecommend[].class);
-        if(responseEntity.getStatusCode().is2xxSuccessful()){
-            return CompletableFuture.completedFuture(Arrays.asList(responseEntity.getBody()));
-        }else{
-            throw new RuntimeException("유사도 데이터 업데이트에 실패했습니다.");
-        }
-
+        return CompletableFuture.completedFuture(null); // 상태 코드 반환
     }
+
 
 
 //    // 유사도 저장
