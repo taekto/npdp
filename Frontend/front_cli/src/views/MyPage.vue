@@ -44,7 +44,7 @@ export default {
             })
             .then(res => {
                 console.log(res.data)
-                this.$router.push({name: 'refrigerator'})
+                this.$router.push({name: 'edit'})
             })
             .catch(err => {
                 console.log(err)

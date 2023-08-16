@@ -11,7 +11,11 @@
             <router-link to="/mypage/like">{{link3Text}}</router-link>
         </div>
         <div>
-            <router-link to="/mypage/edit">{{link4Text}}</router-link>
+            <router-link 
+            v-if="nowPage === 'http://localhost:8080/mypage/edit' || nowPage === 'https://i9b202.p.ssafy.io/mypage/edit'" 
+            to="/mypage/edit">{{link4Text}}</router-link>
+            <router-link 
+            v-else to="/mypage">{{link4Text}}</router-link>
         </div>
         <!-- 비선호/ 알러지 -->
         <div>
@@ -30,10 +34,12 @@ export default {
     data() {
         return {
             isViewportSmall: false, // 뷰포트 크기가 작은지 여부
+            nowPage : '',
         };
     },
     created() {
         this.checkViewportSize(); // 초기 값 설정
+        this.nowPage = document.location.href
 
         window.addEventListener('resize', this.checkViewportSize); // resize 이벤트 리스너 추가
     },
