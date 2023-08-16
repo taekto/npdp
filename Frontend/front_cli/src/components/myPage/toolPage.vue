@@ -99,7 +99,6 @@ export default {
         return this.memberUtensilList.some(item => item.utensilName === name)
       },
     },
-
     computed: {
       ...mapGetters(['memberUtensilList'])
     },

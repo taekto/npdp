@@ -68,7 +68,7 @@
                                 <!-- <p class="startDate">보관시작일 : {{whatDate(ingredientItem.startDate)}}</p> -->
                                 
                                 <p class="storage">보관방식 : {{printStorage}}</p>
-                                <button class="deleteButton" @click="deleteMaterial({type: 'ingredient', memberId: this.memberId, deleteItem: ingredientItem })">제거</button>
+                                <button class="deleteButton" @click="updateMaterial({type: 'ingredient', memberId: this.memberId, updateItem: ingredientItem })">제거</button>
                             </div>
                         </li>
                     </ul>
@@ -85,6 +85,7 @@
 
                 <!-- 양념 -->
                 <div class="refrigeratorCategory">
+                    <p>{{displayedSeasoningItems.tempSeasoning}}</p>
                     <div style="display: flex; justify-content: space-between; width: 80%; margin: auto">
                         <p class="categoryTitle">{{printStorage}} 양념</p>
                         <button class="saveButton" @click="saveMaterial({ type: 'seasoning', memberId: memberId, sendData: displayedIngredientItems.tempIngredient })">
@@ -106,7 +107,7 @@
                                     <p>{{changeDate(seasoningItem.expiredDate)}}</p>
                                 </div>
                                 <p class="storage">보관방식 : {{printStorage}}</p>
-                                <button class="deleteButton" @click="deleteMaterial({type: 'seasoning', memberId: this.memberId, deleteItem: seasoningItem })">제거</button>
+                                <button class="deleteButton" @click="updateMaterial({type: 'seasoning', memberId: this.memberId, updateItem: seasoningItem })">제거</button>
                             </div>
                         </li>
                     </ul>
@@ -168,12 +169,13 @@ export default {
             .filter(ingredient => ingredient.storage === this.storage)
             .map(ingredient => {
               return {
-                // ingredientId: ingredient.refregiratorId,
+                refregiratorId: ingredient.refregiratorId,
                 amount: ingredient.amount,
                 unit: ingredient.unit,
                 startDate: ingredient.startDate,
                 expiredDate: ingredient.expiredDate,
-                storage: ingredient.storage
+                storage: ingredient.storage,
+                isdelete: ingredient.amount <= 0
               }
           })
           const displayedItems = this.memberIngredient.filter(ingredient => {
@@ -193,17 +195,20 @@ export default {
             return seasoning.storage === this.storage
           }).slice(startIndex, endIndex)
 
-          const tempIngredient = this.memberSeasoning
+          const tempSeasoning = this.memberSeasoning
             .filter(seasoning => seasoning.storage === this.storage)
             .map(seasoning => {
-              return {
-                seasoningId: seasoning.seasoningId,
-                storage: seasoning.storage
+              return { 
+                seasoningId: seasoning.memberSeasoningId,
+                storage: seasoning.storage,
+                startDate: seasoning.startDate,
+                expiredDate: seasoning.expiredDate,
+                isdelete: false,
               }
           })
            const tmp = {
             displayedItems : displayedItems,
-            tempIngredient : tempIngredient,
+            tempSeasoning : tempSeasoning,
           }
           return tmp
         },
@@ -221,14 +226,13 @@ export default {
         unit: '',
         startDate: null,
         expiredDate:  null,
-        isdelete : false,
         itemsPerPage:5,
         ingredientPage:1,
         seasoningPage:1,
       }
     },
     methods: {
-        ...mapActions(['fetchMemberMaterial', 'deleteMaterial','saveMaterial']),
+        ...mapActions(['fetchMemberMaterial', 'updateMaterial','saveMaterial']),
         selectStorage(storage) {
           this.storage = storage
           switch (storage) {
@@ -261,7 +265,7 @@ export default {
           }
 
           if (tmpingredient.amount <= 0) {
-            this.deleteMaterial({type: 'ingredient', memberId: this.memberId, deleteItem: tmpingredient })
+            this.updateMaterial({type: 'ingredient', memberId: this.memberId, updateItem: tmpingredient })
           }
         },
         goToIngredientPage(pageNumber) {

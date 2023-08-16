@@ -147,6 +147,20 @@ export default {
         }
       },
     },
+    watch: {
+      'member': {
+        handler(updatedMember) {
+          // member 게터의 데이터 출력
+          console.log('Updated member data:', updatedMember);
+          
+          // 만약 updatedMember 안에 nickname 프로퍼티가 있다면 userData.nickname에 할당
+          if (updatedMember && updatedMember.nickname) {
+            this.userData.nickname = updatedMember.nickname;
+          }
+        },
+        deep: true // 객체 내부의 프로퍼티까지 감시
+      }
+    },
     async created() {
       this.memberId = parseInt(sessionStorage.getItem('memberId'))
       this.fetchMember(this.memberId)

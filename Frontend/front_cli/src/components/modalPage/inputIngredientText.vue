@@ -26,7 +26,7 @@
                   <p>유통기한 : </p>
                   <p>{{ingredient.expiredDate}}</p>
                 </div>
-                <p class="storage">보관방식 : {{selectStorage(ingredient.storage)}}</p>
+                <p class="storage">보관방식 : {{printStorage}}</p>
                 <button class="deleteButton" @click="deleteIngredient(ingredient)">제거</button>
               </li>
             </ul>
@@ -78,22 +78,22 @@
               </div>
               <div class="btn_group">
                 <label v-if="storage !== 0" class="radioButton">
-                  <input type="radio" name="classification" value="냉장" @click="selectStorage(0)">냉장
+                  <input type="radio" name="classification"  @click="selectStorage(0)">냉장
                 </label>
                 <label v-else class="radioButton2">
-                  <input type="radio" name="classification" value="냉장" @click="selectStorage(0)">냉장
+                  <input type="radio" name="classification"  @click="selectStorage(0)">냉장
                 </label>
                 <label v-if="storage !== 1" class="radioButton">
-                  <input type="radio" name="classification" value="냉동" @click="selectStorage(1)">냉동
+                  <input type="radio" name="classification"  @click="selectStorage(1)">냉동
                 </label>
                 <label v-else class="radioButton2">
-                  <input type="radio" name="classification" value="냉동" @click="selectStorage(1)">냉동
+                  <input type="radio" name="classification"  @click="selectStorage(1)">냉동
                 </label>
                 <label v-if="storage !== 2" class="radioButton">
-                  <input type="radio" name="classification" value="실온" @click="selectStorage(2)">실온
+                  <input type="radio" name="classification"  @click="selectStorage(2)">실온
                 </label>
                 <label v-else class="radioButton2">
-                  <input type="radio" name="classification" value="실온" @click="selectStorage(2)">실온
+                  <input type="radio" name="classification"  @click="selectStorage(2)">실온
                 </label>
               </div>
               <button v-show="none" class="soundButton" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">음성입력</button>
@@ -146,18 +146,19 @@ export default {
       this.ingredientId = result.id;
     },
 
-    selectStorage(storage) {
-      this.storage = storage
-        switch (storage) {
+    selectStorage(number) {
+      this.storage = number
+      console.log('=====>', this.storage)
+        switch (number) {
           case 0:
           this.printStorage = "냉장";
-            break;
+            break
           case 1:
             this.printStorage = "냉동";
-            break;
+            break
           case 2:
           this.printStorage = "실온";
-          break;
+          break
         }
     },
 

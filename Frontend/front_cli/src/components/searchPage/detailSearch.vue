@@ -50,6 +50,7 @@
                 <h2 class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
                         <strong>키워드</strong>
+                        <h1>{{selectCategory}}</h1>
                     </button>
                 </h2>
                 <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
@@ -98,25 +99,33 @@
 </template>
 
 <script>
+import {mapActions, mapGetters} from 'vuex'
 export default {
     name: "DetailSearch",
     data() {
         return {
-            selectClassification : '전체',
-            selectCategory : '전체',
+            selectClassification : null,
+            selectCategory : null,
         }
     },
+    computed:{
+      ...mapGetters(['selectCategory'])
+    },
     methods: {
-        // 분류를 바꿔주는 함수
-        changeClassification() {
-            setTimeout(() => {console.log(this.selectClassification)}, 250)
-        },
+       ...mapActions(['categoryChoice']),
+      // 분류를 바꿔주는 함수
+      changeClassification() {
+        this.categoryChoice({type: 'classification', choice: this.selectClassification})
+      },
 
-        // 카테고리를 바꿔주는 함수
-        changeCategory() {
-            setTimeout(() => {console.log(this.selectCategory)}, 250)
-        }
+      // 카테고리를 바꿔주는 함수
+      changeCategory() {
+        this.categoryChoice({type: 'category', choice: this.selectCategory})
+      },
+
+
     }
+
 }
 </script>
 

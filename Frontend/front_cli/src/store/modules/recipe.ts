@@ -15,6 +15,9 @@ interface RecipeState {
   recipeDetail: RecipeDetail[];
   recipeRecommend: RecipeRecommend[];
   recipeWay: RecipeWay[];
+  selectCategory: string;
+  selectClassification: string;
+  recipeSimilarity: RecipeSimilarity[];
 }
 
 // 레시피
@@ -33,7 +36,7 @@ interface Recipe {
   img_big: string
   category: string
   // dish: number
-  likes: number
+  // likes: number
 }
 
 // 과정
@@ -110,8 +113,17 @@ interface RecipeRecommend {
 }
 
 interface RecipeWay {
-  recipe_way_id : number,
-  recipe_way_name: string,
+  recipe_way_id : number
+  recipe_way_name: string
+}
+
+interface RecipeSimilarity {
+  recipeId: number
+  name: string
+  imgBig: string
+  imgSmall: string
+  category: string
+  similarity: number
 }
 
 
@@ -131,6 +143,9 @@ const recipe: Module<RecipeState, RootState> = {
     {recipe_way_id : 4, recipe_way_name : '찌기'},
     {recipe_way_id : 5, recipe_way_name : '튀기기'},
     {recipe_way_id : 6, recipe_way_name : '기타'},],
+    selectCategory: "",
+    selectClassification: "",
+    recipeSimilarity: [],
   },
 
   getters: {
@@ -138,12 +153,18 @@ const recipe: Module<RecipeState, RootState> = {
     recipeSpecific: state => state.recipeSpecific,
     recipeDetail: state => state.recipeDetail,
     recipeWay: state => state.recipeWay,
+    selectCategory: state => state.selectCategory,
+    selectClassification: state => state.selectClassification,
+    recipeSimilarity: state => state.recipeSimilarity
   },
 
   mutations: {
     SET_RECIPE: (state, recipe) => (state.recipe = recipe),
     SET_RECIPE_SPECIFIC: (state, recipeSpecific) => (state.recipeSpecific = recipeSpecific),
     SET_RECIPE_DETAIL: (state, recipeDetail) => (state.recipeDetail = recipeDetail),
+    SET_CATEGORY_CHOICE: (state, choice) => (state.selectCategory = choice),
+    SET_CLASSIFICATION_CHOICE: (state, choice) => (state.selectClassification = choice),
+    SET_RECIPE_SIMILARITY: (state, similarity) => (state.recipeSimilarity= similarity),
   },
 
   actions: {
@@ -195,21 +216,29 @@ const recipe: Module<RecipeState, RootState> = {
     },
 
     // 레시피 상세 조회
-    detailRecipe ({commit}, recipe_id) {
-      console.log('레시피 상세 조회 시작!', recipe_id)
+    detailRecipe ({commit, dispatch}, {recipeId, memberId}) {
+      console.log(memberId,'님이 레시피 상세 조회 시작!', recipeId)
       axios({
         // url: api.recipe.detailRecipe(recipe_id),
-        url: `https://i9b202.p.ssafy.io/api/recipes/${recipe_id}`,
-        method:'get',
-
+        url: 'https://i9b202.p.ssafy.io/api/recipes/detail',
+        method:'post',
+        data: {
+          recipeId: recipeId,
+          memberId: memberId
+        }
         // headers: getters.authHeader,
       })
         .then(res=> {
           console.log(res.data, '레시피 상세 조회 성공!')
-          commit('SET_RECIPE_DETAIL', res.data)     
+          commit('SET_RECIPE_DETAIL', res.data)  
+          const lookData = { memberId: memberId, recipeId: res.data.recipeId}
+          const recipeOwnId = {recipeOwnId: res.data.recipeId}
+          dispatch('recipeSimilarity', recipeOwnId)
+          dispatch('latestRecipe', {type:'post', lookData: lookData})
+          commit('SET_IS_RECIPE_LIKE', res.data.heartTF)   
             router.push({name: "recipe",  
               params: { 
-                recipe_id: recipe_id
+                recipe_id: recipeId,
               },
           })
         })
@@ -218,12 +247,51 @@ const recipe: Module<RecipeState, RootState> = {
           console.log(err.response)
         })
     },
+
     async fetchRecipes(context) {
       try {
         const response = await axios.get('https://i9b202.p.ssafy.io/api/members/heart/count');
         context.commit('SET_RECIPE', response.data);
       } catch (error) {
         console.error('Error fetching recipes:', error);
+      }
+    },
+
+    // 레시피 동적 서치
+    async querySearch({commit}, data) {
+      try {
+        const apiUrl = 'https://i9b202.p.ssafy.io/api/recipes/category'
+
+        console.log('동적 서치 시작!' )
+        const res = await axios.post(apiUrl, data)
+        console.log('동적 서치 성공!', res.data)
+        commit('SET_RECIPE_SPECIFIC', res.data)
+      } catch (err) {
+        console.log(err)
+      }
+    },
+
+    // 레시피 카테고리 선택
+    async categoryChoice({commit}, {type, choice}) {
+      try {
+        if (type === 'category') {
+          commit('SET_CATEGORY_CHOICE', choice)
+        } else {
+          commit('SET_CLASSIFICATION_CHOICE', choice)
+        }
+        console.log(choice, '선택!')
+      } catch(err) {
+        console.log(err)
+      }
+    },
+    // 레시피 재료 유사도
+    async recipeSimilarity({commit}, recipeOwnId) {
+      try {
+        const res = await axios.post('https://i9b202.p.ssafy.io/api/recipes/similarity', recipeOwnId)
+        commit('SET_RECIPE_SIMILARITY', res.data)
+        console.log('레시피 재료 유사도 조회!', res.data)
+      } catch(err) {
+        console.log(err)
       }
     },
   },

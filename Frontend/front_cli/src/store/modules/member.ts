@@ -18,6 +18,8 @@ interface MemberState {
   currentMember: string | null;
   eamilCode: string | null;
   memberIngredient: MemberIngredient[];
+  isRecipeLike: boolean;
+  memberSimilarity:MemberSimilarity[];
 }
 
 // 회원
@@ -39,16 +41,20 @@ interface Member {
 
 // 회원 레시피 좋아요
 interface MemberRecipeLike {
-  member_recipe_like_id : number
-  member_id: number
-  recipe_id: number
+  recipeId: number
+  name: string
+  imgBig: string
+  imgSmall: string
+  category: string
 }
 
 // 회원 최근 본 레시피
 interface MemberRecipeLatest {
-  member_recipe_latest_id: number
-  member_id: number
   recipe_id: number
+  name: string
+  imgBig: string
+  imgSmall: string
+  category: string
   date: Date
 }
 
@@ -90,8 +96,8 @@ interface MemberIngredient {
   expiredDate: any
 }   
 
-// 회원 재료 삭제
-interface IngredientDeleteData {
+// 회원 재료 수정/삭제
+interface ingredientUpdateData {
   memberId: number
   refregiratorId: number
   storage: number
@@ -102,14 +108,24 @@ interface IngredientDeleteData {
   isdelete : boolean
 }
 
-// 회원 양념 삭제
-interface SeasoningDeleteData {
+// 회원 양념 수정/삭제
+interface SeasoningUpdateData {
   memberId: number;
   memberSeasoningId: number;
   storage: number;
   startDate: Date;
   expiredDate: Date;
   isdelete: boolean;
+}
+
+// 유저 레시피 추천
+interface MemberSimilarity {
+  recipeId: number
+  name: string
+  imgBig: string
+  imgSmall: string
+  category: string
+  similarity: number
 }
 
 const member: Module<MemberState, RootState> = {
@@ -121,11 +137,7 @@ const member: Module<MemberState, RootState> = {
     // 로그인 시 입력한 이메일 저장
     currentMember: null,
     // 좋아하는 레시피 저장 할 용도
-    memberRecipeLike: [  
-      { member_recipe_like_id: 1, member_id: 1, recipe_id: 1 },
-      { member_recipe_like_id: 2, member_id: 1, recipe_id: 2 },
-      { member_recipe_like_id: 3, member_id: 1, recipe_id: 3 },
-    ],
+    memberRecipeLike: [],
     // 
     memberRecipeLatest: [],
     memberDislikeIngredient: [],
@@ -134,7 +146,8 @@ const member: Module<MemberState, RootState> = {
     memberSeasoning: [],
     eamilCode: null,
     memberIngredient: [],
-    
+    isRecipeLike: false,
+    memberSimilarity:[],
   },
 
   getters: {
@@ -153,6 +166,8 @@ const member: Module<MemberState, RootState> = {
     memberSeasoning: state => state.memberSeasoning,
     memberIngredient: state => state.memberIngredient,
     memberTypeIds: (state) =>  (type: string) => { if (type ==='dislike') { return state.memberDislikeIngredient.map(item => item.ingredientId)} else if (type === 'allergy') {return state.memberAllergy.map(item => item.allergyId)}},
+    isRecipeLike: (state) => state.isRecipeLike,
+    memberSimilarity: (state) => state.memberSimilarity,
     },
   
     mutations: {
@@ -171,6 +186,8 @@ const member: Module<MemberState, RootState> = {
     // 기존 배열에 추가(기존 SET_MEMBER_DISLIKE_INGREDIENT에 push할경우 저장을 누르면 기존배열 + 업데이트 배열)
     UPDATE_LIST: (state, { type, updateData }) => {if (type === 'dislike') {state.memberDislikeIngredient.push(...updateData)} else if (type === 'allergy') {state.memberAllergy.push(...updateData)}},
     REMOVE_FROM_LIST: (state, { type, removeData }) => {if (type === 'dislike') {state.memberDislikeIngredient = state.memberDislikeIngredient.filter(item => item.ingredientId !== removeData)} else if (type === 'allergy') {state.memberAllergy = state.memberAllergy.filter(item => item.allergyId !== removeData)}},
+    SET_IS_RECIPE_LIKE: (state, isLike) => (state.isRecipeLike = isLike),
+    SET_MEMBER_SIMILARITY: (state, similarityData) => (state.memberSimilarity = similarityData)
   },
   actions: {
     saveToken({ commit }, { accessToken}) {
@@ -331,11 +348,10 @@ const member: Module<MemberState, RootState> = {
     // 회원 재료/양념/ 저장
     async saveMaterial({ dispatch }, {type, memberId, sendData}) {
       try {
-        console.log(type === 'seasoning' ? '양념 저장 시작!': '재료 저장 시작!', sendData)
+        console.log(type === 'seasoning' ? '양념 저장 시작!': '재료 저장 시작!',JSON.stringify(sendData, null, 2))
         const apiUrl = type === 'seasoning' ?
           `https://i9b202.p.ssafy.io/api/refregirator/member/seasoning/${memberId}`:
           `https://i9b202.p.ssafy.io/api/refregirator/member/ingredient/${memberId}` 
-        console.log(JSON.stringify(sendData, null, 2))
         
         const response = await axios.post(apiUrl, sendData)
   
@@ -346,51 +362,52 @@ const member: Module<MemberState, RootState> = {
       }
     },
 
-    // 회원 재료/양념 삭제
-    async deleteMaterial({ dispatch }, { type, memberId, deleteItem }: { type: string, memberId: number, deleteItem: IngredientDeleteData | SeasoningDeleteData }) {
+
+    // 회원 재료/양념 수정, 삭제
+    async updateMaterial({ dispatch }, { type, memberId, updateItem }: { type: string, memberId: number, updateItem: ingredientUpdateData | SeasoningUpdateData }) {
       try {
-        let deleteData
+        let updateData
         
         if (type === 'ingredient') {
-          console.log('재료 삭제 시작!')
-          const ingredientDeleteData = deleteItem as IngredientDeleteData
-          deleteData = [{
+          console.log('재료 수정/삭제 시작!')
+          const ingredientUpdateData = updateItem as ingredientUpdateData
+          updateData = [{
             memberId: memberId,
-            refregiratorId: ingredientDeleteData.refregiratorId,
-            storage: ingredientDeleteData.storage,
-            amount: ingredientDeleteData.amount,
-            unit: ingredientDeleteData.unit,
-            startDate: ingredientDeleteData.startDate,
-            expiredDate: ingredientDeleteData.expiredDate,
-            isdelete: true 
+            refregiratorId: ingredientUpdateData.refregiratorId,
+            storage: ingredientUpdateData.storage,
+            amount: ingredientUpdateData.amount,
+            unit: ingredientUpdateData.unit,
+            startDate: ingredientUpdateData.startDate,
+            expiredDate: ingredientUpdateData.expiredDate,
+            isdelete: ingredientUpdateData.isdelete 
           }]
           
-          console.log('재료 삭제 데이터:', JSON.stringify(deleteData, null, 2))
+          console.log('재료수정 데이터:', JSON.stringify(updateData, null, 2))
         } else if (type === 'seasoning') {
-          console.log('양념 삭제 시작!')
-          const seasoningDeleteData = deleteItem as SeasoningDeleteData
-          deleteData = [{
+          console.log('양념 수정/삭제 시작!')
+          const seasoningUpdateData = updateItem as SeasoningUpdateData
+          updateData = [{
             memberId: memberId,
-            memberSeasoningId: seasoningDeleteData.memberSeasoningId,
-            storage: seasoningDeleteData.storage,
-            startDate: seasoningDeleteData.startDate,
-            expiredDate: seasoningDeleteData.expiredDate,
-            isdelete: true 
+            memberSeasoningId: seasoningUpdateData.memberSeasoningId,
+            storage: seasoningUpdateData.storage,
+            startDate: seasoningUpdateData.startDate,
+            expiredDate: seasoningUpdateData.expiredDate,
+            isdelete: seasoningUpdateData.isdelete 
           }]
-          console.log('양념 삭제 데이터:', JSON.stringify(deleteData, null, 2))
+          console.log('양념 수정 데이터:', JSON.stringify(updateData, null, 2))
         }
         
         const apiUrl = type === 'seasoning' ?
         'https://i9b202.p.ssafy.io/api/refregirator/modify/seasoning':
         'https://i9b202.p.ssafy.io/api/refregirator/modify/ingredient'
     
-        await axios.post(apiUrl, deleteData)
-        console.log(type === 'seasoning' ? '양념 삭제 성공!' : '재료 삭제 성공!')
+        await axios.post(apiUrl, updateData)
+        console.log(type === 'seasoning' ? '양념 수정/삭제 성공!' : '재료 수정/삭제 성공!')
 
         dispatch('fetchMemberMaterial', { type: type, memberId: memberId })
 
       } catch (err) {
-        console.log(type === 'seasoning' ? '양념 삭제 실패..' : '재료 삭제 실패..', err)
+        console.log(type === 'seasoning' ? '양념 수정/삭제 실패..' : '재료 수정/삭제 실패..', err)
       }
     },
 
@@ -400,6 +417,7 @@ const member: Module<MemberState, RootState> = {
         const apiUrl = 'https://i9b202.p.ssafy.io/api/members/heart'
         const sendData = { memberId, recipeId };
         
+        
         console.log(type === 'like' ? `${memberId}님이 ${recipeId}를 좋아요 실행...` : `${memberId}님이 ${recipeId}를 취소 실행...` )
 
         const response = type === 'like' ?
@@ -407,7 +425,14 @@ const member: Module<MemberState, RootState> = {
         await axios.delete(apiUrl, { data: sendData })
         
         console.log(type === 'like' ? `${memberId}님이 ${recipeId}를 좋아요 성공!` : `${memberId}님이 ${recipeId}를 취소 성공!` )
+        
+        if (type === 'like') {
+          commit('SET_IS_RECIPE_LIKE', true);
+        } else {
+          commit('SET_IS_RECIPE_LIKE', false);
+        }
 
+        
       } catch(err) {
         console.log(`${memberId}님이 ${recipeId}를 좋아요 실패...`, err)
       }
@@ -488,7 +513,6 @@ const member: Module<MemberState, RootState> = {
         let apiUrl
         let sendData
         
-        
         if (type === 'dislikeGet') {
           apiUrl = `https://i9b202.p.ssafy.io/api/members/dislikeIngredient/${memberId}`         
         } else if (type === 'dislikePost') {
@@ -558,21 +582,28 @@ const member: Module<MemberState, RootState> = {
     },
     
     // 아이템 추가 (비선호, 알러지)
-    async appendItem({commit,state }, {type, inputData}) {
+    async appendItem({ commit, state }, {type, inputData}) {
       try {
-        const data = {ingredientId: inputData.id ,ingredientName: inputData.name}
-        const isDuplicate = state.memberDislikeIngredient.some(item => item.ingredientId === inputData.id)
-    
+        let data = {}
+        let isDuplicate = false
+        if (type === 'dislike') {
+          data = { ingredientId: inputData.id, ingredientName: inputData.name }
+          isDuplicate = state.memberDislikeIngredient.some(item => item.ingredientId === inputData.id)
+        } else if (type === 'allergy') {
+          data = { allergyId: inputData.allergyId, allergyName: inputData.allergyName }
+          isDuplicate = state.memberAllergy.some(item => item.allergyId === inputData.allergyId)
+        }
+
         if (!isDuplicate) {
-          commit('UPDATE_LIST', { type: 'dislike', updateData: [data] });
+          commit('UPDATE_LIST', { type: type, updateData: [data] })
         } else {
-          console.log('이미 존재하는 재료입니다.');
+          console.log('이미 존재하는 재료 또는 알러지입니다.',)
         }
       } catch(err) {
         console.log(err)
       }
     },
-
+    
     // 아이템 삭제
     async deleteItem({commit}, {type, delData}){
       try {
@@ -582,6 +613,40 @@ const member: Module<MemberState, RootState> = {
         console.log(delData,'삭제실패,,,,',err)
       }
     },
+
+    // 회원 최근 본 레시피
+    async latestRecipe({commit}, {type, memberId, lookData}) {
+      try{  
+        console.log('회원 최근 본 레시피 조회/저장!')
+        const apiUrl = 'https://i9b202.p.ssafy.io/api/members/latest'
+        
+        if (type === 'post') {
+          const res = await axios.post('https://i9b202.p.ssafy.io/api/members/latest', lookData)
+          console.log('최근 본 레시피 저장...')
+        } else {
+          const res = await axios.get(`https://i9b202.p.ssafy.io/api/members/latest/${memberId}`)
+          console.log('최근 본 레시피 조회 성공')
+          commit('SET_MEMBER_RECIPE_LATEST', res.data)
+        }
+        
+      } catch(err) {
+        console.log('최근 본 레시피 조회 실패...', err)
+      }
+    },
+
+    // 회원 기반 레시피 추천
+    async memberRecommend({commit}, memberId) {
+      try{
+        console.log('유저 기반 레시피 추천 시작!')
+        const data = {memberId: memberId}
+        const res = await axios.post('https://i9b202.p.ssafy.io/api/recipes/member/similarity', data)
+        console.log('유저 기반 레시피 추천 성공!', res.data)
+        commit('SET_MEMBER_SIMILARITY', res.data)
+      }catch(err) {
+        console.log(err)
+      }
+    }
+
   }, 
 }
 

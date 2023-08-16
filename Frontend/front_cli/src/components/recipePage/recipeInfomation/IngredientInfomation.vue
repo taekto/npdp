@@ -74,14 +74,14 @@ export default {
           kor: ingredient.kor,
           value: '',
           unit: ingredient.unit,
-        };
+        }
         if (!isNaN(parsedValue)) {
           calculatedValue.value = (parsedValue * this.serving).toFixed(1);
         } else {
           calculatedValue.value = ingredient.amount;
         }
         return calculatedValue;
-      });
+      })
     },
     },
 }

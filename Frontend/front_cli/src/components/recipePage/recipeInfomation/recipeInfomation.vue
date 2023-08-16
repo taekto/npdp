@@ -32,9 +32,9 @@
       </div>
       <!-- 재료 입력 모달 버튼 -->
       <div class="modal_container">
-          <IngredientModal />
+        <IngredientModal />
         <!-- 양념 입력 모달 버튼 -->
-          <SeasoningModal />
+        <SeasoningModal />
         </div>
         </div>
     </div>

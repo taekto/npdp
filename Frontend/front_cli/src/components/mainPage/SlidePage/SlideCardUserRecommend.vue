@@ -1,7 +1,7 @@
 <template>
     <!-- 유저 기반 추천 레시피 카드 -->
     <div class="recommendCard" @click="goToDetailRecipe(recipe)">
-        <img class="recommendCard_img" src='@/assets/123.jpg'>
+        <img class="recommendCard_img" :src="recipe.imgBig">
         <p>{{ recipe.name }}</p>
     </div>
 </template>

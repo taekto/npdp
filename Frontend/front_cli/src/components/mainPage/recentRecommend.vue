@@ -5,8 +5,8 @@
         <p class="menuTitle">최근 본 레시피</p>
         <Carousel :items-to-show="3" :wrap-around="true"
         :autoplay= "3500" :transition = "1000">
-            <Slide v-for="recipe_item in recipe" :key="recipe_item.recipeId">
-                <SlideCardRecentRecommned :recipe = recipe_item />
+            <Slide v-for="item in memberRecipeLatest" :key="item.recipeId">
+                <SlideCardRecentRecommned :recipe = item />
             </Slide>
 
             <!-- 슬라이드 이동 버튼 -->
@@ -25,7 +25,7 @@ import SlideCardRecentRecommned from './SlidePage/SlideCardRecentRecommend.vue'
 import { defineComponent } from 'vue'
 import { Carousel, Navigation, Slide } from 'vue3-carousel'
 
-import {mapGetters} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 
 import 'vue3-carousel/dist/carousel.css'
 
@@ -38,10 +38,12 @@ export default defineComponent({
     SlideCardRecentRecommned,
   },
   computed: {
-        ...mapGetters(['recipe'])
-    },
+    ...mapGetters(['memberRecipeLatest'])
+  },
 
-
+  methods:{
+    ...mapActions(['latestRecipe'])
+  },
   data: () => ({
     // carousel settings
     settings: {
@@ -63,6 +65,10 @@ export default defineComponent({
       },
     },
   }),
+  created() {
+    this.memberId = parseInt(sessionStorage.getItem('memberId'))
+    this.latestRecipe({type:'get', memberId: this.memberId})
+  },
 })
 </script>
 

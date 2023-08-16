@@ -60,7 +60,7 @@ export default {
         '호두',
         '홍합',
       ],
-      alleryNameToPk:{
+      allergyNameToPk:{
         '게': [1910, 1911, 1912, 1913, 1914, 1915, 1916, 1918, 1925, 2815, 2825, 2896, 2902],
         '고등어':[1717, 1718, 2837], 
         '굴': [1930, 2315, 2817],
@@ -82,7 +82,7 @@ export default {
         '토마토': [560, 561, 562, 563, 564, 565, 829, 1881, 2237, 2328, 2814],
         '호두': [118, 119, 1012, 1033],
         '홍합': [1931, 2836],
-        },
+      },
       allergyData: [],
       memberId: null,
     };
@@ -92,27 +92,28 @@ export default {
   },
   methods: {
     ...mapActions(['memberDislikeAllergy','deleteItem', 'appendItem' ]),
-
-    // toggleAllergy(name) {
-    //     const pkArray = this.alleryNameToPk[name]
-    //     if (pkArray.some(pk => this.utensilData.includes(pk))) {
-    //       deleteItem({type:'allergy', memberId: this.memberId, delData: pkArray})
-    //       console.log('-------->', memberAllergy)
-    //     } else {
-    //       appendItem({type:'allergy', memberId: this.memberId, inputData: pkArray})
-    //       console.log('----------->', memberAllergy);
-    //     }
-    // },
-
     isAllergySelected(name) {
       return this.memberAllergy.some(item => item.allergyName === name)
     },
+
+    toggleAllergy(name) {
+      const pkArray = this.allergyNameToPk[name]
+      if (pkArray.some(pk => this.memberAllergy.includes(pk))) {
+        this.deleteItem({type:'allergy', delData: pkArray})
+        console.log('배열에서 제거', this.memberAllergy)
+      } else {
+        const inputData = pkArray.map(pk => ({ allergyId: pk, allergyName: name }))
+        this.appendItem({ type: 'allergy', inputData })
+        
+      }
+    },
   },
+
   created() {
     this.memberId = parseInt(sessionStorage.getItem('memberId'))
     this.memberDislikeAllergy({ type: 'allergyGet', memberId: this.memberId })
   },
-};
+}
 </script>
 
 

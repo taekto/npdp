@@ -3,6 +3,7 @@
     <div>
         <!-- 검색창 컴포넌트 -->
         <div class="searchWindow">
+          <h1>{{selectCategory}}</h1>
           <form @submit.prevent="goToSearchwithKeyword(searchKeyword)">
             <!-- 검색창 -->
             <div class="input-group">
@@ -31,7 +32,7 @@
 
 import DetailSearch from './detailSearch.vue'
 import SearchResult from './searchResult.vue'
-
+import {mapActions, mapGetters} from 'vuex'
 
 export default {
     components: {
@@ -48,25 +49,39 @@ export default {
         }
     },
     computed: {
+      ...mapGetters(['selectCategory', 'selectClassification'])
     },
     methods: {
-        goToSearchwithKeyword(word) {
-            console.log('키워드 푸쉬!', word)
-        const tempKeyword = word.trim().toLowerCase();
+      ...mapActions(['querySearch']),
+      
+      goToSearchwithKeyword(word) {
+        const tempKeyword = word.trim().toLowerCase()
+        
+        if (this.selectCategory || this.selectClassification) {
+          const data = {      
+            searchWord : tempKeyword,
+            classification : this.selectClassification,
+            keyWord : this.selectCategory
+          }
 
-        this.$router.push({
+          this.querySearch(data)
+          
+        } else {
+          this.$router.push({
             name: "searchKeyword",
             params: { keyword: tempKeyword }
-        });
+          })
 
-        this.searchKeyword = "";
-        },
+          this.searchKeyword = "";
+        }
+
+      },
         // 키워드를 통해 검색하도록 하는 함수
     },
 }
 </script>
 
-<style>
+<style scoped>
 /* 해시태그 */
 #hashTagkeyword {
     display: flex;

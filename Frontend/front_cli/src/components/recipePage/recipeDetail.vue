@@ -6,7 +6,7 @@
         <!-- <h2 class="recipeTitle">레시피이름 : {{recipe_data.name}}</h2> -->
         <div class="recipeTitle">{{recipeDetail.name}}</div>
         <div @click="toggleLike" class="like_container">
-          <button v-if="liked" class="dislikeButton bi_heart" @click="memberLikeRecipe({type: 'unlike', memberId: this.memberId, recipeId: this.recipeDetail.recipeId })"><i class="bi bi-heart-fill"></i></button>
+          <button v-if="isRecipeLike" class="dislikeButton bi_heart" @click="memberLikeRecipe({type: 'unlike', memberId: this.memberId, recipeId: this.recipeDetail.recipeId })"><i class="bi bi-heart-fill"></i></button>
           <button v-else class="likeButton bi_heart" @click="memberLikeRecipe({type: 'like', memberId: this.memberId, recipeId: this.recipeDetail.recipeId })"><i class="bi bi-heart"></i></button>
         </div>
       </div>
@@ -24,6 +24,37 @@
   <div>
     <IngredientInfomation :serving='serving'/>
   </div>
+
+  <div class="utensilLine menu">
+      <div class="utensilName total">조리도구</div>
+  </div>
+
+  <div class="utensilContainer">
+      <div class="utensilLine" v-for="item,idx in recipeDetail.recipeUtensils" :key="idx">
+          <div class="utensilName">
+            <div>{{item.name}}</div>
+          </div>
+      </div>
+  </div>
+
+
+  <!-- 레시피 유사도 재료 추천 -->
+  
+  <div class="slider-container">
+    <div class="slider-track">
+      <div
+        class="slide"
+        v-for="(item, index) in recipeSimilarity"
+        :key="index"
+      >
+        <div class="recommendCard" @click="goToDetailRecipe(item.recipeId)">
+          <img :src="item.imgBig" alt="">
+          <p class="card_recipeName">{{ item.name }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
       <!-- 레시피 순서 -->
   <div class="recipeOrder">
     <h2 class="orderTitle">레시피 순서</h2>
@@ -68,10 +99,18 @@ export default {
         }
         return null;
       },
-      ...mapGetters(['recipeDetail'])
+      ...mapGetters(['recipeDetail','isRecipeLike','recipeSimilarity'])
     },
     
     methods: {
+      goToDetailRecipe(recipeId) {      
+        this.$router.push({name: "recipe",  
+          params: { 
+            recipeId: recipeId
+          },
+        })
+      },
+
       toggleLike(){
         this.liked = !this.liked;
       },
@@ -144,13 +183,17 @@ export default {
     },
     delay(ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
+    },
+    displaySimilarity(similarity) {
+      const multipliedSimilarity = similarity * 100;
+      const roundedSimilarity = Math.floor(multipliedSimilarity);
+      return roundedSimilarity
+    },
     },
     created() {
       this.recipeId = parseInt(this.$route.params.recipeId);
       this.memberId = parseInt(sessionStorage.getItem('memberId'))
-      this.detailRecipe(this.recipeId)
+      this.detailRecipe({recipeId: this.recipeId, memberId: this.memberId})
     },
 }
 </script>
@@ -325,4 +368,109 @@ export default {
     border: solid rgb(205, 205, 205) 1.5px;
 }
 
+
+
+/* 유사도 카드...수정 필요 */
+.recommendCard {
+    border-radius: .1rem;
+    border: 1px solid rgb(207, 205, 205);
+    /* box-shadow: 0 4px 4px -4px black; */
+    box-shadow: 0 0 0 1px hsla(212,7%,43%,.32);
+    /* border: 1px solid #857f7b; */
+    height: 23rem;
+    width: 18rem;
+    cursor: pointer;
+    margin: 1rem;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.recommendCard:hover{
+    transform: scale(1.05);
+}
+
+.recommendCard p {
+    /* font-family: 'LINESeedKR-Bd';
+    margin-top: 2rem 2rem 0;
+    font-size: 2.5rem; */
+    margin: auto;
+    font-family: 'LINESeedKR-Bd';
+    margin-top: 2rem;
+    font-size: 2rem;
+    word-break: keep-all;
+}
+
+img {
+    width: 100%;
+    height: 50%;
+    /* margin-top: .7rem; */
+    border-radius: 0.1rem;
+}
+
+.card_recipeName {
+    margin: auto;
+    /* word-break: keep-all; */
+    overflow: hidden;
+    margin: 3rem 2rem;
+    font-size: 2rem;
+    font-family: 'LINESeedKR-Bd';
+}
+
+.slider-container {
+  width: 100%;
+  overflow: hidden;
+}
+
+.slider-track {
+  display: flex;
+  transition: transform 0.3s ease-in-out;
+}
+
+.slide {
+  flex: 0 0 300px; /* Adjust the card width as needed */
+  margin: 0 10px;
+}
+
+
+/* 조리도구css */
+.utensilContainer {
+  display: flex;
+  flex-wrap: wrap; /* 자식 요소가 한 줄에 모두 나타나지 않을 경우 줄바꿈 */
+  /* justify-content: center; */
+  /* align-items: center; */
+  /* width: ; */
+  border: 2px solid #FD7E14;
+  border-radius: .7rem;
+}
+
+
+.utensilName.total {
+  position: absolute;
+  font-size: 1.7rem;
+  min-width: 60px;
+  color: #FD7E14;
+  background-color: #fff;
+}
+.utensilLine.menu {
+  margin-bottom: 1.5rem;
+}
+
+.utensilLine {
+  position: relative;
+  margin: .7rem 0;
+  min-width: 10rem;
+  /* font-family: 'LINESeedKR-Bd'; */
+  font-family: 'GangwonEdu_OTFBoldA';
+  width: 15%;
+  display: flex;
+  margin-left: .5rem;
+  border-width: 0 2px 0 0;
+  border-color: #FD7E14;
+  border-style: solid;
+  /* margin-right: 1rem; */
+  /* margin-bottom: 1rem; */
+  /* border: solid rgb(160, 160, 160);
+  border-radius: .5rem; */
+  /* display: flex; */
+}
 </style>
