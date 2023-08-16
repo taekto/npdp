@@ -14,89 +14,37 @@ from sklearn.metrics.pairwise import cosine_similarity
 from django.conf import settings
 import os
 
-
-@api_view(['GET'])
-def recipes(request, format=None):
-
-    # 0. 이전 데이터 삭제
-    RecipeRecommend.objects.all().delete()
-
-    # 1. 필요한 데이터
-    #       - recipe_ingredient(레시피포함재료)
-    #       - ingredient(재료)
-    # 를 db로부터 불러옴
-    recipe_ingredient_queryset = RecipeIngredient.objects.all()
-    ing_queryset = Ingredient.objects.all()
-    
-    # 2. QuerySet을 DataFrame으로 변환
-    recipe_ingredient_df = pd.DataFrame.from_records(recipe_ingredient_queryset.values())
-    ing_df = pd.DataFrame.from_records(ing_queryset.values())
-
-    # 3. 중복값을 삭제
-    unique_recipe_ing = recipe_ingredient_df[['Recipe_id', 'ingredient_id']].drop_duplicates()
-
-    # 4. groupby
-    grouped = unique_recipe_ing.groupby('Recipe_id')['ingredient_id'].apply(list).reset_index(name='ing_list')
-    
-    # 5. 주재료에 가중치
-    grouped['ing_list'] = grouped.apply(double_main_ing, axis=1, additional_param=recipe_ingredient_df)
-    
-    # 6. 부모 추가
-    grouped['upper_class_list'] = grouped.apply(add_upper_class, axis=1, additional_param=ing_df)
-
-    # 7. Vectorizer에 사용할 문자열 열 생성
-    grouped['total_ing'] = grouped['ing_list'].apply(lambda x: ' '.join(map(str, x))) 
-
-    # 8. index 
-    recipeId_to_index = dict(zip(grouped['Recipe_id'], grouped.index))
-    index_to_recipeId = {v: k for k, v in recipeId_to_index.items()}
-
-    # 9. CountVectorizer 적용
-    vectorizer = CountVectorizer()
-    X = vectorizer.fit_transform(grouped['total_ing'])
-    
-    # 10. similarity matrix
-    similarity_matrix = cosine_similarity(X)
-
-    print(similarity_matrix)
-
-    save_similarity_between_recipes(recipeId_to_index, index_to_recipeId, similarity_matrix)
-
-    return Response("200")
-
 @api_view(['GET'])
 def users(request, format=None):
 
     # 0. 이전 데이터 삭제
-    # MemberRecommend.objects.all().delete()
+    MemberRecommend.objects.all().delete()
 
     # 1. 모델 불러오기
-    ## CountVectorizer 객체 불러오기
     BASE_DIR = os.path.join(settings.STATICFILES_DIRS[0], 'files/static/model/')
 
     try:
       with open(BASE_DIR+'vectorizer.pkl', 'rb') as f:
         vectorizer = pickle.load(f)
       
-      ## recipe 행렬 불러오기
       with open(BASE_DIR+'similarityX.pkl', 'rb') as f:
         X = pickle.load(f)
 
-      ## recipeId -> Index 객체 불러오기
       with open(BASE_DIR+'recipeId_to_index.pkl', 'rb') as f:
         recipeId_to_index = pickle.load(f)
 
-      ## Index -> recipeId 객체 불러오기
       with open(BASE_DIR+'index_to_recipeId.pkl', 'rb') as f:
         index_to_recipeId = pickle.load(f)
     
+    # 2. 사용자 - 레시피 유사도 계산
       user_similarity_df = calcurate_user_similarity(vectorizer, X, index_to_recipeId, recipeId_to_index)
-      print(user_similarity_df)
+    
+    # 3. db로 저장
       save_similarity_for_user(user_similarity_df)
     except FileNotFoundError:
-        return Response("404")
+        return Response("model을 찾을 수 없습니다.", status=status.HTTP_404_NOT_FOUND)
 
-    return Response("200")
+    return Response("유사도 측정 완료", status = status.HTTP_200_OK)
 
 ## CountVectorizer에서 주재료에 가중치 주기 위한 함수
 def double_main_ing(row, additional_param):
@@ -126,40 +74,6 @@ def add_upper_class(row,  additional_param):
   
   return upper_class_set
 
-def save_similarity_between_recipes(recipeId_to_index, index_to_recipeId, similarity_matrix):
-    recipe_ids = Recipe.objects.values_list('recipe_id', flat=True)
-
-    for recipe_id in recipe_ids:
-
-        recipe_index = recipeId_to_index[recipe_id]
-        # 유사도 추출
-        similarity_values = similarity_matrix[recipe_index]
-        
-        records_to_save = []
-
-        # 다른 레시피 아이디 조회
-        for other_recipe_index, similarity in enumerate(similarity_values):
-            if other_recipe_index != recipe_index:  # 같은 레시피 아이디는 건너뛰기
-                other_recipe_id = index_to_recipeId[other_recipe_index]
-                
-                # RecipeRecommend.objects.create(
-                #     recipe_own_id=recipe_id,
-                #     recipe_slave_id=other_recipe_id,
-                #     similarity=similarity
-                # )
-                records_to_save.append({
-                    'recipe_own_id': recipe_id,
-                    'recipe_slave_id': other_recipe_id,
-                    'similarity': similarity
-                })
-    # DataFrame 생성
-    df_to_save = pd.DataFrame(records_to_save)
-    
-    # DataFrame을 데이터베이스에 저장
-    RecipeRecommend.objects.bulk_create([
-        RecipeRecommend(**row) for _, row in df_to_save.iterrows()
-    ])
-
 
 def calcurate_user_similarity(vectorizer, X, index_to_recipeId, recipeId_to_index):
   records_to_save = []
@@ -171,13 +85,8 @@ def calcurate_user_similarity(vectorizer, X, index_to_recipeId, recipeId_to_inde
   ing_df = pd.DataFrame.from_records(ing_queryset.values())
 
   grouped = refregirator_df.groupby('member_id')['ingredient_id'].apply(list).reset_index(name='ing_list')
-  print(grouped['member_id'].values)
   grouped['upper_class_list'] = grouped.apply(add_upper_class, axis=1, additional_param=ing_df)
   grouped['total_ing'] = grouped['upper_class_list'].apply(lambda x: ' '.join(map(str, x)))
-
-  print("grouped의 member_id")
-  print(grouped['member_id'].values)
-  print(grouped)
 
   for index, row in grouped.iterrows():
     new_X = vectorizer.transform([row['total_ing']])
