@@ -27,13 +27,13 @@
           <div class="ingredientName each">
             <div>{{ingredient.kor}}</div>
           </div>
-          <div class="ingredientAmount">
+          <div class="ingredientAmount each">
             <!-- <p>{{(ingredient.amount * serving).toFixed(1)}}</p>
             <p>{{ingredient.amount}}</p>
             <p>{{ingredient.unit}}</p>
             <p>{{ formatAmount(ingredient.amount, serving) }}</p> -->
-            <p>{{calculatedValues[index].value}}</p>
-            <p>{{ ingredient.unit }}</p>
+            <div>{{calculatedValues[index].value}}</div>
+            <div>{{ ingredient.unit }}</div>
           </div>
       </div>
     </div>

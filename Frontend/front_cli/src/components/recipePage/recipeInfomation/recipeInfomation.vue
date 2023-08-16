@@ -2,7 +2,8 @@
   <!-- 레시피 정보(재료, 영양소, 유사도 등) -->
   <div>
     <!-- 레시피 정보 윗줄(재료 & 그래프) -->
-    <div class="graph_title">{{recipeDetail.memberName}}님 냉장고 속 재료와 {{recipeDetail.similarity*100}}% 일치합니다!</div>
+    <div class="graph_title" v-if="recipeDetail.memberName">{{recipeDetail.memberName}}님 냉장고 속 재료와 {{recipeDetail.similarity*100}}% 일치합니다!</div>
+    <div class="graph_title logout" v-else>로그인 후 유사도 확인이 가능합니다</div>
     <div class="InfomationLine">
       <!-- 유사도 그래프 -->
       <GraphInfomation class="infoBox graph" />
@@ -98,12 +99,27 @@ export default {
     width: 13rem;
     height: 13rem;
 }
+.percent {
+  color: #FD7E14;
+}
 .graph_title {
-  font-family: 'GangwonEdu_OTFBoldA';
+  font-family: 'LINESeedKR-Bd';
   font-size: 1.7rem;
   margin-left: 3rem;
   margin-bottom: 1rem;
+  margin: 0 auto;
 }
+
+.graph_title.logout {
+  font-family: 'LINESeedKR-Rg';
+  font-size: 1.1rem;
+  color: #ff0000;
+  border: 1px solid #f3f3f3;
+  background-color: #f3f3f3;
+  padding: .9rem;
+  margin: 0 auto;
+}
+
 .infoBox.graph {
   /* margin-top: 25%; */
   margin-bottom: 3rem;
