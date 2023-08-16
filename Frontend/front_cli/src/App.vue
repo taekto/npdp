@@ -9,12 +9,15 @@
       </div>
 
       <!-- 기본 메뉴(메인, 검색, 설명) -->
-      <div id="pageLink">
-        <router-link to="/" class="nav_page_link">Main</router-link> |
-        <!-- <router-link to="/search" class="nav_page_link ">Search</router-link> | -->
-        <router-link :to="{ name: 'searchKeyword', params: { keyword: '' } }" class="nav_page_link ">Search</router-link> |
-        <router-link to="/about" class="nav_page_link">About Us</router-link>
+      <div class="centered-section">
+        <div id="pageLink">
+          <router-link to="/" class="nav_page_link">Main</router-link> |
+          <!-- <router-link to="/search" class="nav_page_link ">Search</router-link> | -->
+          <router-link :to="{ name: 'searchKeyword', params: { keyword: '' } }" class="nav_page_link ">Search</router-link> |
+          <router-link to="/about" class="nav_page_link">About Us</router-link>
+        </div>
       </div>
+      
 
       <!-- 유저 관련 메뉴 -->
       <div>
@@ -23,6 +26,8 @@
           <router-link to="/login" class="nav_user_link login">로그인</router-link>
         </div>
         <div v-else id="user">
+          <!-- <p>안녕하세요 {{ $state }}</p> -->
+          <p class="nickName">안녕하세요 {{ nickname }}님</p>
           <router-link to="/mypage/refrigerator" class="nav_user_link">마이페이지</router-link>
           <a class="logout nav_user_link" @click="logout">로그아웃</a>
         </div>
@@ -51,7 +56,10 @@ import {mapGetters, mapActions} from 'vuex'
 
 export default {
   computed: {
-    ...mapGetters(['isLoggedIn'])
+    ...mapGetters(['isLoggedIn']),
+    nickname() {
+      return sessionStorage.getItem('nickname') || ""
+    }
   },
   methods: {
     ...mapActions(['logout']),
@@ -79,6 +87,7 @@ nav {
   /* justify-content: flex-start; */
   justify-content: space-between;
   border-bottom: solid #e8e6e6;
+  margin: 0 auto;
 }
 
 nav a {
@@ -92,6 +101,15 @@ nav a.router-link-exact-active {
 
 #pageLink {
   font-family: 'LINESeedKR-Bd';
+  display: flex;
+  justify-content: center;
+}
+
+.centered-section {
+  flex: 1; /* 남은 공간을 차지 */
+  display: flex;
+  justify-content: center; /* 내용을 가운데 정렬 */
+  align-items: center; /* 세로 가운데 정렬 */
 }
 
 nav #pageLink {
@@ -170,6 +188,12 @@ nav #user {
   margin-top: auto;
   margin-bottom: auto;
   margin-left: auto;
+  /* display: flex; */
+}
+
+.nickName {
+  font-family: 'LINESeedKR-Bd';
+  font-size: 1rem;
 }
 
 /* 하단 footer CSS */
