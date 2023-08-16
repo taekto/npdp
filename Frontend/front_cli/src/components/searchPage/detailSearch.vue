@@ -11,11 +11,11 @@
                 </h2>
                 <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse">
                     <div class="accordion-body btn_group">
-                        <label v-if="selectClassification === null" class="radioButton2">
-                            <input type="radio" name="classification" :value='null' v-model="selectClassification" @change="changeClassification">전체
+                        <label v-if="selectClassification === '전체'" class="radioButton2">
+                            <input type="radio" name="classification" value='전체' v-model="selectClassification" @change="changeClassification">전체
                         </label>
                         <label v-else class="radioButton">
-                            <input type="radio" name="classification" :value='null' v-model="selectClassification" @change="changeClassification">전체
+                            <input type="radio" name="classification" value='전체' v-model="selectClassification" @change="changeClassification">전체
                         </label>
                         <label v-if="selectClassification === '레시피명'" class="radioButton2">
                             <input type="radio" name="classification" value="레시피명" v-model="selectClassification" @change="changeClassification">레시피명
@@ -102,7 +102,7 @@ export default {
     name: "DetailSearch",
     data() {
         return {
-            selectClassification : null,
+            selectClassification : '전체',
             selectCategory : null,
         }
     },
