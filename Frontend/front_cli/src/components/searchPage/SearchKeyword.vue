@@ -1,6 +1,7 @@
 <template>
     <!-- 키워드가 들어간 검색 페이지 -->
     <div>
+      
         <!-- 검색창 컴포넌트 -->
         <div class="searchWindow">
           <h1>{{selectCategory}}</h1>
@@ -21,7 +22,9 @@
         </div>
 
         <!-- 상세 검색 컴포넌트 -->
-        <DetailSearch class="detailSearch" />
+        <!-- <DetailSearch class="detailSearch" @changeClassification="changeClassification" @changeCategory="changeCategory" /> -->
+        <DetailSearch class="detailSearch" @changeClassification="changeClassification" @changeCategory="changeCategory" />
+
 
         <!-- 검색 결과 컴포넌트 -->
         <SearchResult />
@@ -42,10 +45,11 @@ export default {
     // 키워드는 vuex에서 관리할 것
     data() {
         return {
-            keyWord : "",
-            searchKeyword : "",
-            hashTag : ["김치", "돼지", "소", "닭", "된장", "빵"],
-            keyword: this.$route.params.keyword,
+          searchKeyword : "",
+          hashTag : ["김치", "돼지", "소", "닭", "된장", "빵"],
+          keyword: this.$route.params.keyword,
+          classification: null,
+          keyWord : null,
         }
     },
     computed: {
@@ -53,15 +57,23 @@ export default {
     },
     methods: {
       ...mapActions(['querySearch']),
-      
+      async changeClassification(data) {
+        await this.$nextTick()
+        this.classification = data
+      },
+      async changeCategory(data) {
+        await this.$nextTick()
+        this.keyWord = data
+      },
+
       goToSearchwithKeyword(word) {
         const tempKeyword = word.trim().toLowerCase()
         
-        if (this.selectCategory || this.selectClassification) {
+        if (this.keyWord || this.classification) {
           const data = {      
             searchWord : tempKeyword,
-            classification : this.selectClassification,
-            keyWord : this.selectCategory
+            classification : this.classification,
+            keyWord : this.keyWord
           }
 
           this.querySearch(data)
