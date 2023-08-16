@@ -10,6 +10,8 @@ import com.project.npdp.recipe.dto.request.RecipeDetailRequestDto;
 import com.project.npdp.recipe.dto.request.RecipeRecommendRequestDto;
 import com.project.npdp.recipe.dto.response.*;
 import com.project.npdp.recipe.entity.*;
+import com.project.npdp.refregirator.entity.QRefregirator;
+import com.project.npdp.refregirator.entity.Refregirator;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -32,6 +34,7 @@ import static com.project.npdp.recipe.entity.QRecipe.recipe;
 import static com.project.npdp.recipe.entity.QRecipeIngredient.recipeIngredient;
 import static com.project.npdp.recipe.entity.QRecipeSeasoning.recipeSeasoning;
 import static com.project.npdp.recipe.entity.QRecipeUtensil.recipeUtensil;
+import static com.project.npdp.refregirator.entity.QRefregirator.refregirator;
 
 
 @RequiredArgsConstructor
@@ -190,7 +193,6 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
                 .fetchOne();
 
         List<RecipeUtensil> result4 = queryFactory.selectFrom(recipeUtensil)
-                .from(recipeUtensil)
                 .innerJoin(recipeUtensil.recipe, QRecipe.recipe).fetchJoin()
                 .innerJoin(recipeUtensil.utensil, QUtensil.utensil).fetchJoin()
                 .where(QRecipe.recipe.id.eq(recipeId))
@@ -207,35 +209,46 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
         }
         String memberName = null;
         MemberRecommend memberRecommend1 = null;
+
+
+
         if (memberId != null) {
-             memberRecommend1 = queryFactory.selectFrom(memberRecommend)
-                    .join(memberRecommend.member, member).fetchJoin()
-                     .join(memberRecommend.recipe, QRecipe.recipe).fetchJoin()
-                    .where(member.id.eq(memberId).and(QRecipe.recipe.id.eq(recipeId)))
-                    .fetchOne();
-            return RecipeDetailResponseDto.builder()
-                    .recipeId(recipeId)
-                    .name(recipeEntity.getName())
-                    .memberName(memberRecommend1.getMember().getNickname())
-                    .similarity(memberRecommend1.getSimilarity())
-                    .way(recipeEntity.getWay())
-                    .weight(recipeEntity.getWeight())
-                    .calorie(recipeEntity.getCalorie())
-                    .carbohydrate(recipeEntity.getCarbohydrate())
-                    .protein(recipeEntity.getProtein())
-                    .fat(recipeEntity.getFat())
-                    .salt(recipeEntity.getSalt())
-                    .imgSmall(recipeEntity.getImgSmall())
-                    .imgBig(recipeEntity.getImgBig())
-                    .category(recipeEntity.getCategory())
-                    .dish(recipeEntity.getDish())
-                    .recipeIngredients(recipeIngredients)
-                    .recipeSeasonings(recipeSeasonings)
-                    .recipeSequences(recipeSequences)
-                    .recipeUtensils(recipeUtensils)
-                    .count(count)
-                    .heartTF(heartTF)
-                    .build();
+
+            List<MemberRecommend> memberRecommends = queryFactory.selectFrom(memberRecommend)
+                    .where(memberRecommend.id.eq(memberId))
+                    .fetch();
+            log.info("memberRecommends = {}", memberRecommends.size());
+            if (memberRecommends.size() != 0) {
+                memberRecommend1 = queryFactory.selectFrom(memberRecommend)
+                        .join(memberRecommend.member, member).fetchJoin()
+                        .join(memberRecommend.recipe, QRecipe.recipe).fetchJoin()
+                        .where(member.id.eq(memberId).and(QRecipe.recipe.id.eq(recipeId)))
+                        .fetchOne();
+                return RecipeDetailResponseDto.builder()
+                        .recipeId(recipeId)
+                        .name(recipeEntity.getName())
+                        .memberName(memberRecommend1.getMember().getNickname())
+                        .similarity(memberRecommend1.getSimilarity())
+                        .way(recipeEntity.getWay())
+                        .weight(recipeEntity.getWeight())
+                        .calorie(recipeEntity.getCalorie())
+                        .carbohydrate(recipeEntity.getCarbohydrate())
+                        .protein(recipeEntity.getProtein())
+                        .fat(recipeEntity.getFat())
+                        .salt(recipeEntity.getSalt())
+                        .imgSmall(recipeEntity.getImgSmall())
+                        .imgBig(recipeEntity.getImgBig())
+                        .category(recipeEntity.getCategory())
+                        .dish(recipeEntity.getDish())
+                        .recipeIngredients(recipeIngredients)
+                        .recipeSeasonings(recipeSeasonings)
+                        .recipeSequences(recipeSequences)
+                        .recipeUtensils(recipeUtensils)
+                        .count(count)
+                        .heartTF(heartTF)
+                        .build();
+            }
+
         }
 
         return RecipeDetailResponseDto.builder()
