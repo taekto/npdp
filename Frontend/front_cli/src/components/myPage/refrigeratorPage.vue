@@ -6,6 +6,7 @@
 
         <!-- 우측 냉장고 컴포넌트 -->
         <div id="myPageView">
+            <p class="menuTitle">내 냉장고</p>
             <!-- 보관방법 변경 & 재료, 양념 입력 버튼 -->
             <div class="buttonGroup">
                 <!-- 보관 방법 변경 버튼 -->
@@ -300,6 +301,8 @@ export default {
 </script>
 
 <style scoped>
+
+
 /* 보관 방법 & 모달창 버튼 */
 .buttonGroup {
     display: flex;
@@ -451,7 +454,7 @@ ul {
     text-align: start;
     margin-top: 1rem;
     margin-left: 1rem;
-    font-size: 2rem;
+    font-size: 1.75rem;
     font-weight: bold;
 }
 

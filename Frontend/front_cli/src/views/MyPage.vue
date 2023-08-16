@@ -69,6 +69,17 @@ export default {
 #myPageView {
     width: 85%;
     margin-top: 3rem;
+    /* border: solid black; */
+    min-height: 50vh;
+}
+
+.menuTitle {
+    font-family: 'LINESeedKR-Bd';
+    text-align: start;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    margin-left: 7rem;
+    font-size: 2.5rem;
 }
 </style>
 

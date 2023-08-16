@@ -6,10 +6,9 @@
 
     <!-- 우측 회원정보 컴포넌트 -->
     <div id="myPageView">
+      <p class="menuTitle">회원정보수정</p>
       <div class="editComponent">
-        <div class="editTitle">
-          <p>회원정보수정</p>
-        </div>
+        
         <div>
           <!-- 닉네임 변경 -->
           <div class="searchWindow">
@@ -172,17 +171,23 @@ export default {
 
 <style scoped>
 .editTitle {
-    margin: auto;
-    margin-top: 2rem;
-    font-size: 2rem;
-    font-weight: bold;
-    text-align: start;
-    width: 75%;
+  font-family: 'LINESeedKR-Bd';
+  margin: auto;
+  margin-top: 2rem;
+  font-size: 2rem;
+  font-weight: bold;
+  /* text-align: start; */
+  width: 75%;
+}
+
+.storageRadio {
+  display: flex;
 }
 
 .editCategoryTitle {
     margin: auto;
     margin-top: 2rem;
+    margin-left: .75rem;
     font-size: 1.2rem;
     font-weight: bold;
     text-align: start;
@@ -191,6 +196,11 @@ export default {
 .editComponent {
     width: 80%;
     margin: auto;
+    border: solid grey;
+  border-radius: .5rem;
+  /* margin-left: 2rem;
+  margin-right: 2rem;
+  margin-bottom: 5rem; */
 }
 
 
@@ -222,16 +232,18 @@ export default {
 
 .genderSelect {
   margin: auto;
+  
+  margin-left: 3rem;
 }
 
 
-#myPageView {
+/* #myPageView {
   border: solid grey;
   border-radius: .5rem;
   margin-left: 2rem;
   margin-right: 2rem;
   margin-bottom: 5rem;
-}
+} */
 
 .btn_update {
   border-radius: .5rem;
