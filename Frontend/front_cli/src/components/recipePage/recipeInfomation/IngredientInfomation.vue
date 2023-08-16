@@ -42,7 +42,6 @@
               <!-- <p>{{ingredient.amount}}</p>
               
               <p>{{ ingredient.unit }}</p> -->
-
             </div>
         </div>
       </div>
