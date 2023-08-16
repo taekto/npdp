@@ -82,7 +82,6 @@
                         <button @click="goToIngredientPage(ingredientPage + 1)" :disabled="ingredientPage === ingredientTotalPages">다음</button>
                     </div>
                 </div>
-
                 <!-- 양념 -->
                 <div class="refrigeratorCategory">
 

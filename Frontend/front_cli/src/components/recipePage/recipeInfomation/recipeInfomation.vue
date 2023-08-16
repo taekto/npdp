@@ -108,9 +108,6 @@ export default {
   margin-bottom: 3rem;
 }
 
-.infoBox.input_button {
-  /* display: flex; */
-}
 /* 재료 정보 박스 */
 /* 각 줄 정보 */
 .oneLine {
