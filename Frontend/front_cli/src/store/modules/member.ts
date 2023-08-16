@@ -224,6 +224,7 @@ const member: Module<MemberState, RootState> = {
         .catch(err => {
           console.log('로그인 실패..')
           console.error(err.response.data)
+          alert("로그인에 실패하셨습니다.")
         })
     },
 
@@ -258,6 +259,7 @@ const member: Module<MemberState, RootState> = {
         console.log(JSON.stringify({email}, null, 2))
         const response = await axios.post(api.member.emailVerify(), { email });
         console.log('이메일 전송 완료!', response.data);
+        alert('임시비밀번호를 발급하였습니다.')
      
 
         interface StoredData {

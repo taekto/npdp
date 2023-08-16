@@ -12,7 +12,7 @@
           <p>Recipes</p>
         </div>
         <div class="main_carousel_text_box">
-          <h3>9836+</h3>
+          <h3>2997+</h3>
           <p>Ingredients</p>
         </div>
       <!-- </div>  -->
