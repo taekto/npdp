@@ -17,6 +17,7 @@ import LikeRecipe from '../components/myPage/likeRecipe.vue'
 import memberInfoEditPage from '../components/myPage/editPage.vue'
 import DislikeView from '../views/DislikeView.vue'
 import FindPassword from '../views/findPassword.vue'
+import AllergyView from '../components/dislikePage/memberAllergy.vue'
 
 //adminPage
 import AdminLoginPage from '../views/AdminLoginPage.vue'
@@ -120,6 +121,11 @@ const router = createRouter({
     path: '/dislike',
     name: 'dislike',
     component: DislikeView
+  },
+  {
+    path: '/allergy',
+    name:'allergy',
+    component: AllergyView
   },
   {
     // 관리자 페이지(로그인)

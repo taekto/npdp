@@ -197,6 +197,7 @@ const member: Module<MemberState, RootState> = {
 
     removeToken() {
       sessionStorage.removeItem("accessToken")
+      sessionStorage.removeItem("memberId")
     },
 
     // 회원 로그인
@@ -397,19 +398,43 @@ const member: Module<MemberState, RootState> = {
             isdelete: seasoningUpdateData.isdelete 
           }]
           console.log('양념 수정 데이터:', JSON.stringify(updateData, null, 2))
+        } else if (type === 'ingredientDelete') {
+          console.log('재료 수정/삭제 시작!')
+          const ingredientUpdateData = updateItem as ingredientUpdateData
+          updateData = [{
+            memberId: memberId,
+            refregiratorId: ingredientUpdateData.refregiratorId,
+            storage: ingredientUpdateData.storage,
+            amount: ingredientUpdateData.amount,
+            unit: ingredientUpdateData.unit,
+            startDate: ingredientUpdateData.startDate,
+            expiredDate: ingredientUpdateData.expiredDate,
+            isdelete: true,
+          }]
+        } else if (type === 'seasoningDelete') {
+          console.log('양념 수정/삭제 시작!')
+          const seasoningUpdateData = updateItem as SeasoningUpdateData
+          updateData = [{
+            memberId: memberId,
+            memberSeasoningId: seasoningUpdateData.memberSeasoningId,
+            storage: seasoningUpdateData.storage,
+            startDate: seasoningUpdateData.startDate,
+            expiredDate: seasoningUpdateData.expiredDate,
+            isdelete: true,
+          }]
         }
         
         const apiUrl = type === 'seasoning' ?
         'https://i9b202.p.ssafy.io/api/refregirator/modify/seasoning':
         'https://i9b202.p.ssafy.io/api/refregirator/modify/ingredient'
     
-        await axios.post(apiUrl, updateData)
-        console.log(type === 'seasoning' ? '양념 수정/삭제 성공!' : '재료 수정/삭제 성공!')
+        const res = await axios.post(apiUrl, updateData)
+        console.log('뭔가 성공...!')
 
         dispatch('fetchMemberMaterial', { type: type, memberId: memberId })
 
       } catch (err) {
-        console.log(type === 'seasoning' ? '양념 수정/삭제 실패..' : '재료 수정/삭제 실패..', err)
+        console.log(err)
       }
     },
 

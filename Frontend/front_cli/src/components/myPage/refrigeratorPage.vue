@@ -68,7 +68,7 @@
                                 <!-- <p class="startDate">보관시작일 : {{whatDate(ingredientItem.startDate)}}</p> -->
                                 
                                 <p class="storage">보관방식 : {{printStorage}}</p>
-                                <button class="deleteButton" @click="updateMaterial({type: 'ingredient', memberId: this.memberId, updateItem: ingredientItem })">제거</button>
+                                <button class="deleteButton" @click="updateMaterial({type: 'ingredientDelete', memberId: this.memberId, updateItem: ingredientItem })">제거</button>
                             </div>
                         </li>
                     </ul>
@@ -85,7 +85,7 @@
 
                 <!-- 양념 -->
                 <div class="refrigeratorCategory">
-                    <p>{{displayedSeasoningItems.tempSeasoning}}</p>
+
                     <div style="display: flex; justify-content: space-between; width: 80%; margin: auto">
                         <p class="categoryTitle">{{printStorage}} 양념</p>
                         <button class="saveButton" @click="saveMaterial({ type: 'seasoning', memberId: memberId, sendData: displayedIngredientItems.tempIngredient })">
@@ -107,7 +107,7 @@
                                     <p>{{changeDate(seasoningItem.expiredDate)}}</p>
                                 </div>
                                 <p class="storage">보관방식 : {{printStorage}}</p>
-                                <button class="deleteButton" @click="updateMaterial({type: 'seasoning', memberId: this.memberId, updateItem: seasoningItem })">제거</button>
+                                <button class="deleteButton" @click="updateMaterial({type: 'seasoningDelete', memberId: this.memberId, updateItem: seasoningItem })">제거</button>
                             </div>
                         </li>
                     </ul>
@@ -161,6 +161,7 @@ export default {
           }
           return Math.ceil(count / this.itemsPerPage)
         },
+        
         displayedIngredientItems() {
           const startIndex = (this.ingredientPage - 1) * this.itemsPerPage
           const endIndex = startIndex + this.itemsPerPage
@@ -168,15 +169,15 @@ export default {
           const tempIngredient = this.memberIngredient
             .filter(ingredient => ingredient.storage === this.storage)
             .map(ingredient => {
-              return {
-                refregiratorId: ingredient.refregiratorId,
-                amount: ingredient.amount,
-                unit: ingredient.unit,
-                startDate: ingredient.startDate,
-                expiredDate: ingredient.expiredDate,
-                storage: ingredient.storage,
-                isdelete: ingredient.amount <= 0
-              }
+                return {
+                    refregiratorId: ingredient.refregiratorId,
+                    amount: ingredient.amount,
+                    unit: ingredient.unit,
+                    startDate: ingredient.startDate,
+                    expiredDate: ingredient.expiredDate,
+                    storage: ingredient.storage,
+                    isdelete: ingredient.amount <= 0
+                }
           })
           const displayedItems = this.memberIngredient.filter(ingredient => {
             return ingredient.storage === this.storage
@@ -212,7 +213,6 @@ export default {
           }
           return tmp
         },
-        
     },
     // 임시 더미 데이터
     data() {
@@ -291,6 +291,7 @@ export default {
                 return
             }
         },
+        
     },
     created() {
         this.memberId = parseInt(sessionStorage.getItem('memberId'))

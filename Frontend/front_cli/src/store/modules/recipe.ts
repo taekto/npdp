@@ -225,7 +225,7 @@ const recipe: Module<RecipeState, RootState> = {
         data: {
           recipeId: recipeId,
           memberId: memberId
-        }
+        },
         // headers: getters.authHeader,
       })
         .then(res=> {
@@ -238,13 +238,13 @@ const recipe: Module<RecipeState, RootState> = {
           commit('SET_IS_RECIPE_LIKE', res.data.heartTF)   
             router.push({name: "recipe",  
               params: { 
-                recipe_id: recipeId,
+                recipeId: recipeId,
               },
           })
         })
         .catch(err => {
           console.log('레시피 상세 조회 실패....')
-          console.log(err.response)
+          console.log(err)
         })
     },
 
