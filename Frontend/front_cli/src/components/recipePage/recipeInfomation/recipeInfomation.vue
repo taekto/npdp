@@ -2,7 +2,7 @@
   <!-- 레시피 정보(재료, 영양소, 유사도 등) -->
   <div>
     <!-- 레시피 정보 윗줄(재료 & 그래프) -->
-    <div class="graph_title">___님 냉장고 속 재료와 __% 일치합니다!</div>
+    <div class="graph_title">{{recipeDetail.memberName}}님 냉장고 속 재료와 {{recipeDetail.similarity*100}}% 일치합니다!</div>
     <div class="InfomationLine">
       <!-- 유사도 그래프 -->
       <GraphInfomation class="infoBox graph" />
