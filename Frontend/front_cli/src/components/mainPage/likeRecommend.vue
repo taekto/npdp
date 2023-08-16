@@ -5,7 +5,7 @@
         <p class="menuTitle">좋아요 많은 레시피</p>
         <Carousel :items-to-show="3" :wrap-around="true"
         :autoplay= "3500" :transition = "1000">
-            <Slide v-for="recipe_item in recipe" :key="recipe_item.recipe_id">
+            <Slide v-for="recipe_item in recipe" :key="recipe_item.recipeId">
                 <SlideCardLikeRecommend :recipe = recipe_item />
             </Slide>
 

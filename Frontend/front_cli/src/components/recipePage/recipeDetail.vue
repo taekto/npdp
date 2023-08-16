@@ -148,7 +148,7 @@ export default {
 
     },
     created() {
-      this.recipeId = parseInt(this.$route.params.recipe_id);
+      this.recipeId = parseInt(this.$route.params.recipeId);
       this.memberId = parseInt(sessionStorage.getItem('memberId'))
       this.detailRecipe(this.recipeId)
     },

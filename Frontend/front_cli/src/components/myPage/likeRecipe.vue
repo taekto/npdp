@@ -44,7 +44,7 @@ export default {
     goToDetailRecipe(item) {
         this.$router.push({name: "recipe",  
             params: { 
-                recipe_id: item.recipeId,
+                recipeId: item.recipeId,
             },
             query: {
                 recipeItem: JSON.stringify(item),

@@ -93,16 +93,16 @@ export default {
   methods: {
     ...mapActions(['memberDislikeAllergy','deleteItem', 'appendItem' ]),
 
-    toggleAllergy(name) {
-        const pkArray = this.alleryNameToPk[name]
-        if (pkArray.some(pk => this.utensilData.includes(pk))) {
-          deleteItem({type:'allergy', memberId: this.memberId, delData: pkArray})
-          console.log('-------->', memberAllergy)
-        } else {
-          appendItem({type:'allergy', memberId: this.memberId, inputData: pkArray})
-          console.log('----------->', memberAllergy);
-        }
-    },
+    // toggleAllergy(name) {
+    //     const pkArray = this.alleryNameToPk[name]
+    //     if (pkArray.some(pk => this.utensilData.includes(pk))) {
+    //       deleteItem({type:'allergy', memberId: this.memberId, delData: pkArray})
+    //       console.log('-------->', memberAllergy)
+    //     } else {
+    //       appendItem({type:'allergy', memberId: this.memberId, inputData: pkArray})
+    //       console.log('----------->', memberAllergy);
+    //     }
+    // },
 
     isAllergySelected(name) {
       return this.memberAllergy.some(item => item.allergyName === name)

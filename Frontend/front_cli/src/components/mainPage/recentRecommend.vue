@@ -5,7 +5,7 @@
         <p class="menuTitle">최근 본 레시피</p>
         <Carousel :items-to-show="3" :wrap-around="true"
         :autoplay= "3500" :transition = "1000">
-            <Slide v-for="recipe_item in recipe" :key="recipe_item.recipe_id">
+            <Slide v-for="recipe_item in recipe" :key="recipe_item.recipeId">
                 <SlideCardRecentRecommned :recipe = recipe_item />
             </Slide>
 
