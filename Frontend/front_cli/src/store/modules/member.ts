@@ -20,6 +20,7 @@ interface MemberState {
   memberIngredient: MemberIngredient[];
   isRecipeLike: boolean;
   memberSimilarity:MemberSimilarity[];
+  allergyList: AllergyList[];
 }
 
 // 회원
@@ -66,6 +67,12 @@ interface MemberDislikeIngredient {
 
 // 회원 알러지 정보
 interface MemberAllergy {
+  allergyId: number
+  allergyName: string
+}
+
+// 회원 알러지 리스트
+interface AllergyList {
   allergyId: number
   allergyName: string
 }
@@ -148,6 +155,7 @@ const member: Module<MemberState, RootState> = {
     memberIngredient: [],
     isRecipeLike: false,
     memberSimilarity:[],
+    allergyList:[],
   },
 
   getters: {
@@ -168,6 +176,7 @@ const member: Module<MemberState, RootState> = {
     memberTypeIds: (state) =>  (type: string) => { if (type ==='dislike') { return state.memberDislikeIngredient.map(item => item.ingredientId)} else if (type === 'allergy') {return state.memberAllergy.map(item => item.allergyId)}},
     isRecipeLike: (state) => state.isRecipeLike,
     memberSimilarity: (state) => state.memberSimilarity,
+    allergyList:(state) => state.allergyList,
     },
   
     mutations: {
@@ -187,7 +196,8 @@ const member: Module<MemberState, RootState> = {
     UPDATE_LIST: (state, { type, updateData }) => {if (type === 'dislike') {state.memberDislikeIngredient.push(...updateData)} else if (type === 'allergy') {state.memberAllergy.push(...updateData)}},
     REMOVE_FROM_LIST: (state, { type, removeData }) => {if (type === 'dislike') {state.memberDislikeIngredient = state.memberDislikeIngredient.filter(item => item.ingredientId !== removeData)} else if (type === 'allergy') {state.memberAllergy = state.memberAllergy.filter(item => item.allergyId !== removeData)}},
     SET_IS_RECIPE_LIKE: (state, isLike) => (state.isRecipeLike = isLike),
-    SET_MEMBER_SIMILARITY: (state, similarityData) => (state.memberSimilarity = similarityData)
+    SET_MEMBER_SIMILARITY: (state, similarityData) => (state.memberSimilarity = similarityData),
+    SET_ALLERGY_LIST:(state, allergyList) => (state.allergyList = allergyList),
   },
   actions: {
     saveToken({ commit }, { accessToken}) {
@@ -214,6 +224,7 @@ const member: Module<MemberState, RootState> = {
           sessionStorage.setItem("email", credentials.email)
           sessionStorage.setItem("accessToken", res.data.accessToken)
           sessionStorage.setItem("memberId", res.data.id)
+          sessionStorage.setItem("nickname", res.data.nickname)
           commit('SET_CURRENT_MEMBER', credentials.email)
           // commit('SET_CURRENT_MEMBER', res.data)
           dispatch('fetchMember', res.data.id)
@@ -551,7 +562,7 @@ const member: Module<MemberState, RootState> = {
         } else if (type === 'allergyGet') {
           apiUrl = `https://i9b202.p.ssafy.io/api/members/memberAllergy/${memberId}`
         } else if (type === 'allergyPost') {
-          apiUrl = 'https://i9b202.p.ssafy.io/api/api/members/memberAllergy'
+          apiUrl = 'https://i9b202.p.ssafy.io/api/members/memberAllergy'
           sendData = {
             memberId: memberId,
             allergyId: getters.memberTypeIds('allergy')
@@ -564,7 +575,7 @@ const member: Module<MemberState, RootState> = {
           type === 'dislikeGet' || type === 'dislikePost'
             ? '비선호 재료 요청 시작!'
             : '알러지 재료 요청 시작!',
-            sendData
+            JSON.stringify(sendData,null,2)
         )
 
         
@@ -581,23 +592,24 @@ const member: Module<MemberState, RootState> = {
           ? '비선호 재료 요청 성공!'
           : '알러지 재료 요청 성공!',
           res
-          )
+        )
           
-          if (type === 'dislikeGet') {
-            if (res && res.data) {
-              commit('SET_MEMBER_DISLIKE_INGREDIENT', res.data);
-            }
-          } else if (type === 'dislikePost') {
-            console.log('비선호 재료 저장 완료!')
-          } else if (type === 'allergenGet') {
-            if (res && res.data) {
-              commit('SET_MEMBER_ALLERGY', res.data);
-            }
-          } else if (type === 'allergenPost') {
-            if (res && res.data) {
-              console.log('알러지 저장 완료!')
-            }
+        if (type === 'dislikeGet') {
+          if (res && res.data) {
+            commit('SET_MEMBER_DISLIKE_INGREDIENT', res.data);
           }
+        } else if (type === 'dislikePost') {
+          console.log('비선호 재료 저장 완료!')
+        } else if (type === 'allergyGet') {
+          if (res && res.data) {
+            console.log('-----------> 알러지 커밋 시작!')
+            commit('SET_MEMBER_ALLERGY', res.data)
+          }
+        } else if (type === 'allergyPost') {
+          if (res && res.data) {
+            console.log('알러지 저장 완료!')
+          }
+        }
       } catch(err) {
         console.log(
           type === 'dislikeGet' || type === 'dislikePost'
@@ -608,6 +620,19 @@ const member: Module<MemberState, RootState> = {
       }
     },
     
+    // 회원 알러지 리스트 조회
+    async fetchAllergyList({commit}) {
+      try{
+        console.log('알러지 리스트 조회 시작!')
+        const res = await axios.get('https://i9b202.p.ssafy.io/api/allergy')
+        console.log('알러지 리스트 조회 성공!', res.data)
+        commit('SET_ALLERGY_LIST', res.data)
+
+      }catch(err) {
+        console.log(err)
+      }
+    },
+
     // 아이템 추가 (비선호, 알러지)
     async appendItem({ commit, state }, {type, inputData}) {
       try {

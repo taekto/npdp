@@ -6,6 +6,7 @@
 
         <!-- 우측 냉장고 컴포넌트 -->
         <div id="myPageView">
+            <p class="menuTitle">내 냉장고</p>
             <!-- 보관방법 변경 & 재료, 양념 입력 버튼 -->
             <div class="buttonGroup">
                 <!-- 보관 방법 변경 버튼 -->
@@ -57,13 +58,12 @@
                                     <button class="amountButton" @click="minusAmount(ingredientItem)">-</button>
                                 </div>
                                 <div class="startDate">
-                                    <p>보관시작일 : </p>
-                                    <p>{{changeDate(ingredientItem.startDate)}}</p>
+                                    <p>보관시작일 : {{changeDate(ingredientItem.startDate)}}</p>
                                 </div>
-                                <div class="endDate">
+                                <!-- <div class="endDate">
                                     <p>유통기한 : </p>
                                     <p>{{changeDate(ingredientItem.expiredDate)}}</p>
-                                </div>
+                                </div> -->
 
                                 <!-- <p class="startDate">보관시작일 : {{whatDate(ingredientItem.startDate)}}</p> -->
                                 
@@ -98,13 +98,12 @@
                             <div class="ingredientList">
                                 <p class="ingredientName2">{{seasoningItem.kor}}</p>
                                 <div class="startDate">
-                                    <p>보관시작일 : </p>
-                                    <p>{{changeDate(seasoningItem.startDate)}}</p>
+                                    <p>보관시작일 : {{changeDate(seasoningItem.startDate)}}</p>
                                 </div>
-                                <div class="endDate">
+                                <!-- <div class="endDate">
                                     <p>유통기한 :</p>
                                     <p>{{changeDate(seasoningItem.expiredDate)}}</p>
-                                </div>
+                                </div> -->
                                 <p class="storage">보관방식 : {{printStorage}}</p>
                                 <button class="deleteButton" @click="updateMaterial({type: 'seasoningDelete', memberId: this.memberId, updateItem: seasoningItem })">제거</button>
                             </div>
@@ -300,6 +299,8 @@ export default {
 </script>
 
 <style scoped>
+
+
 /* 보관 방법 & 모달창 버튼 */
 .buttonGroup {
     display: flex;
@@ -384,8 +385,6 @@ ul {
     margin-bottom: auto;
     margin-left: .5rem;
     margin-right: .5rem;
-    flex: none;
-    width: 10rem;
 }
 
 .startDate p {
@@ -451,7 +450,7 @@ ul {
     text-align: start;
     margin-top: 1rem;
     margin-left: 1rem;
-    font-size: 2rem;
+    font-size: 1.75rem;
     font-weight: bold;
 }
 
@@ -483,5 +482,6 @@ ul {
   font-size: 1.25rem;
   font-weight: bold;
   font-family: 'LINESeedKR-Bd';
+  width: 6rem;
 }
 </style>

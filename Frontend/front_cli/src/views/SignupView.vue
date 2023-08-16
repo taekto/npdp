@@ -51,11 +51,7 @@
           <p v-show="emailVerify === 2" class="input-error">
             인증번호가 일치하지 않습니다.
           </p>
-          <p v-if="isCounting">{{formattedTime }}</p>
-          <p>-----------</p>
-          <p>{{formattedTime }}</p>
-          <p>{{isCounting}}</p>
-          <p>-----------</p>
+          <p v-if="countdown > 0" class="input-error">남은 시간: {{ formatCountdown() }}초</p>
           
 
           
@@ -159,7 +155,6 @@ export default {
         
       },
       isCounting: false,
-      countdown: 180, // 초기 카운트다운 값 (3분 = 180초)
       intervalId: null,
       remainingSeconds: 0,
       emailCode: '',
@@ -175,6 +170,9 @@ export default {
       passwordConfirmHasError: false,
       emailHasError: false,
       passwordHasError: false,
+      countdown: 0,
+      countdownTimer: null,
+      verificationCodeSent: false,
     }
   },
   
@@ -210,10 +208,12 @@ export default {
     emailCodeVerify() {
       console.log('이메일 인자',this.credentials.email)
       this.EmailVerify(this.credentials.email)
+      this.startCountdown()
       setTimeout(() => {
         const tempEmailCode = sessionStorage.getItem('emailVerify')
         const tempEmailCodeJson = JSON.parse(tempEmailCode)
         this.emailCode = tempEmailCodeJson
+        
         console.log('--------------------')
         console.log(this.emailCode)
         console.log(this.emailCode.value)
@@ -222,9 +222,34 @@ export default {
       }, 7500)
     },
 
+    startCountdown() {
+      this.countdown = 180; // 3분 (180초) 카운트 다운 시작
+      this.countdownTimer = setInterval(() => {
+        if (this.countdown > 0) {
+          this.countdown--;
+        } else {
+          this.stopCountdown();
+        }
+      }, 1000);
+    },
+
+    stopCountdown() {
+      clearInterval(this.countdownTimer);
+      this.verificationCodeSent = false;
+      this.countdown = 0;
+    },
+
+    formatCountdown() {
+      const minutes = Math.floor(this.countdown / 60);
+      const seconds = this.countdown % 60;
+      return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    },
+
+
     checkEmailVerify() {
       if(this.emailCode.value.code === this.emailVerifyCode) {
         this.emailVerify = 1
+        this.countdown = 0
       }
       else {
         this.emailVerify = 2
@@ -290,24 +315,6 @@ export default {
       }
       this.credentials.birth = this.birthdate
     },
-    startCountdown() {
-      this.isCounting = true;
-      this.remainingSeconds = this.totalSeconds;
-      this.intervalId = setInterval(() => {
-        if (this.remainingSeconds > 0) {
-          this.remainingSeconds--;
-        } else {
-          this.stopCountdown();
-        }
-      }, 1000); // 1초마다 감소
-    },
-    stopCountdown() {
-      clearInterval(this.intervalId);
-      this.isCounting = false;
-    },
-    formatDigits(value) {
-      return value < 10 ? `0${value}` : value;
-    },
 
     socialLoginGoogle() {
       this.socialType = 'Google'
@@ -362,9 +369,8 @@ export default {
     }
   },
   beforeUnmount() {
-    // 컴포넌트가 파괴되기 전에 interval 정리
-    clearInterval(this.intervalId);
-  }
+    clearInterval(this.countdownTimer);
+  },
 }
 </script>
 

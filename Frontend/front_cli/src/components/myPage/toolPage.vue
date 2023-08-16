@@ -6,7 +6,7 @@
 
     <!-- 우측 조리도구 컴포넌트 -->
     <div id="myPageView">
-      <p class="toolTitle">내 조리도구</p>
+      <p class="menuTitle">내 조리도구</p>
       <!-- 조리도구 체크박스 -->
       <div class="toolBox row">
         <div v-for="(name, idx) in tools" :key="idx" class="col-4 checkTool">
