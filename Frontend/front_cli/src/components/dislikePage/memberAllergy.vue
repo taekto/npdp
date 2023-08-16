@@ -1,4 +1,7 @@
 <template>
+<div class="allergyPage">
+      <!-- 좌측 마이페이지 메뉴 컴포넌트 -->
+    <CategoryComponent />
   <div class="row justify-content-around allergy_container">
     <div class="col-5 add_form">
     <div class="allergy_list">
@@ -18,23 +21,27 @@
       
     </div>
       <div class="col-5 member_allergy_list">
-        <h3 class="list_title">비선호 재료 리스트</h3>
+        <h3 class="list_title">알러지 재료 리스트</h3>
           <div class="member_check_list">
             <span v-for="(item,idx) in memberAllergy" :key="idx">
-              {{ item.ingredientName }}
-            <button @click="deleteItem({type: 'dislike', delData: item.ingredientId})">삭제</button>  
+              {{ item.allergyName }}
+            <button @click="deleteItem({type: 'allergy', delData: item.allergyId})">삭제</button>  
             </span>
           </div>
         <button @click="memberDislikeAllergy({type:'allergyPost', memberId:this.memberId})">저장</button>
       </div>
   </div>
-
+</div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-
+import CategoryComponent from '../myPage/categoryComponent.vue'
 export default {
+  name:'allergyPage',
+  components: {
+    CategoryComponent
+  },
   data() {
     return {
       allergyData: [],
