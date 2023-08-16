@@ -1,8 +1,8 @@
 <template>
     <!-- 유저 기반 추천 레시피 카드 -->
-    <div class="recommendCard" @click="goToDetailRecipe(recipe)">
-        <img class="recommendCard_img" :src="recipe.imgBig">
-        <p>{{ recipe.name }}</p>
+    <div class="recommendCard" @click="goToDetailRecipe(recipe.recipeId)">
+        <img :src="recipe.imgSmall">
+        <p class="recipeName">{{ recipe.name }}</p>
     </div>
 </template>
 
@@ -16,10 +16,7 @@ export default {
         goToDetailRecipe(recipeItem) {
             this.$router.push({name: "recipe",  
                 params: { 
-                    recipeId: recipeItem.recipeId,
-                },
-                query: {
-                    recipeItem: JSON.stringify(recipeItem),
+                    recipeId: recipeItem,
                 },
             })
         },
@@ -28,22 +25,14 @@ export default {
 </script>
 
 <style scoped>
-/* 유저기반 레시피 추천카드 */
-/* .recommendCard {
-    border-radius: .5rem;
-    height: 22rem;
-    width: 20rem;
-    cursor: pointer;
-    border: 1px solid #454342;
-    padding: .1rem;
-    margin: .3rem;
-} */
+/* 좋아요 많은 레시피 카드 */
 
 .recommendCard {
-    border-radius: .5rem;
-    border: solid rgb(190, 190, 190) 1px;
-    height: 22rem;
-    width: 20rem;
+    border-radius: .1rem;
+    border: 1px solid rgb(207, 205, 205);
+    box-shadow: 0 0 0 1px hsla(212,7%,43%,.32);
+    height: 23rem;
+    width: 18rem;
     cursor: pointer;
     margin: 1rem;
     font-weight: bold;
@@ -65,10 +54,30 @@ export default {
     word-break: keep-all;
 }
 
+#recipeCount {
+    font-size: 1.5rem;
+    text-align: end;
+    /* margin-right: 1rem; */
+    position: absolute;
+    left: 70%;
+    top: 77.5%;
+    color: red;
+}
+
 img {
-    width: 90%;
-    margin-top: .7rem;
-    border-radius: 0.5rem;
+    width: 100%;
+    height: 50%;
+    /* margin-top: .7rem; */
+    border-radius: 0.1rem;
+}
+
+.recipeName {
+    margin: auto;
+    /* word-break: keep-all; */
+    overflow: hidden;
+    margin: 3rem 2rem;
+    font-size: 2rem;
+    font-family: 'LINESeedKR-Bd';
 }
 
 .recipeButton {

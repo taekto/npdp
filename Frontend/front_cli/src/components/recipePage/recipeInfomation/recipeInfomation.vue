@@ -2,11 +2,11 @@
   <!-- 레시피 정보(재료, 영양소, 유사도 등) -->
   <div>
     <!-- 레시피 정보 윗줄(재료 & 그래프) -->
-    <div class="graph_title" v-if="recipeDetail.memberName">{{recipeDetail.memberName}}님 냉장고 속 재료와 {{recipeDetail.similarity*100}}% 일치합니다!</div>
+    <div class="graph_title" v-if="recipeDetail.memberName">{{recipeDetail.memberName}}님 냉장고 속 재료와 {{(recipeDetail.similarity*100).toFixed(2)}}% 일치합니다!</div>
     <div class="graph_title logout" v-else>로그인 후 유사도 확인이 가능합니다</div>
     <div class="InfomationLine">
       <!-- 유사도 그래프 -->
-      <GraphInfomation class="infoBox graph" />
+      <GraphInfomation :similarity='similarity' class="infoBox graph" />
     </div>
     <div class="InfomationLine">
     <!-- 레시피 정보 아랫줄(영양소 & 재료 관리 버튼) -->
@@ -59,7 +59,8 @@ export default {
       SeasoningModal,
     },
     computed: {
-      ...mapGetters(['recipeDetail'])
+      ...mapGetters(['recipeDetail']),
+      
     },
     mounted() {
       this.chageServingOne()
@@ -67,6 +68,7 @@ export default {
     data() {
       return {
         serving : 1,
+        similarity: 0,
       }
     },
     methods: {
