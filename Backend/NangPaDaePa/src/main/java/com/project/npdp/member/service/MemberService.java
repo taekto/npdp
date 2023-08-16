@@ -40,9 +40,6 @@ public class MemberService {
     private final IngredientRepository ingredientRepository;
     private final AllergyRepository allergyRepository;
     private final UtensilRepository utensilRepository;
-    private final MemberAllergyRepositoryCustom memberAllergyRepositoryCustom;
-    private final MemberDislikeRepositoryCustom memberDislikeRepositoryCustom;
-    private final MemberUtensilRepositoryCustom memberUtensilRepositoryCustom;
 
     @Value("${jwt.secret}")
     private String secretKey;
@@ -279,7 +276,7 @@ public class MemberService {
         Member member = memberRepository.findById(memberId).orElse(null);
 
         // 기존에 저장된 알러지 정보 삭제
-        memberAllergyRepositoryCustom.deleteMemberAllergy(memberId);
+        memberAllergyRepository.deleteMemberAllergy(memberId);
 
         // 새로운 알러지 정보 저장
         List<MemberAllergy> memberAllergyList = new ArrayList<>();
@@ -299,7 +296,7 @@ public class MemberService {
 
     // 회원 알러지 정보 조회
     public List<MemberAllergyResponseDto> getMemberAllergy(Long memberId){
-        List<MemberAllergy> memberAllergies = memberAllergyRepositoryCustom.selectMemberAllergy(memberId);
+        List<MemberAllergy> memberAllergies = memberAllergyRepository.selectMemberAllergy(memberId);
 
         List<MemberAllergyResponseDto> memberAllergyResponseDto = new ArrayList<>();
         for(MemberAllergy memberAllergy : memberAllergies){
@@ -320,7 +317,7 @@ public class MemberService {
         Member member = memberRepository.findById(memberId).orElse(null);
 
         // 기존회원의 비선호 재료 정보 삭제
-        memberDislikeRepositoryCustom.deleteDislikeIngredient(memberId);
+        memberDislikeRepository.deleteDislikeIngredient(memberId);
 
         // 새로운 비선호 재료 정보 저장
         List<MemberDislikeIngredient> memberDislikeIngredientList = new ArrayList<>();
@@ -340,7 +337,7 @@ public class MemberService {
 
     // 비선호 재료 정보 조회
     public List<MemberDislikeIngredientResponseDto> getDislikeIngredient(Long memberId){
-        List<MemberDislikeIngredient> memberDislikeIngredients = memberDislikeRepositoryCustom.selectDislikeIngredient(memberId);
+        List<MemberDislikeIngredient> memberDislikeIngredients = memberDislikeRepository.selectDislikeIngredient(memberId);
 
         List<MemberDislikeIngredientResponseDto> memberDislikeIngredientResponseDtos = new ArrayList<>();
         for(MemberDislikeIngredient memberDislike : memberDislikeIngredients){
@@ -360,7 +357,7 @@ public class MemberService {
         Member member = memberRepository.findById(memberId).orElse(null);
 
         // 기존에 저장된 조리도구 정보 삭제
-        memberUtensilRepositoryCustom.deleteMemberUtensil(memberId);
+        memberUtensilRepository.deleteMemberUtensil(memberId);
 
         // 새로운 조리도구 정보 저장
         List<MemberUtensil> memberUtensilList = new ArrayList<>();
@@ -380,7 +377,7 @@ public class MemberService {
 
     // 회원 조리도구 정보 조회
     public List<MemberUtensilResponseDto> getMemberUtensil(Long memberId){
-        List<MemberUtensil> memberUtensils = memberUtensilRepositoryCustom.selectMemberUtensil(memberId);
+        List<MemberUtensil> memberUtensils = memberUtensilRepository.selectMemberUtensil(memberId);
 
         List<MemberUtensilResponseDto> memberUtensilResponseDtos = new ArrayList<>();
         for(MemberUtensil memberUtensil : memberUtensils){
