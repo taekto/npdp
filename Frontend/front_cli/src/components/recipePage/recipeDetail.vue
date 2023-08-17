@@ -55,7 +55,7 @@
     <Carousel :items-to-show="3" :wrap-around="true"
     :autoplay= "3500" :transition = "1000">
         <Slide v-for="item,idx in recipeSimilarity" :key="idx">
-            <div class="recommendCard" @click="goToDetailRecipe(item.recipeId)">
+            <div class="recommendCard" @click="detailRecipe({recipeId: item.recipeId, memberId: memberId})">
               <img :src="item.imgBig" alt="">
               <p class="card_recipeName">{{ item.name }}</p>
             </div>
@@ -101,6 +101,7 @@ export default {
     },
     
     computed: {
+      ...mapGetters(['recipeDetail','isRecipeLike','recipeSimilarity']),
       recipeItem() {
         const recipeItem = this.$route.query.recipeItem;
         if (recipeItem) {
@@ -108,7 +109,6 @@ export default {
         }
         return null;
       },
-      ...mapGetters(['recipeDetail','isRecipeLike','recipeSimilarity'])
     },
     
     methods: {
