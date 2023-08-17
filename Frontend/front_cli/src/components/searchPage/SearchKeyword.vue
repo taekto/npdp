@@ -93,7 +93,7 @@ export default {
 }
 
 #hash {
-    font-family: 'LINESeedKR-Rg';
+    font-family: 'GangwonEdu_OTFBoldA';
     margin: 1rem;
     background-color: #FD7E14;
     color: white;

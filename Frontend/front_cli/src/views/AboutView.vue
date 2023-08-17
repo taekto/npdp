@@ -59,7 +59,7 @@
   </div>
 </template>
 
-<style>
+<style scoped>
 img {
   width: 100%;
   height: 45rem;
@@ -67,6 +67,8 @@ img {
 
 * {
   list-style: none;
+  /* font-family: 'LINESeedKR-Bd'; */
+  font-family: 'LINESeedKR-Rg';
 }
 
 .history{

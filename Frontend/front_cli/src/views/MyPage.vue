@@ -70,7 +70,7 @@ export default {
     width: 85%;
     margin-top: 3rem;
     /* border: solid black; */
-    min-height: 50vh;
+    min-height: 100vh;
 }
 
 .menuTitle {

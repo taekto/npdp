@@ -16,6 +16,7 @@
                 <div class="amount">
                   <button class="amountButton2" @click="plusAmount(ingredient)">+</button>
                   <p class="amountAndUnit">{{ingredient.amount}}{{ingredient.unit}}</p>
+                  
                   <button class="amountButton" @click="minusAmount(ingredient)">-</button>
                 </div>
                 <div class="startDate">
@@ -44,7 +45,7 @@
             <div class="search_results_container">
               <ul>
                 <li v-for="result in ingredientSearchData" :key="result.id" class="search_container" @click="selectedItem(result)">
-                  <div v-if="ingredientName === result.name" style="font-weight: bold;">{{ result.name }}</div>
+                  <div v-if="ingredientId === result.id" style="font-weight: bold;">{{ result.name }}</div>
                   <div v-else>{{ result.name }}</div>
                 </li>
               </ul>
@@ -110,7 +111,7 @@
 
           <!-- 재료 리스트 저장 -->
           <div class="modal-footer">
-            <button class="soundButton" @click="saveMaterial({type: 'ingredient', memberId: this.memberId, sendData: throwList })">저장하기</button>
+            <button class="soundButton" data-bs-dismiss="modal" @click="saveMaterial({type: 'ingredient', memberId: this.memberId, sendData: throwList })">저장하기</button>
           </div>
         </div>
       </div>
@@ -151,6 +152,7 @@ export default {
   },
   methods: {
     ...mapActions(['specificSearch','saveMaterial']),
+
 
     selectedItem(result) {
       console.log(result)

@@ -270,7 +270,7 @@ const member: Module<MemberState, RootState> = {
         console.log(JSON.stringify({email}, null, 2))
         const response = await axios.post(api.member.emailVerify(), { email });
         console.log('이메일 전송 완료!', response.data);
-        alert('임시비밀번호를 발급하였습니다.')
+        alert('인증번호를 발급하였습니다.')
      
 
         interface StoredData {

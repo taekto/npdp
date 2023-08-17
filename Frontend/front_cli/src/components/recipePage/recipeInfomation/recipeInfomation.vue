@@ -18,19 +18,9 @@
     </div>
     <!-- 각종 버튼(인분 조절, 재료 입력, 양념 입력) -->
     <div class="infoBox input_button">
-        <!-- 인분 조절 -->
-      <div class="dropdown mt-3">
-        <button class="dropdown-toggle servingButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-          {{serving}}인분
-        </button>
-        <ul class="dropdown-menu">
-          <li><button class="dropdown-item" type="button" @click="chageServingOne">1인분</button></li>
-          <li><button class="dropdown-item" type="button" @click="chageServingTwo">2인분</button></li>
-          <li><button class="dropdown-item" type="button" @click="chageServingThree">3인분</button></li>
-          <li><button class="dropdown-item" type="button" @click="chageServingFour">4인분</button></li>
-          <li class="inputServing">직접기입 <input class="dropdown-item inputServingNumber" type="number" v-model="serving" />인분</li>
-        </ul>
-      </div>
+      <!-- 인분수 정보 -->
+      <p class="dishText">기준 : {{recipeDetail.dish}}인분</p>
+      
       <!-- 재료 입력 모달 버튼 -->
       <div class="modal_container">
         <IngredientModal />
@@ -170,6 +160,12 @@ export default {
   color: #FD7E14;
 }
 
+.dishText {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  font-family: 'GangwonEdu_OTFBoldA';
+}
 
 /* 인분 조절 버튼 */
 .servingButton {
@@ -182,9 +178,7 @@ export default {
     padding-left: 1rem;
     font-size: 1.25rem;
     font-weight: bold;
-    text-align: end;    
-    /* font-family: 'LINESeedKR-Bd'; */
-    /* font-family: 'IBMPlexSansKR-Regular'; */
+    text-align: end;
     font-family: 'GangwonEdu_OTFBoldA';
 }
 
