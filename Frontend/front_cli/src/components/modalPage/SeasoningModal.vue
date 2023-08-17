@@ -3,7 +3,7 @@
   <div class="modal_container">
     <SeasoningText />
     <SeasoningSound />
-    <button class="modalButton" data-bs-target="#seasoningModalToggle" data-bs-toggle="modal">양념수정</button>
+    <button class="modalButton" data-bs-target="#seasoningModalToggle" data-bs-toggle="modal">양념등록</button>
   </div>
   
 </template>

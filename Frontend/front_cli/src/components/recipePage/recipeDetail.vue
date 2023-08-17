@@ -25,7 +25,7 @@
     <IngredientInfomation :serving='serving'/>
   </div>
 
-  <div v-if="recipeDetail.recipeUtensils.length !== 0">
+  <div v-if="recipeDetail.recipeUtensils && recipeDetail.recipeUtensils.length > 0">
     <div class="utensilLine menu">
         <div class="utensilName total">조리도구</div>
     </div>
@@ -102,6 +102,7 @@ export default {
         liked : false,
         memberId: null,
         serving: 1,
+        
       }
     },
     

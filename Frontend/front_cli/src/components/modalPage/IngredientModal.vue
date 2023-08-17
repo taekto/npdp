@@ -3,7 +3,7 @@
   <div class="modal_container">
     <IngredientText />
     <IngredientSound />
-    <button class="modalButton" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-whatever="@ingredient">재료수정</button>
+    <button class="modalButton" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-whatever="@ingredient">재료등록</button>
   </div>
   
 </template>
