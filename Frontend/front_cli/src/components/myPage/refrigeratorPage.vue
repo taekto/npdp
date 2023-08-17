@@ -520,7 +520,7 @@ ul {
     display: flex;
     align-items: end;
     /* margin: auto; */
-    /* margin-top: 3rem; */
+    margin-top: 1.5rem;
     /* margin-left: 7.5rem; */
 }
 .radioButton_1 {

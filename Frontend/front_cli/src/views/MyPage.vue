@@ -56,9 +56,10 @@ export default {
 
 <style>
 .myPage {
-    border: 1px solid #FD7E14;
+    background-color: #eeeeee;
+    border-radius: 1rem;
     display: flex;
-    margin: 2rem;
+    margin: 3rem;
 }
 
 #myPageMenu {
@@ -67,6 +68,8 @@ export default {
 
 #myPageView {
     width: 85%;
+    background-color: #fefefe;
+    border-radius: 1rem;
     margin-top: 2rem;
     margin-bottom: 2rem;
     /* border: solid black; */
