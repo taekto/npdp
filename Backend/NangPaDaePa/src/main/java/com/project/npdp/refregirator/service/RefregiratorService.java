@@ -72,7 +72,7 @@ public class RefregiratorService {
         List<Refregirator> refregirators = new ArrayList<>();
         for (MemberIngredientSaveRequestDto dto : memberIngredientSaveRequestDto) {
             Ingredient ingredient = ingredientRepository.findById(dto.getIngredientId())
-                    .orElseThrow(() -> new NoSuchElementException("Ingredient not found with id: " + dto.getIngredientId()));
+                    .orElseThrow(() -> new NoSuchElementException("Ingredient not found with id: "));
             Refregirator result = dto.toEntity(dto, member, ingredient);
             refregirators.add(result);
         }
@@ -83,12 +83,12 @@ public class RefregiratorService {
     // 회원 양념 입력
     public void memberSaveSeasoning(Long memberId, List<MemberSeasoningSaveRequestDto> memberSeasoningSaveRequestDtos) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new NoSuchElementException("Member not found with id: " + memberId));
+                .orElseThrow(() -> new NoSuchElementException("Member not found with id: "));
 
         List<MemberSeasoning> memberSeasonings = new ArrayList<>();
         for (MemberSeasoningSaveRequestDto dto : memberSeasoningSaveRequestDtos) {
             Seasoning seasoning = seasoningRepository.findById(dto.getSeasoningId())
-                    .orElseThrow(() -> new NoSuchElementException("Seasoning not found with id: " + dto.getSeasoningId()));
+                    .orElseThrow(() -> new NoSuchElementException("Seasoning not found with id: "));
             MemberSeasoning result = dto.toEntity(dto, member, seasoning);
             memberSeasonings.add(result);
         }
@@ -129,10 +129,10 @@ public class RefregiratorService {
     public void modifyMemberSeasoning(List<MemberSeasoningModifyRequestDto> memberSeasoningModifyRequestDtos) {
         for (MemberSeasoningModifyRequestDto memberSeasoningModifyRequestDto : memberSeasoningModifyRequestDtos) {
             if (memberSeasoningModifyRequestDto.isIsdelete()) {
-                seasoningRepository.deleteById(memberSeasoningModifyRequestDto.getMemberSeasoningId());
+                memberSeasoningRepository.deleteById(memberSeasoningModifyRequestDto.getMemberSeasoningId());
             } else {
                 Long seasoningId = memberSeasoningModifyRequestDto.getMemberSeasoningId();
-                if (seasoningRepository.existsById(seasoningId)) {
+                if (memberSeasoningRepository.existsById(seasoningId)) {
                     MemberSeasoning memberSeasoning = memberSeasoningRepository.findById(seasoningId).orElseThrow();
                     memberSeasoning.updateValues(memberSeasoningModifyRequestDto);
                 } else {

@@ -19,11 +19,14 @@ public class MemberSeasoningSaveRequestDto {
 
     private Long storage;
 
+    private LocalDateTime startDate;
+
     public MemberSeasoning toEntity(MemberSeasoningSaveRequestDto memberIngredientSaveRequestDto, Member member, Seasoning seasoning) {
         MemberSeasoning result = MemberSeasoning.builder()
                 .member(member)
                 .seasoning(seasoning)
                 .storage(memberIngredientSaveRequestDto.getStorage())
+                .startDate(memberIngredientSaveRequestDto.getStartDate())
                 .build();
         return result;
     }

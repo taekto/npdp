@@ -36,6 +36,9 @@
               </div>
             </div>
           </div>
+          <button @click="memberDislikeAllergy({ type: 'allergyPost', memberId: this.memberId })">
+            저장
+          </button>
         </div>
       </div>
     </div>
@@ -84,7 +87,6 @@ export default {
   },
 }
 </script>
-
 
 <style>
 .allergy_container {
