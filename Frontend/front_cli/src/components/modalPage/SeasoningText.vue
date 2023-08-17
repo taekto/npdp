@@ -176,7 +176,7 @@ export default {
       }
 
       this.seasoningList.push({seasoningName:this.seasoningName, seasoningId: this.seasoningId, startDate : todayDate, expiredDate: this.expiredDate, storage: this.storage})
-      this.throwList.push({seasoningId: this.seasoningId, storage: this.storage})
+      this.throwList.push({seasoningId: this.seasoningId, startDate : today, storage: this.storage})
       console.log(this.throwList)
     },
 

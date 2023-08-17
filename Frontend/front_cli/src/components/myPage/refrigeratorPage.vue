@@ -249,23 +249,27 @@ export default {
           }
         },
         plusAmount(tmpingredient) {
+            let tempAmount = parseFloat(tmpingredient.amount)
           if(tmpingredient.unit === "g") {
-            tmpingredient.amount += 10
+            tempAmount += 10
           }
           else{
-            tmpingredient.amount ++        
+            tempAmount ++        
           }
-          
+          tmpingredient.amount = tempAmount.toString() +'.0'
         },
         minusAmount(tmpingredient) {
+            let tempAmount = parseFloat(tmpingredient.amount)
           if(tmpingredient.unit === "g") {
-            tmpingredient.amount -= 10
+            tempAmount -= 10
           }
           else{
-            tmpingredient.amount --
+            tempAmount --
           }
 
-          if (tmpingredient.amount <= 0) {
+            tmpingredient.amount = tempAmount.toString() +'.0'
+
+          if (parseFloat(tmpingredient.amount) <= 0) {
             this.updateMaterial({type: 'ingredient', memberId: this.memberId, updateItem: tmpingredient })
           }
         },
