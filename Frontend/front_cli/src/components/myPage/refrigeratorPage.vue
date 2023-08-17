@@ -54,7 +54,7 @@
                                 <p class="ingredientName">{{ingredientItem.kor}}</p>
                                 <div class="amount">
                                     <button class="amountButton" @click="plusAmount(ingredientItem)">+</button>
-                                    <p class="amountAndUnit">{{ingredientItem.amount}}{{ingredientItem.unit}}</p>
+                                    <p class="amountAndUnit">{{changeAmount(ingredientItem.amount)}}{{ingredientItem.unit}}</p>
                                     <button class="amountButton" @click="minusAmount(ingredientItem)">-</button>
                                 </div>
                                 <div class="startDate">
@@ -159,6 +159,8 @@ export default {
           }
           return Math.ceil(count / this.itemsPerPage)
         },
+
+        
         
         displayedIngredientItems() {
           const startIndex = (this.ingredientPage - 1) * this.itemsPerPage
@@ -287,6 +289,15 @@ export default {
             }
             else {
                 return
+            }
+        },
+        changeAmount(value) {
+            if(!isNaN(parseFloat(value))) {
+                let newValue = parseFloat(value).toFixed(0)
+                return newValue
+            }
+            else {
+                return value
             }
         },
         

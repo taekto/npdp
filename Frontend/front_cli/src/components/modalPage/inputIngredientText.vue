@@ -16,6 +16,7 @@
                 <div class="amount">
                   <button class="amountButton2" @click="plusAmount(ingredient)">+</button>
                   <p class="amountAndUnit">{{ingredient.amount}}{{ingredient.unit}}</p>
+                  
                   <button class="amountButton" @click="minusAmount(ingredient)">-</button>
                 </div>
                 <div class="startDate">
@@ -44,7 +45,7 @@
             <div class="search_results_container">
               <ul>
                 <li v-for="result in ingredientSearchData" :key="result.id" class="search_container" @click="selectedItem(result)">
-                  <div v-if="ingredientName === result.name" style="font-weight: bold;">{{ result.name }}</div>
+                  <div v-if="ingredientId === result.id" style="font-weight: bold;">{{ result.name }}</div>
                   <div v-else>{{ result.name }}</div>
                 </li>
               </ul>
