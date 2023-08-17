@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 상단 nav -->
-    <nav>
+    <nav class="header_container">
       <!-- 로고 이미지 & 타이틀 -->
       <div id="title" @click="goToMainPage">
         <img id="logo" src="./assets/Shape.png" alt="">
@@ -27,9 +27,11 @@
         </div>
         <div v-else id="user">
           <!-- <p>안녕하세요 {{ $state }}</p> -->
-          <p class="nickName">안녕하세요 {{ nickname }}님</p>
+          <div class="nickName">{{ nickname }}님 :)</div>
+          <div>
           <router-link to="/mypage/refrigerator" class="nav_user_link">마이페이지</router-link>
           <a class="logout nav_user_link" @click="logout">로그아웃</a>
+        </div>
         </div>
       </div>
     </nav>
@@ -108,7 +110,7 @@ nav a.router-link-exact-active {
 .centered-section {
   flex: 1; /* 남은 공간을 차지 */
   display: flex;
-  justify-content: center; /* 내용을 가운데 정렬 */
+  justify-content: center;
   align-items: center; /* 세로 가운데 정렬 */
 }
 
@@ -129,7 +131,7 @@ nav #pageLink {
 .nav_user_link {
   font-family: 'LINESeedKR-Bd';
   text-decoration-line: none;
-  margin: 0 10px;
+  margin: 0 .2rem;
   padding: 10px;
   border: 1px solid #fd7e14;
   border-radius: 5px;
@@ -184,7 +186,9 @@ nav #title {
   margin-right: .5rem;
 }
 
+
 nav #user {
+  display: flex;
   margin-top: auto;
   margin-bottom: auto;
   margin-left: auto;
@@ -192,8 +196,10 @@ nav #user {
 }
 
 .nickName {
-  font-family: 'LINESeedKR-Bd';
+  font-family: 'LINESeedKR-Rg';
   font-size: 1rem;
+  margin-top: .2rem;
+  margin-right: .5rem;
 }
 
 /* 하단 footer CSS */
