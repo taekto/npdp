@@ -155,7 +155,6 @@ export default {
 
 
     selectedItem(result) {
-      console.log(result)
       this.ingredientName = result.name;
       this.ingredientId = result.id;
     },
@@ -173,7 +172,6 @@ export default {
 
     selectStorage(number) {
       this.storage = number
-      console.log('=====>', this.storage)
         switch (number) {
           case 0:
           this.printStorage = "냉장";
@@ -217,10 +215,9 @@ export default {
       }
       this.ingredientList.push({ingredientName:this.ingredientName, ingredientId: this.ingredientId, amount: this.amount.toString(), unit: this.unit, startDate : todayDate, expiredDate: this.expiredDate, storage: this.storage})
       this.throwList.push({ingredientId: this.ingredientId, amount: this.amount, unit: this.unit, startDate : today, expiredDate: this.expiredDate, storage: this.storage})
-      console.log(this.throwList)
+      
     },
     pushIngredientData() {
-      console.log(this.ingredientList)
       this.ingredientList = []
     },
     addAmount() {
@@ -249,7 +246,7 @@ export default {
     },
     minusAmount(ingredient) {
       ingredient.amount --
-      if (ingredient.amount <= 0) {
+      if (parseFloat(ingredient.amount) <= 0) {
         const arrayRemove = (arr, value) => {
           return arr.filter((ele) => {
               return ele != value

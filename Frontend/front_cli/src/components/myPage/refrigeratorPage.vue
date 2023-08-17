@@ -31,10 +31,10 @@
                     </label>            
                 </div>
                 <!-- 재료, 양념 입력 버튼 -->
-                <div class="modalButtons">
+                <!-- <div class="modalButtons">
                     <IngredientModal />
                     <SeasoningModal />
-                </div>
+                </div> -->
             </div>
             <!-- <div class="subtitle_line"></div> -->
             
@@ -42,38 +42,52 @@
             <div>
                 <!-- 재료 -->
                 <div class="refrigeratorCategory">
-                    <div style="display: flex; justify-content: space-between; width: 80%; margin: auto">
+                    <div style="display: flex; justify-content: space-between; width: 80%; margin: auto;">
                         <div class="categoryTitle">내가 보관중인 재료</div>
-                        <button class="saveButton" @click="saveMaterial({type: 'ingredient', memberId: this.memberId, sendData: displayedIngredientItems.tempIngredient })">
-                            저장하기
-                        </button>
+                        <div class="modify_ingre"><IngredientModal /></div>
                     </div>
                     
                     <ul class="ListShow">
-                        <li v-for="(ingredientItem, index) in displayedIngredientItems.displayedItems" :key="index">
-                            <div class="ingredientList">
-                                <p class="ingredientName">{{ingredientItem.kor}}</p>
-                                <div class="amount">
-                                    <button class="amountButton" @click="minusAmount(ingredientItem)">-</button>
-                                    <p class="amountAndUnit">{{changeAmount(ingredientItem.amount)}}{{ingredientItem.unit}}</p>
-                                    <button class="amountButton" @click="plusAmount(ingredientItem)">+</button>
-                                </div>
-                                <div class="startDate">
-                                    <p>보관시작일 : {{changeDate(ingredientItem.startDate)}}</p>
-                                </div>
-                                <!-- <div class="endDate">
-                                    <p>유통기한 : </p>
-                                    <p>{{changeDate(ingredientItem.expiredDate)}}</p>
-                                </div> -->
-
-                                <!-- <p class="startDate">보관시작일 : {{whatDate(ingredientItem.startDate)}}</p> -->
-                                
-                                <p class="storage">보관방식 : {{printStorage}}</p>
-                                <button class="deleteButton" @click="updateMaterial({type: 'ingredientDelete', memberId: this.memberId, updateItem: ingredientItem })">제거</button>
+                        <div v-if="displayedIngredientItems.displayedItems.length !== 0">
+                            <div class="cell_title">
+                                <div>재료명</div>
+                                <div class="cnt_title">개수</div>
+                                <div class="startdate_title">보관 시작일</div>
+                                <div class="place_title">보관장소</div>
+                                <div>삭제</div>
                             </div>
-                        </li>
+                            <li v-for="(ingredientItem, index) in displayedIngredientItems.displayedItems" :key="index">
+                                <div class="ingredientList">
+                                    <p class="ingredientName">{{ingredientItem.kor}}</p>
+                                    <div class="amount">
+                                        <button class="amountButton" @click="plusAmount(ingredientItem)">+</button>
+                                        <p class="amountAndUnit">{{ingredientItem.amount}}{{ingredientItem.unit}}</p>
+                                        <button class="amountButton" @click="minusAmount(ingredientItem)">-</button>
+                                    </div>
+                                    <div class="startDate">
+                                        <p>{{changeDate(ingredientItem.startDate)}}</p>
+                                    </div>
+                                    <!-- <div class="endDate">
+                                        <p>유통기한 : </p>
+                                        <p>{{changeDate(ingredientItem.expiredDate)}}</p>
+                                    </div> -->
+
+                                    <!-- <p class="startDate">보관시작일 : {{whatDate(ingredientItem.startDate)}}</p> -->
+                                    
+                                    <p class="storage">{{printStorage}}</p>
+                                    <i class="bi bi-trash deleteButton" @click="updateMaterial({type: 'ingredientDelete', memberId: this.memberId, updateItem: ingredientItem })"></i>
+                                </div>
+                            </li>
+                            <button class="saveBtn" @click="updateMaterial({type: 'ingredient', memberId: this.memberId, sendData: displayedIngredientItems.tempIngredient })">
+                                저장
+                            </button>
+                        </div>
+                        <div v-else>
+                            <div class="no_items">보관중인 재료가 없습니다</div>
+                        </div>
                     </ul>
                     <div class="pagination">
+                        <button @click="goToIngredientPage(1)" :disabled="ingredientPage === 1">처음</button>
                         <button @click="goToIngredientPage(ingredientPage - 1)" :disabled="ingredientPage === 1">이전</button>
                         <button v-for="pageNumber in ingredientTotalPages" :key="pageNumber" 
                         @click="goToIngredientPage(pageNumber)" 
@@ -81,6 +95,7 @@
                             {{ pageNumber }}
                         </button>
                         <button @click="goToIngredientPage(ingredientPage + 1)" :disabled="ingredientPage === ingredientTotalPages">다음</button>
+                        <button @click="goToIngredientPage(ingredientTotalPages)" :disabled="ingredientPage === ingredientTotalPages">끝</button>
                     </div>
                 </div>
                 <!-- 양념 -->
@@ -88,29 +103,44 @@
 
                     <div style="display: flex; justify-content: space-between; width: 80%; margin: auto">
                         <div class="categoryTitle">내가 보관중인 양념</div>
-                        <button class="saveButton" @click="saveMaterial({ type: 'seasoning', memberId: memberId, sendData: displayedIngredientItems.tempIngredient })">
-                            저장
-                        </button>
+                        <div class="modify_season"><SeasoningModal /></div>
+
                     </div>
 
 
                     <ul class="ListShow">
-                        <li v-for="seasoningItem in displayedSeasoningItems.displayedItems" :key="seasoningItem.memberSeasoningId">
-                            <div class="ingredientList">
-                                <p class="ingredientName2">{{seasoningItem.kor}}</p>
-                                <div class="startDate">
-                                    <p>보관시작일 : {{changeDate(seasoningItem.startDate)}}</p>
-                                </div>
-                                <!-- <div class="endDate">
-                                    <p>유통기한 :</p>
-                                    <p>{{changeDate(seasoningItem.expiredDate)}}</p>
-                                </div> -->
-                                <p class="storage">보관방식 : {{printStorage}}</p>
-                                <button class="deleteButton" @click="updateMaterial({type: 'seasoningDelete', memberId: this.memberId, updateItem: seasoningItem })">제거</button>
+                        <div v-if="displayedSeasoningItems.displayedItems.length !== 0">
+                            <div class="cell_title">
+                                <div>양념명</div>
+                                <div class="startdate_title">보관 시작일</div>
+                                <div class="place_title">보관장소</div>
+                                <div>삭제</div>
                             </div>
-                        </li>
+                            <li v-for="seasoningItem in displayedSeasoningItems.displayedItems" :key="seasoningItem.memberSeasoningId">
+                                <div class="ingredientList">
+                                    <p class="ingredientName2">{{seasoningItem.kor}}</p>
+                                    <div class="startDate">
+                                        <p>{{changeDate(seasoningItem.startDate)}}</p>
+                                    </div>
+                                    <!-- <div class="endDate">
+                                        <p>유통기한 :</p>
+                                        <p>{{changeDate(seasoningItem.expiredDate)}}</p>
+                                    </div> -->
+                                    <p class="storage">{{printStorage}}</p>
+                                    <i class="bi bi-trash deleteButton" @click="updateMaterial({type: 'seasoningDelete', memberId: this.memberId, updateItem: seasoningItem })"></i>
+                                </div>
+                            </li>
+                            <button class="saveBtn" @click="updateMaterial({ type: 'seasoning', memberId: memberId, sendData: displayedIngredientItems.tempIngredient })">
+                            저장
+                        </button>
+                        </div>
+                        <div v-else>
+                            <div class="no_items">보관중인 양념이 없습니다</div>
+                        </div>
                     </ul>
+        
                     <div class="pagination">
+                        <button @click="goToSeasoningPage(1)" :disabled="seasoningPage === 1">처음</button>
                         <button @click="goToSeasoningPage(seasoningPage - 1)" :disabled="seasoningPage === 1">이전</button>
                         <button v-for="pageNumber in seasoningtTotalPages" :key="pageNumber" 
                         @click="goToSeasoningPage(pageNumber)"
@@ -118,6 +148,7 @@
                             {{ pageNumber }}
                         </button>
                         <button @click="goToSeasoningPage(seasoningPage + 1)" :disabled="seasoningPage === seasoningtTotalPages">다음</button>
+                        <button @click="goToSeasoningPage(seasoningtTotalPages)" :disabled="seasoningPage === seasoningtTotalPages">끝</button>
                     </div>
                 </div>
             </div>
@@ -249,24 +280,28 @@ export default {
           }
         },
         plusAmount(tmpingredient) {
+            let tempAmount = parseFloat(tmpingredient.amount)
           if(tmpingredient.unit === "g") {
-            tmpingredient.amount += 10
+            tempAmount += 10
           }
           else{
-            tmpingredient.amount ++        
+            tempAmount ++        
           }
-          
+          tmpingredient.amount = tempAmount.toString() +'.0'
         },
         minusAmount(tmpingredient) {
+            let tempAmount = parseFloat(tmpingredient.amount)
           if(tmpingredient.unit === "g") {
-            tmpingredient.amount -= 10
+            tempAmount -= 10
           }
           else{
-            tmpingredient.amount --
+            tempAmount --
           }
 
-          if (tmpingredient.amount <= 0) {
-            this.updateMaterial({type: 'ingredient', memberId: this.memberId, updateItem: tmpingredient })
+            tmpingredient.amount = tempAmount.toString() +'.0'
+
+          if (parseFloat(tmpingredient.amount) <= 0) {
+            this.updateMaterial({type: 'ingredientDelete', memberId: this.memberId, updateItem: tmpingredient })
           }
         },
         goToIngredientPage(pageNumber) {
@@ -312,68 +347,98 @@ export default {
 
 <style scoped>
 #myPageView {
-    width: 75%;
+  width: 75%;
 }
 .subtitle_line {
-    position: absolute;
-    margin-left: 5rem;
-    width: 60%;
-    border-width: .1rem 0 0;
-    border-style: solid;
-    border-color: #cecece;
+  position: absolute;
+  margin-left: 5rem;
+  width: 60%;
+  border-width: .1rem 0 0;
+  border-style: solid;
+  border-color: #cecece;
 }
 
 /* 보관 방법 & 모달창 버튼 */
 .buttonGroup {
-    display: flex;
-    justify-content: space-between;
-    width: 80%;
-    margin: auto;
-    /* border-bottom: .1rem solid #cecece; */
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin: auto;
+  /* border-bottom: .1rem solid #cecece; */
 }
 
 .modalButtons {
-    display: flex;
+  display: flex;
+}
+.modify_ingre {
+  margin-top: 2.5rem;
+}
+.modify_season {
+  margin-top: 2.5rem;
 }
 
 .ListShow {
-    border: solid #a7a7a7;
+    border: .1rem solid #7f7f7f;
     border-radius: .5rem;
     width: 80%;
     margin: auto;
     padding: 1rem;
-    margin-bottom: 3rem;
-    height: 60vh;
+    margin-bottom: 2rem;
+    min-height: 75vh;
 }
 
 /* 레시피의 ingredientName과 다름 */
 .ingredientName {
     font-weight: bold;
-    width: 7.5%;
-    margin-top: auto;
-    margin-bottom: auto;
+    width: 5rem;
+    margin: auto 0;
+    min-width: 5rem;
 }
 
 .ingredientName2 {
-    font-weight: bold;
-    width: 15%;
-    margin-top: auto;
-    margin-bottom: auto;
+  font-weight: bold;
+  width: 15%;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .ingredientList {
-    display: flex;
-    border-bottom: solid grey;
-    align-items: center;
-    justify-content: space-between;
-    width: 95%;
-    padding: .5rem;
-    margin: auto;
-    height: 10vh;
+  /* font-family: 'LINESeedKR-Rg'; */
+  font-family: 'GangwonEdu_OTFBoldA';
+  display: flex;
+  border-bottom: .1rem solid #cecece;
+  align-items: center;
+  justify-content: space-between;
+  width: 95%;
+  padding: .5rem;
+  margin: auto;
+  height: 10vh;
 }
 
+.cell_title {
+  font-family: 'LINESeedKR-Bd';
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: .1rem solid #7f7f7f;
+  width: 95%;
+  padding: .5rem;
+  margin: auto;
+}
+.cell_title div {
+  margin-left: 1rem;
+}
+.cnt_title {
+  padding-left: 6rem;
+}
+.startdate_title {
+  padding-left: 6rem;
+}
+.place_title {
+  padding-left: 2rem;
+}
 ul {
-    list-style: none;
+  list-style: none;
 }
 
 .amount {
@@ -438,12 +503,15 @@ ul {
 }
 
 .deleteButton {
+    /* font-family: 'LINESeedKR-Rg'; */
     border-radius: .5rem;
+    margin-top: .5rem;
+    font-size: 1.2rem;
     margin-left: .5rem;
     height: 2rem;
-    width: 5rem;
-    background-color: #FD7E14;
-    color: white;
+    /* width: 3rem; */
+    /* background-color: #FD7E14; */
+    /* color: white; */
     border: none;
 }
 
@@ -457,7 +525,7 @@ ul {
     display: flex;
     align-items: end;
     /* margin: auto; */
-    /* margin-top: 3rem; */
+    margin-top: 1.5rem;
     /* margin-left: 7.5rem; */
 }
 .radioButton_1 {
@@ -492,10 +560,11 @@ ul {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
 }
 .pagination button {
   font-family: 'LINESeedKR-Rg';
+  /* color: #FD7E14; */
   margin: 0 5px;
   border-radius: .2rem;
   border: 1px solid #FD7E14;
@@ -503,18 +572,24 @@ ul {
   padding: .25rem .7rem;
 }
 
-.saveButton {
-  /* border: solid #FD7E14; */
+.saveBtn {
+  font-family: 'LINESeedKR-Rg';
+  border: none;
+  height: 2.2rem;
+  width: 3rem;
   color: white;
   background-color: #FD7E14;
   border-radius: .5rem;
-  /* margin: .5rem; */
-  padding: .1rem;
-  margin-bottom: 1rem;
-  /* margin-right: 1rem; */
+  margin-bottom: .5rem;
+  margin-top: 2rem;
   font-size: 1rem;
-  /* font-weight: bold; */
-  font-family: 'LINESeedKR-Rg';
-  /* width: 5rem; */
+}
+.no_items {
+    font-family: 'LINESeedKR-Bd';
+    font-size: 1.5rem;
+    text-align: center;
+    vertical-align: middle;
+    margin: 1rem 0;
+    color: #bbb;
 }
 </style>

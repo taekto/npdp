@@ -73,7 +73,7 @@ export default {
             return this.isViewportSmall ? "비선호재료" : "비선호재료";
         },
         link6Text() {
-            return this.isViewportSmall ? "내 알러지" : "내 알러지 재료";
+            return this.isViewportSmall ? "알러지" : "내 알러지";
         },
 
     }
@@ -83,13 +83,13 @@ export default {
 <style scoped>
 .myPageComponent {
     position: relative;
-    margin-right: 2rem;
+    margin-right: .5rem;
 }
 .mypage_title {
     font-family: 'LINESeedKR-Bd';
     font-size: 2rem;
     text-align: left;
-    margin-top: 3rem;
+    margin-top: 1.5rem;
 }
 .category_container {
     position: absolute;

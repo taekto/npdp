@@ -113,26 +113,27 @@ export default {
       }
     },
   },
-  watch: {
-    member: {
-      handler(updatedMember) {
-        // member 게터의 데이터 출력
-        console.log("Updated member data:", updatedMember);
-
-        // 만약 updatedMember 안에 nickname 프로퍼티가 있다면 userData.nickname에 할당
-        if (updatedMember && updatedMember.nickname) {
-          this.userData.nickname = updatedMember.nickname;
-        }
-      },
-      deep: true, // 객체 내부의 프로퍼티까지 감시
+    watch: {
+      'member': {
+        handler(updatedMember) {
+          // member 게터의 데이터 출력
+          console.log('Updated member data');
+          
+          // 만약 updatedMember 안에 nickname 프로퍼티가 있다면 userData.nickname에 할당
+          if (updatedMember && updatedMember.nickname) {
+            this.userData.nickname = updatedMember.nickname;
+          }
+        },
+        deep: true // 객체 내부의 프로퍼티까지 감시
+      }
     },
-  },
-  async created() {
-    this.memberId = parseInt(sessionStorage.getItem("memberId"));
-    this.fetchMember(this.memberId);
-    this.setGender();
-  },
-};
+    async created() {
+      this.memberId = parseInt(sessionStorage.getItem('memberId'))
+      this.fetchMember(this.memberId)
+      this.setGender()
+    },
+
+}
 </script>
 
 <style scoped>
@@ -159,6 +160,17 @@ export default {
   text-align: start;
 }
 
+.editComponent {
+  width: 80%;
+  margin: auto;
+  /* border: solid grey; */
+  border-radius: .5rem;
+  /* margin-left: 2rem;
+  margin-right: 2rem;
+  margin-bottom: 5rem; */
+}
+
+
 .searchWindow {
   width: 75%;
   margin: auto;
@@ -181,23 +193,19 @@ export default {
   margin-top: 1rem;
 }
 
-.birthDate {
+
+.birthDate{
+  width: 75%;
+  /* display: flex; */
   margin: auto;
+  font-family: 'LINESeedKR-Bd';
 }
 
 .genderSelect {
   margin: auto;
-
-  margin-left: 3rem;
+  /* // margin-left: 3rem; */
 }
 
-/* #myPageView {
-  border: solid grey;
-  border-radius: .5rem;
-  margin-left: 2rem;
-  margin-right: 2rem;
-  margin-bottom: 5rem;
-} */
 
 .btn_update {
   border-radius: 0.5rem;
@@ -214,6 +222,14 @@ export default {
 
 .edit_form {
   display: flex;
+}
+
+.editBirthTitle {
+  margin: auto;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
 .saveButton {

@@ -1,5 +1,6 @@
 package com.project.npdp.member.dto.request;
 
+import com.project.npdp.member.entity.Gender;
 import lombok.*;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

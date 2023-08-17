@@ -35,14 +35,12 @@ export default {
     methods: {
         // password가 해당 회원의 password가 맞는지 확인해야 함
         confirmPassword() {
-            console.log(this.creditials.password)
             axios({
                 url: 'https://i9b202.p.ssafy.io/api/members/checkPassword',
                 method: 'post',
                 data: this.creditials,
             })
-            .then(res => {
-                console.log(res.data)
+            .then(() => {
                 this.$router.push({name: 'edit'})
             })
             .catch(err => {
@@ -58,7 +56,9 @@ export default {
 
 <style>
 .myPage {
+    border-radius: 1rem;
     display: flex;
+    margin: 3rem;
 }
 
 #myPageMenu {
@@ -67,9 +67,11 @@ export default {
 
 #myPageView {
     width: 85%;
-    margin-top: 3rem;
+    border-radius: 1rem;
+    margin-top: 2rem;
+    margin-bottom: 10rem;
     /* border: solid black; */
-    min-height: 50vh;
+    min-height: 100vh;
 }
 
 .menuTitle {

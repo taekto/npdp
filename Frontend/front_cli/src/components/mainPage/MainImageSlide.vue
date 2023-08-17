@@ -55,7 +55,7 @@ export default {
   list-style: none;
   line-height: 0;
   top: 95%;
-  left: 50%;
+  left: 45%;
 }
 
 .main_image_container {
