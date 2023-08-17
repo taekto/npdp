@@ -29,7 +29,7 @@
             name="email" 
             v-model="credentials.email"
           />
-          <button @click.prevent="emailCodeVerify; startCountdown" class="email_auth">
+          <button @click.prevent="emailCodeVerify" class="email_auth">
             인증
           </button>
         </div>
