@@ -19,7 +19,6 @@
     </div>
     <!-- 우측 조리도구 컴포넌트 -->
     <!-- <div id="myPageView"> -->
-    <div id="myPageView">
       <!-- <p class="menuTitle">내 조리도구</p> -->
       <!-- 조리도구 체크박스 -->
       <!-- <div class="toolBox row">
@@ -33,8 +32,6 @@
       <button class="saveButton" @click="saveTool">저장</button>
     </div> -->
 
-      <button class="saveBtn" @click="saveTool">저장</button>
-    </div>
   </div>
 </template>
 
