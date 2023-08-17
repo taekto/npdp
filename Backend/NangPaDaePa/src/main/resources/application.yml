@@ -28,8 +28,8 @@ spring:
     default-encoding: UTF-8
     host: smtp.gmail.com    # SMTP 서버 호스트
     port: 587               # SMTP 서버 포트
-    username: ${mail.username}    # SMTP 서버 아이디
-    password: ${mail.password}    # SMTP 서버 앱 패스워드
+    username: ssafyidle@gmail.com    # SMTP 서버 아이디
+    password: daktgkytdyaxvtna       # SMTP 서버 앱 패스워드
 #    protocol: smtps
     properties:
       mail:
@@ -40,11 +40,15 @@ spring:
             enable: true  # StartTLS 활성화 여부 (기본값: false)
   auth-code-expiration-millis: 600000  # 10 * 60 * 1000 == 10분
 
+  redis:
+    host: i9b202.p.ssafy.io
+    port: 6379
+
   profiles:
     active: oauth
 
 logging:
   level:
-    org.hibernate.SQL: debug
-    org.hibernate.type: trace
+    org.hibernate: INFO
+    org.hibernate.type: INFO
     com.project.npdp.snslogin: DEBUG

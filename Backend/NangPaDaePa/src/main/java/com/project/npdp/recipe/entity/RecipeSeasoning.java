@@ -19,7 +19,7 @@ public class RecipeSeasoning {
     @Column(name = "recipe_seasoning_id")
     private Long id;
 
-    private Long amount;
+    private String amount;
 
     private String unit;
 

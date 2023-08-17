@@ -22,4 +22,14 @@ public class MemberDislikeRepositoryImpl implements MemberDislikeRepositoryCusto
                 .setParameter("memberId", memberId)
                 .getResultList();
     }
+
+    @Override
+    public void deleteDislikeIngredient(Long memberId) {
+
+        String jpql = "DELETE FROM MemberDislikeIngredient mdi WHERE mdi.member.id = :memberId";
+
+        em.createQuery(jpql)
+                .setParameter("memberId", memberId)
+                .executeUpdate();
+    }
 }

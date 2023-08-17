@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-@Repository
 @RequiredArgsConstructor
 public class MemberUtensilRepositoryImpl implements MemberUtensilRepositoryCustom{
 
@@ -21,5 +20,15 @@ public class MemberUtensilRepositoryImpl implements MemberUtensilRepositoryCusto
         return em.createQuery(jpql, MemberUtensil.class)
                 .setParameter("memberId", memberId)
                 .getResultList();
+    }
+
+    @Override
+    public void deleteMemberUtensil(Long memberId) {
+
+        String jpql = "DELETE FROM MemberUtensil mu WHERE mu.member.id = :memberId";
+
+        em.createQuery(jpql)
+                .setParameter("memberId", memberId)
+                .executeUpdate();
     }
 }

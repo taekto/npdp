@@ -2,7 +2,7 @@
     <div>
         <div class="list">
             <div v-for="(recipe_item, index) in displayedItems" :key="index">
-                <div class="recommendCard" @click="detailRecipe(recipe_item.recipeId)">
+                <div class="recommendCard" @click="goToDetailRecipe(recipe_item.recipeId)">
                     <img :src="recipe_item.imgBig" alt="">
                     <p class="recipeName">{{recipe_item.name}}</p>
                 </div>
@@ -11,11 +11,13 @@
         
         
         <div class="pagination">
-            <button @click="goToPage(page - 1)" :disabled="page === 1">Previous</button>
-            <button v-for="pageNumber in totalPages" :key="pageNumber" @click="goToPage(pageNumber)">
+            <button @click="goToPage(1)" :disabled="page === 1">처음</button>
+            <button @click="goToPage(page - 1)" :disabled="page === 1">이전</button>
+            <button v-for="pageNumber in displayedPageNumbers" :key="pageNumber" @click="goToPage(pageNumber)" :disabled="pageNumber === page">
                 {{ pageNumber }}
             </button>
-            <button @click="goToPage(page + 1)" :disabled="page === totalPages">Next</button>
+            <button @click="goToPage(page + 1)" :disabled="page === totalPages">다음</button>
+            <button @click="goToPage(totalPages)" :disabled="page === totalPages">끝</button>
         </div>
     </div>
     
@@ -33,7 +35,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['recipe', 'recipeSpecific']),
+        ...mapGetters(['recipe','recipeSpecific']),
         totalPages() {
             return Math.ceil(this.recipeSpecific.length / this.itemsPerPage)
         },
@@ -42,12 +44,22 @@ export default {
             const endIndex = startIndex + this.itemsPerPage
             return this.recipeSpecific.slice(startIndex, endIndex)
         },
+        displayedPageNumbers() {
+            const currentPageGroup = Math.ceil(this.page / 5); // Calculate current group based on current page
+            const startPage = (currentPageGroup - 1) * 5 + 1; // Calculate starting page number of the group
+            const endPage = Math.min(startPage + 4, this.totalPages); // Calculate ending page number of the group (up to the total pages)
+
+            const pageNumbers = [];
+            for (let i = startPage; i <= endPage; i++) {
+                pageNumbers.push(i);
+            }
+
+            return pageNumbers;
+        },
     },
 
     methods: {
-        
-        ...mapActions(['detailRecipe']),
-
+        ...mapActions(['recipeSpecificSearch']),
         goToPage(pageNumber) {
             if (pageNumber >= 1 && pageNumber <= this.totalPages) {
                 this.page = pageNumber;
@@ -55,16 +67,13 @@ export default {
         },
 
         // 상세 레시피로 보내주는 함수
-        // 데이터 연결 후 변경 예정
-        goToDetailRecipe(recipe_id) {
-            this.detailRecipe(recipe_id)
-            setTimeout(() => {
-                this.$router.push({name: "recipe",  
-                    params: { 
-                        recipe_id: recipe_id
-                    },
-                })
-            }, 500) 
+        goToDetailRecipe(recipe_id) {      
+          this.$router.push({name: "recipe",  
+              params: { 
+                  recipe_id: recipe_id
+              },
+            })
+          }
         },
 
     // 내려오면 api 호출하여 아래에 더 추가, total값 최대이면 호출 안함
@@ -82,7 +91,22 @@ export default {
       }
     },
 
-    }
+    created(){
+      this.recipeSpecificSearch(this.$route.params.keyword);
+    },
+    watch: {
+      '$route.params.keyword': function(newKeyword) {
+      this.recipeSpecificSearch(newKeyword);
+    },
+    recipeSpecific: {
+      handler() {
+        // recipeSpecific이 변경될 때 실행되는 로직);
+        // 여기에 원하는 동작을 추가할 수 있습니다.
+        this.page = 1
+      },
+      immediate: true, // 컴포넌트가 생성될 때 즉시 실행
+    },
+    },
   };
 </script>
 
@@ -105,10 +129,13 @@ export default {
 
 /* 검색 결과 레시피 카드 */
 .recommendCard {
-    border-radius: .5rem;
-    box-shadow: 2px 2px 2px 2px;
-    height: 25rem;
-    width: 20rem;
+    border-radius: .1rem;
+    border: 1px solid rgb(207, 205, 205);
+    /* box-shadow: 0 4px 4px -4px black; */
+    box-shadow: 0 0 0 1px hsla(212,7%,43%,.32);
+    /* border: 1px solid #857f7b; */
+    height: 23rem;
+    width: 18rem;
     cursor: pointer;
     margin: 1rem;
     font-weight: bold;
@@ -120,17 +147,18 @@ export default {
 }
 
 img {
-    width: 90%;
+    width: 100%;
     height: 50%;
-    margin-top: 1rem;
-    border-radius: .5rem;
-    box-shadow: 2px 2px .5px .5px;
+    /* margin-top: 1rem; */
+    border-radius: .1rem;
+    /* box-shadow: 2px 2px .5px .5px; */
 }
 
 .recipeName {
     margin: auto;
-    word-break: keep-all;
-    margin-top: 2rem;
+    /* word-break: keep-all; */
+    overflow: hidden;
+    margin: 3rem 2rem;
     font-size: 2rem;
     font-family: 'LINESeedKR-Bd';
 }
@@ -147,12 +175,22 @@ img {
 
 @media screen and (max-width: 992px) {
   .recommendCard {
-    border-radius: .5rem;
+    /* border-radius: .5rem;
     box-shadow: 2px 2px 2px 2px;
     height: 20rem;
     width: 15rem;
     cursor: pointer;
+    margin: 1rem; */
+    border-radius: .1rem;
+    border: 1px solid rgb(207, 205, 205);
+    box-shadow: 0 4px 4px -4px black;
+    /* border: 1px solid #857f7b; */
+    height: 23rem;
+    width: 18rem;
+    cursor: pointer;
     margin: 1rem;
+    font-weight: bold;
+    transition: 0.3s;
     }
 
     .recommendCard p {
@@ -176,8 +214,14 @@ img {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 4rem;
 }
 .pagination button {
+  font-family: 'LINESeedKR-Rg';
   margin: 0 5px;
+  border-radius: .2rem;
+  border: 1px solid #FD7E14;
+  background-color: #fff;
+  padding: .25rem .7rem;
 }
 </style>

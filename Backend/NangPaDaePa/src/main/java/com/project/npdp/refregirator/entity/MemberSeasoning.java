@@ -36,10 +36,11 @@ public class MemberSeasoning {
 
     private LocalDateTime expiredDate;
     @Builder
-    public MemberSeasoning(Member member, Seasoning seasoning, Long storage) {
+    public MemberSeasoning(Member member, Seasoning seasoning, Long storage, LocalDateTime startDate) {
         this.member = member;
         this.seasoning = seasoning;
         this.storage = storage;
+        this.startDate = startDate;
     }
 
     public void updateValues(MemberSeasoningModifyRequestDto dto) {

@@ -9,9 +9,9 @@
       <p class="toolTitle">내 조리도구</p>
       <!-- 조리도구 체크박스 -->
       <div class="toolBox row">
-        <div v-for="(tool, index) in tools" :key="index" class="col-4 checkTool">
+        <div v-for="(name, idx) in tools" :key="idx" class="col-4 checkTool">
           <label>
-            <input type="checkbox" name="tool" v-model="checkedTool" :value=tool>{{tool}}
+             <input type="checkbox" name="tool" @change="toggleUtensil(name)" :checked="isUtensilSelected(name)">{{ name }}
           </label>
         </div>
       </div>
@@ -22,6 +22,7 @@
 
 <script>
 import CategoryComponent from './categoryComponent.vue'
+import {mapGetters, mapActions} from 'vuex'
 
 export default {
     name: 'ToolPage',
@@ -31,38 +32,93 @@ export default {
     // 임시 데이터
     data() {
       return {
-        tools: [  "가스레인지",
-        "과일칼",
-        "믹서",
-        "반죽기",
-        "빙수기",
-        "빵틀",
-        "수비드머신",
-        "식기건조대",
-        "전기레인지",
-        "전기밥솥",
-        "전기찜솥",
-        "전기오븐",
-        "전기주전자",
-        "전자레인지",
-        "커피머신",
-        "토스터",
-        "튀김기",
-        "에어프라이어",
-        "와플기",
-        "제빙기",
-        "제빵기",
-        "제면기"
-        ,],
-        checkedTool: [],
+        tools: [  
+          "가스레인지",
+          "믹서",
+          "반죽기",
+          "빙수기",
+          "수비드머신",
+          "전기레인지",
+          "전기밥솥",
+          "전기찜솥",
+          "전기오븐",
+          "전기주전자",
+          "전자레인지",
+          "커피머신",
+          "토스터",
+          "튀김기",
+          "에어프라이어",
+          "와플기",
+          "제빙기",
+          "제빵기",
+          "제면기",
+        ],
+        utensilData: [],
+        memberId:null,
+        utensilNameToPK: {
+          '가스레인지': [1, 7, 10, 12, 16, 20],
+          '믹서': [21],
+          '반죽기': [27],
+          '빙수기': [28],
+          '수비드머신': [30],
+          '전기레인지': [6, 8, 11, 13, 18, 23],
+          '전기밥솥': [14],
+          '전기찜솥': [15],
+          '전기오븐': [2],
+          '전기주전자': [9],
+          '전자레인지': [22],
+          '커피머신': [24],
+          '토스터': [3],
+          '튀김기': [17],
+          '에어프라이어': [4, 19],
+          '와플기': [5],
+          '제빙기': [29],
+          '제빵기': [26],
+          '제면기': [25]
+        },
+        resData:[],
       }
     },
     methods: {
+      ...mapActions(['memberUtensil']),
       saveTool() {
-        console.log(this.checkedTool)
-      }
-    }
+        this.memberUtensil({ type: 'post', memberId: this.memberId, utensilData: this.utensilData });
+      },
+      toggleUtensil(name) {
+        const pkArray = this.utensilNameToPK[name]
+        if (pkArray.some(pk => this.utensilData.includes(pk))) {
+          this.utensilData = this.utensilData.filter(pk => !pkArray.includes(pk));
+          console.log('배열에서 제거', this.utensilData);
+        } else {
+          this.utensilData.push(...pkArray);
+          console.log('배열에 추가', this.utensilData);
+        }
+
+      },
+      isUtensilSelected(name) {
+        return this.memberUtensilList.some(item => item.utensilName === name)
+      },
+    },
+
+    computed: {
+      ...mapGetters(['memberUtensilList'])
+    },
+
+    created() {
+      this.memberId = parseInt(sessionStorage.getItem('memberId'))
+      this.memberUtensil({ type: 'get', memberId: this.memberId })
+        .then(() => {
+          this.utensilData = this.memberUtensilList.reduce((data, item) => {
+            const pkArray = this.utensilNameToPK[item.utensilName];
+            if (pkArray) {
+              data.push(...pkArray);
+            }
+            return data;
+          }, []);
+        });
+  },
 }
+
 </script>
 
 <style scoped>

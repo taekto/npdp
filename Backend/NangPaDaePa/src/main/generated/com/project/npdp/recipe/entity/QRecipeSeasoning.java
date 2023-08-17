@@ -22,7 +22,7 @@ public class QRecipeSeasoning extends EntityPathBase<RecipeSeasoning> {
 
     public static final QRecipeSeasoning recipeSeasoning = new QRecipeSeasoning("recipeSeasoning");
 
-    public final NumberPath<Long> amount = createNumber("amount", Long.class);
+    public final StringPath amount = createString("amount");
 
     public final StringPath etc = createString("etc");
 

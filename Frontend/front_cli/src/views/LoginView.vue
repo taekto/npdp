@@ -33,7 +33,7 @@
       <button class="login_btn" style="width: 100%;">로그인</button>
       <div class="login_btn_bottom">
         <div class="forgot_password">
-          <router-link to="/signup">비밀번호 찾기</router-link>
+          <router-link to="/find">비밀번호 찾기</router-link>
         </div>
       <!-- 회원가입 페이지 router -->
         <div class="login_signup">
@@ -43,7 +43,7 @@
 
     </form>
     <!-- 소셜 로그인 -->
-      <div class="signup_sns">
+      <div class="login_sns" v-show="none">
           <button class="btn_sns btn-google btn-block" @click="socialLoginGoogle" style="width: 100%">
           Google 계정으로 시작</button>
           <button class="btn_sns btn-naver btn-block" @click="socialLoginNaver" style="width: 100%"><i class="fab fab-naver-alt"></i> 
@@ -52,7 +52,6 @@
           KaKao 계정으로 시작</button>
       </div>
   </div>
-  
 </div>
 
 </template>
@@ -80,24 +79,35 @@ export default {
       this.socialType = 'Google'
       axios ({
         url: 'https://i9b202.p.ssafy.io/api/oauth/google-login',
-        methods: 'get',
+        method: 'get',
       })
       .then (res => {
-        console.log(res.data)
+        console.log(res.data) // redirect_uri 받아 옴
+
+        axios({
+          url: 'https://i9b202.p.ssafy.io/api/oauth/google',
+          method: 'post',
+        })
+        .then(res => {
+          console.log(res.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
         console.log(res.status)
-        sessionStorage.setItem("accessToken", res.data.accessToken)
-        sessionStorage.setItem("memberId", res.data.id)
-        sessionStorage.setItem('social', 1)
-        if(res.status === 200) {
-          this.$router.push({
-            name: 'main',
-          })
-        }
-        else if (res.status === 201) {
-          this.$router.push({
-            name: 'social',
-          })
-        }
+        // sessionStorage.setItem("accessToken", res.data.accessToken)
+        // sessionStorage.setItem("memberId", res.data.id)
+        // sessionStorage.setItem('social', 1)
+        // if(res.status === 200) {
+        //   this.$router.push({
+        //     name: 'main',
+        //   })
+        // }
+        // else if (res.status === 201) {
+        //   this.$router.push({
+        //     name: 'social',
+        //   })
+        // }
       })
       .catch (err => {
         console.log(err)
@@ -107,7 +117,7 @@ export default {
       this.socialType = 'Naver'
       axios ({
         url: 'https://i9b202.p.ssafy.io/api/oauth/naver-login',
-        methods: 'get',
+        method: 'get',
       })
       .then (res => {
         console.log(res.data)
@@ -171,7 +181,7 @@ export default {
 
 /* 로그인 */
 .login_form {
-  width: 30%;
+  width: 25%;
 }
 .login_card {
   display: flex;
@@ -187,6 +197,7 @@ export default {
   text-align: center;
   margin-top: 70px;
   margin-bottom: 70px;
+  min-width: 280px;
 }
 
 .input_label {
@@ -194,6 +205,7 @@ export default {
   font-size: 18px;
   display: flex;
   padding: 15px 0px 5px 0px;
+  min-width: 280px;
 }
 
 .input_label ~ input {
@@ -202,7 +214,8 @@ export default {
   height: 3rem;
   border-radius: 3px;
   border: 1px solid black;
-  padding: .5rem
+  padding: .5rem;
+  min-width: 280px;
 }
 
 .login_form_remember {
@@ -246,10 +259,12 @@ export default {
   color: #FFFFFF;
   padding: .5rem;
   cursor: pointer; 
+  min-width: 280px;
   border-radius: 4px;
 }
 
 .login_btn_bottom {
+  min-width: 280px;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -269,7 +284,8 @@ span > a {
 
 /* 소셜 로그인 */
 .login_sns {
-  width: 30%;
+  margin-top: 2rem;
+  width: 25%;
   margin-top: 3rem;
   margin-bottom: 3rem;
 }
