@@ -21,12 +21,12 @@
       <!-- 인분수 정보 -->
       <p class="dishText">기준 : {{recipeDetail.dish}}인분</p>
       
-      <!-- 재료 입력 모달 버튼 -->
+      <!-- 재료 입력 모달 버튼
       <div class="modal_container">
         <IngredientModal />
-        <!-- 양념 입력 모달 버튼 -->
-        <SeasoningModal />
-        </div>
+        양념 입력 모달 버튼 -->
+        <!-- <SeasoningModal />
+        </div> -->
         </div>
     </div>
   </div>
@@ -36,8 +36,8 @@
 
 import GraphInfomation from './GraphInfomation.vue'
 import CalorieInformation from './CalorieInfomation.vue'
-import IngredientModal from '../../modalPage/IngredientModal'
-import SeasoningModal from '../../modalPage/SeasoningModal'
+// import IngredientModal from '../../modalPage/IngredientModal'
+// import SeasoningModal from '../../modalPage/SeasoningModal'
 import {mapGetters} from 'vuex'
 
 export default {
@@ -45,8 +45,8 @@ export default {
     components: {
       GraphInfomation,
       CalorieInformation,
-      IngredientModal,
-      SeasoningModal,
+      // IngredientModal,
+      // SeasoningModal,
     },
     computed: {
       ...mapGetters(['recipeDetail']),

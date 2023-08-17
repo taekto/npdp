@@ -40,7 +40,7 @@
  <div v-if="seasoningSearchData.length > 0" class="search_results_container">
       <ul>
         <li v-for="result in seasoningSearchData" :key="result.id" @click="selectedItem(result)">
-          <div v-if="seasoningName === result.name" style="font-weight: bold;">{{ result.name }}</div>
+          <div v-if="seasoningId === result.id" style="font-weight: bold;">{{ result.name }}</div>
           <div v-else>{{ result.name }}</div>
         </li>
       </ul>
