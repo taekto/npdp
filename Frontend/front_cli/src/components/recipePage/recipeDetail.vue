@@ -25,15 +25,17 @@
     <IngredientInfomation :serving='serving'/>
   </div>
 
+  <div v-if="recipeDetail.recipeUtensils.length !== 0">
   <div class="utensilLine menu">
       <div class="utensilName total">조리도구</div>
   </div>
 
-  <div class="utensilContainer">
-      <div class="utensilLine" v-for="item,idx in recipeDetail.recipeUtensils" :key="idx">
-          <div class="utensilName">
-            {{item.name}}
-          </div>
+    <div class="utensilContainer">
+        <div class="utensilLine" v-for="item,idx in recipeDetail.recipeUtensils" :key="idx">
+            <div class="utensilName">
+              {{item.name}}
+            </div>
+        </div>
       </div>
   </div>
 
@@ -490,5 +492,9 @@ img {
   /* border: solid rgb(160, 160, 160);
   border-radius: .5rem; */
   /* display: flex; */
+}
+.no_utensil {
+  font-family: 'GangwonEdu_OTFBoldA';
+  margin: 1rem auto;
 }
 </style>

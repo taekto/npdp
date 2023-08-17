@@ -384,7 +384,7 @@ export default {
     margin: auto;
     padding: 1rem;
     margin-bottom: 2rem;
-    min-height: 75vh;
+    /* min-height: 75vh; */
 }
 
 /* 레시피의 ingredientName과 다름 */
@@ -564,7 +564,7 @@ ul {
 }
 .pagination button {
   font-family: 'LINESeedKR-Rg';
-  /* color: #FD7E14; */
+  color: #FD7E14;
   margin: 0 5px;
   border-radius: .2rem;
   border: 1px solid #FD7E14;
