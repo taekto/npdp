@@ -387,7 +387,7 @@ ul {
     width: 2rem;
     height: 60%;
     border-radius: .5rem;
-    border: solid rgb(244, 244, 244);
+    border: solid #FD7E14;
     background-color: #FD7E14;
     color: white;
 }

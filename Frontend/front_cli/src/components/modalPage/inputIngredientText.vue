@@ -386,10 +386,11 @@ export default {
     width: 10rem;
 }
 
-#searchForm {
-  margin-right: 0;
-  margin-left: 0;
+#searchForm[data-v-652ac216] {
   border-radius: 0;
+    margin-right: 0;
+    margin-left: 0;
+    width: 10rem;
 }
 
 .amountButton {
