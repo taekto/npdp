@@ -87,6 +87,7 @@
                         </div>
                     </ul>
                     <div class="pagination">
+                        <button @click="goToIngredientPage(1)" :disabled="ingredientPage === 1">처음</button>
                         <button @click="goToIngredientPage(ingredientPage - 1)" :disabled="ingredientPage === 1">이전</button>
                         <button v-for="pageNumber in ingredientTotalPages" :key="pageNumber" 
                         @click="goToIngredientPage(pageNumber)" 
@@ -94,6 +95,7 @@
                             {{ pageNumber }}
                         </button>
                         <button @click="goToIngredientPage(ingredientPage + 1)" :disabled="ingredientPage === ingredientTotalPages">다음</button>
+                        <button @click="goToIngredientPage(ingredientTotalPages)" :disabled="ingredientPage === ingredientTotalPages">끝</button>
                     </div>
                 </div>
                 <!-- 양념 -->
@@ -138,6 +140,7 @@
                     </ul>
         
                     <div class="pagination">
+                        <button @click="goToSeasoningPage(1)" :disabled="seasoningPage === 1">처음</button>
                         <button @click="goToSeasoningPage(seasoningPage - 1)" :disabled="seasoningPage === 1">이전</button>
                         <button v-for="pageNumber in seasoningtTotalPages" :key="pageNumber" 
                         @click="goToSeasoningPage(pageNumber)"
@@ -145,6 +148,7 @@
                             {{ pageNumber }}
                         </button>
                         <button @click="goToSeasoningPage(seasoningPage + 1)" :disabled="seasoningPage === seasoningtTotalPages">다음</button>
+                        <button @click="goToSeasoningPage(seasoningtTotalPages)" :disabled="seasoningPage === seasoningtTotalPages">끝</button>
                     </div>
                 </div>
             </div>
@@ -560,7 +564,7 @@ ul {
 }
 .pagination button {
   font-family: 'LINESeedKR-Rg';
-  color: #FD7E14;
+  /* color: #FD7E14; */
   margin: 0 5px;
   border-radius: .2rem;
   border: 1px solid #FD7E14;

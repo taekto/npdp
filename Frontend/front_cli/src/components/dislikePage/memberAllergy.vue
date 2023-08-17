@@ -95,13 +95,13 @@ export default {
 
 <style>
 .allergy_container {
-  border: solid #a7a7a7;
+  /* border: solid #a7a7a7; */
   border-radius: 0.5rem;
   width: 80%;
   margin: auto;
   padding: 1rem;
   margin-bottom: 3rem;
-  height: 55vh;
+  min-height: 55vh;
   font-family: 'GangwonEdu_OTFBoldA';
 }
 

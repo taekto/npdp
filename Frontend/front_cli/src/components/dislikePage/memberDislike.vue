@@ -52,10 +52,6 @@
               <button class="save_btn" @click="memberDislikeAllergy({type:'dislikePost', memberId:this.memberId})">저장</button>
             </div>
         </div>
-      <div>
-        <button @click="startSpeechRecognition">음성으로 재료 입력</button>
-        <p class="output">인식된 재료: {{ recognizedIngredients }}</p>
-      </div>  
           
       </div>
     </div>
@@ -135,6 +131,18 @@ export default {
     width: 80%;
     margin: auto;
 }
+
+.member_dislike_list {
+  max-height: 50vh;
+  overflow-y: auto;
+
+}
+
+.result_box {
+  max-height: 25vh;
+  overflow: auto;
+}
+
 .dislike_container {
   border: solid #a7a7a7;
   border-radius: 0.5rem;
@@ -142,7 +150,7 @@ export default {
   margin: auto;
   padding: 1rem;
   margin-bottom: 3rem;
-  height: 55vh;
+  height: 70vh;
   font-family: 'GangwonEdu_OTFBoldA';
 }
 
