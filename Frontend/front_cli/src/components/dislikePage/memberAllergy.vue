@@ -7,37 +7,34 @@
         <!-- 알러지 재료 리스트 체크박스 한줄에 5개씩 만든다 -->
       <div class="allergy_container">
         <div class="row member_allergy_container">
-        <div class="col-1 col_Box"></div>
-        <div class="col-4 membe6r_allergy">
-          <h3 class="list_title">알러지 체크</h3>
-          <div class="allergyBox row">
-            <div v-for="(item, idx) in allergyList" :key="idx" class="col-4 checkAllergy">
-              <label>
-                <input type="checkbox" name="allergy" @change="toggleAllergy(item)" :checked="isAllergySelected(item.allergyId)">{{ item.allergyName }}
-              </label>
+          <div class="col-1 col_Box"></div>
+          <div class="col-4 membe6r_allergy">
+            <h3 class="list_title">알러지 체크</h3>
+            <div class="allergyBox row">
+              <div v-for="(item, idx) in allergyList" :key="idx" class="col-4 checkAllergy">
+                <label>
+                  <input type="checkbox" name="allergy" @change="toggleAllergy(item)" :checked="isAllergySelected(item.allergyId)">{{ item.allergyName }}
+                </label>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="col-1 col_Box"></div>
-        <div class="col-5 member_allergy_list">
-          <h3 class="list_title">알러지 재료 리스트</h3>
-          <div class="col-12 member_check_list">
-            <div class="row">
-              <div v-for="(item,idx) in memberAllergy" :key="idx">
-                <div class="allergy_list_item">
-                    <div class="allergy_name">{{ item.allergyName }}</div>
-                  <button @click="deleteItem({type: 'allergy', delData: item.allergyId})" class="delete_button">
-                    X
-                  </button>
+          <div class="col-1 col_Box"></div>
+          <div class="col-5 member_allergy_list">
+            <h3 class="list_title">알러지 재료 리스트</h3>
+            <div class="col-12 member_check_list">
+              <div class="row">
+                <div v-for="(item,idx) in memberAllergy" :key="idx">
+                  <div class="allergy_list_item">
+                      <div class="allergy_name">{{ item.allergyName }}</div>
+                    <button @click="deleteItem({type: 'allergy', delData: item.allergyId})" class="delete_button">
+                      X
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <button @click="memberDislikeAllergy({ type: 'allergyPost', memberId: this.memberId })">
-            저장
-          </button>
-        </div>
           
         </div>
         <div class="row save_btn_container">
@@ -107,10 +104,6 @@ export default {
   height: 55vh;
   font-family: 'GangwonEdu_OTFBoldA';
 }
-.allergy_check_container {
-  border: 1px solid black;
-  border-radius: 10px;
-}
 
 .menuTitle_allergy{
     font-family: 'LINESeedKR-Rg';
@@ -139,6 +132,7 @@ export default {
   align-items: center;
   padding: 8px 0;
   border-bottom: 1px solid #ccc;
+  overflow-y: auto; 
 }
 
 .delete_button {
@@ -167,4 +161,5 @@ export default {
   color: white;
   border: none;
 }
+
 </style>
