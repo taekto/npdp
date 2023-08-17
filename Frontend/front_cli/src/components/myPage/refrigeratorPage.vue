@@ -380,7 +380,7 @@ export default {
     margin: auto;
     padding: 1rem;
     margin-bottom: 2rem;
-    /* height: 60vh; */
+    min-height: 75vh;
 }
 
 /* 레시피의 ingredientName과 다름 */
