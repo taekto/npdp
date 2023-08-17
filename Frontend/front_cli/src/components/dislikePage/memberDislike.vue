@@ -3,45 +3,46 @@
     <!-- 좌측 마이페이지 메뉴 컴포넌트 -->
     <CategoryComponent />
     <div id="myPageView">
-    <p class="menuTitle">비선호 재료 검색</p>
-    <div class="dislike_container">
-      <div class="row member_dislike_search">
-        <div class="col-3 col_container"></div>
-        <div class="col-6 searchbox">
-          <form class="search_form" @submit.prevent="specificSearch({ type: 'ingredient', name: this.ingredientName })">
-            <div class="input-group">
-              <input id="searchForm ingredientText" class="form-control" type="text" v-model.trim="ingredientName">
-              <input id="submitButton" type="submit" value="검색">
-            </div>
-          </form>
-        </div>
-      </div>
+      <p class="menuTitle">비선호 재료 등록</p>
+      <div class="dislike_container">
+        <div class="row member_dislike_search">
+          <div class="col-4 searchbox">
+            <h3 class="list_title">비선호 재료 검색</h3>
+            <div class="col-2 col_box"></div>
+            <form class="col-10 search_form" @submit.prevent="specificSearch({ type: 'ingredient', name: this.ingredientName })">
+              <div class="input-group">
+                <input id="searchForm ingredientText" class="form-control" type="text" v-model.trim="ingredientName">
+                <input id="submitButton" type="submit" value="검색">
+              </div>
+            </form>
 
-        <div class="row search_results_container">
-          <div class="col-3 col_container"></div>
-          <div class="col-6 search_result_container_box">
-            <li v-for="item in ingredientSearchData" :key="item.id" @click="appendItem({type:'dislike', memberId: this.memberId, inputData:item})">
-              {{ item.name }}
-            </li>
+            <div class="result_box" >
+              <li v-for="item in ingredientSearchData" :key="item.id" @click="appendItem({type:'dislike', memberId: this.memberId, inputData:item})">
+                {{ item.name }}
+              </li>
+            </div>
+            <div v-if="ingredientSearchData.length === 0" class="no_results">
+              검색 결과가 없습니다.
+            </div>
+          </div>
+
+          <div class="col-8 member_dislike_list">
+            <h3 class="list_title">비선호 리스트</h3>
+              <div class="member_check_list">
+                <span v-for="(dislikeItem,idx) in memberDislikeIngredient" :key="idx">
+                  {{ dislikeItem.ingredientName }}
+                <button @click="deleteItem({type: 'dislike', delData: dislikeItem.ingredientId})">삭제</button>  
+                </span>
+              </div>
+            <button class="saveButton" @click="memberDislikeAllergy({type:'dislikePost', memberId:this.memberId})">저장</button>
           </div>
         </div>
-
-        <div class="member_dislike_list">
-          <h3 class="list_title">비선호 재료 리스트</h3>
-            <div class="member_check_list">
-              <span v-for="(dislikeItem,idx) in memberDislikeIngredient" :key="idx">
-                {{ dislikeItem.ingredientName }}
-              <button @click="deleteItem({type: 'dislike', delData: dislikeItem.ingredientId})">삭제</button>  
-              </span>
-            </div>
-          <button class="saveButton" @click="memberDislikeAllergy({type:'dislikePost', memberId:this.memberId})">저장</button>
-        </div>
-    <div>
-      <button @click="startSpeechRecognition">음성으로 재료 입력</button>
-      <p class="output">인식된 재료: {{ recognizedIngredients }}</p>
-    </div>  
-        
-    </div>
+      <div>
+        <button @click="startSpeechRecognition">음성으로 재료 입력</button>
+        <p class="output">인식된 재료: {{ recognizedIngredients }}</p>
+      </div>  
+          
+      </div>
     </div>
   </div>
 
@@ -116,7 +117,13 @@ export default {
   width: 75%;
   margin-bottom: 3rem;
   margin-top: 3rem;
+  min-height: 35rem;
+}
 
+.input-group{
+  margin-left: 2rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .list_title{
@@ -125,6 +132,7 @@ export default {
 }
 
 .saveButton {
+  margin-top: 1rem;
     margin-bottom: 5rem;
     background-color: #FD7E14;
     border-radius: .5rem;
@@ -134,13 +142,26 @@ export default {
     border: none;
 }
 
-.search_result_container_box{
-  text-align: left
+.result_box{
+  text-align: center;
+  max-height: 20rem;
+  overflow-y: auto;
+  position: relative;
 }
 
-.search_result_container_box li {
+.no_results{
+  margin-left: 2rem;
+}
+
+.result_box li {
   margin-top: .1rem;
 }
 
+.member_check_list{
+  margin-left: 1rem;
+  margin-right: 2rem;
+  height: 20rem;
+  overflow-y: auto;
+}
 
 </style>
