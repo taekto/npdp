@@ -59,6 +59,7 @@ export default {
     border-radius: 1rem;
     display: flex;
     margin: 3rem;
+    margin-bottom: 10rem;
 }
 
 #myPageMenu {
@@ -69,7 +70,7 @@ export default {
     width: 85%;
     border-radius: 1rem;
     margin-top: 2rem;
-    margin-bottom: 10rem;
+    margin-bottom: 7rem;
     /* border: solid black; */
     min-height: 50vh;
 }
