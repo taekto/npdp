@@ -38,6 +38,9 @@
         </div>
     </div>
   </div>
+  <div v-else>
+    <div></div>
+  </div>
 
       <!-- 레시피 순서 -->
   <div class="recipeOrder">
