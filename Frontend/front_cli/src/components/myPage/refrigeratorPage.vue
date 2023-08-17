@@ -6,27 +6,27 @@
 
         <!-- 우측 냉장고 컴포넌트 -->
         <div id="myPageView">
-            <p class="menuTitle">내 냉장고</p>
+            <!-- <p class="menuTitle">내 냉장고</p> -->
             <!-- 보관방법 변경 & 재료, 양념 입력 버튼 -->
             <div class="buttonGroup">
                 <!-- 보관 방법 변경 버튼 -->
                 <div class="storageRadio">
-                    <label v-if="storage !== 0" class="radioButton">
+                    <label v-if="storage !== 0" class="radioButton_1">
                         <input type="radio" name="coldStorage" value="냉장" @click="selectStorage(0)">냉장
                     </label>
-                    <label v-else class="radioButton2">
+                    <label v-else class="radioButton_2">
                         <input type="radio" name="coldStorage" value="냉장" @click="selectStorage(0)">냉장
                     </label>
-                    <label v-if="storage !== 1" class="radioButton">
+                    <label v-if="storage !== 1" class="radioButton_1">
                         <input type="radio" name="frozenStorage" value="냉동" @click="selectStorage(1)">냉동
                     </label>
-                    <label v-else class="radioButton2">
+                    <label v-else class="radioButton_2">
                         <input type="radio" name="frozenStorage" value="냉동" @click="selectStorage(1)">냉동
                     </label>
-                    <label v-if="storage !== 2" class="radioButton">
+                    <label v-if="storage !== 2" class="radioButton_1">
                         <input type="radio" name="rtStorage" value="실온" @click="selectStorage(2)">실온
                     </label>            
-                    <label v-else class="radioButton2">
+                    <label v-else class="radioButton_2">
                         <input type="radio" name="rtStorage" value="실온" @click="selectStorage(2)">실온
                     </label>            
                 </div>
@@ -36,13 +36,14 @@
                     <SeasoningModal />
                 </div>
             </div>
+            <!-- <div class="subtitle_line"></div> -->
             
             <!-- 현재 보관 중인 재료 & 양념 보여주는 컴포넌트(냉장, 냉동, 실온) -->
             <div>
                 <!-- 재료 -->
                 <div class="refrigeratorCategory">
                     <div style="display: flex; justify-content: space-between; width: 80%; margin: auto">
-                        <p class="categoryTitle">{{printStorage}} 재료</p>
+                        <div class="categoryTitle">내가 보관중인 재료</div>
                         <button class="saveButton" @click="saveMaterial({type: 'ingredient', memberId: this.memberId, sendData: displayedIngredientItems.tempIngredient })">
                             저장하기
                         </button>
@@ -53,9 +54,9 @@
                             <div class="ingredientList">
                                 <p class="ingredientName">{{ingredientItem.kor}}</p>
                                 <div class="amount">
-                                    <button class="amountButton" @click="plusAmount(ingredientItem)">+</button>
-                                    <p class="amountAndUnit">{{changeAmount(ingredientItem.amount)}}{{ingredientItem.unit}}</p>
                                     <button class="amountButton" @click="minusAmount(ingredientItem)">-</button>
+                                    <p class="amountAndUnit">{{changeAmount(ingredientItem.amount)}}{{ingredientItem.unit}}</p>
+                                    <button class="amountButton" @click="plusAmount(ingredientItem)">+</button>
                                 </div>
                                 <div class="startDate">
                                     <p>보관시작일 : {{changeDate(ingredientItem.startDate)}}</p>
@@ -86,9 +87,9 @@
                 <div class="refrigeratorCategory">
 
                     <div style="display: flex; justify-content: space-between; width: 80%; margin: auto">
-                        <p class="categoryTitle">{{printStorage}} 양념</p>
+                        <div class="categoryTitle">내가 보관중인 양념</div>
                         <button class="saveButton" @click="saveMaterial({ type: 'seasoning', memberId: memberId, sendData: displayedIngredientItems.tempIngredient })">
-                            저장하기
+                            저장
                         </button>
                     </div>
 
@@ -310,7 +311,17 @@ export default {
 </script>
 
 <style scoped>
-
+#myPageView {
+    width: 75%;
+}
+.subtitle_line {
+    position: absolute;
+    margin-left: 5rem;
+    width: 60%;
+    border-width: .1rem 0 0;
+    border-style: solid;
+    border-color: #cecece;
+}
 
 /* 보관 방법 & 모달창 버튼 */
 .buttonGroup {
@@ -318,6 +329,7 @@ export default {
     justify-content: space-between;
     width: 80%;
     margin: auto;
+    /* border-bottom: .1rem solid #cecece; */
 }
 
 .modalButtons {
@@ -330,7 +342,7 @@ export default {
     width: 80%;
     margin: auto;
     padding: 1rem;
-    margin-bottom: 5rem;
+    margin-bottom: 3rem;
     height: 60vh;
 }
 
@@ -387,8 +399,9 @@ ul {
     width: 2rem;
     height: 60%;
     border-radius: .5rem;
-    background-color: #f2f2f2;
-    border: solid rgb(244, 244, 244);
+    border: solid #FD7E14;
+    background-color: #FD7E14;
+    color: white;
 }
 
 .startDate {
@@ -442,26 +455,35 @@ ul {
 
 .storageRadio {
     display: flex;
+    align-items: end;
     /* margin: auto; */
     /* margin-top: 3rem; */
     /* margin-left: 7.5rem; */
 }
-
-.storagae.radioButton {
+.radioButton_1 {
     font-family: 'LINESeedKR-Bd';
-    font-size: 1.2rem;
+    font-size: 1.4rem;
+    margin-right: 1rem;
     cursor: pointer;
 }
-.storagae.radioButton:hover {
-    background-color: #FD7E14;
-    color: #f2f2f2;
+.radioButton_2 {
+    font-family: 'LINESeedKR-Bd';
+    color: #FD7E14; 
+    font-size: 1.5rem;
+    margin-right: 1rem;
+    cursor: pointer;
+    border-bottom: .1rem solid #FD7E14;
 }
-
+.radioButton_1:hover {
+    color: #FD7E14;
+}
 .categoryTitle {
+    font-family: 'LINESeedKR-Rg';
     text-align: start;
-    margin-top: 1rem;
-    margin-left: 1rem;
-    font-size: 1.75rem;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    /* margin-left: 1rem; */
+    font-size: 1.5rem;
     font-weight: bold;
 }
 
@@ -482,17 +504,17 @@ ul {
 }
 
 .saveButton {
-  border: solid #FD7E14;
+  /* border: solid #FD7E14; */
   color: white;
   background-color: #FD7E14;
   border-radius: .5rem;
-  margin: .5rem;
-  padding: 0.5rem;
-  margin-bottom: 3rem;
-  margin-right: 2rem;
-  font-size: 1.25rem;
-  font-weight: bold;
-  font-family: 'GangwonEdu_OTFBoldA';
-  width: 6rem;
+  /* margin: .5rem; */
+  padding: .1rem;
+  margin-bottom: 1rem;
+  /* margin-right: 1rem; */
+  font-size: 1rem;
+  /* font-weight: bold; */
+  font-family: 'LINESeedKR-Rg';
+  /* width: 5rem; */
 }
 </style>
