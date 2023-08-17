@@ -1,29 +1,34 @@
 <template>
     <!-- 좌측 메뉴 변경 컴포넌트 -->
     <div class="myPageComponent" id="myPageMenu">
-        <div>
-            <router-link to="/mypage/refrigerator">{{link1Text}}</router-link>
-        </div>
-        <div>
-            <router-link to="/mypage/tool">{{link2Text}}</router-link>
-        </div>
-        <div>
-            <router-link to="/mypage/like">{{link3Text}}</router-link>
-        </div>
-        <div>
-            <router-link 
-            v-if="nowPage === 'http://localhost:8080/mypage/edit' || nowPage === 'https://i9b202.p.ssafy.io/mypage/edit'" 
-            to="/mypage/edit">{{link4Text}}</router-link>
-            <router-link 
-            v-else to="/mypage">{{link4Text}}</router-link>
-        </div>
-        <!-- 비선호/ 알러지 -->
-        <div>
-            <router-link to="/dislike">{{link5Text}}</router-link>
-        </div>
-
-        <div>
-            <router-link to="/allergy">{{link6Text}}</router-link>
+        <div class="mypage_title">마이페이지</div>
+        <div class="category_container">
+            <div class="category_title">HOME</div>
+            <div class="category_name">
+                <router-link 
+                v-if="nowPage === 'http://localhost:8080/mypage/edit' || nowPage === 'https://i9b202.p.ssafy.io/mypage/edit'" 
+                to="/mypage/edit">{{link4Text}}</router-link>
+                <router-link 
+                v-else to="/mypage">{{link4Text}}</router-link>
+            </div>
+            <div class="category_title">주방 관리</div>
+            <div class="category_name">
+                <router-link to="/mypage/refrigerator">{{link1Text}}</router-link>
+            </div>
+            <div class="category_name">
+                <router-link to="/mypage/tool">{{link2Text}}</router-link>
+            </div>
+            <!-- 비선호/ 알러지 -->
+            <div class="category_name">
+                <router-link to="/dislike">{{link5Text}}</router-link>
+            </div>
+            <div class="category_title">레시피 관리</div>
+            <div class="category_name">
+                <router-link to="/mypage/like">{{link3Text}}</router-link>
+            </div>
+            <div class="category_name">
+                <router-link to="/allergy">{{link6Text}}</router-link>
+            </div>
         </div>
     </div>
 </template>
@@ -65,10 +70,10 @@ export default {
             return this.isViewportSmall ? "정보수정" : "내 정보수정";
         },
         link5Text() {
-            return this.isViewportSmall ? "비선호 재료 등록 및 수정" : "비선호 재료";
+            return this.isViewportSmall ? "비선호재료" : "비선호재료";
         },
         link6Text() {
-            return this.isViewportSmall ? "알러지 재료 등록 및 수정" : "알러지 재료";
+            return this.isViewportSmall ? "내 알러지" : "내 알러지 재료";
         },
 
     }
@@ -77,7 +82,30 @@ export default {
 
 <style scoped>
 .myPageComponent {
-    margin-top: 5rem;
+    position: relative;
+    margin-right: 2rem;
+}
+.mypage_title {
+    font-family: 'LINESeedKR-Bd';
+    font-size: 2rem;
+    text-align: left;
+    margin-top: 3rem;
+}
+.category_container {
+    position: absolute;
+    top: 6rem;
+    left: .5rem;
+}
+.category_title {
+    font-family: 'LINESeedKR-Bd';
+    text-align: left;
+    left: 1rem;
+    color: #aeaeae;
+    margin-bottom: 2rem;
+    margin-top: 3rem;
+}
+.myPageComponent {
+    margin-top: 1rem;
     /* margin-bottom: 3rem; */
     /* border: 1px solid black; */
     border-radius: .4rem;
@@ -87,20 +115,23 @@ export default {
     min-width: 12rem;
 }
 
-.myPageComponent div {
-    margin: 1rem auto 2rem;
+.category_name {
+    margin: 1rem;
+    margin-left: 1.5rem;
+    text-align: left;
     /* border-bottom: 1px solid #000000; */
     width: 90%;
 }
 
 .myPageComponent div a {
     text-decoration: none;
-    color: #757575;
+    color: #4e4e4e;
     font-weight: bold;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-family: 'LINESeedKR-Rg';
 }
 .myPageComponent div a.router-link-exact-active {
+    font-size: 1.5rem;
   color: #FD7E14;
 }
 </style>
