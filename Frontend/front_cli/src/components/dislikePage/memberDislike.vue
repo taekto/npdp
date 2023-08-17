@@ -3,7 +3,7 @@
     <!-- 좌측 마이페이지 메뉴 컴포넌트 -->
     <CategoryComponent />
     <div id="myPageView">
-      <p class="menuTitle_dislike">비선호 재료 등록</p>
+      <div class="menuTitle_dislike">비선호 재료 등록</div>
       <div class="dislike_container">
         <div class="row member_dislike_search">
           <div class="col-1 col_Box"></div>
@@ -121,12 +121,13 @@ export default {
 
 <style >
 .menuTitle_dislike{
-  font-family: 'LINESeedKR-Rg';
-  text-align: start;
-  font-size: 1.5rem;
-  font-weight: bold;
-  width: 80%;
-  margin: auto;
+    font-family: 'LINESeedKR-Rg';
+    text-align: start;
+    margin: 1rem auto;
+    /* margin-left: 1rem; */
+    font-size: 1.5rem;
+    font-weight: bold;
+    width: 80%;
 }
 
 .member_dislike_list {
@@ -141,7 +142,7 @@ export default {
 }
 
 .dislike_container {
-  border: 0.1rem solid #7f7f7f;
+  border: .1rem solid #a7a7a7;
   border-radius: 0.5rem;
   width: 80%;
   margin: auto;
