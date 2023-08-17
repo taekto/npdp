@@ -14,7 +14,7 @@
                   <img :src="recipe_item.imgBig" alt="">
                   <p class="recipeName">{{recipe_item.name}}</p>
                   <div class="buttonGroup">
-                    <button class="deleteButton" @click.stop="handleUnlike(recipe_item.recipeId)">좋아요 취소</button>
+                    <button class="deleteButton" @click.stop="handleUnlike(recipe_item.recipeId)">취소</button>
                   </div>
               </div>
           </div>
@@ -145,6 +145,7 @@ export default {
 }
 .pagination button {
   font-family: 'LINESeedKR-Rg';
+  color: #FD7E14;
   margin: 0 5px;
   border-radius: .2rem;
   border: 1px solid #FD7E14;
@@ -179,6 +180,7 @@ export default {
     margin: 1rem;
     font-weight: bold;
     transition: 0.3s;
+    margin-top: 5rem;
 }
 
 .recommendCard:hover{
@@ -216,6 +218,7 @@ img {
 }
 
 .deleteButton {
+  font-family: 'LINESeedKR-Rg';
     background-color: #FD7E14;
     color: white;
     border: none;
