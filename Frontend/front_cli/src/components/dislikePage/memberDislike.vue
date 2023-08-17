@@ -31,20 +31,26 @@
           <div class="col-1 col_Box"></div>
           <div class="col-5 member_dislike_list">
             <h3 class="list_title">비선호 재료 리스트</h3>
-              <div class="col-12 member_check_list">
-                <div class="row">
-                  <div v-for="(item,idx) in memberDislikeIngredient" :key="idx">
-                    <div class="ingredient_list_item">
-                      <div class="ingredient_name">{{ item.ingredientName }}</div>
-                      <button @click="deleteItem({type: 'ingredient', delData: item.ingredientId})" class="delete_button">
-                        X
-                      </button>
-                    </div>
+            <div class="col-12 member_check_list">
+              <div class="row">
+                <div v-for="(item,idx) in memberDislikeIngredient" :key="idx">
+                  <div class="ingredient_list_item">
+                    <div class="ingredient_name">{{ item.ingredientName }}</div>
+                    <button @click="deleteItem({type: 'dislike', delData: item.ingredientId})" class="delete_button">
+                      X
+                    </button>
                   </div>
                 </div>
-            <button class="saveButton" @click="memberDislikeAllergy({type:'dislikePost', memberId:this.memberId})">저장</button>
+              </div>
+            </div>
           </div>
-          </div>
+        </div>
+        
+        <div class="row save_btn_container">
+            <div class="col-9"></div>
+            <div class="col-3">
+              <button class="save_btn" @click="memberDislikeAllergy({type:'dislikePost', memberId:this.memberId})">저장</button>
+            </div>
         </div>
       <div>
         <button @click="startSpeechRecognition">음성으로 재료 입력</button>
@@ -118,59 +124,34 @@ export default {
 
 
 <style>
+.menuTitle_dislike{
+    font-family: 'LINESeedKR-Rg';
+    text-align: start;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    /* margin-left: 1rem; */
+    font-size: 1.5rem;
+    font-weight: bold;
+    width: 80%;
+    margin: auto;
+}
 .dislike_container {
+  border: solid #a7a7a7;
+  border-radius: 0.5rem;
+  width: 80%;
   margin: auto;
-  border: solid grey;
-  border-radius: .5rem;
-  width: 75%;
+  padding: 1rem;
   margin-bottom: 3rem;
-  margin-top: 3rem;
-  min-height: 35rem;
+  height: 55vh;
+  font-family: 'GangwonEdu_OTFBoldA';
 }
 
-.menu
-.input-group{
-  margin-left: 2rem;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-}
-
-.list_title{
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-}
-
-.saveButton {
-  margin-top: 1rem;
-    margin-bottom: 5rem;
-    background-color: #FD7E14;
-    border-radius: .5rem;
-    width: 5rem;
-    height: 3rem;
-    color: white;
-    border: none;
-}
-
-.result_box{
-  text-align: center;
-  max-height: 20rem;
-  overflow-y: auto;
-  position: relative;
-}
-
-.no_results{
-  margin-left: 2rem;
-}
-
-.result_box li {
-  margin-top: .1rem;
-}
-
-.member_check_list{
-  margin-left: 1rem;
-  margin-right: 2rem;
-  height: 20rem;
-  overflow-y: auto;
+.ingredient_list_item{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #ccc;
 }
 
 </style>
