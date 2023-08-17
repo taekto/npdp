@@ -21,7 +21,7 @@ public class Refregirator {
 
     private Long storage;
 
-    private Double amount;
+    private String amount;
 
     private String unit;
 
@@ -40,7 +40,7 @@ public class Refregirator {
     private Ingredient ingredient;
 
     @Builder
-    public Refregirator(Long storage, Double amount, String unit, LocalDateTime startDate, LocalDateTime expiredDate, Member member, Ingredient ingredient) {
+    public Refregirator(Long storage, String amount, String unit, LocalDateTime startDate, LocalDateTime expiredDate, Member member, Ingredient ingredient) {
         this.storage = storage;
         this.amount = amount;
         this.unit = unit;

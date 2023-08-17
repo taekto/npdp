@@ -14,7 +14,7 @@
                 <p>{{calorieInfo.name}}</p>
             </div>
             <div class="ingredientAmount">
-                <p>{{(calorieInfo.value*serving).toFixed(1)}}</p>
+                <p>{{calorieInfo.value}}</p>
             </div>
         </div>
 </div>

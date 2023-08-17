@@ -67,6 +67,8 @@ img {
 
 * {
   list-style: none;
+  /* font-family: 'LINESeedKR-Bd'; */
+  font-family: 'LINESeedKR-Rg';
 }
 .info_text_title {
   font-family: 'LINESeedKR-Bd';

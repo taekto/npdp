@@ -102,6 +102,7 @@
                     <div style="display: flex; justify-content: space-between; width: 80%; margin: auto">
                         <div class="categoryTitle">내가 보관중인 양념</div>
                         <div class="modify_season"><SeasoningModal /></div>
+
                     </div>
 
 
@@ -186,6 +187,8 @@ export default {
           }
           return Math.ceil(count / this.itemsPerPage)
         },
+
+        
         
         displayedIngredientItems() {
           const startIndex = (this.ingredientPage - 1) * this.itemsPerPage
@@ -273,24 +276,28 @@ export default {
           }
         },
         plusAmount(tmpingredient) {
+            let tempAmount = parseFloat(tmpingredient.amount)
           if(tmpingredient.unit === "g") {
-            tmpingredient.amount += 10
+            tempAmount += 10
           }
           else{
-            tmpingredient.amount ++        
+            tempAmount ++        
           }
-          
+          tmpingredient.amount = tempAmount.toString() +'.0'
         },
         minusAmount(tmpingredient) {
+            let tempAmount = parseFloat(tmpingredient.amount)
           if(tmpingredient.unit === "g") {
-            tmpingredient.amount -= 10
+            tempAmount -= 10
           }
           else{
-            tmpingredient.amount --
+            tempAmount --
           }
 
-          if (tmpingredient.amount <= 0) {
-            this.updateMaterial({type: 'ingredient', memberId: this.memberId, updateItem: tmpingredient })
+            tmpingredient.amount = tempAmount.toString() +'.0'
+
+          if (parseFloat(tmpingredient.amount) <= 0) {
+            this.updateMaterial({type: 'ingredientDelete', memberId: this.memberId, updateItem: tmpingredient })
           }
         },
         goToIngredientPage(pageNumber) {
@@ -314,6 +321,15 @@ export default {
             }
             else {
                 return
+            }
+        },
+        changeAmount(value) {
+            if(!isNaN(parseFloat(value))) {
+                let newValue = parseFloat(value).toFixed(0)
+                return newValue
+            }
+            else {
+                return value
             }
         },
         
@@ -443,8 +459,9 @@ ul {
     width: 2rem;
     height: 60%;
     border-radius: .5rem;
-    background-color: #f2f2f2;
-    border: solid rgb(244, 244, 244);
+    border: solid #FD7E14;
+    background-color: #FD7E14;
+    color: white;
 }
 
 .startDate {

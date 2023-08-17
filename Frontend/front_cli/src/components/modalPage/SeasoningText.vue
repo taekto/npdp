@@ -22,7 +22,7 @@
                 </div> -->
                 
                 <p class="storage">보관방식 : {{changeStorage(seasoning.storage)}}</p>
-                <button class="deleteButton" @click="deleteSeasoning(seasoning)">제거</button>
+                <button class="deleteButton" @click="updateMaterial({type:'seasoningDelete',updateItem: seasoning})">제거</button>
               </li>
             </ul>
           </div>
@@ -40,7 +40,7 @@
  <div v-if="seasoningSearchData.length > 0" class="search_results_container">
       <ul>
         <li v-for="result in seasoningSearchData" :key="result.id" @click="selectedItem(result)">
-          <div v-if="seasoningName === result.name" style="font-weight: bold;">{{ result.name }}</div>
+          <div v-if="seasoningId === result.id" style="font-weight: bold;">{{ result.name }}</div>
           <div v-else>{{ result.name }}</div>
         </li>
       </ul>
@@ -85,7 +85,7 @@
 
           <!-- 현재 입력된 리스트 저장 -->
           <div class="modal-footer">
-            <button class="soundButton" @click="saveMaterial({ type: 'seasoning', memberId: memberId, sendData: throwList })">저장하기</button>
+            <button class="soundButton" data-bs-dismiss="modal" @click="saveMaterial({ type: 'seasoning', memberId: memberId, sendData: throwList })">저장하기</button>
           </div>
         </div>
       </div>
@@ -118,7 +118,6 @@ export default {
   methods: {
     ...mapActions(['specificSearch','saveMaterial']),
     selectedItem(result) {
-      console.log(result)
       this.seasoningName = result.name;
       this.seasoningId = result.id;
     },
@@ -176,12 +175,12 @@ export default {
       }
 
       this.seasoningList.push({seasoningName:this.seasoningName, seasoningId: this.seasoningId, startDate : todayDate, expiredDate: this.expiredDate, storage: this.storage})
-      this.throwList.push({seasoningId: this.seasoningId, storage: this.storage})
-      console.log(this.throwList)
+      this.throwList.push({seasoningId: this.seasoningId, startDate : today, storage: this.storage})
+      
     },
 
     pushSeasoningData() {
-      console.log(this.seasoningList)
+      
       this.seasoningList = []
     },
 

@@ -16,7 +16,7 @@ public class MemberIngredientModifyRequestDto {
 
     private Long storage;
 
-    private Double amount;
+    private String amount;
 
     private String unit;
 

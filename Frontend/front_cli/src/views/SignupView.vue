@@ -44,6 +44,7 @@
               확인
           </button>
         </div>
+          
           <p v-show="emailVerify === 1" class="input-error">
             인증번호가 확인되었습니다.
           </p>
@@ -88,7 +89,7 @@
           <p>생일 선택</p>
           <VDatePicker 
           v-model="credentials.birth"
-          :max="new Date()"
+          :max-date="new Date()"
           name="birth"
           @dayclick="whatDate(credentials.birth)" />
           <div class="genderSelect">  
@@ -146,12 +147,16 @@ export default {
     return {
         socialType: '',
         credentials: {
-          email: '',
-          password: '',
-          nickname: '',
-          gender: 'none',
-          birth: '',
+        email: '',
+        password: '',
+        nickname: '',
+        gender: 'none',
+        birth: '',
+        
       },
+      isCounting: false,
+      intervalId: null,
+      remainingSeconds: 0,
       emailCode: '',
       emailVerifyCode: '',
       emailVerify: 0,
@@ -182,6 +187,17 @@ export default {
       this.checkPasswordConfirm()
     }
   },
+  computed: {
+    formattedTime() {
+    if (this.remainingSeconds >= 0) {
+      const minutes = Math.floor(this.remainingSeconds / 60);
+      const seconds = this.remainingSeconds % 60;
+      return `${this.formatDigits(minutes)}:${this.formatDigits(seconds)}`;
+    } else {
+      return '00:00';
+    }
+  }
+  },
 
   // birthdate = new Date(); // birthdate 매개변수의 타입을 Date | null로 명시
   methods: {
@@ -190,19 +206,12 @@ export default {
       this.$router.go(0)
     },
     emailCodeVerify() {
-      console.log('이메일 인자',this.credentials.email)
       this.EmailVerify(this.credentials.email)
       this.startCountdown()
       setTimeout(() => {
         const tempEmailCode = sessionStorage.getItem('emailVerify')
         const tempEmailCodeJson = JSON.parse(tempEmailCode)
         this.emailCode = tempEmailCodeJson
-        
-        console.log('--------------------')
-        console.log(this.emailCode)
-        console.log(this.emailCode.value)
-        console.log(this.emailCode.value.code)
-        console.log('--------------------')
       }, 7500)
     },
 
@@ -302,54 +311,12 @@ export default {
 
     socialLoginGoogle() {
       this.socialType = 'Google'
-      // axios ({
-      //   url: 'https://i9b202.p.ssafy.io/api/oauth/google-login',
-      //   methods: 'get',
-      //   redirect_uri : 'https://i9b202.p.ssafy.io/social',
-      // })
-      // .then (res => {
-      //   console.log(res)
-      //   sessionStorage.setItem('social', 1)
-      // })
-      // .catch (err => {
-      //   console.log(err)
-      // })
     },
     socialLoginNaver() {
       this.socialType = 'Naver'
-      // axios ({
-      //   url: '/api/oauth/naver-login',
-      //   methods: 'get',
-      // })
-      // .then (res => {
-      //   console.log(res)
-      //   sessionStorage.setItem('social', 1)
-      // })
-      // .catch (err => {
-      //   console.log(err)
-      // })
     },
     socialLoginKakao() {
       this.socialType = 'Kakao'
-      // axios ({
-      //   url: 'https://i9b202.p.ssafy.io/api/oauth/kakao-login',
-      //   method: 'get',
-      // })
-      // .then(res => {
-      //   console.log(res)
-      // })
-      // .catch(err => {
-      //   console.log(err.response)
-      // })
-      // axios.get('https://kauth.kakao.com/oauth/authorize', {
-      //                           params: {
-      //                               client_id: process.env.REACT_APP_REST_API_KEY,
-      //                               redirect_uri: 'http://localhost:8081/api/kakao/oauth',
-      //                               response_type: 'code',
-      //                               state: '/login',
-      //                           },
-      //                           withCredentials: false,
-      //                       });
     }
   },
   beforeUnmount() {

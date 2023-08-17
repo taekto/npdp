@@ -14,7 +14,7 @@ public class MemberIngredientFindResponseDto {
 
     private String kor;
 
-    private double amount;
+    private String amount;
 
     private String unit;
 

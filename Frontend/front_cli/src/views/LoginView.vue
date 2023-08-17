@@ -57,7 +57,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import { mapActions } from 'vuex';
 
 export default {
@@ -77,98 +76,15 @@ export default {
 
     socialLoginGoogle() {
       this.socialType = 'Google'
-      axios ({
-        url: 'https://i9b202.p.ssafy.io/api/oauth/google-login',
-        method: 'get',
-      })
-      .then (res => {
-        console.log(res.data) // redirect_uri 받아 옴
-
-        axios({
-          url: 'https://i9b202.p.ssafy.io/api/oauth/google',
-          method: 'post',
-        })
-        .then(res => {
-          console.log(res.data)
-        })
-        .catch(err => {
-          console.log(err)
-        })
-        console.log(res.status)
-        // sessionStorage.setItem("accessToken", res.data.accessToken)
-        // sessionStorage.setItem("memberId", res.data.id)
-        // sessionStorage.setItem('social', 1)
-        // if(res.status === 200) {
-        //   this.$router.push({
-        //     name: 'main',
-        //   })
-        // }
-        // else if (res.status === 201) {
-        //   this.$router.push({
-        //     name: 'social',
-        //   })
-        // }
-      })
-      .catch (err => {
-        console.log(err)
-      })
+      
     },
     socialLoginNaver() {
       this.socialType = 'Naver'
-      axios ({
-        url: 'https://i9b202.p.ssafy.io/api/oauth/naver-login',
-        method: 'get',
-      })
-      .then (res => {
-        console.log(res.data)
-        console.log(res.status)
-        sessionStorage.setItem("accessToken", res.data.accessToken)
-        sessionStorage.setItem("memberId", res.data.id)
-        sessionStorage.setItem('social', 1)
-        if(res.status === 200) {
-          this.$router.push({
-            name: 'main',
-          })
-        }
-        else if (res.status === 201) {
-          this.$router.push({
-            name: 'social',
-            params: {
-              member_id : res.data.member_id,
-            }
-          })
-        }
-      })
-      .catch (err => {
-        console.log(err)
-      })
+      
     },
     socialLoginKakao() {
       this.socialType = 'Kakao'
-      axios ({
-        url: 'https://i9b202.p.ssafy.io/api/oauth/kakao-login',
-        method: 'get',
-      })
-      .then(res => {
-        console.log(res.data)
-        console.log(res.status)
-        sessionStorage.setItem("accessToken", res.data.accessToken)
-        sessionStorage.setItem("memberId", res.data.id)
-        sessionStorage.setItem('social', 1)
-        if(res.status === 200) {
-          this.$router.push({
-            name: 'main',
-          })
-        }
-        else if (res.status === 201) {
-          this.$router.push({
-            name: 'social',
-          })
-        }
-      })
-      .catch(err => {
-        console.log(err.response)
-      })
+      
     }
   },
   

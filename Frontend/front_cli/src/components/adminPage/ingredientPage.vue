@@ -26,9 +26,6 @@ export default {
   computed: {
     ...mapGetters(['ingredient']), 
   },
-   created() {
-    console.log(this.ingredient);
-  },
 }
 </script>
 

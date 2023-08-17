@@ -136,8 +136,6 @@ export default {
         const year = birthDate.getFullYear()
         const month = birthDate.getMonth() + 1
         const date = birthDate.getDate()
-        console.log(year + delimiter + month + delimiter + date)
-        console.log(typeof(month))
         if(month < 10) {
           this.birthDate = year + delimiter + '0' + month + delimiter + date
         }
@@ -150,7 +148,7 @@ export default {
       'member': {
         handler(updatedMember) {
           // member 게터의 데이터 출력
-          console.log('Updated member data:', updatedMember);
+          console.log('Updated member data');
           
           // 만약 updatedMember 안에 nickname 프로퍼티가 있다면 userData.nickname에 할당
           if (updatedMember && updatedMember.nickname) {
