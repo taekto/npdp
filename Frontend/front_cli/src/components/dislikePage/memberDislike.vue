@@ -136,7 +136,7 @@ export default {
 
 .result_box {
   max-height: 55vh;
-  max-width: 24vh;
+  max-width: 28vh;
   overflow: auto;
 }
 
