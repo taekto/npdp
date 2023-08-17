@@ -161,4 +161,5 @@ export default {
   color: white;
   border: none;
 }
+
 </style>
