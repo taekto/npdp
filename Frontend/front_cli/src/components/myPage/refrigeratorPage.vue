@@ -388,6 +388,7 @@ export default {
     font-weight: bold;
     width: 5rem;
     margin: auto 0;
+    min-width: 5rem;
 }
 
 .ingredientName2 {
@@ -520,7 +521,7 @@ ul {
     display: flex;
     align-items: end;
     /* margin: auto; */
-    /* margin-top: 3rem; */
+    margin-top: 1.5rem;
     /* margin-left: 7.5rem; */
 }
 .radioButton_1 {
