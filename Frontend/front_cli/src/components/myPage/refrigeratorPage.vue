@@ -42,7 +42,7 @@
             <div>
                 <!-- 재료 -->
                 <div class="refrigeratorCategory">
-                    <div style="display: flex; justify-content: space-between; width: 80%; margin: auto;;">
+                    <div style="display: flex; justify-content: space-between; width: 80%; margin: auto;">
                         <div class="categoryTitle">내가 보관중인 재료</div>
                         <div class="modify_ingre"><IngredientModal /></div>
                     </div>
@@ -343,97 +343,97 @@ export default {
 
 <style scoped>
 #myPageView {
-    width: 75%;
+  width: 75%;
 }
 .subtitle_line {
-    position: absolute;
-    margin-left: 5rem;
-    width: 60%;
-    border-width: .1rem 0 0;
-    border-style: solid;
-    border-color: #cecece;
+  position: absolute;
+  margin-left: 5rem;
+  width: 60%;
+  border-width: .1rem 0 0;
+  border-style: solid;
+  border-color: #cecece;
 }
 
 /* 보관 방법 & 모달창 버튼 */
 .buttonGroup {
-    display: flex;
-    justify-content: space-between;
-    width: 80%;
-    margin: auto;
-    /* border-bottom: .1rem solid #cecece; */
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin: auto;
+  /* border-bottom: .1rem solid #cecece; */
 }
 
 .modalButtons {
-    display: flex;
+  display: flex;
 }
 .modify_ingre {
-    margin-top: 2.5rem;
+  margin-top: 2.5rem;
 }
 .modify_season {
-    margin-top: 2.5rem;
+  margin-top: 2.5rem;
 }
 
 .ListShow {
-    border: .1rem solid #7f7f7f;
-    border-radius: .5rem;
-    width: 80%;
-    margin: auto;
-    padding: 1rem;
-    margin-bottom: 2rem;
-    /* height: 60vh; */
+  border: .1rem solid #7f7f7f;
+  border-radius: .5rem;
+  width: 80%;
+  margin: auto;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  /* height: 60vh; */
 }
 
 /* 레시피의 ingredientName과 다름 */
 .ingredientName {
-    font-weight: bold;
-    width: 5rem;
-    margin: auto 0;
+  font-weight: bold;
+  width: 5rem;
+  margin: auto 0;
 }
 
 .ingredientName2 {
-    font-weight: bold;
-    width: 15%;
-    margin-top: auto;
-    margin-bottom: auto;
+  font-weight: bold;
+  width: 15%;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .ingredientList {
-    /* font-family: 'LINESeedKR-Rg'; */
-    font-family: 'GangwonEdu_OTFBoldA';
-    display: flex;
-    border-bottom: .1rem solid #cecece;
-    align-items: center;
-    justify-content: space-between;
-    width: 95%;
-    padding: .5rem;
-    margin: auto;
-    height: 10vh;
+  /* font-family: 'LINESeedKR-Rg'; */
+  font-family: 'GangwonEdu_OTFBoldA';
+  display: flex;
+  border-bottom: .1rem solid #cecece;
+  align-items: center;
+  justify-content: space-between;
+  width: 95%;
+  padding: .5rem;
+  margin: auto;
+  height: 10vh;
 }
 
 .cell_title {
-    font-family: 'LINESeedKR-Bd';
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: .1rem solid #7f7f7f;
-    width: 95%;
-    padding: .5rem;
-    margin: auto;
+  font-family: 'LINESeedKR-Bd';
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: .1rem solid #7f7f7f;
+  width: 95%;
+  padding: .5rem;
+  margin: auto;
 }
 .cell_title div {
-    margin-left: 1rem;
+  margin-left: 1rem;
 }
 .cnt_title {
-    padding-left: 6rem;
+  padding-left: 6rem;
 }
 .startdate_title {
-    padding-left: 6rem;
+  padding-left: 6rem;
 }
 .place_title {
-    padding-left: 2rem;
+  padding-left: 2rem;
 }
 ul {
-    list-style: none;
+  list-style: none;
 }
 
 .amount {

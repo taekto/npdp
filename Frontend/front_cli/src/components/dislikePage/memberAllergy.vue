@@ -6,45 +6,19 @@
       <p class="menuTitle_allergy">알러지 재료 등록</p>
         <!-- 알러지 재료 리스트 체크박스 한줄에 5개씩 만든다 -->
       <div class="allergy_container">
-        <div class="row member_allergy_container">
-          <div class="col-1 col_Box"></div>
-          <div class="col-4 membe6r_allergy">
-            <h3 class="list_title">알러지 체크</h3>
-            <div class="allergyBox row">
-              <div v-for="(item, idx) in allergyList" :key="idx" class="col-4 checkAllergy">
-                <label>
-                  <input type="checkbox" name="allergy" @change="toggleAllergy(item)" :checked="isAllergySelected(item.allergyId)">{{ item.allergyName }}
-                </label>
-              </div>
-            </div>
+        <h3 class="list_title_allergy">회원 알러지 선택</h3>
+        <div class="allergyBox row">
+          <div v-for="(item, idx) in allergyList" :key="idx" class="col-4 checkAllergy">
+            <label>
+              <input type="checkbox" name="allergy" @change="toggleAllergy(item)" :checked="isAllergySelected(item.allergyId)">{{ item.allergyName }}
+            </label>
           </div>
-
-          <div class="col-1 col_Box"></div>
-          <div class="col-5 member_allergy_list">
-            <h3 class="list_title">알러지 재료 리스트</h3>
-            <div class="col-12 member_check_list">
-              <div class="row">
-                <div v-for="(item,idx) in memberAllergy" :key="idx">
-                  <div class="allergy_list_item">
-                      <div class="allergy_name">{{ item.allergyName }}</div>
-                    <button @click="deleteItem({type: 'allergy', delData: item.allergyId})" class="delete_button">
-                      X
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-        </div>
-        <div class="row save_btn_container">
-            <div class="col-9"></div>
-            <div class="col-3">
-              <button class="save_btn" @click="memberDislikeAllergy({type:'allergyPost', memberId:this.memberId})">저장</button>
-            </div>
-
-        </div>
+        </div>        
       </div>
+        
+        <div class="row save_btn_container">
+          <button class="save_btn" @click="memberDislikeAllergy({type:'allergyPost', memberId:this.memberId})">저장</button>
+        </div>
       
     </div>
   </div>
@@ -93,67 +67,45 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .allergy_container {
-  border: solid #a7a7a7;
+  border: 0.1rem solid #7f7f7f;
   border-radius: 0.5rem;
   width: 80%;
   margin: auto;
   padding: 1rem;
   margin-bottom: 3rem;
-  height: 55vh;
+  height: 60vh;
   font-family: 'GangwonEdu_OTFBoldA';
 }
 
 .menuTitle_allergy{
-    font-family: 'LINESeedKR-Rg';
-    text-align: start;
-    margin-top: 3rem;
-    margin-bottom: 1rem;
-    /* margin-left: 1rem; */
-    font-size: 1.5rem;
-    font-weight: bold;
-    width: 80%;
-    margin: auto;
+  font-family: 'LINESeedKR-Rg';
+  text-align: start;
+  font-size: 1.5rem;
+  font-weight: bold;
+  width: 80%;
+  margin: auto;
 }
+
 .checkAllergy {
-  height: 4rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
 }
 
-.member_check_list {
-  border: 1px solid black;
-  border-radius: 10px;
-  overflow-x: hidden; 
-}
-
-.allergy_list_item{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 0;
-  border-bottom: 1px solid #ccc;
-  overflow-y: auto; 
-}
-
-.delete_button {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  padding-right: 1rem;
-}
-
-.allergy_name {
-  padding-left: 2rem;
+.list_title_allergy{
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .save_btn_container{
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   margin-top: 1rem;
 }
 
 .save_btn {
-  margin-top: 1.5rem;
   background-color: #FD7E14;
   border-radius: 0.5rem;
   width: 5rem;

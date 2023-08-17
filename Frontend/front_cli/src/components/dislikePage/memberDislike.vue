@@ -8,7 +8,7 @@
         <div class="row member_dislike_search">
           <div class="col-1 col_Box"></div>
           <div class="col-4">
-            <h3 class="list_title">비선호 재료 검색</h3>
+            <h3 class="list_title_dislike">비선호 재료 검색</h3>
             <div class="col-2 col_box"></div>
             <form class="col-10 search_form" @submit.prevent="specificSearch({ type: 'ingredient', name: this.ingredientName })">
               <div class="input-group">
@@ -123,20 +123,17 @@ export default {
 </script>
 
 
-<style>
+<style >
 .menuTitle_dislike{
-    font-family: 'LINESeedKR-Rg';
-    text-align: start;
-    margin-top: 3rem;
-    margin-bottom: 1rem;
-    /* margin-left: 1rem; */
-    font-size: 1.5rem;
-    font-weight: bold;
-    width: 80%;
-    margin: auto;
+  font-family: 'LINESeedKR-Rg';
+  text-align: start;
+  font-size: 1.5rem;
+  font-weight: bold;
+  width: 80%;
+  margin: auto;
 }
 .dislike_container {
-  border: solid #a7a7a7;
+  border: 0.1rem solid #7f7f7f;
   border-radius: 0.5rem;
   width: 80%;
   margin: auto;
@@ -154,4 +151,16 @@ export default {
   border-bottom: 1px solid #ccc;
 }
 
+.list_title_dislike{
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+}
+
+.ingredient_list_item{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #ccc;
+}
 </style>
