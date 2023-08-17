@@ -223,7 +223,7 @@ const member: Module<MemberState, RootState> = {
         data: credentials,
       })
         .then(res => {
-          console.log('로컬로그인 시작!')
+    
           sessionStorage.setItem("email", credentials.email)
           sessionStorage.setItem("accessToken", res.data.accessToken)
           sessionStorage.setItem("memberId", res.data.id)
@@ -237,7 +237,7 @@ const member: Module<MemberState, RootState> = {
           }, 500)
         })
         .catch(err => {
-          console.log('로그인 실패..')
+ 
           console.error(err.response.data)
           alert("로그인에 실패하셨습니다.")
         })
@@ -245,14 +245,14 @@ const member: Module<MemberState, RootState> = {
 
     // 로컬 회원 가입
     localSignup({ commit }, credentials) {
-      console.log('회원가입 시작!')
+
         axios({
           url: 'https://i9b202.p.ssafy.io/api/members/join',
           method: 'post',
           data: credentials,
         })
         .then(res => {
-          console.log('회원가입 성공!')
+
             alert('회원가입이 완료되었습니다!')
             router.push({ name: 'main' })
           })
@@ -270,7 +270,7 @@ const member: Module<MemberState, RootState> = {
     async EmailVerify({commit}, email) {
       try {
         const response = await axios.post(api.member.emailVerify(), { email });
-        console.log('이메일 전송 완료!');
+
         alert('인증번호를 발급하였습니다.')
      
 
@@ -323,17 +323,17 @@ const member: Module<MemberState, RootState> = {
 
     // 회원 정보 조회
     fetchMember({ commit, getters}, memberId) {
-      console.log('회원 정보 조회 시작!')
+   
       axios({
         url: `https://i9b202.p.ssafy.io/api/members/${memberId}`,
         method: 'get',
       })
         .then(res => {     
-          console.log('회원 정보 조회 성공!',res.data) 
+
           commit('SET_MEMBER', res.data);
         })
         .catch(err => {
-          console.log('회원 정보 조회 실패...', err)
+          console.log(err)
         })
     },
 
@@ -343,18 +343,18 @@ const member: Module<MemberState, RootState> = {
         if (type === 'all' || type === 'seasoning' || type === 'seasoningDelete') {
           const seasoningApiUrl = `https://i9b202.p.ssafy.io/api/refregirator/seasoning/${memberId}`
           const seasoningResponse = await axios.get(seasoningApiUrl)
-          console.log('양념 get 성공!')
+   
           commit('SET_MEMBER_SEASONING', seasoningResponse.data)
         }
     
         if (type === 'all' || type === 'ingredient' || type === 'ingredientDelete') {
           const ingredientApiUrl = `https://i9b202.p.ssafy.io/api/refregirator/ingredient/${memberId}`
           const ingredientResponse = await axios.get(ingredientApiUrl)
-          console.log('재료 get 성공!')
+
           commit('SET_MEMBER_INGREDIENT', ingredientResponse.data)
         }
       } catch (error) {
-        console.log('데이터 조회 실패..', error)
+        console.log(error)
       }
     },
 
@@ -455,7 +455,7 @@ const member: Module<MemberState, RootState> = {
         }
 
       } catch(err) {
-        console.log(`${memberId}님이 ${recipeId}를 좋아요 실패...`, err)
+        console.log(err)
       }
     },
  
@@ -556,12 +556,6 @@ const member: Module<MemberState, RootState> = {
           throw new Error('Invalid request type');
         }
         
-        console.log(
-          type === 'dislikeGet' || type === 'dislikePost'
-            ? '비선호 재료 요청 시작!'
-            : '알러지 재료 요청 시작!'
-        )
-
         
         let res
         if (type === 'dislikeGet' || type === 'allergyGet') {
@@ -570,45 +564,27 @@ const member: Module<MemberState, RootState> = {
           res = await axios.post(apiUrl, sendData)
         }
         
-        
-        console.log(
-          type === 'dislikeGet' || type === 'dislikePost'
-          ? '비선호 재료 요청 성공!'
-          : '알러지 재료 요청 성공!'
-        )
           
         if (type === 'dislikeGet') {
           if (res && res.data) {
             commit('SET_MEMBER_DISLIKE_INGREDIENT', res.data);
           }
-        } else if (type === 'dislikePost') {
-          console.log('비선호 재료 저장 완료!')
         } else if (type === 'allergyGet') {
           if (res && res.data) {
-            console.log('-----------> 알러지 커밋 시작!')
             commit('SET_MEMBER_ALLERGY', res.data)
           }
-        } else if (type === 'allergyPost') {
-          if (res && res.data) {
-            console.log('알러지 저장 완료!')
-          }
-        }
+        } 
       } catch(err) {
-        console.log(
-          type === 'dislikeGet' || type === 'dislikePost'
-            ? '비선호 재료 요청 실패..'
-            : '알러지 재료 요청 실패..',
-          err
-        )
+        console.log(err)
       }
     },
     
     // 회원 알러지 리스트 조회
     async fetchAllergyList({commit}) {
       try{
-        console.log('알러지 리스트 조회 시작!')
+   
         const res = await axios.get('https://i9b202.p.ssafy.io/api/allergy')
-        console.log('알러지 리스트 조회 성공!')
+    
         commit('SET_ALLERGY_LIST', res.data)
 
       }catch(err) {
@@ -637,9 +613,7 @@ const member: Module<MemberState, RootState> = {
           } else {
             commit('UPDATE_LIST', { type: type, updateData: [data] });
           }
-        } else {
-          console.log('이미 존재하는 재료 또는 알러지입니다.',)
-        }
+        } 
       } catch(err) {
         console.log(err)
       }
@@ -657,32 +631,32 @@ const member: Module<MemberState, RootState> = {
     // 회원 최근 본 레시피
     async latestRecipe({commit}, {type, memberId, lookData}) {
       try{  
-        console.log('회원 최근 본 레시피 조회/저장!')
+   
         const apiUrl = 'https://i9b202.p.ssafy.io/api/members/latest'
         
         if (type === 'post') {
           const res = await axios.post('https://i9b202.p.ssafy.io/api/members/latest', lookData)
-          console.log('최근 본 레시피 저장...')
+
         } else {
           const res = await axios.get(`https://i9b202.p.ssafy.io/api/members/latest/${memberId}`)
 
-          console.log('최근 본 레시피 조회 성공')
+
 
           commit('SET_MEMBER_RECIPE_LATEST', res.data)
         }
         
       } catch(err) {
-        console.log('최근 본 레시피 조회 실패...', err)
+        console.log(err)
       }
     },
 
     // 회원 기반 레시피 추천
     async memberRecommend({commit}, memberId) {
       try{
-        console.log('유저 기반 레시피 추천 시작!')
+
         const data = {memberId: memberId}
         const res = await axios.post('https://i9b202.p.ssafy.io/api/recipes/member/similarity', data)
-        console.log('유저 기반 레시피 추천 성공!')
+
         commit('SET_MEMBER_SIMILARITY', res.data)
       }catch(err) {
         console.log(err)
