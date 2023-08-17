@@ -50,9 +50,9 @@ public class AuthenticationConfig {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                // UsernamePasswordAuthenticationFilter 가기 전에 JwtTokenFilter 주입
-                // username과 pw로 인증 확인 전에 토큰 정보를 확인함으로써 인증 절차 걸침
-                .addFilterBefore(new JwtFilter(memberService, secretKey), UsernamePasswordAuthenticationFilter.class)
-                .build();
+                    // UsernamePasswordAuthenticationFilter 가기 전에 JwtTokenFilter 주입
+                    // username과 pw로 인증 확인 전에 토큰 정보를 확인함으로써 인증 절차 걸침
+                    .addFilterBefore(new JwtFilter(memberService, secretKey), UsernamePasswordAuthenticationFilter.class)
+                    .build();
     }
 }
