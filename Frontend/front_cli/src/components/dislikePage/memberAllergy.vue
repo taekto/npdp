@@ -3,14 +3,14 @@
     <!-- 좌측 마이페이지 메뉴 컴포넌트 -->
     <CategoryComponent />
     <div id="myPageView">
-      <p class="menuTitle_allergy">알러지 재료 등록</p>
+      <div class="menuTitle_allergy">알러지 재료 등록</div>
         <!-- 알러지 재료 리스트 체크박스 한줄에 5개씩 만든다 -->
       <div class="allergy_container">
         <h3 class="list_title_allergy">회원 알러지 선택</h3>
         <div class="allergyBox row">
           <div v-for="(item, idx) in allergyList" :key="idx" class="col-4 checkAllergy">
             <label>
-              <input type="checkbox" name="allergy" @change="toggleAllergy(item)" :checked="isAllergySelected(item.allergyId)">{{ item.allergyName }}
+              <input type="checkbox" name="allergy" @change="toggleAllergy(item)" :checked="isAllergySelected(item.allergyId)" > <span :style="{ color: isAllergySelected(item.allergyId) ? '#FD7E14' : 'inherit' }">{{ item.allergyName }}</span>
             </label>
           </div>
         </div>        
@@ -69,7 +69,7 @@ export default {
 
 <style scoped>
 .allergy_container {
-  border: 0.1rem solid #7f7f7f;
+  border: .1rem solid #a7a7a7;
   border-radius: 0.5rem;
   width: 80%;
   margin: auto;
@@ -81,15 +81,17 @@ export default {
 
 .menuTitle_allergy{
   font-family: 'LINESeedKR-Rg';
-  text-align: start;
-  font-size: 1.5rem;
-  font-weight: bold;
-  width: 80%;
-  margin: auto;
+    text-align: start;
+    margin: 1rem auto;
+    /* margin-left: 1rem; */
+    font-size: 1.5rem;
+    font-weight: bold;
+    width: 80%;
 }
 
 .checkAllergy {
-  margin-top: 1rem;
+  font-size: 1.5rem;
+  margin-top: 0.5rem;
   margin-bottom: 1rem;
   padding: 1rem;
 }

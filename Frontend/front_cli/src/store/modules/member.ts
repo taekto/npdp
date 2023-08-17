@@ -324,7 +324,7 @@ const member: Module<MemberState, RootState> = {
         method: 'get',
       })
         .then(res => {     
-          console.log('회원 정보 조회 성공!') 
+          console.log('회원 정보 조회 성공!',res.data) 
           commit('SET_MEMBER', res.data);
         })
         .catch(err => {
@@ -507,37 +507,49 @@ const member: Module<MemberState, RootState> = {
       }
     },
     
-    // 회원 정보 변경
-    async memberUpdate({commit}, {type, memberId, updateData}) {
+    // 회원 정보 수정
+    async memberUpdate({dispatch}, {type, memberId, updateData}) {
       try {
         let sendData
+        let apiUrl = ''
+        console.log(type,'회원정보 수정')
 
-        const apiUrl = type === 'all' ? 'https://i9b202.p.ssafy.io/api/members/modifyAll' : 'https://i9b202.p.ssafy.io/api/members/updatePassword'
         if (type == 'all') {
-          const allInfo = updateData 
+          const Info = updateData 
+          apiUrl = 'https://i9b202.p.ssafy.io/api/members/modifyAll'
           sendData = {
             memberId: memberId,
-            password:allInfo.password,
-            nickname: allInfo.nickname,
-            birth: allInfo.birthDate,
-            gender: allInfo.gender,
+            password:Info.password,
+            nickname: Info.nickname,
+            birth: Info.birthDate,
+            gender: Info.gender,
           } 
-        } else {
-          const pwdInfo =  updateData
+        } else if (type === 'password'){
+          apiUrl = 'https://i9b202.p.ssafy.io/api/members/updatePassword'
+          const Info = updateData
           sendData = {
-            email: pwdInfo.email,
-            newPassword: pwdInfo.newPassword,     
+            email: Info.email,
+            newPassword: Info.newPassword,     
+          }
+        } else if (type === 'nickname') {
+          apiUrl =  'https://i9b202.p.ssafy.io/api/members/nickname'
+          const Info = updateData
+          sendData = {
+            memberId: memberId,
+            nickname: Info.nickname
           }
         }
 
         console.log('회원정보 수정 시작!')
         const res = await axios.put(apiUrl, sendData);
-        
-
+        console.log('회원 정보 수정 성공!', res.data)
+        dispatch('fetchMember', memberId)
       } catch(err) {
         console.error(type === 'all' ? '정보 변경 실패...' : '비밀번호 변경 실패...', err)
       }
     },
+
+    // 회원 닉네임/비밀번호 수정 
 
     // 회원 비선호 재료, 알러지 저장/ 조회
     async memberDislikeAllergy({commit, getters}, {type, memberId}) {

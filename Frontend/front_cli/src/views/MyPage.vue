@@ -69,7 +69,7 @@ export default {
     width: 85%;
     border-radius: 1rem;
     margin-top: 2rem;
-    margin-bottom: 10rem;
+    margin-bottom: 3rem;
     /* border: solid black; */
     min-height: 100vh;
 }
