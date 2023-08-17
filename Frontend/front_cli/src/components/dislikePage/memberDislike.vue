@@ -8,12 +8,12 @@
         <div class="row member_dislike_search">
           <div class="col-1 col_Box"></div>
           <div class="col-4">
-            <h3 class="list_title_dislike">비선호 재료 검색</h3>
+            <h3 class="list_title_dislike">재료 검색</h3>
             <div class="col-2 col_box"></div>
             <form class="col-10 search_form" @submit.prevent="specificSearch({ type: 'ingredient', name: this.ingredientName })">
               <div class="input-group">
                 <input id="searchForm ingredientText" class="form-control" type="text" v-model.trim="ingredientName">
-                <input id="submitButton" type="submit" value="검색">
+                <input id="submitBtn" type="submit" value="검색">
               </div>
             </form>
             
@@ -30,15 +30,13 @@
 
           <div class="col-1 col_Box"></div>
           <div class="col-5 member_dislike_list">
-            <h3 class="list_title">비선호 재료 리스트</h3>
+            <h3 class="list_title_dislike list_title">비선호 재료 리스트</h3>
             <div class="col-12 member_check_list">
               <div class="row">
                 <div v-for="(item,idx) in memberDislikeIngredient" :key="idx">
                   <div class="ingredient_list_item">
                     <div class="ingredient_name">{{ item.ingredientName }}</div>
-                    <button @click="deleteItem({type: 'dislike', delData: item.ingredientId})" class="delete_button">
-                      X
-                    </button>
+                    <i class="bi bi-trash deleteButton" @click="deleteItem({type: 'dislike', delData: item.ingredientId})"></i>
                   </div>
                 </div>
               </div>
@@ -131,14 +129,20 @@ export default {
 }
 
 .member_dislike_list {
-  max-height: 50vh;
+  max-height: 76vh;
   overflow-y: auto;
 
 }
 
 .result_box {
-  max-height: 25vh;
+  max-height: 55vh;
+  max-width: 24vh;
   overflow: auto;
+}
+
+.result_box li {
+  font-family: 'LINESeedKR-Rg';
+  text-align: left;
 }
 
 .dislike_container {
@@ -148,8 +152,7 @@ export default {
   margin: auto;
   padding: 1rem;
   margin-bottom: 3rem;
-  height: 70vh;
-  font-family: 'GangwonEdu_OTFBoldA';
+  height: 90vh;
 }
 
 .ingredient_list_item{
@@ -161,15 +164,38 @@ export default {
 }
 
 .list_title_dislike{
-  margin-top: 2rem;
-  margin-bottom: 3rem;
+  font-family: 'LINESeedKR-Bd';
+  font-size: 1.5rem;
+  margin-top: 2.5rem;
+  margin-bottom: 2.5rem;
 }
-
 .ingredient_list_item{
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 8px 0;
   border-bottom: 1px solid #ccc;
+}
+.ingredient_name {
+  font-family: 'LINESeedKR-Rg';
+}
+#submitBtn {
+  font-family: 'LINESeedKR-Rg';
+  border: .1rem solid #FD7E14;
+  border-radius: .5rem;
+  background-color: #FD7E14;
+  color: #fff;
+  margin-left: .3rem;
+  align-items: end;
+}
+.save_btn {
+  font-family: 'LINESeedKR-Rg';
+  color: #fff;
+  font-size: 1.2rem;
+  background-color: #FD7E14;
+  border: .1rem solid #FD7E14;
+  border-radius: .5rem;
+  padding: .3rem .5rem;
+  margin-top: .7rem;
 }
 </style>
