@@ -379,7 +379,7 @@ export default {
   justify-content: center;
 }
 
-#searchForm[data-v-652ac216] {
+#searchForm[data-v-0f963bc4] {
     border-radius: 0;
     margin-right: 0;
     margin-left: 0;
