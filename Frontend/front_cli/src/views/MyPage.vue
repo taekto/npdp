@@ -11,7 +11,6 @@
                     </div>
                 </form>
             </div>
-            
         </div>
     </div>
 </template>
@@ -70,7 +69,7 @@ export default {
     width: 85%;
     margin-top: 3rem;
     /* border: solid black; */
-    min-height: 100vh;
+    min-height: 50vh;
 }
 
 .menuTitle {
