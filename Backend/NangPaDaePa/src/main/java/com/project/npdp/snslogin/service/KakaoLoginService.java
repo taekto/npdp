@@ -6,15 +6,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.project.npdp.configuration.OAuthConfig;
-import com.project.npdp.member.entity.Gender;
 import com.project.npdp.member.entity.Member;
-import com.project.npdp.member.entity.OAuthType;
-import com.project.npdp.snslogin.dto.KakaoMember;
-import com.project.npdp.snslogin.dto.KakaoToken;
-import com.project.npdp.snslogin.dto.NaverMember;
+import com.project.npdp.snslogin.dto.response.KakaoMember;
+import com.project.npdp.snslogin.dto.response.KakaoToken;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -26,7 +22,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.Map;
 
 @Service
 @Slf4j

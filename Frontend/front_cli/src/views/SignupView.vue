@@ -3,7 +3,7 @@
   <div class="signup_container">
     <div class="signup_card">
       <!-- 회원정보입력 -->
-      <form class="signup_form" id="signup_form" @submit.prevent="localSignup(credentials)">
+      <form class="signup_form" id="signup_form" @submit.prevent="">
         <h1 class="form_title">회원가입</h1>
           <label for="nickname" class="input_label">닉네임</label>
           <input
@@ -19,7 +19,7 @@
           :class="{ 'title-danger': emailHasError }">
           이메일
           </label>
-
+          <div class="email_box">
           <input
             type="email"
             id="email"
@@ -29,10 +29,28 @@
             name="email" 
             v-model="credentials.email"
           />
-          <!-- 에러 메시지 표시 -->
+          <button @click.prevent="emailCodeVerify" class="email_auth">
+            인증
+          </button>
+        </div>
+        <!-- 에러 메시지 표시 -->
           <p v-show="valid.email" class="input-error">
             이메일 주소가 올바르지 않습니다. 다시 확인해주세요!
           </p>
+        <label class="input_label">이메일 인증</label>
+        <div class="email_box">
+          <input type="text" placeholder="인증번호를 입력해주세요" class="input-item" v-model="emailVerifyCode" />
+          <button @click.prevent="checkEmailVerify" class="email_auth">
+              확인
+          </button>
+        </div>
+          <p v-show="emailVerify === 1" class="input-error">
+            인증번호가 확인되었습니다.
+          </p>
+          <p v-show="emailVerify === 2" class="input-error">
+            인증번호가 일치하지 않습니다.
+          </p>
+          
 
           
 
@@ -46,15 +64,25 @@
             name="password"
             v-model="credentials.password"
           />
-          <!-- 에러 메시지 표시 -->
-          <p v-show="valid.passord" class="input-error">
-            "숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!"
-          </p>
           <p
             v-show="valid.password"
             class="input-error">
              "8~16자리 숫자+영문자+특수문자 조합으로 입력해주세요!"
           </p>
+          <label class="input_label">비밀번호 확인</label>
+          <input
+            type="password"
+            id="passwordConfirm"
+            placeholder="비밀번호를 확인해주세요"
+            class="input-item"
+            :class="{ 'input-danger':passwordConfirmHasError }"
+            name="passwordConfirm"
+            v-model="passwordConfirm" />
+          <!-- 에러 메시지 표시 -->
+          <p v-show="passwordConfirmHasError" class="input-error">
+            비밀번호가 다릅니다.
+          </p>
+          
 
           <p>생일 선택</p>
           <VDatePicker 
@@ -66,7 +94,7 @@
             <div class="editCategoryTitle">
               <p>성별 선택</p>
             </div>
-            <div class="storageRadio">
+            <div class="storageRadio btn_group">
               <label v-if="credentials.gender === 'none'" class="activeRadioButton">
                 <input type="radio" name="noGender" value="none" v-model="credentials.gender" @click="changeClassification">선택 안함
               </label>
@@ -87,7 +115,8 @@
               </label>
             </div>
           </div>
-      <button class="signup_btn" style="width: 100%;" @click="signup">회원가입</button>
+      <button v-if="emailVerify === 1 && passwordConfirmHasError === false" class="signup_btn" style="width: 100%;" @click="localSignup(credentials)">회원가입</button>
+      <button v-else class="signup_btn" id="disabled_btn" style="width: 100%;" @click="failSignup" disabled>회원가입</button>
       
 
       </form>
@@ -122,11 +151,17 @@ export default {
           gender: 'none',
           birth: '',
       },
+      emailCode: '',
+      emailVerifyCode: '',
+      emailVerify: 0,
       // 이메일, 패스워드 검증
       valid: {
         email: false,
         password: false,
       },
+      signupVerify: false,
+      passwordConfirm: '',
+      passwordConfirmHasError: false,
       emailHasError: false,
       passwordHasError: false,
     }
@@ -139,10 +174,40 @@ export default {
     'credentials.password': function() {
       this.checkPassword()
     },
+    'passwordConfirm': function() {
+      this.checkPasswordConfirm()
+    }
   },
 
   // birthdate = new Date(); // birthdate 매개변수의 타입을 Date | null로 명시
   methods: {
+    failSignup() {
+      alert('회원가입에 실패하셨습니다.')
+      this.$router.go(0)
+    },
+    emailCodeVerify() {
+      console.log('이메일 인자',this.credentials.email)
+      this.EmailVerify(this.credentials.email)
+      setTimeout(() => {
+        const tempEmailCode = sessionStorage.getItem('emailVerify')
+        const tempEmailCodeJson = JSON.parse(tempEmailCode)
+        this.emailCode = tempEmailCodeJson
+        console.log('--------------------')
+        console.log(this.emailCode)
+        console.log(this.emailCode.value)
+        console.log(this.emailCode.value.code)
+        console.log('--------------------')
+      }, 5000)
+    },
+
+    checkEmailVerify() {
+      if(this.emailCode.value.code === this.emailVerifyCode) {
+        this.emailVerify = 1
+      }
+      else {
+        this.emailVerify = 2
+      }
+    },
 
     // 이메일 형식 검사
     checkEmail() {
@@ -169,7 +234,15 @@ export default {
         this.passwordHasError = false
      },
 
-    ...mapActions(["localSignup"]),
+     checkPasswordConfirm() {
+      if(this.credentials.password !== this.passwordConfirm) {
+        this.passwordConfirmHasError = true
+        return
+      }
+        this.passwordConfirmHasError = false
+     },
+
+    ...mapActions(["localSignup", "EmailVerify"]),
     
     whatDate(birthdate, delimiter = '-') {
     // if (!birthdate) return ''; // 날짜가 선택되지 않은 경우 빈 문자열 반환
@@ -255,6 +328,7 @@ export default {
 
 .signup_form {
   width: 30%;
+  min-width: 280px;
 }
 .signup_form input {
   font-family: 'LINESeedKR-Rg';
@@ -276,6 +350,11 @@ export default {
   padding: .5rem;
   margin: .5rem;
   width: 6rem;
+}
+
+#disabled_btn {
+  opacity: 60%;
+  cursor: default;
 }
 
 .activeRadioButton input {
@@ -303,6 +382,19 @@ export default {
   font-size: 18px;
   display: flex;
   padding: 15px 0px 5px 0px;
+}
+
+.email_box {
+  display: flex;
+}
+.email_auth {
+  font-family: 'LINESeedKR-Rg';
+  width: 4rem;
+  margin-left: .8rem;
+  border-radius: 3px;
+  border: none;
+  background-color: #FD7E14;
+  color: #FFFFFF;
 }
 
 .birthdate_container {
@@ -435,5 +527,10 @@ export default {
   border-radius: 3px;
   border: 1px solid black;
   padding: .5rem
+}
+
+.btn_group {
+  display: flex;
+  justify-content: center;
 }
 </style>

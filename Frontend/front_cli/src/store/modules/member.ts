@@ -54,19 +54,14 @@ interface MemberRecipeLatest {
 
 // 회원 비선호 재료
 interface MemberDislikeIngredient {
-  member_dislike_ingredient_id:number
-  member_id: number
-  ingredient_id: number
-  // have_id: number
-  // member_id2: number
+  ingredientId: number,
+  ingredientName : String
 }
 
 // 회원 알러지 정보
 interface MemberAllergy {
-  member_allergy_id: number
-  member_id: number
-  allergy_id: number
-  // ingredient_id: number
+  allergyId: number
+  allergyName: string
 }
 
 // 회원 보유 장비
@@ -134,11 +129,7 @@ const member: Module<MemberState, RootState> = {
     // 
     memberRecipeLatest: [],
     memberDislikeIngredient: [],
-    memberAllergy: [
-      { member_allergy_id: 1, member_id: 1 , allergy_id: 3},
-      { member_allergy_id: 2, member_id: 1 , allergy_id: 4},
-      { member_allergy_id: 3, member_id: 1 , allergy_id: 5},
-    ],
+    memberAllergy: [],
     memberUtensil: [],
     memberSeasoning: [],
     eamilCode: null,
@@ -158,11 +149,13 @@ const member: Module<MemberState, RootState> = {
     memberRecipeLatest: state => state.memberRecipeLatest,
     memberDislikeIngredient: state => state.memberDislikeIngredient,
     memberAllergy: state => state.memberAllergy,
-    memberUtensil: state => state.memberUtensil,
+    memberUtensilList: state => state.memberUtensil,
     memberSeasoning: state => state.memberSeasoning,
     memberIngredient: state => state.memberIngredient,
-  },
-  mutations: {
+    memberTypeIds: (state) =>  (type: string) => { if (type ==='dislike') { return state.memberDislikeIngredient.map(item => item.ingredientId)} else if (type === 'allergy') {return state.memberAllergy.map(item => item.allergyId)}},
+    },
+  
+    mutations: {
     // SET_ACCESS_TOKEN: (state, accessToken) => (state.accessToken = accessToken),
     // SET_REFRESH_TOKEN: (state, refreshToken) => (state.refreshToken = refreshToken),
     SET_MEMBER: (state, member) => (state.member = member),
@@ -175,8 +168,9 @@ const member: Module<MemberState, RootState> = {
     SET_MEMBER_SEASONING: (state, memberSeasoning) => (state.memberSeasoning = memberSeasoning),
     SET_EMAIL_VERIFY: (state, emailCode) => (state.eamilCode = emailCode),
     SET_MEMBER_INGREDIENT: ( state, ingredient ) => (state.memberIngredient = ingredient),
-
-
+    // 기존 배열에 추가(기존 SET_MEMBER_DISLIKE_INGREDIENT에 push할경우 저장을 누르면 기존배열 + 업데이트 배열)
+    UPDATE_LIST: (state, { type, updateData }) => {if (type === 'dislike') {state.memberDislikeIngredient.push(...updateData)} else if (type === 'allergy') {state.memberAllergy.push(...updateData)}},
+    REMOVE_FROM_LIST: (state, { type, removeData }) => {if (type === 'dislike') {state.memberDislikeIngredient = state.memberDislikeIngredient.filter(item => item.ingredientId !== removeData)} else if (type === 'allergy') {state.memberAllergy = state.memberAllergy.filter(item => item.allergyId !== removeData)}},
   },
   actions: {
     saveToken({ commit }, { accessToken}) {
@@ -199,6 +193,7 @@ const member: Module<MemberState, RootState> = {
         .then(res => {
           console.log('로컬로그인 시작!')
           console.log(res)
+          sessionStorage.setItem("email", credentials.email)
           sessionStorage.setItem("accessToken", res.data.accessToken)
           sessionStorage.setItem("memberId", res.data.id)
           commit('SET_CURRENT_MEMBER', credentials.email)
@@ -232,6 +227,7 @@ const member: Module<MemberState, RootState> = {
           .catch(err => {
             ('회원가입 실패..')
             console.error(err.response.data)
+            alert('회원가입에 실패하셨습니다.')
             // commit('SET_AUTH_ERROR', err.response.data)
           })
       },
@@ -239,15 +235,46 @@ const member: Module<MemberState, RootState> = {
       
 
     // 회원 이메일 인증
-    async EmailVerify(email) {
+    async EmailVerify({commit}, email) {
       try {
-        console.log('이메일 인증 시작!');
-        const response = await axios.post(api.member.emailVerify(), { email });
         
-        console.log('이메일 인증 성공!');
-        console.log(response.data);
-    
-        alert('인증이 완료되었습니다!');
+        console.log(JSON.stringify({email}, null, 2))
+        const response = await axios.post(api.member.emailVerify(), { email });
+        console.log('이메일 전송 완료!', response.data);
+     
+
+        interface StoredData {
+          value : string,
+          timestamp : number
+        }
+
+        const data = {
+          value: response.data,
+          timestamp : new Date().getTime()
+        }
+
+        sessionStorage.setItem('emailVerify', JSON.stringify(data))
+
+        const storedDataString = sessionStorage.getItem('emailVerify');
+        const storedData: StoredData | null = storedDataString ? JSON.parse(storedDataString) : null;
+
+
+        // const storedData = JSON.parse(sessionStorage.getItem('emailVerify'))
+        if (storedData) {
+          const currentTime = new Date().getTime();
+          const storedTime = storedData.timestamp;
+        
+          // 현재 시간과 저장된 시간의 차이를 계산하고 3분(180000 밀리초)보다 작은지 확인
+          if (currentTime - storedTime < 180000) {
+            // 3분 이내에 저장된 데이터를 사용
+            const value = storedData.value;
+            console.log(value);
+          } else {
+            // 3분이 지난 데이터는 사용하지 않음
+            sessionStorage.removeItem("emailVerify");
+          }
+        }
+
       } catch (error) {
         console.error(error);
       }
@@ -277,24 +304,6 @@ const member: Module<MemberState, RootState> = {
         })
         .catch(err => {
           console.log('회원 정보 조회 실패...', err)
-        });
-    },
-
-    // 회원 레시피 좋아요
-    memberLikeRecipe ({ commit, getters}, {member_id, recipe_id}) {
-      axios ({
-        url: api.member.memberRecipeLike(member_id),
-        method: 'post',
-        data: {
-          recipe_id
-        },
-        headers: getters.authHeader,
-      })
-        .then (res=> {
-          commit('SET_MEMBER_RECIPE_LIKE', res.data)
-        })
-        .catch(err => {
-          console.log(err.response)
         })
     },
 
@@ -331,7 +340,7 @@ const member: Module<MemberState, RootState> = {
         const response = await axios.post(apiUrl, sendData)
   
         console.log(type === 'seasoning' ? '양념 저장 성공!' : '재료 저장 성공!', response.data)
-        dispatch('fetchIngredient')
+        dispatch('fetchMemberMaterial', ({type:type, memberId:memberId}))
       } catch (error) {
         console.log(type === 'seasoning' ? '양념 저장 실패..' : '재료 저장 실패..', error)
       }
@@ -373,20 +382,207 @@ const member: Module<MemberState, RootState> = {
         
         const apiUrl = type === 'seasoning' ?
         'https://i9b202.p.ssafy.io/api/refregirator/modify/seasoning':
-        'https://i9b202.p.ssafy.io/api/refregirator/modify/ingredient';
+        'https://i9b202.p.ssafy.io/api/refregirator/modify/ingredient'
     
-        await axios.post(apiUrl, deleteData);
+        await axios.post(apiUrl, deleteData)
+        console.log(type === 'seasoning' ? '양념 삭제 성공!' : '재료 삭제 성공!')
 
-        await dispatch('fetchMemberMaterial', { type: 'all', memberId: memberId });
+        dispatch('fetchMemberMaterial', { type: type, memberId: memberId })
 
-        console.log(type === 'seasoning' ? '양념 삭제 성공!' : '재료 삭제 성공!');
       } catch (err) {
-        console.log(type === 'seasoning' ? '양념 삭제 실패..' : '재료 삭제 실패..', err);
+        console.log(type === 'seasoning' ? '양념 삭제 실패..' : '재료 삭제 실패..', err)
       }
     },
 
+    // 회원 레시피 좋아요/ 좋아요 취소
+    async memberLikeRecipe({commit}, {type, memberId, recipeId}) {
+      try {
+        const apiUrl = 'https://i9b202.p.ssafy.io/api/members/heart'
+        const sendData = { memberId, recipeId };
+        
+        console.log(type === 'like' ? `${memberId}님이 ${recipeId}를 좋아요 실행...` : `${memberId}님이 ${recipeId}를 취소 실행...` )
 
-  },
+        const response = type === 'like' ?
+        await axios.post(apiUrl, sendData) :
+        await axios.delete(apiUrl, { data: sendData })
+        
+        console.log(type === 'like' ? `${memberId}님이 ${recipeId}를 좋아요 성공!` : `${memberId}님이 ${recipeId}를 취소 성공!` )
+
+      } catch(err) {
+        console.log(`${memberId}님이 ${recipeId}를 좋아요 실패...`, err)
+      }
+    },
+ 
+    // 회원 레시피 좋아요 조회
+    async fetchLike({commit}, memberId){
+      try {
+        console.log('좋아요 조회 시작!')
+        const res = await axios.get(`https://i9b202.p.ssafy.io/api/members/heart/${memberId}`)
+        console.log('좋아요 조회 성공!', res.data)
+        commit('SET_MEMBER_RECIPE_LIKE', res.data)
+      } catch(err) {
+        console.log(err)
+      }
+    },
+
+    // 회원 조리도구 조회/ 저장
+    async memberUtensil({commit}, {type, memberId, utensilData}) {
+      try {
+        const apiUrl = type === 'get' ? `https://i9b202.p.ssafy.io/api/members/memberUtensil/${memberId}` : 'https://i9b202.p.ssafy.io/api/members/memberUtensil'
+        if (type === 'post') {
+          
+          const sendData = {
+            memberId: memberId,
+            utensilId: utensilData // utensilData 배열을 그대로 사용합니다.
+          }
+          console.log(JSON.stringify(sendData, null, 2))
+          
+          const res = await axios.post(apiUrl, sendData);
+          console.log('조리도구 저장 성공!:', res.data)
+        
+        } else {
+          const res = await axios.get(apiUrl);
+          console.log('조리도구 조회 성공!:', res.data);
+          commit('SET_MEMBER_UTENSIL', res.data)
+        }
+      } catch (error) {
+        console.error(type === 'get' ? '조리도구 조회 실패...' : '조리도구 저장 실패...', error);
+      }
+    },
+    
+    // 회원 정보 변경
+    async memberUpdate({commit}, {type, memberId, updateData}) {
+      try {
+        let sendData
+
+        const apiUrl = type === 'all' ? 'https://i9b202.p.ssafy.io/api/members/modifyAll' : 'https://i9b202.p.ssafy.io/api/members/updatePassword'
+        if (type == 'all') {
+          const allInfo = updateData 
+          sendData = {
+            memberId: memberId,
+            password:allInfo.password,
+            nickname: allInfo.nickname,
+            birth: allInfo.birthDate,
+            gender: allInfo.gender,
+          } 
+        } else {
+          const pwdInfo =  updateData
+          sendData = {
+            email: pwdInfo.email,
+            newPassword: pwdInfo.newPassword,     
+          }
+        }
+
+        console.log('회원정보 수정 시작!',JSON.stringify(sendData,null,2))
+        const res = await axios.put(apiUrl, sendData);
+        
+
+      } catch(err) {
+        console.error(type === 'all' ? '정보 변경 실패...' : '비밀번호 변경 실패...', err)
+      }
+    },
+
+    // 회원 비선호 재료, 알러지 저장/ 조회
+    async memberDislikeAllergy({commit, getters}, {type, memberId}) {
+      try {
+        let apiUrl
+        let sendData
+        
+        
+        if (type === 'dislikeGet') {
+          apiUrl = `https://i9b202.p.ssafy.io/api/members/dislikeIngredient/${memberId}`         
+        } else if (type === 'dislikePost') {
+          apiUrl = 'https://i9b202.p.ssafy.io/api/members/dislikeIngredient'  
+          sendData = {
+            memberId: memberId,
+            ingredientId: getters.memberTypeIds('dislike')
+          }       
+        } else if (type === 'allergyGet') {
+          apiUrl = `https://i9b202.p.ssafy.io/api/members/memberAllergy/${memberId}`
+        } else if (type === 'allergyPost') {
+          apiUrl = 'https://i9b202.p.ssafy.io/api/api/members/memberAllergy'
+          sendData = {
+            memberId: memberId,
+            allergyId: getters.memberTypeIds('allergy')
+          }
+        } else {
+          throw new Error('Invalid request type');
+        }
+        
+        console.log(
+          type === 'dislikeGet' || type === 'dislikePost'
+            ? '비선호 재료 요청 시작!'
+            : '알러지 재료 요청 시작!',
+            sendData
+        )
+
+        
+        let res
+        if (type === 'dislikeGet' || type === 'allergyGet') {
+          res = await axios.get(apiUrl)
+        } else if (type === 'dislikePost' || type === 'allergyPost') {
+          res = await axios.post(apiUrl, sendData)
+        }
+        
+        
+        console.log(
+          type === 'dislikeGet' || type === 'dislikePost'
+          ? '비선호 재료 요청 성공!'
+          : '알러지 재료 요청 성공!',
+          res
+          )
+          
+          if (type === 'dislikeGet') {
+            if (res && res.data) {
+              commit('SET_MEMBER_DISLIKE_INGREDIENT', res.data);
+            }
+          } else if (type === 'dislikePost') {
+            console.log('비선호 재료 저장 완료!')
+          } else if (type === 'allergenGet') {
+            if (res && res.data) {
+              commit('SET_MEMBER_ALLERGY', res.data);
+            }
+          } else if (type === 'allergenPost') {
+            if (res && res.data) {
+              console.log('알러지 저장 완료!')
+            }
+          }
+      } catch(err) {
+        console.log(
+          type === 'dislikeGet' || type === 'dislikePost'
+            ? '비선호 재료 요청 실패..'
+            : '알러지 재료 요청 실패..',
+          err
+        )
+      }
+    },
+    
+    // 아이템 추가 (비선호, 알러지)
+    async appendItem({commit,state }, {type, inputData}) {
+      try {
+        const data = {ingredientId: inputData.id ,ingredientName: inputData.name}
+        const isDuplicate = state.memberDislikeIngredient.some(item => item.ingredientId === inputData.id)
+    
+        if (!isDuplicate) {
+          commit('UPDATE_LIST', { type: 'dislike', updateData: [data] });
+        } else {
+          console.log('이미 존재하는 재료입니다.');
+        }
+      } catch(err) {
+        console.log(err)
+      }
+    },
+
+    // 아이템 삭제
+    async deleteItem({commit}, {type, delData}){
+      try {
+        commit('REMOVE_FROM_LIST', { type, removeData: delData })
+        console.log(delData,'삭제성공!')
+      } catch(err) {
+        console.log(delData,'삭제실패,,,,',err)
+      }
+    },
+  }, 
 }
 
-export default member;
+export default member

@@ -7,15 +7,16 @@ spring:
         registration:
           kakao:
             client-id: ad3555fb105357956fe43e6541f0cd84
-            redirect-uri: http://i9B202.p.ssafy.io/api/oauth/kakao
+#            redirect-uri: http://i9B202.p.ssafy.io/api/oauth/kakao
+            redirect-uri: https://i9B202.p.ssafy.io/login
             client-authentication-method: POST
             client-secret: UJBGr0md8gtBzYDoe4CxjeeQi65pJE1G
             authorization-grant-type: authorization_code
             client-name: kakao
           google:
             client-id: 600784308502-61a56tmk8jtiifg01jgh8dj6rpad2vu0.apps.googleusercontent.com
-            redirect-uri: http://i9B202.p.ssafy.io/api/oauth/google
-#            redirect-uri: https://i9B202.p.ssafy.io/api/
+#            redirect-uri: http://i9B202.p.ssafy.io/api/oauth/google
+            redirect-uri: https://i9B202.p.ssafy.io/login
             client-authentication-method: POST
             client-secret: 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
             authorization-grant-type: authorization_code
@@ -23,7 +24,8 @@ spring:
             client-name: google
           naver:
             client-id: PZvFBVfDsvI43TCCWHs8
-            redirect-uri: https://i9B202.p.ssafy.io/api/oauth/naver
+#            redirect-uri: https://i9B202.p.ssafy.io/api/oauth/naver
+            redirect-uri: https://i9B202.p.ssafy.io/login
             client-authentication-method: POST
             client-secret: 90FJ2ifNOQ
             authorization-grant-type: authorization_code

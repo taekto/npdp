@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 // 기능 페이지
 import MainView from '../views/MainView.vue'
-import SearchPage from "../components/searchPage/SearchPage.vue"
+// import SearchPage from "../components/searchPage/SearchPage.vue"
 import SearchKeyword from "../components/searchPage/SearchKeyword.vue"
 import SingupView from  '../views/SignupView.vue'
 import LoginView from  '../views/LoginView.vue'
@@ -16,6 +16,7 @@ import ToolPage from '../components/myPage/toolPage.vue'
 import LikeRecipe from '../components/myPage/likeRecipe.vue'
 import memberInfoEditPage from '../components/myPage/editPage.vue'
 import DislikeView from '../views/DislikeView.vue'
+import FindPassword from '../views/findPassword.vue'
 
 //adminPage
 import AdminLoginPage from '../views/AdminLoginPage.vue'
@@ -41,15 +42,15 @@ const router = createRouter({
     name: 'about',
     component: AboutView
   },
-  {
-    // 검색 결과(키워드 없음) 페이지
-    path: '/search',
-    name: 'search',
-    component: SearchPage,
-  },
+  // {
+  //   // 검색 결과(키워드 없음) 페이지
+  //   path: '/search',
+  //   name: 'search',
+  //   component: SearchPage,
+  // },
   {
     // 검색 결과(키워드 있음) 페이지
-    path: '/search/:keyword',
+    path: '/search/:keyword?',
     name: 'searchKeyword',
     component: SearchKeyword,
   },
@@ -107,6 +108,12 @@ const router = createRouter({
     path: '/mypage/edit',
     name: 'edit',
     component: memberInfoEditPage,
+  },
+  // 비밀번호 찾기
+  {
+    path: '/find',
+    name: 'find',
+    component: FindPassword,
   },
   {
     // 비선호 재료

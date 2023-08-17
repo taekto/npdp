@@ -8,6 +8,7 @@ import com.project.npdp.member.dto.request.*;
 import com.project.npdp.member.dto.response.*;
 import com.project.npdp.member.entity.*;
 import com.project.npdp.member.repository.*;
+import com.project.npdp.snslogin.dto.response.SnsLoginResponseDto;
 import com.project.npdp.utils.JwtUtil;
 import com.project.npdp.utils.SHA256Util;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-//@Transactional
+@Transactional
 @RequiredArgsConstructor
 //@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Slf4j
@@ -38,15 +40,16 @@ public class MemberService {
     private final IngredientRepository ingredientRepository;
     private final AllergyRepository allergyRepository;
     private final UtensilRepository utensilRepository;
-    private final MemberAllergyRepositoryCustom memberAllergyRepositoryCustom;
-    private final MemberDislikeRepositoryCustom memberDislikeRepositoryCustom;
-    private final MemberUtensilRepositoryCustom memberUtensilRepositoryCustom;
 
     @Value("${jwt.secret}")
     private String secretKey;
 
     // 토큰 만료 시간 (임시: 1시간)
     private Long expiredMs = 1000 * 60 * 60l;
+
+    // 프론트에서 넘어오는 성별
+    private final String male = "male";
+    private final String female = "female";
 
     // 회원 가입
     public void join(MemberJoinRequestDto memberJoinRequestDto){
@@ -62,18 +65,40 @@ public class MemberService {
 
         Member member = Member.builder()
                 .email(memberJoinRequestDto.getEmail())
-                .password(hashedPw)
                 .nickname(memberJoinRequestDto.getNickname())
+                .password(hashedPw)
                 .oauth(OAuthType.LOCAL)
                 .role(Role.MEMBER)
-                .gender(gender)
                 .birth(memberJoinRequestDto.getBirth())
+                .gender(gender)
                 .build();
         // 중복 가입 방지 확인 (이메일)
         validateDuplicateJoin(memberJoinRequestDto);
         memberRepository.save(member);
     }
 
+    // 회원 가입
+    public void snsJoin(Member newMember){
+        log.info("snsJoin입니다");
+        log.info("새롭게 들어오는 member의 oauth: "+newMember.getOauth());
+
+        // 비밀번호 해시 암호화
+        String hashedPw = SHA256Util.getSHA256(newMember.getPassword());
+
+        Member member = Member.builder()
+                .email(newMember.getEmail())
+                .nickname(newMember.getNickname())
+                .password(hashedPw)
+                .oauth(newMember.getOauth())
+                .role(newMember.getRole())
+                .birth(newMember.getBirth())
+                .gender(newMember.getGender())
+                .build();
+
+        // 중복 가입 방지 확인 (이메일)
+        validateDuplicateJoin(MemberJoinRequestDto.builder().email(member.getEmail()).build());
+        memberRepository.save(member);
+    }
 
     // 중복 가입 방지
     private void validateDuplicateJoin(MemberJoinRequestDto memberJoinRequestDto) {
@@ -122,27 +147,24 @@ public class MemberService {
     }
 
     // sns 로그인
-    public MemberLoginResponseDto snsLogin(Member member){
+    public SnsLoginResponseDto snsLogin(Member member){
 //         이메일 중복 여부 확인
         Member findMembers = memberRepository.findByEmail(member.getEmail());
-//        log.info("db에 있는 snsLogin의 타입: "+findMembers.getOauth());
-//        log.info("현재 로그인 시도한 snsLogin의 타입: "+member.getOauth());
 //        1. 이미 등록된 이메일인 경우
         if(findMembers != null){
 //            -1. 같은 SNS 로그인인 경우: 해당 sns 로그인으로 바로 로그인
             if(findMembers.getOauth().equals(member.getOauth())){
-                log.info("같은 sns로그인입니다.!!!!!!!!!!!!!!");
-                log.info("memberemail: "+member.getEmail());
-                log.info("memberpwd: "+member.getPassword());
-                log.info("결과: "+this.login(new MemberLoginRequestDto(member.getEmail(), member.getPassword())));
-                return this.login(new MemberLoginRequestDto(member.getEmail(), member.getPassword()));
+                MemberLoginResponseDto memberLoginResponseDto = this.login(MemberLoginRequestDto.builder().email(member.getEmail()).password(member.getPassword()).build());
+                return SnsLoginResponseDto.builder().memberLoginResponseDto(memberLoginResponseDto).httpStatus(HttpStatus.OK).build();
 //            -2. 로컬 로그인이거나 다른 SNS 로그인인 경우: ERROR 발생
             }else{
                 throw new IllegalStateException("이미 존재하는 회원입니다.");
             }
 //        2. 없는 이메일인 경우
         }else{
-            return null;
+            this.snsJoin(member);
+            MemberLoginResponseDto memberLoginResponseDto = this.login(MemberLoginRequestDto.builder().email(member.getEmail()).password(member.getPassword()).build());
+            return SnsLoginResponseDto.builder().memberLoginResponseDto(memberLoginResponseDto).httpStatus(HttpStatus.CREATED).build();
         }
     }
 
@@ -195,8 +217,10 @@ public class MemberService {
 
 //        log.info("gender: " + gender);
 
-        Gender newGender = Gender.MALE;
-        if(gender.equals("여자")){
+        Gender newGender = null;
+        if(gender.equals(male)){
+            newGender = Gender.MALE;
+        }else if(gender.equals(female)){
             newGender = Gender.FEMALE;
         }
 
@@ -252,10 +276,7 @@ public class MemberService {
         Member member = memberRepository.findById(memberId).orElse(null);
 
         // 기존에 저장된 알러지 정보 삭제
-        MemberAllergy allergyMember = memberAllergyRepository.findById(memberId).orElse(null);
-        if(allergyMember != null){
-            memberAllergyRepository.deleteAllByMember(member);
-        }
+        memberAllergyRepository.deleteMemberAllergy(memberId);
 
         // 새로운 알러지 정보 저장
         List<MemberAllergy> memberAllergyList = new ArrayList<>();
@@ -275,12 +296,12 @@ public class MemberService {
 
     // 회원 알러지 정보 조회
     public List<MemberAllergyResponseDto> getMemberAllergy(Long memberId){
-        List<MemberAllergy> memberAllergies = memberAllergyRepositoryCustom.selectMemberAllergy(memberId);
+        List<MemberAllergy> memberAllergies = memberAllergyRepository.selectMemberAllergy(memberId);
 
         List<MemberAllergyResponseDto> memberAllergyResponseDto = new ArrayList<>();
         for(MemberAllergy memberAllergy : memberAllergies){
             MemberAllergyResponseDto memberAllergyResponse = MemberAllergyResponseDto.builder()
-                    .memberId(memberAllergy.getMember().getId())
+                    .allergyId(memberAllergy.getAllergy().getId())
                     .allergyName(memberAllergy.getAllergy().getName())
                     .build();
 
@@ -296,10 +317,7 @@ public class MemberService {
         Member member = memberRepository.findById(memberId).orElse(null);
 
         // 기존회원의 비선호 재료 정보 삭제
-        MemberDislikeIngredient dislikeMember = memberDislikeRepository.findById(memberId).orElse(null);
-        if(dislikeMember != null){
-            memberDislikeRepository.deleteAllByMember(member);
-        }
+        memberDislikeRepository.deleteDislikeIngredient(memberId);
 
         // 새로운 비선호 재료 정보 저장
         List<MemberDislikeIngredient> memberDislikeIngredientList = new ArrayList<>();
@@ -319,12 +337,12 @@ public class MemberService {
 
     // 비선호 재료 정보 조회
     public List<MemberDislikeIngredientResponseDto> getDislikeIngredient(Long memberId){
-        List<MemberDislikeIngredient> memberDislikeIngredients = memberDislikeRepositoryCustom.selectDislikeIngredient(memberId);
+        List<MemberDislikeIngredient> memberDislikeIngredients = memberDislikeRepository.selectDislikeIngredient(memberId);
 
         List<MemberDislikeIngredientResponseDto> memberDislikeIngredientResponseDtos = new ArrayList<>();
         for(MemberDislikeIngredient memberDislike : memberDislikeIngredients){
             MemberDislikeIngredientResponseDto memberDislikeIngredientResponseDto = MemberDislikeIngredientResponseDto.builder()
-                    .memberId(memberDislike.getMember().getId())
+                    .ingredientId(memberDislike.getIngredient().getId())
                     .ingredientName(memberDislike.getIngredient().getKor())
                     .build();
             memberDislikeIngredientResponseDtos.add(memberDislikeIngredientResponseDto);
@@ -339,10 +357,7 @@ public class MemberService {
         Member member = memberRepository.findById(memberId).orElse(null);
 
         // 기존에 저장된 조리도구 정보 삭제
-        MemberUtensil utensilMember = memberUtensilRepository.findById(memberId).orElse(null);
-        if(utensilMember != null){
-            memberUtensilRepository.deleteAllByMember(member);
-        }
+        memberUtensilRepository.deleteMemberUtensil(memberId);
 
         // 새로운 조리도구 정보 저장
         List<MemberUtensil> memberUtensilList = new ArrayList<>();
@@ -362,12 +377,12 @@ public class MemberService {
 
     // 회원 조리도구 정보 조회
     public List<MemberUtensilResponseDto> getMemberUtensil(Long memberId){
-        List<MemberUtensil> memberUtensils = memberUtensilRepositoryCustom.selectMemberUtensil(memberId);
+        List<MemberUtensil> memberUtensils = memberUtensilRepository.selectMemberUtensil(memberId);
 
         List<MemberUtensilResponseDto> memberUtensilResponseDtos = new ArrayList<>();
         for(MemberUtensil memberUtensil : memberUtensils){
             MemberUtensilResponseDto memberUtensilResponseDto = MemberUtensilResponseDto.builder()
-                    .memberId(memberUtensil.getMember().getId())
+                    .utensilId(memberUtensil.getUtensil().getId())
                     .utensilName(memberUtensil.getUtensil().getName())
                     .build();
 
@@ -405,25 +420,22 @@ public class MemberService {
         }
     }
 
-    public MemberLoginResponseDto snsJoin(Member member) {
-        String gender = this.genderToString(member.getGender());
-        this.join(MemberJoinRequestDto.builder().email(member.getEmail()).password(member.getPassword()).nickname(member.getNickname()).gender(gender).birth(member.getBirth()).build());
-        return this.snsLogin(member);
-    }
-
     public Gender stringToGender(String raw){
-        Gender gender = Gender.MALE;
-        if(gender.equals("여자")){
+        Gender gender = null;
+        if(raw.equals(male)){
+            gender = Gender.MALE;
+        }else if(raw.equals(female)){
             gender = Gender.FEMALE;
         }
         return gender;
     }
 
     public String genderToString(Gender gender){
-        if(gender == Gender.FEMALE){
-            return "여자";
-        }else{
-            return "남자";
+        if(gender == Gender.MALE){
+            return male;
+        }else if(gender == Gender.FEMALE){
+            return female;
         }
+        return null;
     }
 }

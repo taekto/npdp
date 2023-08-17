@@ -1,9 +1,9 @@
 <template>
   <!-- 모달창 이동 하게하는 상위 컴퍼넌트 -->
-  <div>
+  <div class="modal_container">
     <SeasoningText />
     <SeasoningSound />
-    <button class="modalButton" data-bs-target="#seasoningModalToggle" data-bs-toggle="modal">양념입력</button>
+    <button class="modalButton" data-bs-target="#seasoningModalToggle" data-bs-toggle="modal">양념수정</button>
   </div>
   
 </template>
@@ -33,9 +33,11 @@ export default {
   background-color: #FD7E14;
   border-radius: .5rem;
   margin: .5rem;
-  padding: 0.5rem;
-  font-size: 1.25rem;
+  padding: 0.3rem;
+  font-size: 1.2rem;
   font-weight: bold;
+  /* font-family: 'LINESeedKR-Bd'; */
+  font-family: 'GangwonEdu_OTFBoldA';
 }
 
 .amountButton {

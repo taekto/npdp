@@ -6,11 +6,11 @@
             <div class="accordion-item">
                 <h2 class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
-                        <strong>Classification</strong>
+                        <strong>분류</strong>
                     </button>
                 </h2>
                 <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse">
-                    <div class="accordion-body">
+                    <div class="accordion-body btn_group">
                         <label v-if="selectClassification === '전체'" class="radioButton2">
                             <input type="radio" name="classification" value="전체" v-model="selectClassification" @click="changeClassification">전체
                         </label>
@@ -49,11 +49,11 @@
             <div class="accordion-item">
                 <h2 class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                        <strong>Category</strong>
+                        <strong>키워드</strong>
                     </button>
                 </h2>
                 <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
-                    <div class="accordion-body">
+                    <div class="accordion-body btn_group">
                         <label v-if="selectCategory !== '전체'" class="radioButton">
                             <input type="radio" name="category" value="전체" v-model="selectCategory" @click="changeCategory">전체
                         </label>
@@ -139,5 +139,9 @@ export default {
     color: white;
 }
 
+.btn_group {
+  display: flex;
+  justify-content: center;
+}
 
 </style>
