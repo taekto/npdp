@@ -388,6 +388,7 @@ export default {
     font-weight: bold;
     width: 5rem;
     margin: auto 0;
+    min-width: 5rem;
 }
 
 .ingredientName2 {

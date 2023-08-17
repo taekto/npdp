@@ -56,7 +56,6 @@ export default {
 
 <style>
 .myPage {
-    background-color: #eeeeee;
     border-radius: 1rem;
     display: flex;
     margin: 3rem;
@@ -68,10 +67,9 @@ export default {
 
 #myPageView {
     width: 85%;
-    background-color: #fefefe;
     border-radius: 1rem;
     margin-top: 2rem;
-    margin-bottom: 2rem;
+    margin-bottom: 10rem;
     /* border: solid black; */
     min-height: 50vh;
 }
