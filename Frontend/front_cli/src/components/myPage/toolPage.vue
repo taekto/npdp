@@ -145,6 +145,7 @@ export default {
     height: 3rem;
     color: white;
     border: none;
+    font-family: 'GangwonEdu_OTFBoldA';
 }
 
 .toolTitle {

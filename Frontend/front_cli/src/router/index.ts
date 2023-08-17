@@ -169,4 +169,10 @@ const router = createRouter({
   })
 
 
+  router.beforeEach((to, from, next) => {
+    // 페이지 전환 이전에 스크롤을 맨 위로 설정
+    window.scrollTo(0, 0);
+    next();
+  });
+
 export default router

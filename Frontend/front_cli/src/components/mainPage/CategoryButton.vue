@@ -69,7 +69,7 @@ export default {
 } */
 
 .categoryText {
-  font-family: 'LINESeedKR-Bd';
+  font-family: 'GangwonEdu_OTFBoldA';
 }
 
 .categoryBtn {

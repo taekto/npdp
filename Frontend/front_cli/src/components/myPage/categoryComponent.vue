@@ -65,10 +65,10 @@ export default {
             return this.isViewportSmall ? "정보수정" : "내 정보수정";
         },
         link5Text() {
-            return this.isViewportSmall ? "비선호 재료 등록 및 수정" : "비선호 재료";
+            return this.isViewportSmall ? "비선호 재료" : "비선호 재료 등록 및 수정";
         },
         link6Text() {
-            return this.isViewportSmall ? "알러지 재료 등록 및 수정" : "알러지 재료";
+            return this.isViewportSmall ? "알러지 재료" : "알러지 재료 등록 및 수정";
         },
 
     }

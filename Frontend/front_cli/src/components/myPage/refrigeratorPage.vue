@@ -481,7 +481,7 @@ ul {
   margin-right: 2rem;
   font-size: 1.25rem;
   font-weight: bold;
-  font-family: 'LINESeedKR-Bd';
+  font-family: 'GangwonEdu_OTFBoldA';
   width: 6rem;
 }
 </style>

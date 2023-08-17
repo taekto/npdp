@@ -206,7 +206,7 @@ footer {
 
 /* 라디오 버튼 공통 */
 .radioButton {
-  font-family: 'LINESeedKR-Rg';
+  font-family: 'GangwonEdu_OTFBoldA';
   border: 1.6px solid #FD7E14;
   border-radius: .5rem;
   padding: .3rem .1rem;
@@ -221,7 +221,7 @@ footer {
 
 
 .radioButton2 {
-  font-family: 'LINESeedKR-Rg';
+  font-family: 'GangwonEdu_OTFBoldA';
   border: solid #FD7E14;
   background-color: #FD7E14;
   color: white;
