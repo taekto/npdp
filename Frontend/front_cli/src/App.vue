@@ -27,7 +27,7 @@
         </div>
         <div v-else id="user">
           <!-- <p>안녕하세요 {{ $state }}</p> -->
-          <div class="nickName">{{ nickname }}님 :)</div>
+          <div class="nickName">{{ member.nickname }}님 :)</div>
           <div>
           <router-link to="/mypage/refrigerator" class="nav_user_link">마이페이지</router-link>
           <a class="logout nav_user_link" @click="logout">로그아웃</a>
@@ -57,17 +57,23 @@
 import {mapGetters, mapActions} from 'vuex'
 
 export default {
-  computed: {
-    ...mapGetters(['isLoggedIn']),
-    nickname() {
-      return sessionStorage.getItem('nickname') || ""
+  data(){
+    return{
+      memberId:null
     }
   },
+  computed: {
+    ...mapGetters(['isLoggedIn','member']),
+  },
   methods: {
-    ...mapActions(['logout']),
+    ...mapActions(['logout','fetchMember']),
     goToMainPage() {
       this.$router.push({name: 'main'})
     }
+  },
+  created(){
+    this.memberId = parseInt(sessionStorage.getItem('memberId'))
+    this.fetchMember(this.memberId)
   }
 }
 </script>

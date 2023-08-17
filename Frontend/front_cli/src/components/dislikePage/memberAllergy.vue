@@ -6,17 +6,12 @@
       <div class="menuTitle_allergy">알러지 재료 등록</div>
         <!-- 알러지 재료 리스트 체크박스 한줄에 5개씩 만든다 -->
       <div class="allergy_container">
-        <div class="row member_allergy_container">
-          <div class="col-1 col_Box"></div>
-          <div class="col-4 membe6r_allergy">
-            <div class="list_title"></div>
-            <div class="allergyBox row">
-              <div v-for="(item, idx) in allergyList" :key="idx" class="col-4 checkAllergy">
-                <label>
-                  <input type="checkbox" name="allergy" @change="toggleAllergy(item)" :checked="isAllergySelected(item.allergyId)">{{ item.allergyName }}
-                </label>
-              </div>
-            </div>
+        <h3 class="list_title_allergy">회원 알러지 선택</h3>
+        <div class="allergyBox row">
+          <div v-for="(item, idx) in allergyList" :key="idx" class="col-4 checkAllergy">
+            <label>
+              <input type="checkbox" name="allergy" @change="toggleAllergy(item)" :checked="isAllergySelected(item.allergyId)" > <span :style="{ color: isAllergySelected(item.allergyId) ? '#FD7E14' : 'inherit' }">{{ item.allergyName }}</span>
+            </label>
           </div>
         </div>        
       </div>
@@ -80,7 +75,7 @@ export default {
   margin: auto;
   padding: 1rem;
   margin-bottom: 3rem;
-  height: 60vh;
+  height: 80vh;
   font-family: 'GangwonEdu_OTFBoldA';
 }
 
@@ -95,39 +90,16 @@ export default {
 }
 
 .checkAllergy {
-  margin-top: 1rem;
+  font-size: 1.5rem;
+  margin-top: 0.5rem;
   margin-bottom: 1rem;
   padding: 1rem;
 }
 
-.list_title {
-  font-family: 'LINESeedKR-Rg';
-}
-
-.member_check_list {
-  border: 1px solid black;
-  border-radius: 10px;
-  overflow-x: hidden; 
-}
-
-.allergy_list_item{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 0;
-  border-bottom: 1px solid #ccc;
-  overflow-y: auto; 
-}
-
-.delete_button {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  padding-right: 1rem;
-}
-
-.allergy_name {
-  padding-left: 2rem;
+.list_title_allergy{
+  font-family: 'LINESeedKR-Bd';
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .save_btn_container{
