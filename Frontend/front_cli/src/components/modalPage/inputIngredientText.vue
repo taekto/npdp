@@ -135,7 +135,7 @@ export default {
         ingredientId: null,
         storage: 0,
         printStorage:'',
-        amount: 0,
+        amount: '',
         unit: '개',
         startDate: '',
         expiredDate: '',

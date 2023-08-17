@@ -3,26 +3,16 @@
   <div class="myPage">
     <!-- 좌측 마이페이지 메뉴 컴포넌트 -->
     <CategoryComponent />
-    <div>
-      <div class="row">
-        <fieldset>
-          <legend>가열취사도구</legend>
-            <div v-for="(name, idx) in tools" :key="idx" class="col-3 checkTool">
-              <label>
-                <input type="checkbox" name="tool" @change="toggleUtensil(name)" :checked="isUtensilSelected(name)">{{ name }}
-              </label>
-          </div>
-        </fieldset>
-
-      </div>
-
-      <div class="row">
-        <fieldset>그 외</fieldset>
+    <div id="myPageView">
+      <div class="row tool_container">
+        <fieldset>조리도구 등록</fieldset>
+        
         <div v-for="(name, idx) in tools" :key="idx" class="col-4 checkTool">
-            <label>
-              <input type="checkbox" name="tool" @change="toggleUtensil(name)" :checked="isUtensilSelected(name)">{{ name }}
-            </label>
-          </div>
+          <label>
+            <input type="checkbox" name="tool" @change="toggleUtensil(name)" :checked="isUtensilSelected(name)">
+            <span :style="{ color: isUtensilSelected(name) ? '#FD7E14' : 'inherit' }">{{ name }}</span>
+          </label>
+        </div>
       </div>
 
       <button class="saveButton" @click="saveTool">저장</button>
@@ -84,10 +74,6 @@ export default {
         memberId:null,
         utensilNameToPK: {
           '가스레인지': [1, 16, 12, 10, 7],
-          // '믹서': [21],
-          // '반죽기': [27],
-          // '빙수기': [28],
-          // '수비드머신': [30],
           '에어프라이어': [4, 19],
           '와플기': [5],
           '전기레인지': [6, 8, 11, 13, 18],
@@ -97,6 +83,10 @@ export default {
           '전기찜솥': [15],
           '토스터': [3],
           '튀김기': [17],
+          // '믹서': [21],
+          // '반죽기': [27],
+          // '빙수기': [28],
+          // '수비드머신': [30],
           // '전자레인지': [22],
           // '커피머신': [24],
           // '제빙기': [29],
@@ -107,18 +97,16 @@ export default {
       }
     },
     methods: {
-      ...mapActions(['memberUtensil']),
+      ...mapActions(['memberUtensil','deleteItem','appendItem']),
       saveTool() {
-        this.memberUtensil({ type: 'post', memberId: this.memberId, utensilData: this.utensilData });
+        this.memberUtensil({ type: 'post', memberId: this.memberId, utensilData: this.memberUtensilList.map(item => item.utensilId)})
       },
       toggleUtensil(name) {
         const pkArray = this.utensilNameToPK[name]
-        if (pkArray.some(pk => this.utensilData.includes(pk))) {
-          this.utensilData = this.utensilData.filter(pk => !pkArray.includes(pk));
-          console.log('배열에서 제거');
+        if (pkArray.some(pk => this.memberUtensilList.some(item => item.utensilId === pk))) {
+          this.deleteItem({ type: 'utensil', delData: pkArray.map(pk => ({ utensilName: name, utensilId: pk })) })
         } else {
-          this.utensilData.push(...pkArray);
-          console.log('배열에 추가');
+          this.appendItem({ type: 'utensil', inputData: pkArray.map(pk => ({ utensilName: name, utensilId: pk }))  })
         }
 
       },
@@ -135,13 +123,13 @@ export default {
       this.memberUtensil({ type: 'get', memberId: this.memberId })
         .then(() => {
           this.utensilData = this.memberUtensilList.reduce((data, item) => {
-            const pkArray = this.utensilNameToPK[item.utensilName];
+            const pkArray = this.utensilNameToPK[item.utensilName]
             if (pkArray) {
-              data.push(...pkArray);
+              data.push(...pkArray)
             }
-            return data;
-          }, []);
-        });
+            return data
+          }, [])
+        })
   },
 }
 
@@ -159,6 +147,26 @@ export default {
     margin: 7rem auto 2.5rem;
     padding: 2rem;
 }
+
+fieldset{
+  font-family: 'LINESeedKR-Bd';
+  margin: 1rem auto;
+  /* margin-left: 1rem; */
+  font-size: 1.5rem;
+  font-weight: bold;
+  width: 80%;
+}
+
+.tool_container{
+  border: .1rem solid #a7a7a7;
+  border-radius: 0.5rem;
+  width: 80%;
+  margin: auto;
+  padding: 1rem;
+  margin-bottom: 3rem;
+  height: 80vh;
+  font-family: 'GangwonEdu_OTFBoldA';
+}
 .check_box {
   font-size: 1rem;
 }
@@ -167,9 +175,10 @@ export default {
   transform : scale(1.2);
 }
 .checkTool {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    padding: .5rem;
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  font-family: 'GangwonEdu_OTFBoldA';
 }
 
 /* 저장버튼 */

@@ -28,13 +28,13 @@ interface Member {
   email: string
   nickname: string
   birth: any
-    // member_id: number
-    // password: string
-    // oauth: string
-    // refresh_token: string
-    // role: number
-    gender: string
-    // quit: boolean
+  gender: string
+  // member_id: number
+  // password: string
+  // oauth: string
+  // refresh_token: string
+  // role: number
+  // quit: boolean
 }
 
 // 회원 현재 정보
@@ -79,9 +79,8 @@ interface AllergyList {
 
 // 회원 보유 장비
 interface MemberUtensil {
-  utensil_list_id: number
-  member_id: number
-  utensil_id: number
+  memberId: number
+  utensilId: number
 }
 
 // 회원 양념칸
@@ -193,8 +192,14 @@ const member: Module<MemberState, RootState> = {
     SET_EMAIL_VERIFY: (state, emailCode) => (state.eamilCode = emailCode),
     SET_MEMBER_INGREDIENT: ( state, ingredient ) => (state.memberIngredient = ingredient),
     // 기존 배열에 추가(기존 SET_MEMBER_DISLIKE_INGREDIENT에 push할경우 저장을 누르면 기존배열 + 업데이트 배열)
-    UPDATE_LIST: (state, { type, updateData }) => {if (type === 'dislike') {state.memberDislikeIngredient.push(...updateData)} else if (type === 'allergy') {state.memberAllergy.push(...updateData)}},
-    REMOVE_FROM_LIST: (state, { type, removeData }) => {if (type === 'dislike') {state.memberDislikeIngredient = state.memberDislikeIngredient.filter(item => item.ingredientId !== removeData)} else if (type === 'allergy') {state.memberAllergy = state.memberAllergy.filter(item => item.allergyId !== removeData)}},
+    UPDATE_LIST: (state, { type, updateData }) => {if (type === 'dislike') {state.memberDislikeIngredient.push(...updateData)} 
+    else if (type === 'allergy') {state.memberAllergy.push(...updateData)}
+    else if (type === 'utensil') {state.memberUtensil.push(...updateData)}
+    },
+    REMOVE_FROM_LIST: (state, { type, removeData }) => {if (type === 'dislike') {state.memberDislikeIngredient = state.memberDislikeIngredient.filter(item => item.ingredientId !== removeData)} 
+    else if (type === 'allergy') {state.memberAllergy = state.memberAllergy.filter(item => item.allergyId !== removeData)}
+    else if (type === 'utensil') { state.memberUtensil = state.memberUtensil.filter(item => !removeData.some((inputItem: { utensilId: number }) => inputItem.utensilId === item.utensilId)) }
+  },
     SET_IS_RECIPE_LIKE: (state, isLike) => (state.isRecipeLike = isLike),
     SET_MEMBER_SIMILARITY: (state, similarityData) => (state.memberSimilarity = similarityData),
     SET_ALLERGY_LIST:(state, allergyList) => (state.allergyList = allergyList),
@@ -356,17 +361,15 @@ const member: Module<MemberState, RootState> = {
     // 회원 재료/양념/ 저장
     async saveMaterial({ dispatch }, {type, memberId, sendData}) {
       try {
-        console.log(type === 'seasoning' ? '양념 저장 시작!': '재료 저장 시작!')
         const apiUrl = type === 'seasoning' ?
           `https://i9b202.p.ssafy.io/api/refregirator/member/seasoning/${memberId}`:
           `https://i9b202.p.ssafy.io/api/refregirator/member/ingredient/${memberId}` 
-        
-        const response = await axios.post(apiUrl, sendData)
-  
-        console.log(type === 'seasoning' ? '양념 저장 성공!' : '재료 저장 성공!')
+ 
+        const res = await axios.post(apiUrl, sendData)
+
         dispatch('fetchMemberMaterial', ({type:type, memberId:memberId}))
       } catch (error) {
-        console.log(type === 'seasoning' ? '양념 저장 실패..' : '재료 저장 실패..', error)
+        console.log(error)
       }
     },
 
@@ -377,7 +380,6 @@ const member: Module<MemberState, RootState> = {
         let updateData
 
         if (type === 'ingredient') {
-          console.log('재료 수정/삭제 시작!')
           const ingredientUpdateData = updateItem as ingredientUpdateData
           updateData = [{
             memberId: memberId,
@@ -389,10 +391,7 @@ const member: Module<MemberState, RootState> = {
             expiredDate: ingredientUpdateData.expiredDate,
             isdelete: ingredientUpdateData.isdelete 
           }]
-          
-          console.log('재료수정 데이터:')
         } else if (type === 'seasoning') {
-          console.log('양념 수정/삭제 시작!')
           const seasoningUpdateData = updateItem as SeasoningUpdateData
           updateData = [{
             memberId: memberId,
@@ -402,9 +401,7 @@ const member: Module<MemberState, RootState> = {
             expiredDate: seasoningUpdateData.expiredDate,
             isdelete: seasoningUpdateData.isdelete 
           }]
-          console.log('양념 수정 데이터:')
         } else if (type === 'ingredientDelete') {
-          console.log('재료 수정/삭제 시작!')
           const ingredientUpdateData = updateItem as ingredientUpdateData
           updateData = [{
             memberId: memberId,
@@ -417,7 +414,6 @@ const member: Module<MemberState, RootState> = {
             isdelete: true,
           }]
         } else if (type === 'seasoningDelete') {
-          console.log('양념 수정/삭제 시작!')
           const seasoningUpdateData = updateItem as SeasoningUpdateData
           updateData = [{
             memberId: memberId,
@@ -436,8 +432,6 @@ const member: Module<MemberState, RootState> = {
         const res = await axios.post(apiUrl, updateData)
 
         dispatch('fetchMemberMaterial', {type:type, memberId: memberId})
-        
-        console.log('수정 성공...!')
 
       } catch (err) {
         console.log(err)
@@ -449,15 +443,10 @@ const member: Module<MemberState, RootState> = {
       try {
         const apiUrl = 'https://i9b202.p.ssafy.io/api/members/heart'
         const sendData = { memberId, recipeId };
-        
-        
-        console.log(type === 'like' ? `${memberId}님이 ${recipeId}를 좋아요 실행...` : `${memberId}님이 ${recipeId}를 취소 실행...` )
 
         const response = type === 'like' ?
         await axios.post(apiUrl, sendData) :
         await axios.delete(apiUrl, { data: sendData })
-        
-        console.log(type === 'like' ? `${memberId}님이 ${recipeId}를 좋아요 성공!` : `${memberId}님이 ${recipeId}를 취소 성공!` )
         
         if (type === 'like') {
           commit('SET_IS_RECIPE_LIKE', true);
@@ -465,7 +454,6 @@ const member: Module<MemberState, RootState> = {
           commit('SET_IS_RECIPE_LIKE', false);
         }
 
-        
       } catch(err) {
         console.log(`${memberId}님이 ${recipeId}를 좋아요 실패...`, err)
       }
@@ -474,9 +462,7 @@ const member: Module<MemberState, RootState> = {
     // 회원 레시피 좋아요 조회
     async fetchLike({commit}, memberId){
       try {
-        console.log('좋아요 조회 시작!')
         const res = await axios.get(`https://i9b202.p.ssafy.io/api/members/heart/${memberId}`)
-        console.log('좋아요 조회 성공!')
         commit('SET_MEMBER_RECIPE_LIKE', res.data)
       } catch(err) {
         console.log(err)
@@ -487,23 +473,19 @@ const member: Module<MemberState, RootState> = {
     async memberUtensil({commit}, {type, memberId, utensilData}) {
       try {
         const apiUrl = type === 'get' ? `https://i9b202.p.ssafy.io/api/members/memberUtensil/${memberId}` : 'https://i9b202.p.ssafy.io/api/members/memberUtensil'
-        if (type === 'post') {
-          
+        if (type === 'post') {        
           const sendData = {
             memberId: memberId,
             utensilId: utensilData // utensilData 배열을 그대로 사용합니다.
-          }
-          
+          }   
           const res = await axios.post(apiUrl, sendData);
-          console.log('조리도구 저장 성공!')
-        
+          alert('저장되었습니다.')
         } else {
           const res = await axios.get(apiUrl);
-          console.log('조리도구 조회 성공!');
           commit('SET_MEMBER_UTENSIL', res.data)
         }
       } catch (error) {
-        console.error(type === 'get' ? '조리도구 조회 실패...' : '조리도구 저장 실패...', error);
+        console.error(error);
       }
     },
     
@@ -512,7 +494,6 @@ const member: Module<MemberState, RootState> = {
       try {
         let sendData
         let apiUrl = ''
-        console.log(type,'회원정보 수정')
 
         if (type == 'all') {
           const Info = updateData 
@@ -539,17 +520,13 @@ const member: Module<MemberState, RootState> = {
             nickname: Info.nickname
           }
         }
-
-        console.log('회원정보 수정 시작!')
         const res = await axios.put(apiUrl, sendData);
-        console.log('회원 정보 수정 성공!', res.data)
+
         dispatch('fetchMember', memberId)
       } catch(err) {
         console.error(type === 'all' ? '정보 변경 실패...' : '비밀번호 변경 실패...', err)
       }
     },
-
-    // 회원 닉네임/비밀번호 수정 
 
     // 회원 비선호 재료, 알러지 저장/ 조회
     async memberDislikeAllergy({commit, getters}, {type, memberId}) {
@@ -650,10 +627,16 @@ const member: Module<MemberState, RootState> = {
         } else if (type === 'allergy') {
           data = { allergyId: inputData.allergyId, allergyName: inputData.allergyName }
           isDuplicate = state.memberAllergy.some(item => item.allergyId === inputData.allergyId)
+        } else if (type === 'utensil') {
+          isDuplicate = inputData.some((inputItem: { utensilId: number }) =>state.memberUtensil.some((memberItem: { utensilId: number }) => memberItem.utensilId === inputItem.utensilId))
         }
 
         if (!isDuplicate) {
-          commit('UPDATE_LIST', { type: type, updateData: [data] })
+          if (type === 'utensil') {
+            commit('UPDATE_LIST', { type: type, updateData: inputData });
+          } else {
+            commit('UPDATE_LIST', { type: type, updateData: [data] });
+          }
         } else {
           console.log('이미 존재하는 재료 또는 알러지입니다.',)
         }
@@ -666,9 +649,8 @@ const member: Module<MemberState, RootState> = {
     async deleteItem({commit}, {type, delData}){
       try {
         commit('REMOVE_FROM_LIST', { type, removeData: delData })
-        console.log('삭제성공!')
       } catch(err) {
-        console.log('삭제실패,,,,',err)
+        console.log(err)
       }
     },
 
