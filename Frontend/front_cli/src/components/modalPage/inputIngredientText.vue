@@ -110,7 +110,7 @@
 
           <!-- 재료 리스트 저장 -->
           <div class="modal-footer">
-            <button class="soundButton" @click="saveMaterial({type: 'ingredient', memberId: this.memberId, sendData: throwList })">저장하기</button>
+            <button class="soundButton" data-bs-dismiss="modal" @click="saveMaterial({type: 'ingredient', memberId: this.memberId, sendData: throwList })">저장하기</button>
           </div>
         </div>
       </div>
@@ -151,6 +151,7 @@ export default {
   },
   methods: {
     ...mapActions(['specificSearch','saveMaterial']),
+
 
     selectedItem(result) {
       console.log(result)
