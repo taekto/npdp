@@ -53,9 +53,9 @@
                             <div class="ingredientList">
                                 <p class="ingredientName">{{ingredientItem.kor}}</p>
                                 <div class="amount">
-                                    <button class="amountButton" @click="plusAmount(ingredientItem)">+</button>
-                                    <p class="amountAndUnit">{{changeAmount(ingredientItem.amount)}}{{ingredientItem.unit}}</p>
                                     <button class="amountButton" @click="minusAmount(ingredientItem)">-</button>
+                                    <p class="amountAndUnit">{{changeAmount(ingredientItem.amount)}}{{ingredientItem.unit}}</p>
+                                    <button class="amountButton" @click="plusAmount(ingredientItem)">+</button>
                                 </div>
                                 <div class="startDate">
                                     <p>보관시작일 : {{changeDate(ingredientItem.startDate)}}</p>
@@ -387,8 +387,9 @@ ul {
     width: 2rem;
     height: 60%;
     border-radius: .5rem;
-    background-color: #f2f2f2;
     border: solid rgb(244, 244, 244);
+    background-color: #FD7E14;
+    color: white;
 }
 
 .startDate {

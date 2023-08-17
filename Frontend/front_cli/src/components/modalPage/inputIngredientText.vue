@@ -61,9 +61,9 @@
                   <p class="explainText">개수 및 단위</p>
                   <div class="input-group">
                     <div class="amount">
-                      <button class="amountButton2" @click="addAmount">+</button>
+                      <button class="amountButton2" @click="reduceAmount">-</button>
                       <input id="searchForm" class="form-control" type="number" v-model.trim="amount">
-                      <button class="amountButton" @click="reduceAmount">-</button>
+                      <button class="amountButton" @click="addAmount">+</button>
                     </div>
                     <div class="dropdown">
                       <button class="dropdown-toggle servingButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">
