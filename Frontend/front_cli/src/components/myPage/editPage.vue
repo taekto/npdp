@@ -15,13 +15,11 @@
             <div class="editCategoryTitle">
               <p>닉네임 변경</p>
             </div>
-            <div>
-              <form class="edit_form" @submit.prevent="memberUpdate(memberId, userData.nickname)" >
+            <div>         
                 <div class="input-group">
                   <input id="searchForm" class="form-control" type="text" v-model.trim="member.nickname">
                 </div>
-                <button class="btn_update" @click="asd">수정</button>
-              </form>
+                <button class="btn_update" @click="memberUpdate({type:'nickname', memberId: this.memberId, updateData: userData})">수정</button>
             </div>
           </div>
 
@@ -47,9 +45,9 @@
             <div>
               <form class="edit_form" @submit.prevent="confirmPassword">
                 <div class="input-group">
-                    <input id="searchForm" class="form-control" type="password" v-model.trim="userData.password">
+                    <input id="searchForm" class="form-control" type="password" v-model.trim="userData.newPassword">
                 </div>
-                <button class="btn_update">수정</button>
+                <button class="btn_update" @click="memberUpdate({type:'password', memberId: this.memberId, updateData: userData})">수정</button>
               </form>
             </div>
           </div>
@@ -115,7 +113,7 @@ export default {
           nickname:"",
           email : "",
           birthDate : "",
-          password : "",
+          newPassword : "",
           gender : "",
         },
         memberId: null,
@@ -161,6 +159,7 @@ export default {
     async created() {
       this.memberId = parseInt(sessionStorage.getItem('memberId'))
       this.fetchMember(this.memberId)
+      this.userData.email = this.member.email
       this.setGender()
     },
 
