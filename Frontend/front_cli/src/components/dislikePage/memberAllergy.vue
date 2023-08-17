@@ -75,7 +75,7 @@ export default {
   margin: auto;
   padding: 1rem;
   margin-bottom: 3rem;
-  height: 60vh;
+  height: 80vh;
   font-family: 'GangwonEdu_OTFBoldA';
 }
 
@@ -95,6 +95,7 @@ export default {
 }
 
 .list_title_allergy{
+  font-family: 'LINESeedKR-Bd';
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
