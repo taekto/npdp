@@ -44,6 +44,7 @@
               확인
           </button>
         </div>
+          
           <p v-show="emailVerify === 1" class="input-error">
             인증번호가 확인되었습니다.
           </p>
@@ -88,7 +89,7 @@
           <p>생일 선택</p>
           <VDatePicker 
           v-model="credentials.birth"
-          :max="new Date()"
+          :max-date="new Date()"
           name="birth"
           @dayclick="whatDate(credentials.birth)" />
           <div class="genderSelect">  
@@ -146,12 +147,16 @@ export default {
     return {
         socialType: '',
         credentials: {
-          email: '',
-          password: '',
-          nickname: '',
-          gender: 'none',
-          birth: '',
+        email: '',
+        password: '',
+        nickname: '',
+        gender: 'none',
+        birth: '',
+        
       },
+      isCounting: false,
+      intervalId: null,
+      remainingSeconds: 0,
       emailCode: '',
       emailVerifyCode: '',
       emailVerify: 0,
@@ -181,6 +186,17 @@ export default {
     'passwordConfirm': function() {
       this.checkPasswordConfirm()
     }
+  },
+  computed: {
+    formattedTime() {
+    if (this.remainingSeconds >= 0) {
+      const minutes = Math.floor(this.remainingSeconds / 60);
+      const seconds = this.remainingSeconds % 60;
+      return `${this.formatDigits(minutes)}:${this.formatDigits(seconds)}`;
+    } else {
+      return '00:00';
+    }
+  }
   },
 
   // birthdate = new Date(); // birthdate 매개변수의 타입을 Date | null로 명시

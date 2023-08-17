@@ -16,6 +16,7 @@
                 <div class="amount">
                   <button class="amountButton2" @click="plusAmount(ingredient)">+</button>
                   <p class="amountAndUnit">{{ingredient.amount}}{{ingredient.unit}}</p>
+                  
                   <button class="amountButton" @click="minusAmount(ingredient)">-</button>
                 </div>
                 <div class="startDate">
@@ -44,7 +45,7 @@
             <div class="search_results_container">
               <ul>
                 <li v-for="result in ingredientSearchData" :key="result.id" class="search_container" @click="selectedItem(result)">
-                  <div v-if="ingredientName === result.name" style="font-weight: bold;">{{ result.name }}</div>
+                  <div v-if="ingredientId === result.id" style="font-weight: bold;">{{ result.name }}</div>
                   <div v-else>{{ result.name }}</div>
                 </li>
               </ul>
@@ -60,9 +61,9 @@
                   <p class="explainText">개수 및 단위</p>
                   <div class="input-group">
                     <div class="amount">
-                      <button class="amountButton2" @click="addAmount">+</button>
+                      <button class="amountButton2" @click="reduceAmount">-</button>
                       <input id="searchForm" class="form-control" type="number" v-model.trim="amount">
-                      <button class="amountButton" @click="reduceAmount">-</button>
+                      <button class="amountButton" @click="addAmount">+</button>
                     </div>
                     <div class="dropdown">
                       <button class="dropdown-toggle servingButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -110,7 +111,7 @@
 
           <!-- 재료 리스트 저장 -->
           <div class="modal-footer">
-            <button class="soundButton" @click="saveMaterial({type: 'ingredient', memberId: this.memberId, sendData: throwList })">저장하기</button>
+            <button class="soundButton" data-bs-dismiss="modal" @click="saveMaterial({type: 'ingredient', memberId: this.memberId, sendData: throwList })">저장하기</button>
           </div>
         </div>
       </div>
@@ -151,6 +152,7 @@ export default {
   },
   methods: {
     ...mapActions(['specificSearch','saveMaterial']),
+
 
     selectedItem(result) {
       console.log(result)
@@ -377,7 +379,7 @@ export default {
   justify-content: center;
 }
 
-#searchForm[data-v-652ac216] {
+#searchForm[data-v-0f963bc4] {
     border-radius: 0;
     margin-right: 0;
     margin-left: 0;
