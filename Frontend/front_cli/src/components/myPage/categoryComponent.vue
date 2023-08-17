@@ -89,7 +89,7 @@ export default {
     font-family: 'LINESeedKR-Bd';
     font-size: 2rem;
     text-align: left;
-    margin-top: 2rem;
+    margin-top: 1.5rem;
 }
 .category_container {
     position: absolute;
