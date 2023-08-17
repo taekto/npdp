@@ -78,7 +78,7 @@
                                     <i class="bi bi-trash deleteButton" @click="updateMaterial({type: 'ingredientDelete', memberId: this.memberId, updateItem: ingredientItem })"></i>
                                 </div>
                             </li>
-                            <button class="saveBtn" @click="saveMaterial({type: 'ingredient', memberId: this.memberId, sendData: displayedIngredientItems.tempIngredient })">
+                            <button class="saveBtn" @click="updateMaterial({type: 'ingredient', memberId: this.memberId, sendData: displayedIngredientItems.tempIngredient })">
                                 저장
                             </button>
                         </div>
@@ -128,7 +128,7 @@
                                     <i class="bi bi-trash deleteButton" @click="updateMaterial({type: 'seasoningDelete', memberId: this.memberId, updateItem: seasoningItem })"></i>
                                 </div>
                             </li>
-                            <button class="saveBtn" @click="saveMaterial({ type: 'seasoning', memberId: memberId, sendData: displayedIngredientItems.tempIngredient })">
+                            <button class="saveBtn" @click="updateMaterial({ type: 'seasoning', memberId: memberId, sendData: displayedIngredientItems.tempIngredient })">
                             저장
                         </button>
                         </div>
