@@ -17,7 +17,6 @@
                 </label>
               </div>
             </div>
-            <button @click="memberDislikeAllergy({type:'allergyPost', memberId:this.memberId})">저장</button>
           </div>
 
           <div class="col-1 col_Box"></div>
@@ -27,7 +26,7 @@
               <div class="row">
                 <div v-for="(item,idx) in memberAllergy" :key="idx">
                   <div class="allergy_list_item">
-                    {{ item.allergyName }}
+                     <div class="allergy_name">{{ item.allergyName }}</div>
                     <button @click="deleteItem({type: 'allergy', delData: item.allergyId})" class="delete_button">
                       X
                     </button>
@@ -36,8 +35,14 @@
               </div>
             </div>
           </div>
+          
         </div>
-      </div>
+        <div class="row save_btn_container">
+          <div class="col-10"></div>
+            <button class="save_btn col-1" @click="memberDislikeAllergy({type:'allergyPost', memberId:this.memberId})">저장</button>
+          </div>
+        </div>
+      
     </div>
   </div>
 </template>
@@ -95,15 +100,21 @@ export default {
   margin-bottom: 3rem;
   margin-top: 3rem;
   min-height: 35rem;
+  font-family: 'GangwonEdu_OTFBoldA';
 }
 .allergy_check_container {
   border: 1px solid black;
   border-radius: 10px;
 }
 
+.checkAllergy {
+  height: 4rem;
+}
+
 .member_check_list {
   border: 1px solid black;
   border-radius: 10px;
+  overflow-x: hidden; 
 }
 
 .allergy_list_item{
@@ -114,4 +125,24 @@ export default {
   border-bottom: 1px solid #ccc;
 }
 
+.delete_button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding-right: 1rem;
+}
+
+.allergy_name {
+  padding-left: 2rem;
+}
+
+.save_btn {
+  margin-top: 2rem;
+  background-color: #FD7E14;
+  border-radius: 0.5rem;
+  width: 5rem;
+  height: 3rem;
+  color: white;
+  border: none;
+}
 </style>
