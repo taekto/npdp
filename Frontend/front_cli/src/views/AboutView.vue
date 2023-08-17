@@ -5,10 +5,10 @@
 
       <div class="carousel_one">
         <div class="info_text">
-          <h2>'오늘 뭐 먹지' 고민될 땐, <br> <b>냉파대파</b>를 이용해 보세요.</h2>
-          <p>B202의 프로젝트 냉파대파는 <br>"냉장고에서 잊혀져 버려지는 재료들이 아깝다"는 생각에서 시작되었습니다.<br>
+          <h2 class="info_text_title">'오늘 뭐 먹지' 고민될 땐, <br> <b>냉파대파</b>를 이용해 보세요.</h2>
+          <div class="info_text_detail">B202의 프로젝트 냉파대파는 <br>"냉장고에서 잊혀져 버려지는 재료들이 아깝다"는 생각에서 시작되었습니다.<br>
           사용자의 냉장고에 있는 재료들을 기록하고 관리하여 낭비되지 않게 하고, <br> 레시피를 추천함으로써 더욱 풍성한 요리 생활을 즐길 수 있게 합니다.
-          </p>
+          </div>
         </div>
       </div>
         
@@ -68,6 +68,13 @@ img {
 * {
   list-style: none;
   /* font-family: 'LINESeedKR-Bd'; */
+  font-family: 'LINESeedKR-Rg';
+}
+.info_text_title {
+  font-family: 'LINESeedKR-Bd';
+}
+
+.info_text_detail {
   font-family: 'LINESeedKR-Rg';
 }
 

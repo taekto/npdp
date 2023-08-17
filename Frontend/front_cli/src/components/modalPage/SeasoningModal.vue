@@ -28,16 +28,16 @@ export default {
 <style scoped>
 /* 모달 버튼 */
 .modalButton {
-  border: solid #FD7E14;
-  color: white;
-  background-color: #FD7E14;
+  border: .1rem solid #FD7E14;
+  color: #FD7E14;
+  background-color: #fff;
   border-radius: .5rem;
   margin: .5rem;
   padding: 0.3rem;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: bold;
   /* font-family: 'LINESeedKR-Bd'; */
-  font-family: 'GangwonEdu_OTFBoldA';
+  font-family: 'LINESeedKR-Bd';
 }
 
 .amountButton {
