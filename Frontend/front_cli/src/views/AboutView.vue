@@ -17,40 +17,55 @@
     <div class="history">
   
       <div>
-        <h5>2023.7.4</h5>
+        <h5 class="date">2023.7.4</h5>
         <ol>
-          <li>SSAFY 2학기 공통 프로젝트 시작</li>
-          <li>팀명 싸피 아이(I)들으로 정함</li>
+          <li style="font-size: 20px;">SSAFY 2학기 공통 프로젝트 시작</li>
+          <li style="font-size: 13px; color: #8c8c8c;">팀명 싸피 아이(I)들으로 정함</li>
         </ol>
       </div>
 
       <div>
-        <h5>2023.7.10</h5>
+        <h5 class="date">2023.7.10</h5>
         <ol>
-          <li>주제 선정 시작</li>
+          <li style="font-size: 20px;">주제 선정 및 기획 시작</li>
         </ol>
       </div>
 
       <div>
-        <h5>2023.07.17</h5>
+        <h5 class="date">2023.07.17</h5>
         <ol>
-          <li>기획 시작</li>
-          <li>ERD, 인터페이스 설계서 등 산출물 생성</li>
+          <li style="font-size: 20px;">산출물 생성</li>
+          <li style="font-size: 12px; color: #8c8c8c;">요구사항 명세서</li>
+          <li style="font-size: 12px; color: #8c8c8c;">화면 설계</li>
+          <li style="font-size: 12px; color: #8c8c8c;">인터페이스 설계서</li>
+          <li style="font-size: 12px; color: #8c8c8c;">ERD 다이어그램</li>
+          <li style="font-size: 12px; color: #8c8c8c;">인터페이스 명세서</li>
         </ol>
       </div>
       
       <div>
-        <h5>2023.7.31</h5>
+        <h5 class="date">2023.7.24</h5>
         <ol>
-          <li>개발 시작</li>
+          <li style="font-size: 20px;">1000개의 레시피 데이터 전처리</li>
+          <li style="font-size: 12px; color: #8c8c8c;">레시피 주재료/부재료/요리순서 분리</li>
+          <li style="font-size: 12px; color: #8c8c8c;">레시피 속 재료/양념 매핑</li>
+          <li style="font-size: 12px; color: #8c8c8c;">재료 및 양념 구분</li>
+          <li style="font-size: 12px; color: #8c8c8c;">알러지 데이터 수집 및 분류</li>
+          <li style="font-size: 12px; color: #8c8c8c;">조리도구 데이터 수집 및 분류</li>
+        </ol>
+      </div>
+
+      <div>
+        <h5 class="date">2023.7.31</h5>
+        <ol>
+          <li style="font-size: 20px;">데이터 전처리 병행 및 개발 시작</li>
         </ol>
       </div>
       
       <div>
-        <h5>2023.8.17</h5>
+        <h5 class="date">2023.8.17</h5>
         <ol>
-          <li>냉파대파 프로젝트 완성</li>
-          
+          <li style="font-size: 20px;">냉파대파 프로젝트 완성</li>
         </ol>
       </div>
       
@@ -71,18 +86,22 @@ img {
   font-family: 'LINESeedKR-Rg';
 }
 .info_text_title {
+  position: absolute;
+  top: 3rem;
   font-family: 'LINESeedKR-Bd';
 }
 
 .info_text_detail {
+  position: absolute;
+  top: 17rem;
   font-family: 'LINESeedKR-Rg';
 }
 
 .history{
   width: 50%;
   margin: auto;
-  padding-top: 50px;
-  padding-bottom: 50px;
+  padding-top: 10rem;
+  padding-bottom: 10rem;
 }
 
 .history h5 {
@@ -167,6 +186,7 @@ img {
 }
 
 .info_text {
+  position: relative;
   color: white;
   padding-left: 10rem;
   text-align: left;
@@ -181,6 +201,9 @@ img {
   font-size: 20px;
   padding-top: 5rem;
   
+}
+.date {
+  color: #ff5a2b;
 }
 
 </style>
