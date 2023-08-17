@@ -89,7 +89,7 @@
           <p>생일 선택</p>
           <VDatePicker 
           v-model="credentials.birth"
-          :max="new Date()"
+          :max-date="new Date()"
           name="birth"
           @dayclick="whatDate(credentials.birth)" />
           <div class="genderSelect">  
