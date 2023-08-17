@@ -342,10 +342,13 @@ export default {
 }
 
 .radioButton {
+  font-family: 'LINESeedKR-Rg' !important;
   border: 1.6px solid #FD7E14;
+  font-size: 1.1rem;
 }
 .activeRadioButton {
   background-color: #FD7E14;
+  border: 1.6px solid #FD7E14;
   color: white;
   border-radius: .5rem;
   padding: .5rem;
