@@ -78,8 +78,16 @@ public class RecipeService {
     // 유저 유사도로 레시피 반환
     @Transactional(readOnly = true)
     public List<MemberRecommendResponseDto> findMemberRecipesWithSimilarity(MemberRecommendRequestDto memberRecommendRequestDto) {
-        List<MemberRecommendResponseDto> result = recipeRepository.findMemberRecipesWithSimilarity(memberRecommendRequestDto);
-        return result;
+        List<RecipeRepository.MemberRecommendResponseVo> result = recipeRepository.findMemberRecommendationsExcludingAllergies(memberRecommendRequestDto);
+        List<MemberRecommendResponseDto> collect = result.stream().map(vo -> MemberRecommendResponseDto.builder()
+                        .recipeId(vo.getrecipe_id())
+                        .name(vo.getname())
+                        .imgBig(vo.getimg_big())
+                        .imgSmall(vo.getimg_small())
+                        .category(vo.getcategory())
+                        .similarity(vo.getsimilarity()).build())
+                .collect(Collectors.toList());
+        return collect;
     }
 
 }

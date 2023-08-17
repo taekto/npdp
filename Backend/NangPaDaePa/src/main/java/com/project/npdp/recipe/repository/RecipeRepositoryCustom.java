@@ -20,6 +20,6 @@ public interface RecipeRepositoryCustom {
 
     public List<RecipeHeartResponseDto> findTop20RecipesByRecipeIdCount();
 
-    public List<MemberRecommendResponseDto> findMemberRecipesWithSimilarity(MemberRecommendRequestDto memberRecommendRequestDto);
+//    public List<MemberRecommendResponseDto> findMemberRecipesWithSimilarity(MemberRecommendRequestDto memberRecommendRequestDto);
 
 }

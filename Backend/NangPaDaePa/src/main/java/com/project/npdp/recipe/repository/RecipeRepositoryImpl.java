@@ -505,10 +505,10 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
                 .collect(Collectors.toList());
     }
     // 회원 유사도
-    @Override
-    public List<MemberRecommendResponseDto> findMemberRecipesWithSimilarity(MemberRecommendRequestDto memberRecommendRequestDto) {
-        Long memberId = memberRecommendRequestDto.getMemberId();
-
+//    @Override
+//    public List<MemberRecommendResponseDto> findMemberRecipesWithSimilarity(MemberRecommendRequestDto memberRecommendRequestDto) {
+//        Long memberId = memberRecommendRequestDto.getMemberId();
+//
 //        List<Long> allergyIdLists = queryFactory.select(memberAllergy.allergy.id)
 //                .from(memberAllergy)
 //                .where(memberAllergy.member.id.eq(memberId))
@@ -518,26 +518,27 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
 //                .from(allergyIngredient)
 //                .where(allergyIngredient.id.in(allergyIdLists))
 //                .fetch();
-        
-        List<MemberRecommend> result = queryFactory.selectFrom(memberRecommend)
-                .innerJoin(memberRecommend.member, member).fetchJoin()
-                .innerJoin(memberRecommend.recipe, recipe).fetchJoin()
-                .where(member.id.eq(memberId))
-                .orderBy(memberRecommend.similarity.desc())
-                .limit(20)
-                .fetch();
-
-        return result.stream()
-                .map(memberRecommendEntity -> MemberRecommendResponseDto.builder()
-                        .recipeId(memberRecommendEntity.getRecipe().getId())
-                        .name(memberRecommendEntity.getRecipe().getName())
-                        .imgBig(memberRecommendEntity.getRecipe().getImgBig())
-                        .imgSmall(memberRecommendEntity.getRecipe().getImgSmall())
-                        .category(memberRecommendEntity.getRecipe().getCategory())
-                        .similarity(memberRecommendEntity.getSimilarity())
-                        .build())
-                .collect(Collectors.toList());
-    }
+//
+//        List<MemberRecommend> result = queryFactory.selectFrom(memberRecommend)
+//                .innerJoin(memberRecommend.member, member).fetchJoin()
+//                .leftJoin(memberRecommend.recipe, recipe).fetchJoin()
+//                .leftJoin(recipe.recipeIngredientList, QRecipeIngredient.)
+//                .where(memberIdEq(memberId), IngredientIdListNotIn(ingredientIdLists))
+//                .orderBy(memberRecommend.similarity.desc())
+//                .limit(20)
+//                .fetch();
+//
+//        return result.stream()
+//                .map(memberRecommendEntity -> MemberRecommendResponseDto.builder()
+//                        .recipeId(memberRecommendEntity.getRecipe().getId())
+//                        .name(memberRecommendEntity.getRecipe().getName())
+//                        .imgBig(memberRecommendEntity.getRecipe().getImgBig())
+//                        .imgSmall(memberRecommendEntity.getRecipe().getImgSmall())
+//                        .category(memberRecommendEntity.getRecipe().getCategory())
+//                        .similarity(memberRecommendEntity.getSimilarity())
+//                        .build())
+//                .collect(Collectors.toList());
+//    }
     @Override
     public List<RecipeHeartResponseDto> findTop20RecipesByRecipeIdCount() {
         List<Tuple> tuples = queryFactory
@@ -601,5 +602,10 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
     private BooleanExpression memberIdEq(Long memberId) {
         return memberId != null ? member.id.eq(memberId) : null;
     }
+
+    private BooleanExpression IngredientIdListNotIn(List<Long> ingredientIdList) {
+        return ingredientIdList != null ? QIngredient.ingredient.id.notIn(ingredientIdList) : null;
+    }
+
 
 }
