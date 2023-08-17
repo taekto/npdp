@@ -108,7 +108,7 @@
                     <ul class="ListShow">
                         <div v-if="displayedSeasoningItems.displayedItems.length !== 0">
                             <div class="cell_title">
-                                <div>재료명</div>
+                                <div>양념명</div>
                                 <div class="startdate_title">보관 시작일</div>
                                 <div class="place_title">보관장소</div>
                                 <div>삭제</div>

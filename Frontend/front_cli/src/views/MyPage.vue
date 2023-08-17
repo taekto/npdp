@@ -58,7 +58,9 @@ export default {
 
 <style>
 .myPage {
+    border: 1px solid #FD7E14;
     display: flex;
+    margin: 2rem;
 }
 
 #myPageMenu {
@@ -67,7 +69,7 @@ export default {
 
 #myPageView {
     width: 85%;
-    margin-top: 3rem;
+    margin-top: 2rem;
     margin-bottom: 2rem;
     /* border: solid black; */
     min-height: 50vh;
