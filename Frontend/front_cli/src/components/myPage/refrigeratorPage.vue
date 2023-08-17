@@ -78,7 +78,7 @@
                                     <i class="bi bi-trash deleteButton" @click="updateMaterial({type: 'ingredientDelete', memberId: this.memberId, updateItem: ingredientItem })"></i>
                                 </div>
                             </li>
-                            <button class="saveBtn" @click="saveMaterial({type: 'ingredient', memberId: this.memberId, sendData: displayedIngredientItems.tempIngredient })">
+                            <button class="saveBtn" @click="updateMaterial({type: 'ingredient', memberId: this.memberId, sendData: displayedIngredientItems.tempIngredient })">
                                 저장
                             </button>
                         </div>
@@ -87,6 +87,7 @@
                         </div>
                     </ul>
                     <div class="pagination">
+                        <button @click="goToIngredientPage(1)" :disabled="ingredientPage === 1">처음</button>
                         <button @click="goToIngredientPage(ingredientPage - 1)" :disabled="ingredientPage === 1">이전</button>
                         <button v-for="pageNumber in ingredientTotalPages" :key="pageNumber" 
                         @click="goToIngredientPage(pageNumber)" 
@@ -94,6 +95,7 @@
                             {{ pageNumber }}
                         </button>
                         <button @click="goToIngredientPage(ingredientPage + 1)" :disabled="ingredientPage === ingredientTotalPages">다음</button>
+                        <button @click="goToIngredientPage(ingredientTotalPages)" :disabled="ingredientPage === ingredientTotalPages">끝</button>
                     </div>
                 </div>
                 <!-- 양념 -->
@@ -128,7 +130,7 @@
                                     <i class="bi bi-trash deleteButton" @click="updateMaterial({type: 'seasoningDelete', memberId: this.memberId, updateItem: seasoningItem })"></i>
                                 </div>
                             </li>
-                            <button class="saveBtn" @click="saveMaterial({ type: 'seasoning', memberId: memberId, sendData: displayedIngredientItems.tempIngredient })">
+                            <button class="saveBtn" @click="updateMaterial({ type: 'seasoning', memberId: memberId, sendData: displayedIngredientItems.tempIngredient })">
                             저장
                         </button>
                         </div>
@@ -138,6 +140,7 @@
                     </ul>
         
                     <div class="pagination">
+                        <button @click="goToSeasoningPage(1)" :disabled="seasoningPage === 1">처음</button>
                         <button @click="goToSeasoningPage(seasoningPage - 1)" :disabled="seasoningPage === 1">이전</button>
                         <button v-for="pageNumber in seasoningtTotalPages" :key="pageNumber" 
                         @click="goToSeasoningPage(pageNumber)"
@@ -145,6 +148,7 @@
                             {{ pageNumber }}
                         </button>
                         <button @click="goToSeasoningPage(seasoningPage + 1)" :disabled="seasoningPage === seasoningtTotalPages">다음</button>
+                        <button @click="goToSeasoningPage(seasoningtTotalPages)" :disabled="seasoningPage === seasoningtTotalPages">끝</button>
                     </div>
                 </div>
             </div>
@@ -374,20 +378,21 @@ export default {
 }
 
 .ListShow {
-  border: .1rem solid #7f7f7f;
-  border-radius: .5rem;
-  width: 80%;
-  margin: auto;
-  padding: 1rem;
-  margin-bottom: 2rem;
-  /* height: 60vh; */
+    border: .1rem solid #7f7f7f;
+    border-radius: .5rem;
+    width: 80%;
+    margin: auto;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    min-height: 75vh;
 }
 
 /* 레시피의 ingredientName과 다름 */
 .ingredientName {
-  font-weight: bold;
-  width: 5rem;
-  margin: auto 0;
+    font-weight: bold;
+    width: 5rem;
+    margin: auto 0;
+    min-width: 5rem;
 }
 
 .ingredientName2 {
@@ -520,7 +525,7 @@ ul {
     display: flex;
     align-items: end;
     /* margin: auto; */
-    /* margin-top: 3rem; */
+    margin-top: 1.5rem;
     /* margin-left: 7.5rem; */
 }
 .radioButton_1 {
@@ -559,7 +564,7 @@ ul {
 }
 .pagination button {
   font-family: 'LINESeedKR-Rg';
-  color: #FD7E14;
+  /* color: #FD7E14; */
   margin: 0 5px;
   border-radius: .2rem;
   border: 1px solid #FD7E14;

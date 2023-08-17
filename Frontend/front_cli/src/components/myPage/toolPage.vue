@@ -6,16 +6,17 @@
 
     <!-- 우측 조리도구 컴포넌트 -->
     <div id="myPageView">
-      <p class="menuTitle">내 조리도구</p>
+      <!-- <p class="menuTitle">내 조리도구</p> -->
       <!-- 조리도구 체크박스 -->
       <div class="toolBox row">
         <div v-for="(name, idx) in tools" :key="idx" class="col-4 checkTool">
-          <label>
-             <input type="checkbox" name="tool" @change="toggleUtensil(name)" :checked="isUtensilSelected(name)">{{ name }}
+          <label class="each_box">
+          <input class="check_box" type="checkbox" name="tool" @change="toggleUtensil(name)" :checked="isUtensilSelected(name)">
+           {{ name }}
           </label>
         </div>
       </div>
-      <button class="saveButton" @click="saveTool">저장</button>
+      <button class="saveBtn" @click="saveTool">저장</button>
     </div>
   </div>
 </template>
@@ -123,17 +124,26 @@ export default {
 <style scoped>
 /* 조리도구 체크박스 */
 .toolBox {
-    margin: auto;
-    border: solid grey;
+  font-family: 'LINESeedKR-Rg';
+  text-align: left;
+    /* margin: 0 auto; */
+    border: .1rem solid #d7d6d6;
     border-radius: .5rem;
     width: 75%;
-    margin-bottom: 3rem;
+    margin: 7rem auto 2.5rem;
+    padding: 2rem;
 }
-
+.check_box {
+  font-size: 1rem;
+}
+.each_box {
+  margin-left: 2rem;
+  transform : scale(1.2);
+}
 .checkTool {
     margin-top: 1rem;
     margin-bottom: 1rem;
-    padding: 1rem;
+    padding: .5rem;
 }
 
 /* 저장버튼 */
@@ -153,5 +163,17 @@ export default {
   margin-left: 10rem;
   font-size: 2rem;
   font-weight: bold;
+}
+
+.saveBtn {
+  font-family: 'LINESeedKR-Rg';
+  border: none;
+  height: 2.5rem;
+  width: 3.5rem;
+  color: white;
+  background-color: #FD7E14;
+  border-radius: .5rem;
+  margin-bottom: .5rem;
+  font-size: 1.1rem;
 }
 </style>

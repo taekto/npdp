@@ -55,43 +55,43 @@
           </div>
 
           <!-- 생일 & 성별 변경 -->
-          <div class="birthAndgender">
+          <!-- <div class="birthAndgender"> -->
 
             <!-- 생일 변경 -->
             <div class="birthDate" >
-              <div class="editCategoryTitle">
-                <p>생일 변경</p>
-              </div>
+                <p class="editBirthTitle">생일 변경</p>
               <VDatePicker v-model="member.birth" :max-date="new Date()" @click="whatDate(member.birth)"/>
             </div>
 
             <!-- 성별 변경 -->
-            <div class="genderSelect">
-              <div class="editCategoryTitle">
-                <p>성별 변경</p>
-              </div>
-              <div class="storageRadio">
-                <label v-if="userData.gender !== 'MALE'" class="radioButton">
-                  <input type="radio" name="MALE" value="MALE" v-model="userData.gender" @click="changeClassification">남자
-                </label>
-                <label v-else class="radioButton2">
-                  <input type="radio" name="MALE" value="MALE" v-model="userData.gender" @click="changeClassification">남자
-                </label>
-                <label v-if="userData.gender !== 'FEMALE'" class="radioButton">
-                  <input type="radio" name="FEMALE" value="FEMALE" v-model="userData.gender" @click="changeClassification">여자
-                </label>
-                <label v-else class="radioButton2">
-                  <input type="radio" name="FEMALE" value="FEMALE" v-model="userData.gender" @click="changeClassification">여자
-                </label>
-                <label v-if="userData.gender !== 'NONE'" class="radioButton">
-                  <input type="radio" name="NONE" value="NONE" v-model="userData.gender" @click="changeClassification">선택 안함
-                </label>            
-                <label v-else class="radioButton2">
-                  <input type="radio" name="NONE" value="NONE" v-model="userData.gender" @click="changeClassification">선택 안함
-                </label>            
+            <div style="display: flex; justify-content: center">
+              <div class="genderSelect">
+                <div class="editCategoryTitle">
+                  <p>성별 변경</p>
+                </div>
+                <div class="storageRadio">
+                  <label v-if="userData.gender !== 'MALE'" class="radioButton">
+                    <input type="radio" name="MALE" value="MALE" v-model="userData.gender" @click="changeClassification">남자
+                  </label>
+                  <label v-else class="radioButton2">
+                    <input type="radio" name="MALE" value="MALE" v-model="userData.gender" @click="changeClassification">남자
+                  </label>
+                  <label v-if="userData.gender !== 'FEMALE'" class="radioButton">
+                    <input type="radio" name="FEMALE" value="FEMALE" v-model="userData.gender" @click="changeClassification">여자
+                  </label>
+                  <label v-else class="radioButton2">
+                    <input type="radio" name="FEMALE" value="FEMALE" v-model="userData.gender" @click="changeClassification">여자
+                  </label>
+                  <label v-if="userData.gender !== 'NONE'" class="radioButton">
+                    <input type="radio" name="NONE" value="NONE" v-model="userData.gender" @click="changeClassification">선택 안함
+                  </label>            
+                  <label v-else class="radioButton2">
+                    <input type="radio" name="NONE" value="NONE" v-model="userData.gender" @click="changeClassification">선택 안함
+                  </label>            
+                </div>
               </div>
             </div>
-          </div>
+          <!-- </div> -->
           <button class="saveButton" @click="memberUpdate({type:'all', memberId:this.memberId, updateData: userData})">저장</button>
         </div>
       </div>
@@ -194,7 +194,7 @@ export default {
 .editComponent {
     width: 80%;
     margin: auto;
-    border: solid grey;
+    /* border: solid grey; */
   border-radius: .5rem;
   /* margin-left: 2rem;
   margin-right: 2rem;
@@ -225,13 +225,15 @@ export default {
 }
 
 .birthDate{
+  width: 75%;
+  /* display: flex; */
   margin: auto;
+  font-family: 'LINESeedKR-Bd';
 }
 
 .genderSelect {
   margin: auto;
-  
-  margin-left: 3rem;
+  /* margin-left: 3rem; */
 }
 
 
@@ -258,6 +260,14 @@ export default {
 
 .edit_form {
   display: flex;
+}
+
+.editBirthTitle {
+  margin: auto;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
 .saveButton {
