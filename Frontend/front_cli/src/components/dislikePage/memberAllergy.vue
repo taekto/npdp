@@ -3,13 +3,13 @@
     <!-- 좌측 마이페이지 메뉴 컴포넌트 -->
     <CategoryComponent />
     <div id="myPageView">
-      <p class="menuTitle_allergy">알러지 재료 등록</p>
+      <div class="menuTitle_allergy">알러지 재료 등록</div>
         <!-- 알러지 재료 리스트 체크박스 한줄에 5개씩 만든다 -->
       <div class="allergy_container">
         <div class="row member_allergy_container">
           <div class="col-1 col_Box"></div>
           <div class="col-4 membe6r_allergy">
-            <h3 class="list_title">알러지 체크</h3>
+            <div class="list_title"></div>
             <div class="allergyBox row">
               <div v-for="(item, idx) in allergyList" :key="idx" class="col-4 checkAllergy">
                 <label>
@@ -95,7 +95,7 @@ export default {
 
 <style>
 .allergy_container {
-  border: solid #a7a7a7;
+  border: .1rem solid #a7a7a7;
   border-radius: 0.5rem;
   width: 80%;
   margin: auto;
@@ -106,18 +106,20 @@ export default {
 }
 
 .menuTitle_allergy{
-    font-family: 'LINESeedKR-Rg';
+  font-family: 'LINESeedKR-Rg';
     text-align: start;
-    margin-top: 3rem;
-    margin-bottom: 1rem;
+    margin: 1rem auto;
     /* margin-left: 1rem; */
     font-size: 1.5rem;
     font-weight: bold;
     width: 80%;
-    margin: auto;
 }
 .checkAllergy {
   height: 4rem;
+}
+
+.list_title {
+  font-family: 'LINESeedKR-Rg';
 }
 
 .member_check_list {

@@ -4,38 +4,43 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalToggleLabel">재료 입력</h1>
+            <h1 class="modal-title fs-5 modal_title" id="exampleModalToggleLabel">재료 수정</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
 
           <!-- 입력된 재료 리스트 -->
           <div class="modal-body">
             <ul class="ListShow">
-              <li class="ingredientList" v-for="(ingredient, index) in ingredientList" :key="index">
-                <p class="ingredientName">{{ingredient.ingredientName}}</p>
-                <div class="amount">
-                  <button class="amountButton2" @click="plusAmount(ingredient)">+</button>
-                  <p class="amountAndUnit">{{ingredient.amount}}{{ingredient.unit}}</p>
-                  
-                  <button class="amountButton" @click="minusAmount(ingredient)">-</button>
-                </div>
-                <div class="startDate">
-                  <p>보관시작일 : {{ingredient.startDate}}</p>
-                </div>
-                <!-- <div class="endDate">
-                  <p>유통기한 : </p>
-                  <p>{{ingredient.expiredDate}}</p>
-                </div> -->
-                <p class="storage">보관방식 : {{changeStorage(ingredient.storage)}}</p>
-                <button class="deleteButton" @click="deleteIngredient(ingredient)">제거</button>
-              </li>
-            </ul>
+                <div v-if="ingredientList.length !== 0">
+                <li class="ingredientList" v-for="(ingredient, index) in ingredientList" :key="index">
+                  <div class="ingredientName">{{ingredient.ingredientName}}</div>
+                  <div class="amount">
+                    <button class="amountButton2" @click="plusAmount(ingredient)">+</button>
+                    <p class="amountAndUnit">{{ingredient.amount}}{{ingredient.unit}}</p>
+                    
+                    <button class="amountButton" @click="minusAmount(ingredient)">-</button>
+                  </div>
+                  <!-- <div class="startDate"> -->
+                    <!-- <p>보관시작일 : {{ingredient.startDate}}</p> -->
+                  <!-- </div> -->
+                  <!-- <div class="endDate">
+                    <p>유통기한 : </p>
+                    <p>{{ingredient.expiredDate}}</p>
+                  </div> -->
+                  <!-- <p class="storage">보관방식 : {{changeStorage(ingredient.storage)}}</p> -->
+                  <button class="deleteButton" @click="deleteIngredient(ingredient)">제거</button>
+                </li>
+              </div>
+              <div v-else>
+              <div class="no_item">입력된 재료가 없습니다</div>
+            </div>
+              </ul>
           </div>
 
           <!-- 재료 이름 검색 폼 -->
           <div class="modal-body inputComponent">
             <div>
-              <p class="inputTitle">재료 이름 검색</p>
+              <p class="inputTitle">재료 검색</p>
               <form @submit.prevent="specificSearch({ type: 'ingredient', name: this.ingredientName })">
                 <div class="input-group">
                     <input id="searchForm ingredientText" class="form-control" type="text" v-model.trim="ingredientName">
@@ -57,8 +62,8 @@
             <div>
               <div>
                 <form @submit.prevent="addIngredient">
-                  <p class="inputTitle">재료 정보 입력</p>
-                  <p class="explainText">개수 및 단위</p>
+                  <p class="inputTitle">재료 정보</p>
+                  <p class="explainText">개수</p>
                   <div class="input-group">
                     <div class="amount">
                       <button class="amountButton2" @click="reduceAmount">-</button>
@@ -80,29 +85,29 @@
                   </div>
                 </form>
               </div>
-              <p class="explainText">보관방법</p>
+              <div class="explainText">보관방법</div>
               <div class="btn_group">
-                <label v-if="storage !== 0" class="radioButton">
+                <label v-if="storage !== 0" class="radioButton_1">
                   <input type="radio" name="classification"  @click="selectStorage(0)">냉장
                 </label>
-                <label v-else class="radioButton2">
+                <label v-else class="radioButton_2">
                   <input type="radio" name="classification"  @click="selectStorage(0)">냉장
                 </label>
-                <label v-if="storage !== 1" class="radioButton">
+                <label v-if="storage !== 1" class="radioButton_1">
                   <input type="radio" name="classification"  @click="selectStorage(1)">냉동
                 </label>
-                <label v-else class="radioButton2">
+                <label v-else class="radioButton_2">
                   <input type="radio" name="classification"  @click="selectStorage(1)">냉동
                 </label>
-                <label v-if="storage !== 2" class="radioButton">
+                <label v-if="storage !== 2" class="radioButton_1">
                   <input type="radio" name="classification"  @click="selectStorage(2)">실온
                 </label>
-                <label v-else class="radioButton2">
+                <label v-else class="radioButton_2">
                   <input type="radio" name="classification"  @click="selectStorage(2)">실온
                 </label>
               </div>
-              <button v-show="none" class="soundButton" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">음성입력</button>
-              <button class="addButton" @click="appendList">추가하기</button>
+              <button v-show="none" class="addButton" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">음성입력</button>
+              <button class="addButton" @click="appendList">추가</button>
             
 
 
@@ -111,7 +116,7 @@
 
           <!-- 재료 리스트 저장 -->
           <div class="modal-footer">
-            <button class="soundButton" data-bs-dismiss="modal" @click="saveMaterial({type: 'ingredient', memberId: this.memberId, sendData: throwList })">저장하기</button>
+            <button class="addButton" data-bs-dismiss="modal" @click="saveMaterial({type: 'ingredient', memberId: this.memberId, sendData: throwList })">저장</button>
           </div>
         </div>
       </div>
@@ -305,12 +310,47 @@ export default {
   background-color: #f2f2f2;
   border: solid rgb(244, 244, 244);
 }
-
+.no_item {
+  font-family: 'LINESeedKR-Rg';
+  color: #aeaeae;
+  font-size: 1.5rem;
+  text-align: center;
+  vertical-align: center;
+  align-items: center;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.modal_title {
+  font-family: 'LINESeedKR-Bd';
+}
+.radioButton_1 {
+    font-family: 'LINESeedKR-Rg';
+    font-size: 1.2rem;
+    margin-right: 1rem;
+    cursor: pointer;
+    border: .1rem solid #FD7E14;
+    border-radius: .5rem;
+    padding: .3rem;
+  }
+  .radioButton_2 {
+    font-family: 'LINESeedKR-Rg';
+    font-size: 1.2rem;
+    color: #fff;
+    background-color: #FD7E14;
+    margin-right: 1rem;
+    cursor: pointer;
+    border: .1rem solid #FD7E14;
+    border-radius: .5rem;
+    padding: .3rem;
+}
+.radioButton_1:hover {
+    color: #FD7E14;
+}
 .ListShow {
-  border-bottom: solid #a7a7a7;
+  border-bottom: .1rem solid #a7a7a7;
   width: 90%;
   margin: auto;
-  min-height: 25vh;
+  min-height: 10vh;
 }
 .search_container {
   text-decoration: none;
@@ -318,35 +358,37 @@ export default {
 
 .inputTitle {
   font-weight: bold;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-family: 'LINESeedKR-Bd';
   text-align: start;
-  margin-left: 1rem;
+  /* margin-left: 1rem; */
 }
 
 .ingredientList {
   /* display: flex;
   border-bottom: solid grey; */
   display: flex;
-    border-bottom: solid grey;
+    /* border-bottom: .1rem solid #aeaeae; */
     align-items: center;
     justify-content: space-between;
     width: 100%;
     /* padding: .5rem; */
     margin: auto;
     height: 5vh;
+    margin-bottom: .5rem;
   
 }
 
 .ingredientName {
     font-weight: bold;
-    width: 7.5%;
+    width: 10rem;
     margin-top: auto;
     margin-bottom: auto;
 }
 
 .modal-body {
   display: flex;
+  justify-content: center;
   margin: auto;
   width: 100%;
 }
@@ -380,14 +422,14 @@ export default {
     border-radius: 0;
     margin-right: 0;
     margin-left: 0;
-    width: 10rem;
+    width: 7rem;
 }
 
 #searchForm[data-v-652ac216] {
   border-radius: 0;
     margin-right: 0;
     margin-left: 0;
-    width: 10rem;
+    width: 7rem;
 }
 
 .amountButton {
@@ -451,16 +493,18 @@ export default {
 }
 
 .deleteButton {
-    border-radius: .5rem;
-    margin-left: .5rem;
-    height: 2rem;
-    width: 5rem;
-    background-color: #FD7E14;
-    color: white;
-    border: none;
+  font-family: 'LINESeedKR-Rg';
+  border: none;
+  color: white;
+  background-color: #FD7E14;
+  border-radius: 0.5rem;
+  margin: 0.5rem;
+  padding: .4rem .6rem;
+  font-size: 1rem;
 }
 
 .inputComponent {
+  font-family: 'LINESeedKR-Rg';
   justify-content: space-around;
   min-height: 25vh;
 }
@@ -488,6 +532,7 @@ export default {
 
 .btn_group {
   display: flex;
+
 }
 
 #searchForm {
@@ -503,6 +548,7 @@ export default {
 
 #submitButton {
     width: 5rem;
+    margin-left: .5rem;
     border-radius: .5rem;
     background-color: #f2f2f2;
     border: solid rgb(244, 244, 244);
@@ -516,7 +562,7 @@ export default {
 }
 
 .servingButton {
-  border: solid #FD7E14;
+  border: .1rem solid #FD7E14;
   background-color: white;
   border-radius: .5rem;
   width: 4rem;
@@ -528,7 +574,7 @@ export default {
 }
 
 .soundButton {
-  border: solid #FD7E14;
+  border: .1rem solid #FD7E14;
   color: white;
   background-color: #FD7E14;
   border-radius: .5rem;
@@ -539,14 +585,16 @@ export default {
 }
 
 .addButton {
-  border: solid #FD7E14;
+  /* border: solid #FD7E14; */
+  font-family: 'LINESeedKR-Rg';
+  border: none;
   color: white;
   background-color: #FD7E14;
   border-radius: 0.5rem;
   margin: 0.5rem;
-  padding: 0.5rem;
-  font-size: 1.25rem;
-  font-weight: bold;
+  padding: .4rem .6rem;
+  font-size: 1rem;
+  /* font-weight: bold; */
   float: right;
 }
 
@@ -556,6 +604,7 @@ export default {
   max-width: 100%;
   max-height: 150px;
   overflow-y: auto; 
+  list-style-type: none;
 }
 
 .dropdown-item {
@@ -584,11 +633,11 @@ export default {
 
 .explainText {
   margin-top: 1.5rem;
-  font-family: 'LINESeedKR-Rg';
-  font-size: 1rem;
+  font-family: 'LINESeedKR-Bd';
+  font-size: 1.3rem;
   margin-bottom: 0.25rem;
   text-align: start;
-  margin-left: 0.75rem;
+  /* margin-left: 0.75rem; */
   font-weight: bold
 }
 
