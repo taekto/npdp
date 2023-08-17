@@ -553,6 +553,7 @@ const member: Module<MemberState, RootState> = {
             memberId: memberId,
             ingredientId: getters.memberTypeIds('dislike')
           }       
+          alert('저장되었습니다.')
         } else if (type === 'allergyGet') {
           apiUrl = `https://i9b202.p.ssafy.io/api/members/memberAllergy/${memberId}`
         } else if (type === 'allergyPost') {
@@ -561,6 +562,7 @@ const member: Module<MemberState, RootState> = {
             memberId: memberId,
             allergyId: getters.memberTypeIds('allergy')
           }
+          alert('저장되었습니다.')
         } else {
           throw new Error('Invalid request type');
         }

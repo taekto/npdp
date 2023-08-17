@@ -42,7 +42,7 @@
             <div>
                 <!-- 재료 -->
                 <div class="refrigeratorCategory">
-                    <div style="display: flex; justify-content: space-between; width: 80%; margin: auto;;">
+                    <div style="display: flex; justify-content: space-between; width: 80%; margin: auto;">
                         <div class="categoryTitle">내가 보관중인 재료</div>
                         <div class="modify_ingre"><IngredientModal /></div>
                     </div>
@@ -87,6 +87,7 @@
                         </div>
                     </ul>
                     <div class="pagination">
+                        <button @click="goToIngredientPage(1)" :disabled="ingredientPage === 1">처음</button>
                         <button @click="goToIngredientPage(ingredientPage - 1)" :disabled="ingredientPage === 1">이전</button>
                         <button v-for="pageNumber in ingredientTotalPages" :key="pageNumber" 
                         @click="goToIngredientPage(pageNumber)" 
@@ -94,6 +95,7 @@
                             {{ pageNumber }}
                         </button>
                         <button @click="goToIngredientPage(ingredientPage + 1)" :disabled="ingredientPage === ingredientTotalPages">다음</button>
+                        <button @click="goToIngredientPage(ingredientTotalPages)" :disabled="ingredientPage === ingredientTotalPages">끝</button>
                     </div>
                 </div>
                 <!-- 양념 -->
@@ -138,6 +140,7 @@
                     </ul>
         
                     <div class="pagination">
+                        <button @click="goToSeasoningPage(1)" :disabled="seasoningPage === 1">처음</button>
                         <button @click="goToSeasoningPage(seasoningPage - 1)" :disabled="seasoningPage === 1">이전</button>
                         <button v-for="pageNumber in seasoningtTotalPages" :key="pageNumber" 
                         @click="goToSeasoningPage(pageNumber)"
@@ -145,6 +148,7 @@
                             {{ pageNumber }}
                         </button>
                         <button @click="goToSeasoningPage(seasoningPage + 1)" :disabled="seasoningPage === seasoningtTotalPages">다음</button>
+                        <button @click="goToSeasoningPage(seasoningtTotalPages)" :disabled="seasoningPage === seasoningtTotalPages">끝</button>
                     </div>
                 </div>
             </div>
@@ -343,34 +347,34 @@ export default {
 
 <style scoped>
 #myPageView {
-    width: 75%;
+  width: 75%;
 }
 .subtitle_line {
-    position: absolute;
-    margin-left: 5rem;
-    width: 60%;
-    border-width: .1rem 0 0;
-    border-style: solid;
-    border-color: #cecece;
+  position: absolute;
+  margin-left: 5rem;
+  width: 60%;
+  border-width: .1rem 0 0;
+  border-style: solid;
+  border-color: #cecece;
 }
 
 /* 보관 방법 & 모달창 버튼 */
 .buttonGroup {
-    display: flex;
-    justify-content: space-between;
-    width: 80%;
-    margin: auto;
-    /* border-bottom: .1rem solid #cecece; */
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin: auto;
+  /* border-bottom: .1rem solid #cecece; */
 }
 
 .modalButtons {
-    display: flex;
+  display: flex;
 }
 .modify_ingre {
-    margin-top: 2.5rem;
+  margin-top: 2.5rem;
 }
 .modify_season {
-    margin-top: 2.5rem;
+  margin-top: 2.5rem;
 }
 
 .ListShow {
@@ -380,7 +384,7 @@ export default {
     margin: auto;
     padding: 1rem;
     margin-bottom: 2rem;
-    /* height: 60vh; */
+    min-height: 75vh;
 }
 
 /* 레시피의 ingredientName과 다름 */
@@ -392,49 +396,49 @@ export default {
 }
 
 .ingredientName2 {
-    font-weight: bold;
-    width: 15%;
-    margin-top: auto;
-    margin-bottom: auto;
+  font-weight: bold;
+  width: 15%;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .ingredientList {
-    /* font-family: 'LINESeedKR-Rg'; */
-    font-family: 'GangwonEdu_OTFBoldA';
-    display: flex;
-    border-bottom: .1rem solid #cecece;
-    align-items: center;
-    justify-content: space-between;
-    width: 95%;
-    padding: .5rem;
-    margin: auto;
-    height: 10vh;
+  /* font-family: 'LINESeedKR-Rg'; */
+  font-family: 'GangwonEdu_OTFBoldA';
+  display: flex;
+  border-bottom: .1rem solid #cecece;
+  align-items: center;
+  justify-content: space-between;
+  width: 95%;
+  padding: .5rem;
+  margin: auto;
+  height: 10vh;
 }
 
 .cell_title {
-    font-family: 'LINESeedKR-Bd';
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: .1rem solid #7f7f7f;
-    width: 95%;
-    padding: .5rem;
-    margin: auto;
+  font-family: 'LINESeedKR-Bd';
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: .1rem solid #7f7f7f;
+  width: 95%;
+  padding: .5rem;
+  margin: auto;
 }
 .cell_title div {
-    margin-left: 1rem;
+  margin-left: 1rem;
 }
 .cnt_title {
-    padding-left: 6rem;
+  padding-left: 6rem;
 }
 .startdate_title {
-    padding-left: 6rem;
+  padding-left: 6rem;
 }
 .place_title {
-    padding-left: 2rem;
+  padding-left: 2rem;
 }
 ul {
-    list-style: none;
+  list-style: none;
 }
 
 .amount {
@@ -560,7 +564,7 @@ ul {
 }
 .pagination button {
   font-family: 'LINESeedKR-Rg';
-  color: #FD7E14;
+  /* color: #FD7E14; */
   margin: 0 5px;
   border-radius: .2rem;
   border: 1px solid #FD7E14;
