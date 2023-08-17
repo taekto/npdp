@@ -206,19 +206,12 @@ export default {
       this.$router.go(0)
     },
     emailCodeVerify() {
-      console.log('이메일 인자',this.credentials.email)
       this.EmailVerify(this.credentials.email)
       this.startCountdown()
       setTimeout(() => {
         const tempEmailCode = sessionStorage.getItem('emailVerify')
         const tempEmailCodeJson = JSON.parse(tempEmailCode)
         this.emailCode = tempEmailCodeJson
-        
-        console.log('--------------------')
-        console.log(this.emailCode)
-        console.log(this.emailCode.value)
-        console.log(this.emailCode.value.code)
-        console.log('--------------------')
       }, 7500)
     },
 
@@ -318,54 +311,12 @@ export default {
 
     socialLoginGoogle() {
       this.socialType = 'Google'
-      // axios ({
-      //   url: 'https://i9b202.p.ssafy.io/api/oauth/google-login',
-      //   methods: 'get',
-      //   redirect_uri : 'https://i9b202.p.ssafy.io/social',
-      // })
-      // .then (res => {
-      //   console.log(res)
-      //   sessionStorage.setItem('social', 1)
-      // })
-      // .catch (err => {
-      //   console.log(err)
-      // })
     },
     socialLoginNaver() {
       this.socialType = 'Naver'
-      // axios ({
-      //   url: '/api/oauth/naver-login',
-      //   methods: 'get',
-      // })
-      // .then (res => {
-      //   console.log(res)
-      //   sessionStorage.setItem('social', 1)
-      // })
-      // .catch (err => {
-      //   console.log(err)
-      // })
     },
     socialLoginKakao() {
       this.socialType = 'Kakao'
-      // axios ({
-      //   url: 'https://i9b202.p.ssafy.io/api/oauth/kakao-login',
-      //   method: 'get',
-      // })
-      // .then(res => {
-      //   console.log(res)
-      // })
-      // .catch(err => {
-      //   console.log(err.response)
-      // })
-      // axios.get('https://kauth.kakao.com/oauth/authorize', {
-      //                           params: {
-      //                               client_id: process.env.REACT_APP_REST_API_KEY,
-      //                               redirect_uri: 'http://localhost:8081/api/kakao/oauth',
-      //                               response_type: 'code',
-      //                               state: '/login',
-      //                           },
-      //                           withCredentials: false,
-      //                       });
     }
   },
   beforeUnmount() {

@@ -102,7 +102,6 @@ export default {
     
     computed: {
       recipeItem() {
-        console.log(this.$route.params.recipeItem)
         const recipeItem = this.$route.query.recipeItem;
         if (recipeItem) {
           return JSON.parse(recipeItem);
@@ -159,7 +158,6 @@ export default {
 
       fetch(url, otherparam)
         .then((data) => {
-          console.log(data);
           return data.json();
         })
         .then((res) => {

@@ -74,7 +74,6 @@ export default {
     ...mapActions(['appendItem', 'memberDislikeAllergy', 'specificSearch','deleteItem']),
     
     selectedItem(result) {
-      console.log(result)
       this.ingredientName = result.name
     },
     

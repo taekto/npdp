@@ -69,7 +69,7 @@ export default {
       const pk = item.allergyId
       if (this.memberAllergy.some(memberItem => memberItem.allergyId === pk)) {
         this.deleteItem({ type: 'allergy', delData: pk })
-        console.log('배열에서 제거', this.memberAllergy)
+        console.log('배열에서 제거')
       } else {
         const inputData = { allergyId: pk, allergyName: item.allergyName };
         this.appendItem({ type: 'allergy', inputData })

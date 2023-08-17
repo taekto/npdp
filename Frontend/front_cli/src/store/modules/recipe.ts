@@ -177,7 +177,6 @@ const recipe: Module<RecipeState, RootState> = {
         // headers: getters.authHeader,
       })
         .then(res=> {
-          console.log(res)
           commit('SET_RECIPE', res.data)
         })
         .catch(err => {
@@ -188,7 +187,6 @@ const recipe: Module<RecipeState, RootState> = {
     // 레시피 특정 조회
     recipeSpecificSearch ({commit}, content) {
       console.log(content, '레시피 특정 조회 시작!')
-      console.dir(api.recipe.specificRecipe()),
       axios ({
         url: `https://i9b202.p.ssafy.io/api/recipes/want`,
         method: 'get',
@@ -211,7 +209,6 @@ const recipe: Module<RecipeState, RootState> = {
       })
       .catch(err => {
         console.log('레시피 특정 조회 실패..')
-        console.log(err.response)
       })
     },
 
@@ -229,7 +226,7 @@ const recipe: Module<RecipeState, RootState> = {
         // headers: getters.authHeader,
       })
         .then(res=> {
-          console.log(res.data, '레시피 상세 조회 성공!')
+          console.log('레시피 상세 조회 성공!')
           commit('SET_RECIPE_DETAIL', res.data)  
           const lookData = { memberId: memberId, recipeId: res.data.recipeId}
           const recipeOwnId = {recipeOwnId: res.data.recipeId}
@@ -262,9 +259,9 @@ const recipe: Module<RecipeState, RootState> = {
       try {
         const apiUrl = 'https://i9b202.p.ssafy.io/api/recipes/category'
 
-        console.log('동적 서치 시작!', data )
+        console.log('동적 서치 시작!')
         const res = await axios.post(apiUrl, data)
-        console.log('동적 서치 성공!', res.data)
+        console.log('동적 서치 성공!')
         commit('SET_RECIPE_SPECIFIC', res.data)
       } catch (err) { 
         console.log(err)
@@ -299,7 +296,7 @@ const recipe: Module<RecipeState, RootState> = {
       try {
         const res = await axios.post('https://i9b202.p.ssafy.io/api/recipes/similarity', recipeOwnId)
         commit('SET_RECIPE_SIMILARITY', res.data)
-        console.log('레시피 재료 유사도 조회!', res.data)
+        console.log('레시피 재료 유사도 조회!')
       } catch(err) {
         console.log(err)
       }

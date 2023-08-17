@@ -212,7 +212,6 @@ const member: Module<MemberState, RootState> = {
 
     // 회원 로그인
     localLogin({ dispatch, commit }, credentials) {
-      console.log(credentials)
       axios({
         url: api.member.login(),
         method: 'post',
@@ -220,7 +219,6 @@ const member: Module<MemberState, RootState> = {
       })
         .then(res => {
           console.log('로컬로그인 시작!')
-          console.log(res)
           sessionStorage.setItem("email", credentials.email)
           sessionStorage.setItem("accessToken", res.data.accessToken)
           sessionStorage.setItem("memberId", res.data.id)
@@ -242,7 +240,7 @@ const member: Module<MemberState, RootState> = {
 
     // 로컬 회원 가입
     localSignup({ commit }, credentials) {
-      console.log('회원가입 시작!', credentials)
+      console.log('회원가입 시작!')
         axios({
           url: 'https://i9b202.p.ssafy.io/api/members/join',
           method: 'post',
@@ -250,7 +248,6 @@ const member: Module<MemberState, RootState> = {
         })
         .then(res => {
           console.log('회원가입 성공!')
-            console.log(res)
             alert('회원가입이 완료되었습니다!')
             router.push({ name: 'main' })
           })
@@ -267,9 +264,8 @@ const member: Module<MemberState, RootState> = {
     // 회원 이메일 인증
     async EmailVerify({commit}, email) {
       try {
-        console.log(JSON.stringify({email}, null, 2))
         const response = await axios.post(api.member.emailVerify(), { email });
-        console.log('이메일 전송 완료!', response.data);
+        console.log('이메일 전송 완료!');
         alert('인증번호를 발급하였습니다.')
      
 
@@ -298,7 +294,6 @@ const member: Module<MemberState, RootState> = {
           if (currentTime - storedTime < 180000) {
             // 3분 이내에 저장된 데이터를 사용
             const value = storedData.value;
-            console.log(value);
           } else {
             // 3분이 지난 데이터는 사용하지 않음
             sessionStorage.removeItem("emailVerify");
@@ -323,13 +318,13 @@ const member: Module<MemberState, RootState> = {
 
     // 회원 정보 조회
     fetchMember({ commit, getters}, memberId) {
-      console.log('회원 정보 조회 시작!dasda', memberId)
+      console.log('회원 정보 조회 시작!')
       axios({
         url: `https://i9b202.p.ssafy.io/api/members/${memberId}`,
         method: 'get',
       })
         .then(res => {     
-          console.log('회원 정보 조회 성공!', res.data) 
+          console.log('회원 정보 조회 성공!') 
           commit('SET_MEMBER', res.data);
         })
         .catch(err => {
@@ -343,14 +338,14 @@ const member: Module<MemberState, RootState> = {
         if (type === 'all' || type === 'seasoning' || type === 'seasoningDelete') {
           const seasoningApiUrl = `https://i9b202.p.ssafy.io/api/refregirator/seasoning/${memberId}`
           const seasoningResponse = await axios.get(seasoningApiUrl)
-          console.log('양념 get 성공!', seasoningResponse.data)
+          console.log('양념 get 성공!')
           commit('SET_MEMBER_SEASONING', seasoningResponse.data)
         }
     
         if (type === 'all' || type === 'ingredient' || type === 'ingredientDelete') {
           const ingredientApiUrl = `https://i9b202.p.ssafy.io/api/refregirator/ingredient/${memberId}`
           const ingredientResponse = await axios.get(ingredientApiUrl)
-          console.log('재료 get 성공!', ingredientResponse.data)
+          console.log('재료 get 성공!')
           commit('SET_MEMBER_INGREDIENT', ingredientResponse.data)
         }
       } catch (error) {
@@ -361,14 +356,14 @@ const member: Module<MemberState, RootState> = {
     // 회원 재료/양념/ 저장
     async saveMaterial({ dispatch }, {type, memberId, sendData}) {
       try {
-        console.log(type === 'seasoning' ? '양념 저장 시작!': '재료 저장 시작!',JSON.stringify(sendData, null, 2))
+        console.log(type === 'seasoning' ? '양념 저장 시작!': '재료 저장 시작!')
         const apiUrl = type === 'seasoning' ?
           `https://i9b202.p.ssafy.io/api/refregirator/member/seasoning/${memberId}`:
           `https://i9b202.p.ssafy.io/api/refregirator/member/ingredient/${memberId}` 
         
         const response = await axios.post(apiUrl, sendData)
   
-        console.log(type === 'seasoning' ? '양념 저장 성공!' : '재료 저장 성공!', response.data)
+        console.log(type === 'seasoning' ? '양념 저장 성공!' : '재료 저장 성공!')
         dispatch('fetchMemberMaterial', ({type:type, memberId:memberId}))
       } catch (error) {
         console.log(type === 'seasoning' ? '양념 저장 실패..' : '재료 저장 실패..', error)
@@ -395,7 +390,7 @@ const member: Module<MemberState, RootState> = {
             isdelete: ingredientUpdateData.isdelete 
           }]
           
-          console.log('재료수정 데이터:', JSON.stringify(updateData, null, 2))
+          console.log('재료수정 데이터:')
         } else if (type === 'seasoning') {
           console.log('양념 수정/삭제 시작!')
           const seasoningUpdateData = updateItem as SeasoningUpdateData
@@ -407,7 +402,7 @@ const member: Module<MemberState, RootState> = {
             expiredDate: seasoningUpdateData.expiredDate,
             isdelete: seasoningUpdateData.isdelete 
           }]
-          console.log('양념 수정 데이터:', JSON.stringify(updateData, null, 2))
+          console.log('양념 수정 데이터:')
         } else if (type === 'ingredientDelete') {
           console.log('재료 수정/삭제 시작!')
           const ingredientUpdateData = updateItem as ingredientUpdateData
@@ -442,7 +437,7 @@ const member: Module<MemberState, RootState> = {
 
         dispatch('fetchMemberMaterial', {type:type, memberId: memberId})
         
-        console.log('뭔가 성공...!')
+        console.log('수정 성공...!')
 
       } catch (err) {
         console.log(err)
@@ -481,7 +476,7 @@ const member: Module<MemberState, RootState> = {
       try {
         console.log('좋아요 조회 시작!')
         const res = await axios.get(`https://i9b202.p.ssafy.io/api/members/heart/${memberId}`)
-        console.log('좋아요 조회 성공!', res.data)
+        console.log('좋아요 조회 성공!')
         commit('SET_MEMBER_RECIPE_LIKE', res.data)
       } catch(err) {
         console.log(err)
@@ -498,14 +493,13 @@ const member: Module<MemberState, RootState> = {
             memberId: memberId,
             utensilId: utensilData // utensilData 배열을 그대로 사용합니다.
           }
-          console.log(JSON.stringify(sendData, null, 2))
           
           const res = await axios.post(apiUrl, sendData);
-          console.log('조리도구 저장 성공!:', res.data)
+          console.log('조리도구 저장 성공!')
         
         } else {
           const res = await axios.get(apiUrl);
-          console.log('조리도구 조회 성공!:', res.data);
+          console.log('조리도구 조회 성공!');
           commit('SET_MEMBER_UTENSIL', res.data)
         }
       } catch (error) {
@@ -536,7 +530,7 @@ const member: Module<MemberState, RootState> = {
           }
         }
 
-        console.log('회원정보 수정 시작!',JSON.stringify(sendData,null,2))
+        console.log('회원정보 수정 시작!')
         const res = await axios.put(apiUrl, sendData);
         
 
@@ -574,8 +568,7 @@ const member: Module<MemberState, RootState> = {
         console.log(
           type === 'dislikeGet' || type === 'dislikePost'
             ? '비선호 재료 요청 시작!'
-            : '알러지 재료 요청 시작!',
-            JSON.stringify(sendData,null,2)
+            : '알러지 재료 요청 시작!'
         )
 
         
@@ -590,8 +583,7 @@ const member: Module<MemberState, RootState> = {
         console.log(
           type === 'dislikeGet' || type === 'dislikePost'
           ? '비선호 재료 요청 성공!'
-          : '알러지 재료 요청 성공!',
-          res
+          : '알러지 재료 요청 성공!'
         )
           
         if (type === 'dislikeGet') {
@@ -625,7 +617,7 @@ const member: Module<MemberState, RootState> = {
       try{
         console.log('알러지 리스트 조회 시작!')
         const res = await axios.get('https://i9b202.p.ssafy.io/api/allergy')
-        console.log('알러지 리스트 조회 성공!', res.data)
+        console.log('알러지 리스트 조회 성공!')
         commit('SET_ALLERGY_LIST', res.data)
 
       }catch(err) {
@@ -660,9 +652,9 @@ const member: Module<MemberState, RootState> = {
     async deleteItem({commit}, {type, delData}){
       try {
         commit('REMOVE_FROM_LIST', { type, removeData: delData })
-        console.log(delData,'삭제성공!')
+        console.log('삭제성공!')
       } catch(err) {
-        console.log(delData,'삭제실패,,,,',err)
+        console.log('삭제실패,,,,',err)
       }
     },
 
@@ -678,7 +670,7 @@ const member: Module<MemberState, RootState> = {
         } else {
           const res = await axios.get(`https://i9b202.p.ssafy.io/api/members/latest/${memberId}`)
 
-          console.log('최근 본 레시피 조회 성공',res.data)
+          console.log('최근 본 레시피 조회 성공')
 
           commit('SET_MEMBER_RECIPE_LATEST', res.data)
         }
@@ -694,7 +686,7 @@ const member: Module<MemberState, RootState> = {
         console.log('유저 기반 레시피 추천 시작!')
         const data = {memberId: memberId}
         const res = await axios.post('https://i9b202.p.ssafy.io/api/recipes/member/similarity', data)
-        console.log('유저 기반 레시피 추천 성공!', res.data)
+        console.log('유저 기반 레시피 추천 성공!')
         commit('SET_MEMBER_SIMILARITY', res.data)
       }catch(err) {
         console.log(err)

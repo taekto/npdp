@@ -118,7 +118,6 @@ export default {
   methods: {
     ...mapActions(['specificSearch','saveMaterial']),
     selectedItem(result) {
-      console.log(result)
       this.seasoningName = result.name;
       this.seasoningId = result.id;
     },
@@ -177,11 +176,11 @@ export default {
 
       this.seasoningList.push({seasoningName:this.seasoningName, seasoningId: this.seasoningId, startDate : todayDate, expiredDate: this.expiredDate, storage: this.storage})
       this.throwList.push({seasoningId: this.seasoningId, startDate : today, storage: this.storage})
-      console.log(this.throwList)
+      
     },
 
     pushSeasoningData() {
-      console.log(this.seasoningList)
+      
       this.seasoningList = []
     },
 
