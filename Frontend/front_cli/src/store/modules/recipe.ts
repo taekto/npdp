@@ -103,7 +103,7 @@ interface RecipeDetail {
 interface RecipeRecommend {
   ingredient: Array<{
     ingredientId: number; 
-  }>;
+  }>; 
   seasoning: Array<{
     seasoningId: number; 
   }>;

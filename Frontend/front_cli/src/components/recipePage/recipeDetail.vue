@@ -25,16 +25,18 @@
     <IngredientInfomation :serving='serving'/>
   </div>
 
-  <div class="utensilLine menu">
-      <div class="utensilName total">조리도구</div>
-  </div>
+  <div v-if="recipeDetail.recipeUtensils.length !== 0">
+    <div class="utensilLine menu">
+        <div class="utensilName total">조리도구</div>
+    </div>
 
-  <div class="utensilContainer">
-      <div class="utensilLine" v-for="item,idx in recipeDetail.recipeUtensils" :key="idx">
-          <div class="utensilName">
-            {{item.name}}
-          </div>
-      </div>
+    <div class="utensilContainer">
+        <div class="utensilLine" v-for="item,idx in recipeDetail.recipeUtensils" :key="idx">
+            <div class="utensilName">
+              {{item.name}}
+            </div>
+        </div>
+    </div>
   </div>
 
       <!-- 레시피 순서 -->
@@ -130,7 +132,7 @@ export default {
 
       ...mapActions(['memberLikeRecipe','detailRecipe']),
       
-          playTTS(text) {
+      playTTS(text) {
       const apiKey = 'AIzaSyCN8qg_05_pSKpv6wRKwKyUfVfEAOC-uaA'; // Google Text-to-Speech API 키를 여기에 넣으세요.
       const url = `https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`;
       const data = {
@@ -491,4 +493,10 @@ img {
   border-radius: .5rem; */
   /* display: flex; */
 }
+
+.no_utensil {
+  font-family: 'GangwonEdu_OTFBoldA';
+  margin: 1rem auto;
+}
+
 </style>
