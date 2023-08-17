@@ -34,6 +34,9 @@
               </div>
             </div>
           </div>
+          <button @click="memberDislikeAllergy({ type: 'allergyPost', memberId: this.memberId })">
+            저장
+          </button>
         </div>
           
         </div>
@@ -77,7 +80,7 @@ export default {
       const pk = item.allergyId
       if (this.memberAllergy.some(memberItem => memberItem.allergyId === pk)) {
         this.deleteItem({ type: 'allergy', delData: pk })
-        console.log('배열에서 제거', this.memberAllergy)
+        console.log('배열에서 제거')
       } else {
         const inputData = { allergyId: pk, allergyName: item.allergyName };
         this.appendItem({ type: 'allergy', inputData })
@@ -92,7 +95,6 @@ export default {
   },
 }
 </script>
-
 
 <style>
 .allergy_container {

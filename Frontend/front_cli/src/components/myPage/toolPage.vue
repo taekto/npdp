@@ -88,10 +88,10 @@ export default {
         const pkArray = this.utensilNameToPK[name]
         if (pkArray.some(pk => this.utensilData.includes(pk))) {
           this.utensilData = this.utensilData.filter(pk => !pkArray.includes(pk));
-          console.log('배열에서 제거', this.utensilData);
+          console.log('배열에서 제거');
         } else {
           this.utensilData.push(...pkArray);
-          console.log('배열에 추가', this.utensilData);
+          console.log('배열에 추가');
         }
 
       },

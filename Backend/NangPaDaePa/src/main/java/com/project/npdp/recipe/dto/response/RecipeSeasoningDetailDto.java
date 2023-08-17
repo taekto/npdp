@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 public class RecipeSeasoningDetailDto {
 
-    private Long amount;
+    private String amount;
 
     private String unit;
 

@@ -118,7 +118,6 @@ export default {
   methods: {
     ...mapActions(['specificSearch','saveMaterial']),
     selectedItem(result) {
-      console.log(result)
       this.seasoningName = result.name;
       this.seasoningId = result.id;
     },
@@ -176,12 +175,17 @@ export default {
       }
 
       this.seasoningList.push({seasoningName:this.seasoningName, seasoningId: this.seasoningId, startDate : todayDate, expiredDate: this.expiredDate, storage: this.storage})
+<<<<<<< HEAD
       this.throwList.push({seasoningId: this.seasoningId, storage: this.storage, startDate:today})
       console.log(this.throwList)
+=======
+      this.throwList.push({seasoningId: this.seasoningId, startDate : today, storage: this.storage})
+      
+>>>>>>> 3daacbe09db236d4e59a4ff1654dba3099da762c
     },
 
     pushSeasoningData() {
-      console.log(this.seasoningList)
+      
       this.seasoningList = []
     },
 

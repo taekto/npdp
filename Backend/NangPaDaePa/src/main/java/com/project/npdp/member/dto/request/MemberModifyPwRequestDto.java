@@ -6,7 +6,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Data
-public class MemberPwRequestDto {
+public class MemberModifyPwRequestDto {
 
     private String email;
 
