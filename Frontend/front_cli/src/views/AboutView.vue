@@ -37,7 +37,6 @@
           <li style="font-size: 20px;">산출물 생성</li>
           <li style="font-size: 12px; color: #8c8c8c;">요구사항 명세서</li>
           <li style="font-size: 12px; color: #8c8c8c;">화면 설계</li>
-          <li style="font-size: 12px; color: #8c8c8c;">인터페이스 설계서</li>
           <li style="font-size: 12px; color: #8c8c8c;">ERD 다이어그램</li>
           <li style="font-size: 12px; color: #8c8c8c;">인터페이스 명세서</li>
         </ol>
