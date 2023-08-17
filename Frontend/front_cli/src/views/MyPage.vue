@@ -68,6 +68,7 @@ export default {
 #myPageView {
     width: 85%;
     margin-top: 3rem;
+    margin-bottom: 2rem;
     /* border: solid black; */
     min-height: 50vh;
     /* border-width: 0 0 0 1px;
