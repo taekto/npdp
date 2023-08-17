@@ -60,10 +60,10 @@ export default {
         immediate: true, // 처음에도 즉시 호출
         handler() {
           this.recipeDetail
-          this.calculateValues();
+          // this.calculateValues();
         },
       },
-      'ingredient.amount': 'calculateValue'
+      // 'ingredient.amount': 'calculateValue'
     },
     methods: {
     //   calculateValues() {
@@ -118,20 +118,20 @@ export default {
       
   },
 
-    parseAmount(amount) {
-      const fractionRegex = /^(\d+)\s?\/\s?(\d+)$/; // 분수 형식 정규식
-      const match = amount.match(fractionRegex);
-      if (match) {
-        const numerator = parseFloat(match[1]);
-        const denominator = parseFloat(match[2]);
-        if (!isNaN(numerator) && !isNaN(denominator) && denominator !== 0) {
-          return numerator / denominator; // 분수 계산
-        }
-      } else if (!isNaN(parseFloat(amount))) {
-        return parseFloat(amount); // 숫자로 직접 변환
-      }
-      return amount; // 변환할 수 없는 경우 원래 문자열 반환
-    },
+    // parseAmount(amount) {
+    //   const fractionRegex = /^(\d+)\s?\/\s?(\d+)$/; // 분수 형식 정규식
+    //   const match = amount.match(fractionRegex);
+    //   if (match) {
+    //     const numerator = parseFloat(match[1]);
+    //     const denominator = parseFloat(match[2]);
+    //     if (!isNaN(numerator) && !isNaN(denominator) && denominator !== 0) {
+    //       return numerator / denominator; // 분수 계산
+    //     }
+    //   } else if (!isNaN(parseFloat(amount))) {
+    //     return parseFloat(amount); // 숫자로 직접 변환
+    //   }
+    //   return amount; // 변환할 수 없는 경우 원래 문자열 반환
+    // },
 
 
     },
