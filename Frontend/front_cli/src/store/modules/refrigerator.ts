@@ -68,8 +68,6 @@ const refrigerator: Module<RefrigeratorState, RootState> = {
     },
     actions: {
         plusAmount({ commit, getters }, tmpingredient) {
-            console.log('-----------------')
-            console.log(tmpingredient)
             const tempIngredient = [...getters.ingredients]; // 배열을 복사하여 변경
             for (let i = 0; i < tempIngredient.length; i++) {
                 if (tmpingredient.pk === tempIngredient[i].pk) {
@@ -80,7 +78,6 @@ const refrigerator: Module<RefrigeratorState, RootState> = {
                     }
                 }
             }
-            console.log(tempIngredient); // 변경된 재료 배열 출력
             commit('PLUS_AMOUNT', tempIngredient); // 변경된 배열을 스토어에 커밋
         }
             

@@ -28,10 +28,16 @@ import {mapGetters, mapActions} from 'vuex'
 
 export default {
     name: 'SearchResult',
+    props: {
+        classification: String,
+        keyWord: [String, null],
+    },
     data() {
         return {
             itemsPerPage: 15,
-            page: 1
+            page: 1,
+            classificationData : '전체',
+            keyWordData: null,
         }
     },
     computed: {
@@ -59,7 +65,7 @@ export default {
     },
 
     methods: {
-        ...mapActions(['recipeSpecificSearch']),
+        ...mapActions(['recipeSpecificSearch', 'querySearch']),
         goToPage(pageNumber) {
             if (pageNumber >= 1 && pageNumber <= this.totalPages) {
                 this.page = pageNumber;
@@ -67,10 +73,10 @@ export default {
         },
 
         // 상세 레시피로 보내주는 함수
-        goToDetailRecipe(recipe_id) {      
+        goToDetailRecipe(recipeId) {      
           this.$router.push({name: "recipe",  
               params: { 
-                  recipe_id: recipe_id
+                  recipeId: recipeId
               },
             })
           }
@@ -96,7 +102,13 @@ export default {
     },
     watch: {
       '$route.params.keyword': function(newKeyword) {
-      this.recipeSpecificSearch(newKeyword);
+        let data = {
+            searchWord : newKeyword,
+            classification : this.classificationData,
+            keyWord : this.keyWordData
+        }
+      this.querySearch(data);
+      
     },
     recipeSpecific: {
       handler() {
@@ -106,6 +118,12 @@ export default {
       },
       immediate: true, // 컴포넌트가 생성될 때 즉시 실행
     },
+    classification(newValue) {
+        this.classificationData = newValue
+    },
+    keyWord(newValue) {
+        this.keyWordData = newValue
+    }
     },
   };
 </script>

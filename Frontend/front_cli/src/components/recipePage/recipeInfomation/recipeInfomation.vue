@@ -2,10 +2,11 @@
   <!-- 레시피 정보(재료, 영양소, 유사도 등) -->
   <div>
     <!-- 레시피 정보 윗줄(재료 & 그래프) -->
-    <div class="graph_title">___님 냉장고 속 재료와 __% 일치합니다!</div>
+    <div class="graph_title" v-if="recipeDetail.memberName"><span class="similarity_title">{{recipeDetail.memberName}}</span>님 냉장고 속 재료와 <span class="similarity_title">{{(recipeDetail.similarity*100).toFixed(2)}}%</span> 일치합니다!</div>
+    <div class="graph_title logout" v-else>로그인 후 유사도 확인이 가능합니다</div>
     <div class="InfomationLine">
       <!-- 유사도 그래프 -->
-      <GraphInfomation class="infoBox graph" />
+      <GraphInfomation :similarity='similarity' class="infoBox graph" />
     </div>
     <div class="InfomationLine">
     <!-- 레시피 정보 아랫줄(영양소 & 재료 관리 버튼) -->
@@ -17,24 +18,14 @@
     </div>
     <!-- 각종 버튼(인분 조절, 재료 입력, 양념 입력) -->
     <div class="infoBox input_button">
-        <!-- 인분 조절 -->
-      <div class="dropdown mt-3">
-        <button class="dropdown-toggle servingButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-          {{serving}}인분
-        </button>
-        <ul class="dropdown-menu">
-          <li><button class="dropdown-item" type="button" @click="chageServingOne">1인분</button></li>
-          <li><button class="dropdown-item" type="button" @click="chageServingTwo">2인분</button></li>
-          <li><button class="dropdown-item" type="button" @click="chageServingThree">3인분</button></li>
-          <li><button class="dropdown-item" type="button" @click="chageServingFour">4인분</button></li>
-          <li class="inputServing">직접기입 <input class="dropdown-item inputServingNumber" type="number" v-model="serving" />인분</li>
-        </ul>
-      </div>
+      <!-- 인분수 정보 -->
+      <p class="dishText">기준 : {{recipeDetail.dish}}인분</p>
+      
       <!-- 재료 입력 모달 버튼 -->
       <div class="modal_container">
-          <IngredientModal />
+        <IngredientModal />
         <!-- 양념 입력 모달 버튼 -->
-          <SeasoningModal />
+        <SeasoningModal />
         </div>
         </div>
     </div>
@@ -58,7 +49,8 @@ export default {
       SeasoningModal,
     },
     computed: {
-      ...mapGetters(['recipeDetail'])
+      ...mapGetters(['recipeDetail']),
+      
     },
     mounted() {
       this.chageServingOne()
@@ -66,6 +58,7 @@ export default {
     data() {
       return {
         serving : 1,
+        similarity: 0,
       }
     },
     methods: {
@@ -98,20 +91,32 @@ export default {
     width: 13rem;
     height: 13rem;
 }
+.percent {
+  color: #FD7E14;
+}
 .graph_title {
-  font-family: 'GangwonEdu_OTFBoldA';
+  font-family: 'LINESeedKR-Bd';
   font-size: 1.7rem;
   margin-left: 3rem;
   margin-bottom: 1rem;
+  margin: 0 auto;
 }
+
+.graph_title.logout {
+  font-family: 'LINESeedKR-Rg';
+  font-size: 1.1rem;
+  color: #ff0000;
+  border: 1px solid #f3f3f3;
+  background-color: #f3f3f3;
+  padding: .9rem;
+  margin: 0 auto;
+}
+
 .infoBox.graph {
   /* margin-top: 25%; */
   margin-bottom: 3rem;
 }
 
-.infoBox.input_button {
-  /* display: flex; */
-}
 /* 재료 정보 박스 */
 /* 각 줄 정보 */
 .oneLine {
@@ -151,7 +156,16 @@ export default {
     justify-content: flex-end;
 }
 
+.similarity_title {
+  color: #FD7E14;
+}
 
+.dishText {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  font-family: 'GangwonEdu_OTFBoldA';
+}
 
 /* 인분 조절 버튼 */
 .servingButton {
@@ -164,9 +178,7 @@ export default {
     padding-left: 1rem;
     font-size: 1.25rem;
     font-weight: bold;
-    text-align: end;    
-    /* font-family: 'LINESeedKR-Bd'; */
-    /* font-family: 'IBMPlexSansKR-Regular'; */
+    text-align: end;
     font-family: 'GangwonEdu_OTFBoldA';
 }
 

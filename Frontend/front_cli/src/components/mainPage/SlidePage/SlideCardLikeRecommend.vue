@@ -1,9 +1,8 @@
 <template>
     <!-- 좋아요 많은 레시피 카드 -->
-    <div class="recommendCard" @click="goToDetailRecipe(recipe)">
+    <div class="recommendCard" @click="goToDetailRecipe(recipe.recipeId)">
         <img :src="recipe.imgSmall">
         <p class="recipeName">{{ recipe.name }}</p>
-        <p id="recipeCount">♥ : {{recipe.count}}</p>
     </div>
 </template>
 
@@ -17,10 +16,7 @@ export default {
         goToDetailRecipe(recipeItem) {
             this.$router.push({name: "recipe",  
                 params: { 
-                    recipe_id: recipeItem.recipe_id,
-                },
-                query: {
-                    recipeItem: JSON.stringify(recipeItem),
+                    recipeId: recipeItem,
                 },
             })
         },
@@ -30,28 +26,17 @@ export default {
 
 <style scoped>
 /* 좋아요 많은 레시피 카드 */
-/* .recommendCard {
-    border-radius: .5rem;
-    border: solid #7f7f7f 1px;
-    height: 22rem;
-    width: 20rem;
-    cursor: pointer;
-    margin: 1rem;
-    font-weight: bold;
-    transition: 0.3s;
-} */
 
 .recommendCard {
     border-radius: .1rem;
     border: 1px solid rgb(207, 205, 205);
-    /* box-shadow: 0 4px 4px -4px black; */
     box-shadow: 0 0 0 1px hsla(212,7%,43%,.32);
-    /* border: 1px solid #857f7b; */
     height: 23rem;
     width: 18rem;
     cursor: pointer;
     margin: 1rem;
     font-weight: bold;
+    font-size: 1rem;
     transition: 0.3s;
 }
 
@@ -109,14 +94,24 @@ img {
 
 @media screen and (max-width: 992px) {
   .recommendCard {
-        border-radius: .5rem;
+        /* border-radius: .5rem;
         border: 1px solid #FD7E14;
         /* box-shadow: 2px 2px 2px 2px; */
-        height: 20rem;
+        /* height: 20rem;
         width: 20rem;
         cursor: pointer;
         padding: .1rem;
-        margin: .5rem;
+        margin: .5rem; */
+        border-radius: .1rem;
+    border: 1px solid rgb(207, 205, 205);
+    box-shadow: 0 0 0 1px hsla(212,7%,43%,.32);
+    height: 23rem;
+    width: 18rem;
+    cursor: pointer;
+    margin: 1rem;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: 0.3s;
     }
 
     .recommendCard_img {

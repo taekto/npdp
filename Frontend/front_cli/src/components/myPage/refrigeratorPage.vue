@@ -6,26 +6,27 @@
 
         <!-- 우측 냉장고 컴포넌트 -->
         <div id="myPageView">
+            <!-- <p class="menuTitle">내 냉장고</p> -->
             <!-- 보관방법 변경 & 재료, 양념 입력 버튼 -->
             <div class="buttonGroup">
                 <!-- 보관 방법 변경 버튼 -->
                 <div class="storageRadio">
-                    <label v-if="storage !== 0" class="radioButton">
+                    <label v-if="storage !== 0" class="radioButton_1">
                         <input type="radio" name="coldStorage" value="냉장" @click="selectStorage(0)">냉장
                     </label>
-                    <label v-else class="radioButton2">
+                    <label v-else class="radioButton_2">
                         <input type="radio" name="coldStorage" value="냉장" @click="selectStorage(0)">냉장
                     </label>
-                    <label v-if="storage !== 1" class="radioButton">
+                    <label v-if="storage !== 1" class="radioButton_1">
                         <input type="radio" name="frozenStorage" value="냉동" @click="selectStorage(1)">냉동
                     </label>
-                    <label v-else class="radioButton2">
+                    <label v-else class="radioButton_2">
                         <input type="radio" name="frozenStorage" value="냉동" @click="selectStorage(1)">냉동
                     </label>
-                    <label v-if="storage !== 2" class="radioButton">
+                    <label v-if="storage !== 2" class="radioButton_1">
                         <input type="radio" name="rtStorage" value="실온" @click="selectStorage(2)">실온
                     </label>            
-                    <label v-else class="radioButton2">
+                    <label v-else class="radioButton_2">
                         <input type="radio" name="rtStorage" value="실온" @click="selectStorage(2)">실온
                     </label>            
                 </div>
@@ -35,14 +36,15 @@
                     <SeasoningModal />
                 </div>
             </div>
+            <!-- <div class="subtitle_line"></div> -->
             
             <!-- 현재 보관 중인 재료 & 양념 보여주는 컴포넌트(냉장, 냉동, 실온) -->
             <div>
                 <!-- 재료 -->
                 <div class="refrigeratorCategory">
                     <div style="display: flex; justify-content: space-between; width: 80%; margin: auto">
-                        <p class="categoryTitle">{{printStorage}} 재료</p>
-                        <button class="saveButton" @click="saveMaterial({type: 'ingredient', memberId: this.memberId, sendData: displayedIngredientItems.tempIngredient })">
+                        <div class="categoryTitle">내가 보관중인 재료</div>
+                        <button class="saveButton" @click="updateMaterial({type: 'ingredient', memberId: this.memberId, sendData: displayedIngredientItems.tempIngredient })">
                             저장하기
                         </button>
                     </div>
@@ -52,23 +54,22 @@
                             <div class="ingredientList">
                                 <p class="ingredientName">{{ingredientItem.kor}}</p>
                                 <div class="amount">
-                                    <button class="amountButton" @click="plusAmount(ingredientItem)">+</button>
-                                    <p class="amountAndUnit">{{ingredientItem.amount}}{{ingredientItem.unit}}</p>
                                     <button class="amountButton" @click="minusAmount(ingredientItem)">-</button>
+                                    <p class="amountAndUnit">{{changeAmount(ingredientItem.amount)}}{{ingredientItem.unit}}</p>
+                                    <button class="amountButton" @click="plusAmount(ingredientItem)">+</button>
                                 </div>
                                 <div class="startDate">
-                                    <p>보관시작일 : </p>
-                                    <p>{{changeDate(ingredientItem.startDate)}}</p>
+                                    <p>보관시작일 : {{changeDate(ingredientItem.startDate)}}</p>
                                 </div>
-                                <div class="endDate">
+                                <!-- <div class="endDate">
                                     <p>유통기한 : </p>
                                     <p>{{changeDate(ingredientItem.expiredDate)}}</p>
-                                </div>
+                                </div> -->
 
                                 <!-- <p class="startDate">보관시작일 : {{whatDate(ingredientItem.startDate)}}</p> -->
                                 
                                 <p class="storage">보관방식 : {{printStorage}}</p>
-                                <button class="deleteButton" @click="deleteMaterial({type: 'ingredient', memberId: this.memberId, deleteItem: ingredientItem })">제거</button>
+                                <button class="deleteButton" @click="updateMaterial({type: 'ingredientDelete', memberId: this.memberId, updateItem: ingredientItem })">제거</button>
                             </div>
                         </li>
                     </ul>
@@ -82,13 +83,13 @@
                         <button @click="goToIngredientPage(ingredientPage + 1)" :disabled="ingredientPage === ingredientTotalPages">다음</button>
                     </div>
                 </div>
-
                 <!-- 양념 -->
                 <div class="refrigeratorCategory">
+
                     <div style="display: flex; justify-content: space-between; width: 80%; margin: auto">
-                        <p class="categoryTitle">{{printStorage}} 양념</p>
-                        <button class="saveButton" @click="saveMaterial({ type: 'seasoning', memberId: memberId, sendData: displayedIngredientItems.tempIngredient })">
-                            저장하기
+                        <div class="categoryTitle">내가 보관중인 양념</div>
+                        <button class="saveButton" @click="updateMaterial({ type: 'seasoning', memberId: memberId, sendData: displayedIngredientItems.tempIngredient })">
+                            저장
                         </button>
                     </div>
 
@@ -98,15 +99,14 @@
                             <div class="ingredientList">
                                 <p class="ingredientName2">{{seasoningItem.kor}}</p>
                                 <div class="startDate">
-                                    <p>보관시작일 : </p>
-                                    <p>{{changeDate(seasoningItem.startDate)}}</p>
+                                    <p>보관시작일 : {{changeDate(seasoningItem.startDate)}}</p>
                                 </div>
-                                <div class="endDate">
+                                <!-- <div class="endDate">
                                     <p>유통기한 :</p>
                                     <p>{{changeDate(seasoningItem.expiredDate)}}</p>
-                                </div>
+                                </div> -->
                                 <p class="storage">보관방식 : {{printStorage}}</p>
-                                <button class="deleteButton" @click="deleteMaterial({type: 'seasoning', memberId: this.memberId, deleteItem: seasoningItem })">제거</button>
+                                <button class="deleteButton" @click="updateMaterial({type: 'seasoningDelete', memberId: this.memberId, updateItem: seasoningItem })">제거</button>
                             </div>
                         </li>
                     </ul>
@@ -160,6 +160,9 @@ export default {
           }
           return Math.ceil(count / this.itemsPerPage)
         },
+
+        
+        
         displayedIngredientItems() {
           const startIndex = (this.ingredientPage - 1) * this.itemsPerPage
           const endIndex = startIndex + this.itemsPerPage
@@ -167,14 +170,15 @@ export default {
           const tempIngredient = this.memberIngredient
             .filter(ingredient => ingredient.storage === this.storage)
             .map(ingredient => {
-              return {
-                // ingredientId: ingredient.refregiratorId,
-                amount: ingredient.amount,
-                unit: ingredient.unit,
-                startDate: ingredient.startDate,
-                expiredDate: ingredient.expiredDate,
-                storage: ingredient.storage
-              }
+                return {
+                    refregiratorId: ingredient.refregiratorId,
+                    amount: ingredient.amount,
+                    unit: ingredient.unit,
+                    startDate: ingredient.startDate,
+                    expiredDate: ingredient.expiredDate,
+                    storage: ingredient.storage,
+                    isdelete: ingredient.amount <= 0
+                }
           })
           const displayedItems = this.memberIngredient.filter(ingredient => {
             return ingredient.storage === this.storage
@@ -193,21 +197,23 @@ export default {
             return seasoning.storage === this.storage
           }).slice(startIndex, endIndex)
 
-          const tempIngredient = this.memberSeasoning
+          const tempSeasoning = this.memberSeasoning
             .filter(seasoning => seasoning.storage === this.storage)
             .map(seasoning => {
-              return {
-                seasoningId: seasoning.seasoningId,
-                storage: seasoning.storage
+              return { 
+                seasoningId: seasoning.memberSeasoningId,
+                storage: seasoning.storage,
+                startDate: seasoning.startDate,
+                expiredDate: seasoning.expiredDate,
+                isdelete: false,
               }
           })
            const tmp = {
             displayedItems : displayedItems,
-            tempIngredient : tempIngredient,
+            tempSeasoning : tempSeasoning,
           }
           return tmp
         },
-        
     },
     // 임시 더미 데이터
     data() {
@@ -221,14 +227,13 @@ export default {
         unit: '',
         startDate: null,
         expiredDate:  null,
-        isdelete : false,
         itemsPerPage:5,
         ingredientPage:1,
         seasoningPage:1,
       }
     },
     methods: {
-        ...mapActions(['fetchMemberMaterial', 'deleteMaterial','saveMaterial']),
+        ...mapActions(['fetchMemberMaterial', 'updateMaterial','saveMaterial']),
         selectStorage(storage) {
           this.storage = storage
           switch (storage) {
@@ -244,24 +249,28 @@ export default {
           }
         },
         plusAmount(tmpingredient) {
+            let tempAmount = parseFloat(tmpingredient.amount)
           if(tmpingredient.unit === "g") {
-            tmpingredient.amount += 10
+            tempAmount += 10
           }
           else{
-            tmpingredient.amount ++        
+            tempAmount ++        
           }
-          
+          tmpingredient.amount = tempAmount.toString() +'.0'
         },
         minusAmount(tmpingredient) {
+            let tempAmount = parseFloat(tmpingredient.amount)
           if(tmpingredient.unit === "g") {
-            tmpingredient.amount -= 10
+            tempAmount -= 10
           }
           else{
-            tmpingredient.amount --
+            tempAmount --
           }
 
-          if (tmpingredient.amount <= 0) {
-            this.deleteMaterial({type: 'ingredient', memberId: this.memberId, deleteItem: tmpingredient })
+            tmpingredient.amount = tempAmount.toString() +'.0'
+
+          if (parseFloat(tmpingredient.amount) <= 0) {
+            this.updateMaterial({type: 'ingredientDelete', memberId: this.memberId, updateItem: tmpingredient })
           }
         },
         goToIngredientPage(pageNumber) {
@@ -287,6 +296,16 @@ export default {
                 return
             }
         },
+        changeAmount(value) {
+            if(!isNaN(parseFloat(value))) {
+                let newValue = parseFloat(value).toFixed(0)
+                return newValue
+            }
+            else {
+                return value
+            }
+        },
+        
     },
     created() {
         this.memberId = parseInt(sessionStorage.getItem('memberId'))
@@ -296,12 +315,25 @@ export default {
 </script>
 
 <style scoped>
+#myPageView {
+    width: 75%;
+}
+.subtitle_line {
+    position: absolute;
+    margin-left: 5rem;
+    width: 60%;
+    border-width: .1rem 0 0;
+    border-style: solid;
+    border-color: #cecece;
+}
+
 /* 보관 방법 & 모달창 버튼 */
 .buttonGroup {
     display: flex;
     justify-content: space-between;
     width: 80%;
     margin: auto;
+    /* border-bottom: .1rem solid #cecece; */
 }
 
 .modalButtons {
@@ -314,7 +346,7 @@ export default {
     width: 80%;
     margin: auto;
     padding: 1rem;
-    margin-bottom: 5rem;
+    margin-bottom: 3rem;
     height: 60vh;
 }
 
@@ -371,8 +403,9 @@ ul {
     width: 2rem;
     height: 60%;
     border-radius: .5rem;
-    background-color: #f2f2f2;
-    border: solid rgb(244, 244, 244);
+    border: solid #FD7E14;
+    background-color: #FD7E14;
+    color: white;
 }
 
 .startDate {
@@ -380,8 +413,6 @@ ul {
     margin-bottom: auto;
     margin-left: .5rem;
     margin-right: .5rem;
-    flex: none;
-    width: 10rem;
 }
 
 .startDate p {
@@ -428,26 +459,35 @@ ul {
 
 .storageRadio {
     display: flex;
+    align-items: end;
     /* margin: auto; */
     /* margin-top: 3rem; */
     /* margin-left: 7.5rem; */
 }
-
-.storagae.radioButton {
+.radioButton_1 {
     font-family: 'LINESeedKR-Bd';
-    font-size: 1.2rem;
+    font-size: 1.4rem;
+    margin-right: 1rem;
     cursor: pointer;
 }
-.storagae.radioButton:hover {
-    background-color: #FD7E14;
-    color: #f2f2f2;
+.radioButton_2 {
+    font-family: 'LINESeedKR-Bd';
+    color: #FD7E14; 
+    font-size: 1.5rem;
+    margin-right: 1rem;
+    cursor: pointer;
+    border-bottom: .1rem solid #FD7E14;
 }
-
+.radioButton_1:hover {
+    color: #FD7E14;
+}
 .categoryTitle {
+    font-family: 'LINESeedKR-Rg';
     text-align: start;
-    margin-top: 1rem;
-    margin-left: 1rem;
-    font-size: 2rem;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    /* margin-left: 1rem; */
+    font-size: 1.5rem;
     font-weight: bold;
 }
 
@@ -468,16 +508,17 @@ ul {
 }
 
 .saveButton {
-  border: solid #FD7E14;
+  /* border: solid #FD7E14; */
   color: white;
   background-color: #FD7E14;
   border-radius: .5rem;
-  margin: .5rem;
-  padding: 0.5rem;
-  margin-bottom: 3rem;
-  margin-right: 2rem;
-  font-size: 1.25rem;
-  font-weight: bold;
-  font-family: 'LINESeedKR-Bd';
+  /* margin: .5rem; */
+  padding: .1rem;
+  margin-bottom: 1rem;
+  /* margin-right: 1rem; */
+  font-size: 1rem;
+  /* font-weight: bold; */
+  font-family: 'LINESeedKR-Rg';
+  /* width: 5rem; */
 }
 </style>

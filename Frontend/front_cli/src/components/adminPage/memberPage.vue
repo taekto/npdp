@@ -22,10 +22,6 @@ export default {
     ...mapGetters(['member']), 
   },
 
-  created() {
-    console.log(this.member);
-  },
-
   methods: {
     getRoleText(role) {
       // role 값에 따라 슈퍼어드민, 어드민, 일반유저 텍스트를 반환

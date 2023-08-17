@@ -14,7 +14,7 @@
                 <p>{{calorieInfo.name}}</p>
             </div>
             <div class="ingredientAmount">
-                <p>{{(calorieInfo.value*serving).toFixed(1)}}</p>
+                <p>{{calorieInfo.value}}</p>
             </div>
         </div>
 </div>
@@ -74,8 +74,6 @@ export default {
 <style scoped>
 .oneLine {
   font-family: 'LINESeedKR-Bd';
-}
-.calorie_container {
 }
 .oneLine.menu.way {
     margin-top: 2rem;

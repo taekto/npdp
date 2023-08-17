@@ -74,6 +74,7 @@ export default {
             .then (res => {
                 console.log(res)
                 alert('비밀번호를 발급했습니다.')
+                this.$router.push({name: 'login'})
             })
             .catch(err => {
                 console.log(err)

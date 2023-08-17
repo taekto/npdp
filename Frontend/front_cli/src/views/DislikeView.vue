@@ -1,14 +1,14 @@
 <template>
   <div>
     <memberDislike />
-    <memberAllergy />
+    <!-- <memberAllergy /> -->
   </div>
 
 </template>
 
 <script setup>
   import memberDislike from '@/components/dislikePage/memberDislike.vue'
-  import memberAllergy from '@/components/dislikePage/memberAllergy.vue'
+  // import memberAllergy from '@/components/dislikePage/memberAllergy.vue'
 </script>
 
 <style>
