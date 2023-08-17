@@ -249,7 +249,7 @@ export default {
     },
     minusAmount(ingredient) {
       ingredient.amount --
-      if (ingredient.amount <= 0) {
+      if (parseFloat(ingredient.amount) <= 0) {
         const arrayRemove = (arr, value) => {
           return arr.filter((ele) => {
               return ele != value

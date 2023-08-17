@@ -3,10 +3,11 @@
     <!-- 좌측 마이페이지 메뉴 컴포넌트 -->
     <CategoryComponent />
     <div id="myPageView">
-      <p class="menuTitle">비선호 재료 등록</p>
+      <p class="menuTitle_dislike">비선호 재료 등록</p>
       <div class="dislike_container">
         <div class="row member_dislike_search">
-          <div class="col-4 searchbox">
+          <div class="col-1 col_Box"></div>
+          <div class="col-4">
             <h3 class="list_title">비선호 재료 검색</h3>
             <div class="col-2 col_box"></div>
             <form class="col-10 search_form" @submit.prevent="specificSearch({ type: 'ingredient', name: this.ingredientName })">
@@ -15,6 +16,7 @@
                 <input id="submitButton" type="submit" value="검색">
               </div>
             </form>
+            
 
             <div class="result_box" >
               <li v-for="item in ingredientSearchData" :key="item.id" @click="appendItem({type:'dislike', memberId: this.memberId, inputData:item})">
@@ -26,15 +28,22 @@
             </div>
           </div>
 
-          <div class="col-8 member_dislike_list">
-            <h3 class="list_title">비선호 리스트</h3>
-              <div class="member_check_list">
-                <span v-for="(dislikeItem,idx) in memberDislikeIngredient" :key="idx">
-                  {{ dislikeItem.ingredientName }}
-                <button @click="deleteItem({type: 'dislike', delData: dislikeItem.ingredientId})">삭제</button>  
-                </span>
-              </div>
+          <div class="col-1 col_Box"></div>
+          <div class="col-5 member_dislike_list">
+            <h3 class="list_title">비선호 재료 리스트</h3>
+              <div class="col-12 member_check_list">
+                <div class="row">
+                  <div v-for="(item,idx) in memberDislikeIngredient" :key="idx">
+                    <div class="ingredient_list_item">
+                      <div class="ingredient_name">{{ item.ingredientName }}</div>
+                      <button @click="deleteItem({type: 'ingredient', delData: item.ingredientId})" class="delete_button">
+                        X
+                      </button>
+                    </div>
+                  </div>
+                </div>
             <button class="saveButton" @click="memberDislikeAllergy({type:'dislikePost', memberId:this.memberId})">저장</button>
+          </div>
           </div>
         </div>
       <div>

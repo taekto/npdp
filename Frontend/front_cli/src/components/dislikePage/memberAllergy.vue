@@ -8,40 +8,43 @@
       <div class="allergy_container">
         <div class="row member_allergy_container">
         <div class="col-1 col_Box"></div>
-          <div class="col-4 membe6r_allergy">
-            <h3 class="list_title">알러지 체크</h3>
-            <div class="allergyBox row">
-              <div v-for="(item, idx) in allergyList" :key="idx" class="col-4 checkAllergy">
-                <label>
-                  <input type="checkbox" name="allergy" @change="toggleAllergy(item)" :checked="isAllergySelected(item.allergyId)">{{ item.allergyName }}
-                </label>
-              </div>
+        <div class="col-4 membe6r_allergy">
+          <h3 class="list_title">알러지 체크</h3>
+          <div class="allergyBox row">
+            <div v-for="(item, idx) in allergyList" :key="idx" class="col-4 checkAllergy">
+              <label>
+                <input type="checkbox" name="allergy" @change="toggleAllergy(item)" :checked="isAllergySelected(item.allergyId)">{{ item.allergyName }}
+              </label>
             </div>
           </div>
+        </div>
 
-          <div class="col-1 col_Box"></div>
-          <div class="col-5 member_allergy_list">
-            <h3 class="list_title">알러지 재료 리스트</h3>
-            <div class="col-12 member_check_list">
-              <div class="row">
-                <div v-for="(item,idx) in memberAllergy" :key="idx">
-                  <div class="allergy_list_item">
-                     <div class="allergy_name">{{ item.allergyName }}</div>
-                    <button @click="deleteItem({type: 'allergy', delData: item.allergyId})" class="delete_button">
-                      X
-                    </button>
-                  </div>
+        <div class="col-1 col_Box"></div>
+        <div class="col-5 member_allergy_list">
+          <h3 class="list_title">알러지 재료 리스트</h3>
+          <div class="col-12 member_check_list">
+            <div class="row">
+              <div v-for="(item,idx) in memberAllergy" :key="idx">
+                <div class="allergy_list_item">
+                    <div class="allergy_name">{{ item.allergyName }}</div>
+                  <button @click="deleteItem({type: 'allergy', delData: item.allergyId})" class="delete_button">
+                    X
+                  </button>
                 </div>
               </div>
             </div>
           </div>
+        </div>
           
         </div>
         <div class="row save_btn_container">
-          <div class="col-10"></div>
-            <div class="col-1"><button class="save_btn" @click="memberDislikeAllergy({type:'allergyPost', memberId:this.memberId})">저장</button></div>
-          </div>
+            <div class="col-9"></div>
+            <div class="col-3">
+              <button class="save_btn" @click="memberDislikeAllergy({type:'allergyPost', memberId:this.memberId})">저장</button>
+            </div>
+
         </div>
+      </div>
       
     </div>
   </div>
@@ -147,11 +150,17 @@ export default {
   padding-left: 2rem;
 }
 
-.save_btn {
+.save_btn_container{
+  display: flex;
+  justify-content: flex-end;
   margin-top: 1rem;
+}
+
+.save_btn {
+  margin-top: 1.5rem;
   background-color: #FD7E14;
   border-radius: 0.5rem;
-  width: 4rem;
+  width: 5rem;
   height: 3rem;
   color: white;
   border: none;
