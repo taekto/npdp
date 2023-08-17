@@ -3,7 +3,7 @@
     <!-- 좌측 마이페이지 메뉴 컴포넌트 -->
     <CategoryComponent />
     <div id="myPageView">
-      <p class="menuTitle_allergy">알러지 재료 등록</p>
+      <div class="menuTitle_allergy">알러지 재료 등록</div>
         <!-- 알러지 재료 리스트 체크박스 한줄에 5개씩 만든다 -->
       <div class="allergy_container">
         <h3 class="list_title_allergy">회원 알러지 선택</h3>
@@ -69,7 +69,7 @@ export default {
 
 <style scoped>
 .allergy_container {
-  border: 0.1rem solid #7f7f7f;
+  border: .1rem solid #a7a7a7;
   border-radius: 0.5rem;
   width: 80%;
   margin: auto;
@@ -81,11 +81,12 @@ export default {
 
 .menuTitle_allergy{
   font-family: 'LINESeedKR-Rg';
-  text-align: start;
-  font-size: 1.5rem;
-  font-weight: bold;
-  width: 80%;
-  margin: auto;
+    text-align: start;
+    margin: 1rem auto;
+    /* margin-left: 1rem; */
+    font-size: 1.5rem;
+    font-weight: bold;
+    width: 80%;
 }
 
 .checkAllergy {
@@ -95,9 +96,34 @@ export default {
   padding: 1rem;
 }
 
-.list_title_allergy{
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+.list_title {
+  font-family: 'LINESeedKR-Rg';
+}
+
+.member_check_list {
+  border: 1px solid black;
+  border-radius: 10px;
+  overflow-x: hidden; 
+}
+
+.allergy_list_item{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #ccc;
+  overflow-y: auto; 
+}
+
+.delete_button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding-right: 1rem;
+}
+
+.allergy_name {
+  padding-left: 2rem;
 }
 
 .save_btn_container{

@@ -6,7 +6,7 @@
 
     <!-- 우측 좋아요한 레시피 컴포넌트 -->
     <div id="myPageView" v-if="memberRecipeLike.length > 0">
-      <p class="menuTitle">좋아요</p>
+      <!-- <p class="menuTitle">좋아요</p> -->
 
       <div class="list">
           <div v-for="(recipe_item, index) in displayedItems" :key="index">
@@ -41,7 +41,7 @@
       </div> -->
     </div>
     <div v-else id="myPageView">
-      <p class="menuTitle">좋아요</p>
+      <!-- <p class="menuTitle">좋아요</p> -->
       <p class="memberReco_logout">좋아하는 레시피를 추가해보세요!</p>
     </div>
   </div>
@@ -227,10 +227,12 @@ img {
 
 .memberReco_logout {
   font-family: 'LINESeedKR-Rg';
+  margin: auto;
   font-size: 1.5rem;
   text-align: center;
+  vertical-align: middle;
   color: #ababab;
-  margin: 3.5rem 0;
+  margin: 10rem 0;
 }
 
 /* @import "../assets/CSS/myPage.css" */
