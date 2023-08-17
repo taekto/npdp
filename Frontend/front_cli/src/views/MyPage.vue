@@ -2,7 +2,7 @@
     <!-- 마이 페이지 들어갈시 비밀번호 확인 -->
     <div>
         <div class="searchWindow">
-            <h2>Password</h2>
+            <h2 class="mypage_pw">비밀번호 입력</h2>
             <div>
                 <form @submit.prevent="confirmPassword">
                     <div class="input-group">
@@ -11,7 +11,6 @@
                     </div>
                 </form>
             </div>
-            
         </div>
     </div>
 </template>
@@ -36,15 +35,13 @@ export default {
     methods: {
         // password가 해당 회원의 password가 맞는지 확인해야 함
         confirmPassword() {
-            console.log(this.creditials.password)
             axios({
                 url: 'https://i9b202.p.ssafy.io/api/members/checkPassword',
                 method: 'post',
                 data: this.creditials,
             })
-            .then(res => {
-                console.log(res.data)
-                this.$router.push({name: 'refrigerator'})
+            .then(() => {
+                this.$router.push({name: 'edit'})
             })
             .catch(err => {
                 console.log(err)
@@ -69,10 +66,24 @@ export default {
 #myPageView {
     width: 85%;
     margin-top: 3rem;
+    /* border: solid black; */
+    min-height: 50vh;
+}
+
+.menuTitle {
+    font-family: 'LINESeedKR-Bd';
+    text-align: start;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    margin-left: 7rem;
+    font-size: 2.5rem;
 }
 </style>
 
 <style scoped>
+.mypage_pw {
+    font-family: 'LINESeedKR-Bd';
+}
 .searchWindow {
     width: 60%;
     height: 15rem;

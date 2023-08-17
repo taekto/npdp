@@ -35,7 +35,7 @@ export default {
         this.$router.push({
             name: "searchKeyword",
             params: { keyword: tempKeyword }
-        });
+        })
 
         this.searchKeyword = "";
       }
@@ -52,7 +52,7 @@ export default {
 }
 
 #hash {
-    font-family: 'LINESeedKR-Rg';
+    font-family: 'GangwonEdu_OTFBoldA';
     margin: 1rem;
     background-color: #FD7E14;
     color: #ffffff;

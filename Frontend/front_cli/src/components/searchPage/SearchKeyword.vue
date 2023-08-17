@@ -1,8 +1,10 @@
 <template>
     <!-- 키워드가 들어간 검색 페이지 -->
     <div>
+      
         <!-- 검색창 컴포넌트 -->
         <div class="searchWindow">
+          <h1>{{selectCategory}}</h1>
           <form @submit.prevent="goToSearchwithKeyword(searchKeyword)">
             <!-- 검색창 -->
             <div class="input-group">
@@ -20,10 +22,12 @@
         </div>
 
         <!-- 상세 검색 컴포넌트 -->
-        <DetailSearch class="detailSearch" />
+        <!-- <DetailSearch class="detailSearch" @changeClassification="changeClassification" @changeCategory="changeCategory" /> -->
+        <DetailSearch class="detailSearch" @changeClassification="changeClassification" @changeCategory="changeCategory" />
+
 
         <!-- 검색 결과 컴포넌트 -->
-        <SearchResult />
+        <SearchResult :classification='classification' :keyWord='keyWord'/>
     </div>
 </template>
 
@@ -31,7 +35,7 @@
 
 import DetailSearch from './detailSearch.vue'
 import SearchResult from './searchResult.vue'
-
+import {mapActions, mapGetters} from 'vuex'
 
 export default {
     components: {
@@ -41,38 +45,55 @@ export default {
     // 키워드는 vuex에서 관리할 것
     data() {
         return {
-            keyWord : "",
-            searchKeyword : "",
-            hashTag : ["김치", "돼지", "소", "닭", "된장", "빵"],
-            keyword: this.$route.params.keyword,
+          searchKeyword : "",
+          hashTag : ["김치", "돼지", "소", "닭", "된장", "빵"],
+          keyword: this.$route.params.keyword,
+          classification: "전체",
+          keyWord : null,
         }
     },
     computed: {
+      ...mapGetters(['selectCategory', 'selectClassification'])
     },
     methods: {
-        goToSearchwithKeyword(word) {
-            console.log('키워드 푸쉬!', word)
-        const tempKeyword = word.trim().toLowerCase();
+      ...mapActions(['querySearch']),
+      async changeClassification(data) {
+        await this.$nextTick()
+        this.classification = data
+      },
+      async changeCategory(data) {
+        await this.$nextTick()
+        this.keyWord = data
+      },
 
+      goToSearchwithKeyword(word) {
+        const tempKeyword = word.trim().toLowerCase()
+        const data = {      
+          searchWord : tempKeyword,
+          classification : this.classification,
+          keyWord : this.keyWord
+        }
+        this.querySearch(data)
         this.$router.push({
-            name: "searchKeyword",
-            params: { keyword: tempKeyword }
-        });
+          name: "searchKeyword",
+          params: { keyword: tempKeyword }
+        })
 
-        this.searchKeyword = "";
-        },
-        // 키워드를 통해 검색하도록 하는 함수
+          this.searchKeyword = "";
+        }
     },
 }
 </script>
 
-<style>
+<style scoped>
 /* 해시태그 */
 #hashTagkeyword {
     display: flex;
     justify-content: center;
 }
+
 #hash {
+    font-family: 'GangwonEdu_OTFBoldA';
     margin: 1rem;
     background-color: #FD7E14;
     color: white;

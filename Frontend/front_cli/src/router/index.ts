@@ -17,6 +17,7 @@ import LikeRecipe from '../components/myPage/likeRecipe.vue'
 import memberInfoEditPage from '../components/myPage/editPage.vue'
 import DislikeView from '../views/DislikeView.vue'
 import FindPassword from '../views/findPassword.vue'
+import AllergyView from '../components/dislikePage/memberAllergy.vue'
 
 //adminPage
 import AdminLoginPage from '../views/AdminLoginPage.vue'
@@ -57,7 +58,7 @@ const router = createRouter({
   {
     // 상세 레시피 페이지
     // 후에 데이터 연결 후 recipe_id 연결해줘야 함
-    path: '/recipe/:recipe_id',
+    path: '/recipe/:recipeId',
     name: 'recipe',
     component: RecipeDetail,
   },
@@ -122,6 +123,11 @@ const router = createRouter({
     component: DislikeView
   },
   {
+    path: '/allergy',
+    name:'allergy',
+    component: AllergyView
+  },
+  {
     // 관리자 페이지(로그인)
     path: '/admin-login',
     name: 'admin-login',
@@ -162,5 +168,11 @@ const router = createRouter({
   }]
   })
 
+
+  router.beforeEach((to, from, next) => {
+    // 페이지 전환 이전에 스크롤을 맨 위로 설정
+    window.scrollTo(0, 0);
+    next();
+  });
 
 export default router

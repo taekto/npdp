@@ -44,12 +44,14 @@
               확인
           </button>
         </div>
+          
           <p v-show="emailVerify === 1" class="input-error">
             인증번호가 확인되었습니다.
           </p>
           <p v-show="emailVerify === 2" class="input-error">
             인증번호가 일치하지 않습니다.
           </p>
+          <p v-if="countdown > 0" class="input-error">남은 시간: {{ formatCountdown() }}초</p>
           
 
           
@@ -67,7 +69,7 @@
           <p
             v-show="valid.password"
             class="input-error">
-             "8~16자리 숫자+영문자+특수문자 조합으로 입력해주세요!"
+             8~16자리 숫자,영문자,특수문자 조합으로 입력해주세요
           </p>
           <label class="input_label">비밀번호 확인</label>
           <input
@@ -80,14 +82,14 @@
             v-model="passwordConfirm" />
           <!-- 에러 메시지 표시 -->
           <p v-show="passwordConfirmHasError" class="input-error">
-            비밀번호가 다릅니다.
+            비밀번호가 일치하지 않습니다.
           </p>
           
 
           <p>생일 선택</p>
           <VDatePicker 
           v-model="credentials.birth"
-          :max="new Date()"
+          :max-date="new Date()"
           name="birth"
           @dayclick="whatDate(credentials.birth)" />
           <div class="genderSelect">  
@@ -145,12 +147,16 @@ export default {
     return {
         socialType: '',
         credentials: {
-          email: '',
-          password: '',
-          nickname: '',
-          gender: 'none',
-          birth: '',
+        email: '',
+        password: '',
+        nickname: '',
+        gender: 'none',
+        birth: '',
+        
       },
+      isCounting: false,
+      intervalId: null,
+      remainingSeconds: 0,
       emailCode: '',
       emailVerifyCode: '',
       emailVerify: 0,
@@ -164,6 +170,9 @@ export default {
       passwordConfirmHasError: false,
       emailHasError: false,
       passwordHasError: false,
+      countdown: 0,
+      countdownTimer: null,
+      verificationCodeSent: false,
     }
   },
   
@@ -178,6 +187,17 @@ export default {
       this.checkPasswordConfirm()
     }
   },
+  computed: {
+    formattedTime() {
+    if (this.remainingSeconds >= 0) {
+      const minutes = Math.floor(this.remainingSeconds / 60);
+      const seconds = this.remainingSeconds % 60;
+      return `${this.formatDigits(minutes)}:${this.formatDigits(seconds)}`;
+    } else {
+      return '00:00';
+    }
+  }
+  },
 
   // birthdate = new Date(); // birthdate 매개변수의 타입을 Date | null로 명시
   methods: {
@@ -186,23 +206,43 @@ export default {
       this.$router.go(0)
     },
     emailCodeVerify() {
-      console.log('이메일 인자',this.credentials.email)
       this.EmailVerify(this.credentials.email)
+      this.startCountdown()
       setTimeout(() => {
         const tempEmailCode = sessionStorage.getItem('emailVerify')
         const tempEmailCodeJson = JSON.parse(tempEmailCode)
         this.emailCode = tempEmailCodeJson
-        console.log('--------------------')
-        console.log(this.emailCode)
-        console.log(this.emailCode.value)
-        console.log(this.emailCode.value.code)
-        console.log('--------------------')
-      }, 5000)
+      }, 7500)
     },
+
+    startCountdown() {
+      this.countdown = 180; // 3분 (180초) 카운트 다운 시작
+      this.countdownTimer = setInterval(() => {
+        if (this.countdown > 0) {
+          this.countdown--;
+        } else {
+          this.stopCountdown();
+        }
+      }, 1000);
+    },
+
+    stopCountdown() {
+      clearInterval(this.countdownTimer);
+      this.verificationCodeSent = false;
+      this.countdown = 0;
+    },
+
+    formatCountdown() {
+      const minutes = Math.floor(this.countdown / 60);
+      const seconds = this.countdown % 60;
+      return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    },
+
 
     checkEmailVerify() {
       if(this.emailCode.value.code === this.emailVerifyCode) {
         this.emailVerify = 1
+        this.countdown = 0
       }
       else {
         this.emailVerify = 2
@@ -271,56 +311,17 @@ export default {
 
     socialLoginGoogle() {
       this.socialType = 'Google'
-      // axios ({
-      //   url: 'https://i9b202.p.ssafy.io/api/oauth/google-login',
-      //   methods: 'get',
-      //   redirect_uri : 'https://i9b202.p.ssafy.io/social',
-      // })
-      // .then (res => {
-      //   console.log(res)
-      //   sessionStorage.setItem('social', 1)
-      // })
-      // .catch (err => {
-      //   console.log(err)
-      // })
     },
     socialLoginNaver() {
       this.socialType = 'Naver'
-      // axios ({
-      //   url: '/api/oauth/naver-login',
-      //   methods: 'get',
-      // })
-      // .then (res => {
-      //   console.log(res)
-      //   sessionStorage.setItem('social', 1)
-      // })
-      // .catch (err => {
-      //   console.log(err)
-      // })
     },
     socialLoginKakao() {
       this.socialType = 'Kakao'
-      // axios ({
-      //   url: 'https://i9b202.p.ssafy.io/api/oauth/kakao-login',
-      //   method: 'get',
-      // })
-      // .then(res => {
-      //   console.log(res)
-      // })
-      // .catch(err => {
-      //   console.log(err.response)
-      // })
-      // axios.get('https://kauth.kakao.com/oauth/authorize', {
-      //                           params: {
-      //                               client_id: process.env.REACT_APP_REST_API_KEY,
-      //                               redirect_uri: 'http://localhost:8081/api/kakao/oauth',
-      //                               response_type: 'code',
-      //                               state: '/login',
-      //                           },
-      //                           withCredentials: false,
-      //                       });
     }
-  }
+  },
+  beforeUnmount() {
+    clearInterval(this.countdownTimer);
+  },
 }
 </script>
 
@@ -504,10 +505,12 @@ export default {
 } */
 
 /* 이메일 패스워드 에러 */
-.input-error {  
+.input-error {
+  font-family: 'LINESeedKR-Rg' !important;
   display: flex; 
   line-height: 16px;
-  font-size: 11px;
+  font-size: 13px !important;
+  margin-top: .5rem !important;
   color: red;
   align-content: left;
 }

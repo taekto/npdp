@@ -3,17 +3,23 @@
   <div class="thirdLine">
     <div class="recentRecommend">
         <p class="menuTitle">최근 본 레시피</p>
-        <Carousel :items-to-show="3" :wrap-around="true"
-        :autoplay= "3500" :transition = "1000">
-            <Slide v-for="recipe_item in recipe" :key="recipe_item.recipe_id">
-                <SlideCardRecentRecommned :recipe = recipe_item />
-            </Slide>
+        <div v-if="memberRecipeLatest.length !== 0">
+          <Carousel :items-to-show="calculateItemsToShow" :wrap-around="calculateWrapAround"
 
-            <!-- 슬라이드 이동 버튼 -->
-            <template #addons>
-              <Navigation />
-            </template>
-        </Carousel>
+          :autoplay= "3500" :transition = "1000">
+              <Slide v-for="item in memberRecipeLatest" :key="item.recipeId">
+                  <SlideCardRecentRecommned :recipe = item />
+              </Slide>
+
+              <!-- 슬라이드 이동 버튼 -->
+              <template #addons>
+                <Navigation />
+              </template>
+          </Carousel>
+        </div>
+        <div v-else class="recentReco_logout">
+          최근 조회한 레시피가 없습니다.
+        </div>
     </div>
   </div>
     
@@ -25,7 +31,7 @@ import SlideCardRecentRecommned from './SlidePage/SlideCardRecentRecommend.vue'
 import { defineComponent } from 'vue'
 import { Carousel, Navigation, Slide } from 'vue3-carousel'
 
-import {mapGetters} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 
 import 'vue3-carousel/dist/carousel.css'
 
@@ -38,10 +44,22 @@ export default defineComponent({
     SlideCardRecentRecommned,
   },
   computed: {
-        ...mapGetters(['recipe'])
+    ...mapGetters(['memberRecipeLatest']),
+    calculateItemsToShow() {
+      if (this.memberRecipeLatest.length <= 3) {
+        return this.memberRecipeLatest.length;
+      } else {
+        return 3; // 최대 3개까지만 보여주기
+      }
     },
+    calculateWrapAround() {
+      return this.memberRecipeLatest.length > 3;
+    },
+  },
 
-
+  methods:{
+    ...mapActions(['latestRecipe'])
+  },
   data: () => ({
     // carousel settings
     settings: {
@@ -63,6 +81,10 @@ export default defineComponent({
       },
     },
   }),
+  created() {
+    this.memberId = parseInt(sessionStorage.getItem('memberId'))
+    this.latestRecipe({type:'get', memberId: this.memberId})
+  },
 })
 </script>
 
@@ -86,6 +108,14 @@ export default defineComponent({
 .menuTitle {
   font-family: 'KimjungchulGothic-Bold';
     margin-left: 2rem;
+}
+
+.recentReco_logout {
+  font-family: 'LINESeedKR-Rg';
+  font-size: 1.5rem;
+  text-align: center;
+  color: #ababab;
+  margin: 3.5rem 0;
 }
 
 @media screen and (max-width: 992px) {

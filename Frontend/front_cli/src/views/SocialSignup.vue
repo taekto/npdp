@@ -154,17 +154,14 @@ export default {
     },
     changeSocialGoogle() {
       this.socialLoginType = 'Google'
-      console.log(this.socialLoginType)
       this.$router.push({name: 'social', query: {socialType: this.socialLoginType}})
     },
     changeSocialNaver() {
       this.socialLoginType = 'Naver'
-      console.log(this.socialLoginType)
       this.$router.push({name: 'social', query: {socialType: this.socialLoginType}})
     },
     changeSocialKakao() {
       this.socialLoginType = 'Kakao'
-      console.log(this.socialLoginType)
       this.$router.push({name: 'social', query: {socialType: this.socialLoginType}})
     },
 

@@ -171,7 +171,7 @@ const atc: Module<ATCState, RootState> = {
       })
         .then(res => {
           commit('GET_INGREDIENT', res.data);
-          console.log('불러오기 성공!', res.data)
+          console.log('불러오기 성공!')
         })
         .catch(err => console.log(err.response));
     },
@@ -179,7 +179,7 @@ const atc: Module<ATCState, RootState> = {
     // 양념 / 재료 조회
     async specificSearch({ commit }, { type, name }) {
       try {
-        console.log(type === 'seasoning' ? '양념 조회 시작!' : '재료 조회 시작!', name);
+        console.log(type === 'seasoning' ? '양념 조회 시작!' : '재료 조회 시작!');
         const apiUrl = type === 'seasoning' ?
           'https://i9b202.p.ssafy.io/api/foods/seasoning/search' :
           'https://i9b202.p.ssafy.io/api/foods/ingredient/search';
@@ -188,7 +188,7 @@ const atc: Module<ATCState, RootState> = {
             name : name,
           },
         })
-        console.log(type === 'seasoning' ? '양념 조회 성공!' : '재료 조회 성공!', response.data);
+        console.log(type === 'seasoning' ? '양념 조회 성공!' : '재료 조회 성공!');
         commit(type === 'seasoning' ? 'SET_SEASONING_SEARCH_DATA' : 'SET_INGREDIENT_SEARCH_DATA', response.data);
       } catch (error) {
         console.log(type === 'seasoning' ? '양념 조회 실패..' : '재료 조회 실패..', error);

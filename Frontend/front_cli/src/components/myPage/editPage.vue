@@ -6,10 +6,9 @@
 
     <!-- 우측 회원정보 컴포넌트 -->
     <div id="myPageView">
+      <p class="menuTitle">회원정보수정</p>
       <div class="editComponent">
-        <div class="editTitle">
-          <p>회원정보수정</p>
-        </div>
+        
         <div>
           <!-- 닉네임 변경 -->
           <div class="searchWindow">
@@ -137,8 +136,6 @@ export default {
         const year = birthDate.getFullYear()
         const month = birthDate.getMonth() + 1
         const date = birthDate.getDate()
-        console.log(year + delimiter + month + delimiter + date)
-        console.log(typeof(month))
         if(month < 10) {
           this.birthDate = year + delimiter + '0' + month + delimiter + date
         }
@@ -146,6 +143,20 @@ export default {
           this.birthDate = year + delimiter + month + delimiter + date
         }
       },
+    },
+    watch: {
+      'member': {
+        handler(updatedMember) {
+          // member 게터의 데이터 출력
+          console.log('Updated member data');
+          
+          // 만약 updatedMember 안에 nickname 프로퍼티가 있다면 userData.nickname에 할당
+          if (updatedMember && updatedMember.nickname) {
+            this.userData.nickname = updatedMember.nickname;
+          }
+        },
+        deep: true // 객체 내부의 프로퍼티까지 감시
+      }
     },
     async created() {
       this.memberId = parseInt(sessionStorage.getItem('memberId'))
@@ -158,17 +169,23 @@ export default {
 
 <style scoped>
 .editTitle {
-    margin: auto;
-    margin-top: 2rem;
-    font-size: 2rem;
-    font-weight: bold;
-    text-align: start;
-    width: 75%;
+  font-family: 'LINESeedKR-Bd';
+  margin: auto;
+  margin-top: 2rem;
+  font-size: 2rem;
+  font-weight: bold;
+  /* text-align: start; */
+  width: 75%;
+}
+
+.storageRadio {
+  display: flex;
 }
 
 .editCategoryTitle {
     margin: auto;
     margin-top: 2rem;
+    margin-left: .75rem;
     font-size: 1.2rem;
     font-weight: bold;
     text-align: start;
@@ -177,6 +194,11 @@ export default {
 .editComponent {
     width: 80%;
     margin: auto;
+    border: solid grey;
+  border-radius: .5rem;
+  /* margin-left: 2rem;
+  margin-right: 2rem;
+  margin-bottom: 5rem; */
 }
 
 
@@ -208,16 +230,18 @@ export default {
 
 .genderSelect {
   margin: auto;
+  
+  margin-left: 3rem;
 }
 
 
-#myPageView {
+/* #myPageView {
   border: solid grey;
   border-radius: .5rem;
   margin-left: 2rem;
   margin-right: 2rem;
   margin-bottom: 5rem;
-}
+} */
 
 .btn_update {
   border-radius: .5rem;

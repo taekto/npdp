@@ -12,29 +12,28 @@
             <div>{{ingredient.kor}}</div>
           </div>
           <div class="ingredientAmount each">
-            <div>{{(ingredient.amount * serving).toFixed(1)}}</div>
+            <!-- <div>{{(ingredient.amount * serving).toFixed(1)}}</div> -->
+            <div>{{ingredient.amount}}</div>
             <div>{{ingredient.unit}}</div>
           </div>
       </div>
     </div>
+    
+    <div class="seasoning_containter" v-if="recipeDetail.recipeSeasonings && recipeDetail.recipeSeasonings.length > 0">
+      <div class="ingredientLine menu">
+        <div class="ingredientName total">양념</div>
+      </div>
 
-    <div class="ingredientLine menu">
-      <div class="ingredientName total">양념</div>
-    </div>
-
-    <div class="ingredientContainer">
-      <div class="ingredientLine" v-for="(ingredient, index) in recipeDetail.recipeSeasonings" :key="index">
-          <div class="ingredientName each">
-            <div>{{ingredient.kor}}</div>
-          </div>
-          <div class="ingredientAmount">
-            <!-- <p>{{(ingredient.amount * serving).toFixed(1)}}</p>
-            <p>{{ingredient.amount}}</p>
-            <p>{{ingredient.unit}}</p>
-            <p>{{ formatAmount(ingredient.amount, serving) }}</p> -->
-            <p>{{calculatedValues[index].value}}</p>
-            <p>{{ ingredient.unit }}</p>
-          </div>
+      <div class="ingredientContainer">
+        <div class="ingredientLine" v-for="(ingredient, index) in recipeDetail.recipeSeasonings" :key="index">
+            <div class="ingredientName each">
+              <div>{{ingredient.kor}}</div>
+            </div>
+            <div class="ingredientAmount each">
+              <div>{{ingredient.amount}}</div>
+              <div>{{ingredient.unit}}</div>
+            </div>
+        </div>
       </div>
     </div>
   </div>
@@ -67,22 +66,74 @@ export default {
       'ingredient.amount': 'calculateValue'
     },
     methods: {
-      calculateValues() {
-      this.calculatedValues = this.recipeDetail.recipeIngredients.map(ingredient => {
-        const parsedValue = parseFloat(ingredient.amount);
+    //   calculateValues() {
+    //     this.calculatedValues = this.recipeDetail.recipeIngredients.map(ingredient => {
+          
+        
+    //       const parsedValue = parseFloat(ingredient.amount);
+    //       const calculatedValue = {
+    //         kor: ingredient.kor,
+    //         value: '',
+    //         unit: ingredient.unit,
+    //       }
+    //       if (!isNaN(parsedValue)) {
+    //         calculatedValue.value = (parsedValue * this.serving).toFixed(1);
+    //       } else {
+    //         calculatedValue.value = ingredient.amount;
+    //       }
+    //       return calculatedValue;
+    //   })
+    // },
+    calculateValues() {
+      if(this.recipeDetail.recipeIngredients) {
+        for(let ingredient of this.recipeDetail.recipeIngredients) {
+        const parsedValue = this.parseAmount(ingredient.amount);
         const calculatedValue = {
           kor: ingredient.kor,
           value: '',
           unit: ingredient.unit,
         };
         if (!isNaN(parsedValue)) {
-          calculatedValue.value = (parsedValue * this.serving).toFixed(1);
+          calculatedValue.value = (parsedValue * this.serving).toFixed(1)
         } else {
-          calculatedValue.value = ingredient.amount;
+          calculatedValue.value = ingredient.amount
         }
-        return calculatedValue;
-      });
+        this.calculatedValues.push(calculatedValue)
+      }
+    //   this.calculatedValues = this.recipeDetail.recipeIngredients.map(ingredient => {
+    //   const parsedValue = this.parseAmount(ingredient.amount);
+    //   const calculatedValue = {
+    //     kor: ingredient.kor,
+    //     value: '',
+    //     unit: ingredient.unit,
+    //   };
+    //   if (!isNaN(parsedValue)) {
+    //     calculatedValue.value = (parsedValue * this.serving).toFixed(1);
+    //   } else {
+    //     calculatedValue.value = ingredient.amount;
+    //   }
+    //   return calculatedValue;
+    // });
+      }
+      
+  },
+
+    parseAmount(amount) {
+      const fractionRegex = /^(\d+)\s?\/\s?(\d+)$/; // 분수 형식 정규식
+      const match = amount.match(fractionRegex);
+      if (match) {
+        const numerator = parseFloat(match[1]);
+        const denominator = parseFloat(match[2]);
+        if (!isNaN(numerator) && !isNaN(denominator) && denominator !== 0) {
+          return numerator / denominator; // 분수 계산
+        }
+      } else if (!isNaN(parseFloat(amount))) {
+        return parseFloat(amount); // 숫자로 직접 변환
+      }
+      return amount; // 변환할 수 없는 경우 원래 문자열 반환
     },
+
+
     },
 }
 </script>
@@ -128,9 +179,4 @@ export default {
   /* display: flex; */
 }
 
-.ingredientAmount {
-  /* margin-left: 1rem; */
-  /* text-align: center;
-  vertical-align: center; */
-}
 </style>

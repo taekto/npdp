@@ -12,34 +12,34 @@
                 <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse">
                     <div class="accordion-body btn_group">
                         <label v-if="selectClassification === '전체'" class="radioButton2">
-                            <input type="radio" name="classification" value="전체" v-model="selectClassification" @click="changeClassification">전체
+                            <input type="radio" name="classification" value='전체' v-model="selectClassification" @change="changeClassification">전체
                         </label>
                         <label v-else class="radioButton">
-                            <input type="radio" name="classification" value="전체" v-model="selectClassification" @click="changeClassification">전체
+                            <input type="radio" name="classification" value='전체' v-model="selectClassification" @change="changeClassification">전체
                         </label>
                         <label v-if="selectClassification === '레시피명'" class="radioButton2">
-                            <input type="radio" name="classification" value="레시피명" v-model="selectClassification" @click="changeClassification">레시피명
+                            <input type="radio" name="classification" value="레시피명" v-model="selectClassification" @change="changeClassification">레시피명
                         </label>
                         <label v-else class="radioButton">
-                            <input type="radio" name="classification" value="레시피명" v-model="selectClassification" @click="changeClassification">레시피명
+                            <input type="radio" name="classification" value="레시피명" v-model="selectClassification" @change="changeClassification">레시피명
                         </label>
                         <label v-if="selectClassification === '주재료'" class="radioButton2">
-                            <input type="radio" name="classification" value="주재료" v-model="selectClassification" @click="changeClassification">주재료
+                            <input type="radio" name="classification" value="주재료" v-model="selectClassification" @change="changeClassification">주재료
                         </label>
                         <label v-else class="radioButton">
-                            <input type="radio" name="classification" value="주재료" v-model="selectClassification" @click="changeClassification">주재료
+                            <input type="radio" name="classification" value="주재료" v-model="selectClassification" @change="changeClassification">주재료
                         </label>
                         <label v-if="selectClassification === '보조재료'" class="radioButton2">
-                            <input type="radio" name="classification" value="보조재료" v-model="selectClassification" @click="changeClassification">보조재료
+                            <input type="radio" name="classification" value="보조재료" v-model="selectClassification" @change="changeClassification">보조재료
                         </label>
                         <label v-else class="radioButton">
-                            <input type="radio" name="classification" value="보조재료" v-model="selectClassification" @click="changeClassification">보조재료
+                            <input type="radio" name="classification" value="보조재료" v-model="selectClassification" @change="changeClassification">보조재료
                         </label>
                         <label v-if="selectClassification === '양념'" class="radioButton2">
-                            <input type="radio" name="classification" value="양념" v-model="selectClassification" @click="changeClassification">양념
+                            <input type="radio" name="classification" value="양념" v-model="selectClassification" @change="changeClassification">양념
                         </label>
                         <label v-else class="radioButton">
-                            <input type="radio" name="classification" value="양념" v-model="selectClassification" @click="changeClassification">양념
+                            <input type="radio" name="classification" value="양념" v-model="selectClassification" @change="changeClassification">양념
                         </label>
                     </div>
                 </div>
@@ -54,41 +54,41 @@
                 </h2>
                 <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
                     <div class="accordion-body btn_group">
-                        <label v-if="selectCategory !== '전체'" class="radioButton">
-                            <input type="radio" name="category" value="전체" v-model="selectCategory" @click="changeCategory">전체
+                        <label v-if="selectCategory !== null" class="radioButton">
+                            <input type="radio" name="category" :value="null" v-model="selectCategory" @change="changeCategory">전체
                         </label>
                         <label v-else class="radioButton2">
-                            <input type="radio" name="category" value="전체" v-model="selectCategory" @click="changeCategory">전체
+                            <input type="radio" name="category" :value="null" v-model="selectCategory" @change="changeCategory">전체
                         </label>
                         <label v-if="selectCategory !== '밥'" class="radioButton">
-                            <input type="radio" name="category" value="밥" v-model="selectCategory" @click="changeCategory">밥
+                            <input type="radio" name="category" value="밥" v-model="selectCategory" @change="changeCategory">밥
                         </label>
                         <label v-else class="radioButton2">
-                            <input type="radio" name="category" value="밥" v-model="selectCategory" @click="changeCategory">밥
+                            <input type="radio" name="category" value="밥" v-model="selectCategory" @change="changeCategory">밥
                         </label>
-                        <label v-if="selectCategory !== '국/찌개'" class="radioButton">
-                            <input type="radio" name="category" value="국/찌개" v-model="selectCategory" @click="changeCategory">국/찌개
+                        <label v-if="selectCategory !== '국&찌개'" class="radioButton">
+                            <input type="radio" name="category" value="국&찌개" v-model="selectCategory" @change="changeCategory">국&찌개
                         </label>
                         <label v-else class="radioButton2">
-                            <input type="radio" name="category" value="국/찌개" v-model="selectCategory" @click="changeCategory">국/찌개
+                            <input type="radio" name="category" value="국&찌개" v-model="selectCategory" @change="changeCategory">국&찌개
                         </label>
                         <label v-if="selectCategory !== '반찬'" class="radioButton">
-                            <input type="radio" name="category" value="반찬" v-model="selectCategory" @click="changeCategory">반찬
+                            <input type="radio" name="category" value="반찬" v-model="selectCategory" @change="changeCategory">반찬
                         </label>
                         <label v-else class="radioButton2">
-                            <input type="radio" name="category" value="반찬" v-model="selectCategory" @click="changeCategory">반찬
+                            <input type="radio" name="category" value="반찬" v-model="selectCategory" @change="changeCategory">반찬
                         </label>
                         <label v-if="selectCategory !== '일품'" class="radioButton">
-                            <input type="radio" name="category" value="일품" v-model="selectCategory" @click="changeCategory">일품
+                            <input type="radio" name="category" value="일품" v-model="selectCategory" @change="changeCategory">일품
                         </label>
                         <label v-else class="radioButton2">
-                            <input type="radio" name="category" value="일품" v-model="selectCategory" @click="changeCategory">일품
+                            <input type="radio" name="category" value="일품" v-model="selectCategory" @change="changeCategory">일품
                         </label>
                         <label v-if="selectCategory !== '후식'" class="radioButton">
-                            <input type="radio" name="category" value="후식" v-model="selectCategory" @click="changeCategory">후식
+                            <input type="radio" name="category" value="후식" v-model="selectCategory" @change="changeCategory">후식
                         </label>
                         <label v-else class="radioButton2">
-                            <input type="radio" name="category" value="후식" v-model="selectCategory" @click="changeCategory">후식
+                            <input type="radio" name="category" value="후식" v-model="selectCategory" @change="changeCategory">후식
                         </label>
                     </div>
                 </div>
@@ -103,20 +103,27 @@ export default {
     data() {
         return {
             selectClassification : '전체',
-            selectCategory : '전체',
+            selectCategory : null,
         }
     },
     methods: {
-        // 분류를 바꿔주는 함수
-        changeClassification() {
-            setTimeout(() => {console.log(this.selectClassification)}, 250)
-        },
+      // 분류를 바꿔주는 함수
+      async changeClassification() {
+        await this.$nextTick()
+        const selectClassification = this.selectClassification
+        this.$emit('changeClassification', selectClassification)
+      },
 
-        // 카테고리를 바꿔주는 함수
-        changeCategory() {
-            setTimeout(() => {console.log(this.selectCategory)}, 250)
-        }
+      // 카테고리를 바꿔주는 함수
+      async changeCategory() {
+        await this.$nextTick()
+        const selectCategory = this.selectCategory
+        this.$emit('changeCategory', selectCategory)
+      },
+
+
     }
+
 }
 </script>
 

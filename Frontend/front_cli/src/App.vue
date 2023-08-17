@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 상단 nav -->
-    <nav>
+    <nav class="header_container">
       <!-- 로고 이미지 & 타이틀 -->
       <div id="title" @click="goToMainPage">
         <img id="logo" src="./assets/Shape.png" alt="">
@@ -9,12 +9,15 @@
       </div>
 
       <!-- 기본 메뉴(메인, 검색, 설명) -->
-      <div id="pageLink">
-        <router-link to="/" class="nav_page_link">Main</router-link> |
-        <!-- <router-link to="/search" class="nav_page_link ">Search</router-link> | -->
-        <router-link :to="{ name: 'searchKeyword', params: { keyword: '' } }" class="nav_page_link ">Search</router-link> |
-        <router-link to="/about" class="nav_page_link">About Us</router-link>
+      <div class="centered-section">
+        <div id="pageLink">
+          <router-link to="/" class="nav_page_link">Main</router-link> |
+          <!-- <router-link to="/search" class="nav_page_link ">Search</router-link> | -->
+          <router-link :to="{ name: 'searchKeyword', params: { keyword: '' } }" class="nav_page_link ">Search</router-link> |
+          <router-link to="/about" class="nav_page_link">About Us</router-link>
+        </div>
       </div>
+      
 
       <!-- 유저 관련 메뉴 -->
       <div>
@@ -23,8 +26,12 @@
           <router-link to="/login" class="nav_user_link login">로그인</router-link>
         </div>
         <div v-else id="user">
-          <router-link to="/mypage" class="nav_user_link">마이페이지</router-link>
+          <!-- <p>안녕하세요 {{ $state }}</p> -->
+          <div class="nickName">{{ nickname }}님 :)</div>
+          <div>
+          <router-link to="/mypage/refrigerator" class="nav_user_link">마이페이지</router-link>
           <a class="logout nav_user_link" @click="logout">로그아웃</a>
+        </div>
         </div>
       </div>
     </nav>
@@ -33,11 +40,15 @@
     <router-view/>
 
     <!-- 하단 설명 -->
-    <footer>
+    <footer class="footer">
       <!-- <p>@2023.panda. All rights reserved</p> -->
       <router-link to="#" class="footer_text">이용약관</router-link>
       <router-link to="#" class="footer_text">개인정보 처리방침</router-link>
       <router-link to="#" class="footer_text">문의</router-link>
+      <div class="footer_css">
+        <div>&copy; 2023 All Rights Reserved.</div>
+        <div>문의: ssafyIdle 개발팀</div>
+      </div>
     </footer>
   </div>
 </template>
@@ -47,7 +58,10 @@ import {mapGetters, mapActions} from 'vuex'
 
 export default {
   computed: {
-    ...mapGetters(['isLoggedIn'])
+    ...mapGetters(['isLoggedIn']),
+    nickname() {
+      return sessionStorage.getItem('nickname') || ""
+    }
   },
   methods: {
     ...mapActions(['logout']),
@@ -75,6 +89,7 @@ nav {
   /* justify-content: flex-start; */
   justify-content: space-between;
   border-bottom: solid #e8e6e6;
+  margin: 0 auto;
 }
 
 nav a {
@@ -88,6 +103,15 @@ nav a.router-link-exact-active {
 
 #pageLink {
   font-family: 'LINESeedKR-Bd';
+  display: flex;
+  justify-content: center;
+}
+
+.centered-section {
+  flex: 1; /* 남은 공간을 차지 */
+  display: flex;
+  justify-content: center;
+  align-items: center; /* 세로 가운데 정렬 */
 }
 
 nav #pageLink {
@@ -107,7 +131,7 @@ nav #pageLink {
 .nav_user_link {
   font-family: 'LINESeedKR-Bd';
   text-decoration-line: none;
-  margin: 0 10px;
+  margin: 0 .2rem;
   padding: 10px;
   border: 1px solid #fd7e14;
   border-radius: 5px;
@@ -126,6 +150,11 @@ nav #pageLink {
 .nav_user_link.login:hover {
   background-color: white;
   color: #fd7e14;
+}
+
+.nav_user_link.logout {
+  background-color: #fd7e14;
+  color: #f2f2f2;
 }
 
 nav #title {
@@ -157,10 +186,20 @@ nav #title {
   margin-right: .5rem;
 }
 
+
 nav #user {
+  display: flex;
   margin-top: auto;
   margin-bottom: auto;
   margin-left: auto;
+  /* display: flex; */
+}
+
+.nickName {
+  font-family: 'LINESeedKR-Rg';
+  font-size: 1rem;
+  margin-top: .2rem;
+  margin-right: .5rem;
 }
 
 /* 하단 footer CSS */
@@ -173,7 +212,7 @@ footer {
 
 /* 라디오 버튼 공통 */
 .radioButton {
-  font-family: 'LINESeedKR-Rg';
+  font-family: 'GangwonEdu_OTFBoldA';
   border: 1.6px solid #FD7E14;
   border-radius: .5rem;
   padding: .3rem .1rem;
@@ -188,7 +227,7 @@ footer {
 
 
 .radioButton2 {
-  font-family: 'LINESeedKR-Rg';
+  font-family: 'GangwonEdu_OTFBoldA';
   border: solid #FD7E14;
   background-color: #FD7E14;
   color: white;
@@ -196,7 +235,7 @@ footer {
   padding: .3rem .1rem;
   margin: .5rem;
   width: 6rem;
-  font-size: 1.1rem;
+  font-size: 1.25rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -248,6 +287,16 @@ footer {
   margin: 0 25px;
   content: " | ";
   color: #f2f2f2;
+}
+
+.footer {
+  margin-top: 3rem;
+}
+
+.footer_css {
+  font-family: 'LINESeedKR-Rg';
+  font-size: .9rem;
+  margin-top: 1rem;
 }
 
 </style>

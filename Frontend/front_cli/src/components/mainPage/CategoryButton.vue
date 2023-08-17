@@ -11,21 +11,38 @@
   <!-- 링크 바인딩 a태그 없애고 라우팅? -->
 <div class="mainPageCategory">
   <div class="cate_cont" style="height:100px;">
-    <li style="display:table-cell;"><a href=""><img src="@/assets/mainPageCategory/all.png"><span>전체</span></a></li>
-    <li style="display:table-cell;"><a href="#"><img src="@/assets/mainPageCategory/bob.png"><span>밥</span></a></li>
-    <li style="display:table-cell;"><a href="#"><img src="@/assets/mainPageCategory/gook.png"><span>국/찌개</span></a></li>
-    <li style="display:table-cell;"><a href="#"><img src="@/assets/mainPageCategory/banchan.png"><span>반찬</span></a></li>
-    <li style="display:table-cell;"><a href="#"><img src="@/assets/mainPageCategory/ilfoom.png"><span>일품</span></a></li>
-    <li style="display:table-cell;"><a href="#"><img src="@/assets/mainPageCategory/hoosik.png"><span>후식</span></a></li>
+    <li class="categoryBtn"><img src="@/assets/mainPageCategory/all.png" @click="categorySearch(null)"><span class="categoryText">전체</span></li>
+    <li class="categoryBtn"><img src="@/assets/mainPageCategory/bob.png" @click="categorySearch('밥')"><span class="categoryText">밥</span></li>
+    <li class="categoryBtn"><img src="@/assets/mainPageCategory/gook.png" @click="categorySearch('국&찌개')"><span class="categoryText">국&찌개</span></li>
+    <li class="categoryBtn"><img src="@/assets/mainPageCategory/banchan.png" @click="categorySearch('반찬')"><span class="categoryText">반찬</span></li>
+    <li class="categoryBtn"><img src="@/assets/mainPageCategory/ilfoom.png" @click="categorySearch('일품')"><span class="categoryText">일품</span></li>
+    <li class="categoryBtn"><img src="@/assets/mainPageCategory/hoosik.png" @click="categorySearch('후식')"><span class="categoryText">후식</span></li>
   </div>
 </div>
 </template>
 
 <script>
+import {mapActions} from 'vuex'
+
 export default {
   data() {
     return {
       selectCategory : "전체"
+    }
+  },
+  methods: {
+    ...mapActions(['querySearch']),
+    categorySearch(keyWord) {
+      const data = {
+        searchWord : null,
+        classification: '전체',
+        keyWord: keyWord,
+      }
+      this.querySearch(data)
+      this.$router.push({
+        name: "searchKeyword",
+        params: { keyword: null }
+      })
     }
   }
 }
@@ -51,6 +68,14 @@ export default {
     margin-right: 1rem;
 } */
 
+.categoryText {
+  font-family: 'GangwonEdu_OTFBoldA';
+}
+
+.categoryBtn {
+  display:table-cell;
+  cursor: pointer;
+}
 
 .mainPageCategory{
   padding: 2.5rem 0rem 2.5rem 0rem;

@@ -5,17 +5,22 @@
     <CategoryComponent />
 
     <!-- 우측 좋아요한 레시피 컴포넌트 -->
-    <div id="myPageView">
-      <p class="likeTitle">좋아요</p>
-        <div class="likeRecipes" v-for="item in memberRecipeLike" :key="item.recipeId">
-          <div class="recommendCard" @click.prevent="goToDetailRecipe(item)">
-            <img :src='item.imgBig'>
-            <p class="recipeName">{{ item.name }}</p>
-            <div class="buttonGroup">
-              <button class="deleteButton" @click.stop="handleUnlike(item.recipeId)">좋아요 취소</button>
-            </div>
+    <div id="myPageView" v-if="memberRecipeLike.length > 0">
+      <p class="menuTitle">좋아요</p>
+      
+      <div  class="likeRecipes" v-for="item in memberRecipeLike" :key="item.recipeId">
+        <div class="recommendCard" @click.prevent="goToDetailRecipe(item)">
+          <img :src='item.imgBig'>
+          <p class="recipeName">{{ item.name }}</p>
+          <div class="buttonGroup">
+            <button class="deleteButton" @click.stop="handleUnlike(item.recipeId)">좋아요 취소</button>
           </div>
         </div>
+      </div>
+    </div>
+    <div v-else id="myPageView">
+      <p class="menuTitle">좋아요</p>
+      <p class="memberReco_logout">좋아하는 레시피를 추가해보세요!</p>
     </div>
   </div>
 </template>
@@ -44,7 +49,7 @@ export default {
     goToDetailRecipe(item) {
         this.$router.push({name: "recipe",  
             params: { 
-                recipe_id: item.recipeId,
+                recipeId: item.recipeId,
             },
             query: {
                 recipeItem: JSON.stringify(item),
@@ -142,6 +147,14 @@ img {
     padding: .5rem;
     font-size: 1rem;
     margin: .5rem;
+}
+
+.memberReco_logout {
+  font-family: 'LINESeedKR-Rg';
+  font-size: 1.5rem;
+  text-align: center;
+  color: #ababab;
+  margin: 3.5rem 0;
 }
 
 /* @import "../assets/CSS/myPage.css" */
