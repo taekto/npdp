@@ -46,7 +46,7 @@
       <div>
         <h5 class="date">2023.7.24</h5>
         <ol>
-          <li style="font-size: 20px;">1000개의 레시피 데이터 전처리</li>
+          <li style="font-size: 20px;">1000+개의 레시피 데이터 전처리</li>
           <li style="font-size: 12px; color: #8c8c8c;">레시피 주재료/부재료/요리순서 분리</li>
           <li style="font-size: 12px; color: #8c8c8c;">레시피 속 재료/양념 매핑</li>
           <li style="font-size: 12px; color: #8c8c8c;">재료 및 양념 구분</li>

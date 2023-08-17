@@ -285,8 +285,9 @@ footer {
 }
 
 .footer_text {
+  font-family: 'LINESeedKR-Rg';
   text-decoration: none;
-  font-size: 14px;
+  font-size: 15px;
   color: #f2f2f2;
 }
 .footer_text+.footer_text::before {

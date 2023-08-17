@@ -6,7 +6,7 @@
 
     <!-- 우측 회원정보 컴포넌트 -->
     <div id="myPageView">
-      <p class="menuTitle">회원정보수정</p>
+      <!-- <p class="menuTitle">회원정보수정</p> -->
       <div class="editComponent">
         
         <div>
@@ -15,18 +15,20 @@
             <div class="editCategoryTitle">
               <p>닉네임 변경</p>
             </div>
-            <div>         
+            <div >
+              <form class="edit_form">
                 <div class="input-group">
                   <input id="searchForm" class="form-control" type="text" v-model.trim="member.nickname">
                 </div>
                 <button class="btn_update" @click="memberUpdate({type:'nickname', memberId: this.memberId, updateData: userData})">수정</button>
-            </div>
+              </form>
+              </div>
           </div>
 
           <!-- 이메일 변경 -->
           <div class="searchWindow">
             <div class="editCategoryTitle">
-              <p>이메일 변경</p>
+              <p>이메일<span style="color: rgb(255, 75, 75); font-size: .8rem;">&nbsp;&nbsp;이메일은 수정불가능 합니다</span></p>
             </div>
             <div>
               <form class="edit_form">
@@ -62,28 +64,28 @@
             </div>
 
             <!-- 성별 변경 -->
-            <div style="display: flex; justify-content: center">
+            <div style="display: flex; justify-content: center; margin-bottom: 3rem;">
               <div class="genderSelect">
                 <div class="editCategoryTitle">
-                  <p>성별 변경</p>
+                  <p class="editGenderTitle">성별 변경</p>
                 </div>
                 <div class="storageRadio">
-                  <label v-if="userData.gender !== 'MALE'" class="radioButton">
+                  <label v-if="userData.gender !== 'MALE'" class="radioButton_1">
                     <input type="radio" name="MALE" value="MALE" v-model="userData.gender" @click="changeClassification">남자
                   </label>
-                  <label v-else class="radioButton2">
+                  <label v-else class="radioButton_2">
                     <input type="radio" name="MALE" value="MALE" v-model="userData.gender" @click="changeClassification">남자
                   </label>
-                  <label v-if="userData.gender !== 'FEMALE'" class="radioButton">
+                  <label v-if="userData.gender !== 'FEMALE'" class="radioButton_1">
                     <input type="radio" name="FEMALE" value="FEMALE" v-model="userData.gender" @click="changeClassification">여자
                   </label>
-                  <label v-else class="radioButton2">
+                  <label v-else class="radioButton_2">
                     <input type="radio" name="FEMALE" value="FEMALE" v-model="userData.gender" @click="changeClassification">여자
                   </label>
-                  <label v-if="userData.gender !== 'NONE'" class="radioButton">
+                  <label v-if="userData.gender !== 'NONE'" class="radioButton_1">
                     <input type="radio" name="NONE" value="NONE" v-model="userData.gender" @click="changeClassification">선택 안함
                   </label>            
-                  <label v-else class="radioButton2">
+                  <label v-else class="radioButton_2">
                     <input type="radio" name="NONE" value="NONE" v-model="userData.gender" @click="changeClassification">선택 안함
                   </label>            
                 </div>
@@ -192,7 +194,7 @@ export default {
 
 .editComponent {
     width: 80%;
-    margin: auto;
+    /* margin: auto; */
     /* border: solid grey; */
   border-radius: .5rem;
   /* margin-left: 2rem;
@@ -246,7 +248,7 @@ export default {
 
 .btn_update {
   border-radius: .5rem;
-  font-family: 'LINESeedKR-Rg';
+  font-family: 'LINESeedKR-Rd';
   border: 1.6px solid #FD7E14;
   background-color: #FD7E14;
   color: white;
@@ -254,7 +256,7 @@ export default {
   padding: .3rem .2rem;
   margin-right: 1rem;
   width: 4rem;
-  font-size: 1.25rem;
+  font-size: 1.1rem;
 }
 
 .edit_form {
@@ -262,6 +264,8 @@ export default {
 }
 
 .editBirthTitle {
+  font-family: 'LINESeedKR-Bd';
+  text-align: center;
   margin: auto;
   margin-top: 2rem;
   margin-bottom: 1rem;
@@ -269,8 +273,18 @@ export default {
   font-weight: bold;
 }
 
+.editGenderTitle {
+  font-family: 'LINESeedKR-Bd';
+  text-align: center;
+  /* margin: auto; */
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  /* font-weight: bold; */
+}
+
 .saveButton {
-  font-family: 'LINESeedKR-Rg';
+  font-family: 'LINESeedKR-Rd';
   border: 1.6px solid #FD7E14;
   background-color: #FD7E14;
   color: white;
@@ -283,6 +297,27 @@ export default {
   /* display: flex;
   align-items: center;
   justify-content: center; */
+}
+
+.radioButton_1 {
+  font-family: 'LINESeedKR-Rg';
+  border: .1rem solid #FD7E14;
+  border-radius: .4rem;
+  background-color: #fff;
+  color: #FD7E14;
+  font-size: 1.3rem;
+  padding: .3rem .6rem;
+  margin: 0 .3rem;
+}
+.radioButton_2 {
+  font-family: 'LINESeedKR-Rg';
+  border: .1rem solid #FD7E14;
+  border-radius: .4rem;
+  background-color: #FD7E14;
+  color: #fff;
+  font-size: 1.3rem;
+  padding: .3rem .6rem;
+  margin: 0 .3rem;
 }
 
 </style>
