@@ -3,12 +3,39 @@
   <div class="myPage">
     <!-- 좌측 마이페이지 메뉴 컴포넌트 -->
     <CategoryComponent />
+    <div>
+      <div class="row">
+        <fieldset>
+          <legend>가열취사도구</legend>
+            <div v-for="(name, idx) in tools" :key="idx" class="col-3 checkTool">
+              <label>
+                <input type="checkbox" name="tool" @change="toggleUtensil(name)" :checked="isUtensilSelected(name)">{{ name }}
+              </label>
+          </div>
+        </fieldset>
 
+      </div>
+
+      <div class="row">
+        <fieldset>그 외</fieldset>
+        <div v-for="(name, idx) in tools" :key="idx" class="col-4 checkTool">
+            <label>
+              <input type="checkbox" name="tool" @change="toggleUtensil(name)" :checked="isUtensilSelected(name)">{{ name }}
+            </label>
+          </div>
+      </div>
+
+      <button class="saveButton" @click="saveTool">저장</button>
+    </div>
     <!-- 우측 조리도구 컴포넌트 -->
+<<<<<<< HEAD
+    <!-- <div id="myPageView"> -->
+=======
     <div id="myPageView">
+>>>>>>> 17ccb27813bfa1e667ecad4e130548b52ad1edee
       <!-- <p class="menuTitle">내 조리도구</p> -->
       <!-- 조리도구 체크박스 -->
-      <div class="toolBox row">
+      <!-- <div class="toolBox row">
         <div v-for="(name, idx) in tools" :key="idx" class="col-4 checkTool">
           <label class="each_box">
           <input class="check_box" type="checkbox" name="tool" @change="toggleUtensil(name)" :checked="isUtensilSelected(name)">
@@ -16,8 +43,14 @@
           </label>
         </div>
       </div>
+<<<<<<< HEAD
+      <button class="saveButton" @click="saveTool">저장</button>
+    </div> -->
+
+=======
       <button class="saveBtn" @click="saveTool">저장</button>
     </div>
+>>>>>>> 17ccb27813bfa1e667ecad4e130548b52ad1edee
   </div>
 </template>
 
@@ -33,6 +66,8 @@ export default {
     // 임시 데이터
     data() {
       return {
+        cooking_utensil:[],
+        etc_utensil:[],
         tools: [  
           "가스레인지",
           // "믹서",
