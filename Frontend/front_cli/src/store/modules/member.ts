@@ -429,7 +429,7 @@ const member: Module<MemberState, RootState> = {
           }]
         }
         
-        const apiUrl = type === 'seasoning' ?
+        const apiUrl = type === 'seasoning' || type === 'seasoningDelete' ?
         'https://i9b202.p.ssafy.io/api/refregirator/modify/seasoning':
         'https://i9b202.p.ssafy.io/api/refregirator/modify/ingredient'
     
