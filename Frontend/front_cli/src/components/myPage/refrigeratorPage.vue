@@ -44,7 +44,7 @@
                 <div class="refrigeratorCategory">
                     <div style="display: flex; justify-content: space-between; width: 80%; margin: auto">
                         <div class="categoryTitle">내가 보관중인 재료</div>
-                        <button class="saveButton" @click="saveMaterial({type: 'ingredient', memberId: this.memberId, sendData: displayedIngredientItems.tempIngredient })">
+                        <button class="saveButton" @click="updateMaterial({type: 'ingredient', memberId: this.memberId, sendData: displayedIngredientItems.tempIngredient })">
                             저장하기
                         </button>
                     </div>
@@ -88,7 +88,7 @@
 
                     <div style="display: flex; justify-content: space-between; width: 80%; margin: auto">
                         <div class="categoryTitle">내가 보관중인 양념</div>
-                        <button class="saveButton" @click="saveMaterial({ type: 'seasoning', memberId: memberId, sendData: displayedIngredientItems.tempIngredient })">
+                        <button class="saveButton" @click="updateMaterial({ type: 'seasoning', memberId: memberId, sendData: displayedIngredientItems.tempIngredient })">
                             저장
                         </button>
                     </div>
@@ -270,7 +270,7 @@ export default {
             tmpingredient.amount = tempAmount.toString() +'.0'
 
           if (parseFloat(tmpingredient.amount) <= 0) {
-            this.updateMaterial({type: 'ingredient', memberId: this.memberId, updateItem: tmpingredient })
+            this.updateMaterial({type: 'ingredientDelete', memberId: this.memberId, updateItem: tmpingredient })
           }
         },
         goToIngredientPage(pageNumber) {
