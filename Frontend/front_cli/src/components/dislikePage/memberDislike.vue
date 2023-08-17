@@ -120,6 +120,7 @@ export default {
   min-height: 35rem;
 }
 
+.menu
 .input-group{
   margin-left: 2rem;
   margin-top: 2rem;

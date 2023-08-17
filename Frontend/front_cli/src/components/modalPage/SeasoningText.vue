@@ -22,7 +22,7 @@
                 </div> -->
                 
                 <p class="storage">보관방식 : {{changeStorage(seasoning.storage)}}</p>
-                <button class="deleteButton" @click="deleteSeasoning(seasoning)">제거</button>
+                <button class="deleteButton" @click="updateMaterial({type:'seasoningDelete',updateItem: seasoning})">제거</button>
               </li>
             </ul>
           </div>
@@ -176,7 +176,7 @@ export default {
       }
 
       this.seasoningList.push({seasoningName:this.seasoningName, seasoningId: this.seasoningId, startDate : todayDate, expiredDate: this.expiredDate, storage: this.storage})
-      this.throwList.push({seasoningId: this.seasoningId, storage: this.storage})
+      this.throwList.push({seasoningId: this.seasoningId, storage: this.storage, startDate:today})
       console.log(this.throwList)
     },
 

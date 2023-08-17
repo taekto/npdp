@@ -3,7 +3,7 @@
     <!-- 좌측 마이페이지 메뉴 컴포넌트 -->
     <CategoryComponent />
     <div id="myPageView">
-      <p class="menuTitle">알러지 재료 등록</p>
+      <p class="menuTitle_allergy">알러지 재료 등록</p>
         <!-- 알러지 재료 리스트 체크박스 한줄에 5개씩 만든다 -->
       <div class="allergy_container">
         <div class="row member_allergy_container">
@@ -39,7 +39,7 @@
         </div>
         <div class="row save_btn_container">
           <div class="col-10"></div>
-            <button class="save_btn col-1" @click="memberDislikeAllergy({type:'allergyPost', memberId:this.memberId})">저장</button>
+            <div class="col-1"><button class="save_btn" @click="memberDislikeAllergy({type:'allergyPost', memberId:this.memberId})">저장</button></div>
           </div>
         </div>
       
@@ -93,13 +93,13 @@ export default {
 
 <style>
 .allergy_container {
+  border: solid #a7a7a7;
+  border-radius: 0.5rem;
+  width: 80%;
   margin: auto;
-  border: solid grey;
-  border-radius: .5rem;
-  width: 75%;
+  padding: 1rem;
   margin-bottom: 3rem;
-  margin-top: 3rem;
-  min-height: 35rem;
+  height: 55vh;
   font-family: 'GangwonEdu_OTFBoldA';
 }
 .allergy_check_container {
@@ -107,6 +107,17 @@ export default {
   border-radius: 10px;
 }
 
+.menuTitle_allergy{
+    font-family: 'LINESeedKR-Rg';
+    text-align: start;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    /* margin-left: 1rem; */
+    font-size: 1.5rem;
+    font-weight: bold;
+    width: 80%;
+    margin: auto;
+}
 .checkAllergy {
   height: 4rem;
 }
@@ -137,10 +148,10 @@ export default {
 }
 
 .save_btn {
-  margin-top: 2rem;
+  margin-top: 1rem;
   background-color: #FD7E14;
   border-radius: 0.5rem;
-  width: 5rem;
+  width: 4rem;
   height: 3rem;
   color: white;
   border: none;
