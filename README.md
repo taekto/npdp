@@ -241,19 +241,32 @@
 ![요구사항명세서4](./img/요구사항명세서4.PNG)
 
 ### API 명세서
-![API명세서](./img/API명세서.PNG)
+![API명세서1](./img/API명세서1.PNG)
+![API명세서2](./img/API명세서2.PNG)
+![API명세서3](./img/API명세서3.PNG)
+![API명세서4](./img/API명세서4.PNG)
+![API명세서5](./img/API명세서5.PNG)
+![API명세서6](./img/API명세서6.PNG)
+![API명세서7](./img/API명세서7.PNG)
+![API명세서8](./img/API명세서8.PNG)
 
 ### 와이어 프레임
-![와이어프레임](./img/와이어프레임.png)
+![시퀀스다이어그램1](./img/시퀀스다이어그램1.PNG)
+![시퀀스다이어그램1](./img/시퀀스다이어그램2.PNG)
+![시퀀스다이어그램1](./img/시퀀스다이어그램3.PNG)
+![시퀀스다이어그램1](./img/시퀀스다이어그램4.PNG)
+![시퀀스다이어그램1](./img/시퀀스다이어그램5.PNG)
+![시퀀스다이어그램1](./img/시퀀스다이어그램6.PNG)
+![시퀀스다이어그램1](./img/시퀀스다이어그램7.PNG)
 
 ### 목업 디자인
-![Figma]](./img/목업디자인.png)
+![Figma](./img/목업디자인.PNG)
 
 ### 데이터플로우
-![ERD](./img/데이터플로우.png)
+![ERD](./img/데이터플로우.PNG)
 
 ### 시스템 구조도
-![아키텍처](./img/아키텍처.png)
+![아키텍처](./img/아키텍처.PNG)
 
 
 
@@ -449,7 +462,7 @@
 
 ## :boy: 팀원
 
-| [김민식(팀장)](https://github.com/) | [박기택](https://github.com/taekto) | [조해린](https://github.com/zosunny) | [천지호](https://github.com/) | [최미은](https://github.com/chi980) |
+| [김민식(팀장)](https://github.com/) | [박기택](https://github.com/taekto) | [조해린](https://github.com/zosunny) | [천지호](https://github.com/CheonJiHo) | [최미은](https://github.com/chi980) |
 | :------------------------------------: | :----------------------------------: | :------------------------------------: | :----------------------------------------: | :-------------------------------------: |
 |      ![김민식](./img/김민식.png)       |     ![박기택](./img/박기택.png)      |      ![조해린](./img/조해린.png)       |        ![천지호](./img/천지호.png)         |       ![최미은](./img/최미은.png)       |
 |     Front-End      |      Back-End       |      Back-End       |     Front-End       |      Back-End       |
